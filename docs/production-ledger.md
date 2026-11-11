@@ -94,3 +94,4 @@ Managing editor's record. Append only.
   DONE; ch 7 -> continuity.
 - Ch 1 final fix committed. Ch 13 drafted (3,299); desks dispatched.
 - Ch 3 COMMITTED. Figures 4.1-4.3 committed. Ch 6 Revision 3 DONE -> continuity.
+- Figures 1.1-3.3 committed. Ch 10 Revision 2 DONE -> continuity. Ch 11 revised (5,315) -> re-review. Appendixes A, B, C+D writers dispatched.
