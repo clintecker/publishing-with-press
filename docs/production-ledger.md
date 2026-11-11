@@ -97,3 +97,4 @@ Managing editor's record. Append only.
 - Figures 1.1-3.3 committed. Ch 10 Revision 2 DONE -> continuity. Ch 11 revised (5,315) -> re-review. Appendixes A, B, C+D writers dispatched.
 - Rulings (ch 8 continuity): 'the Alice book' for the full-novel sample; 'the press's own three-chapter Alice example' for the gallery; 'the Pages bundle' (dist/pages) vs 'the Pages site' (deployed); 'witness' widened. Applied in open revisions (7, 8) and the whole-book sweep for 1-6.
 - Ch 9 revised (5,694) -> re-review. Ch 15 drafted (4,933); desks dispatched.
+- Ruling (ch 13): in a captured block presented as what alice's run prints, metadata-derived values (author, publisher) may be the sample's own, stated as coming from the book's metadata; press's own text stays verbatim. A fresh-scaffold capture is labelled as such, never as the Alice book.
