@@ -391,3 +391,11 @@ Tested with the press PDF defaults: a comment between a `wrap-inner`/`wrap-outer
 ## S3. Print-safe and figure directories
 
 The print pass copies only `assets/*.jpg`, `assets/woodcuts/*`, and the logo (confirmed by a build: a figure under `assets/figures/` failed `press print` with "file not found"; press issue #272). The chapter states this as what the pass copies today and advises keeping every interior image under `assets/woodcuts/`.
+
+## S4. Facts the developmental editor asked for
+
+- **Credit line.** The fact base says a credit line is "separate again" from caption, `art:` comment, and `fig-alt`, and gives no markup for one. Press has no credit-line field; a credit is written into the caption text by the author if wanted. The chapter says so in one sentence or drops the term.
+- **When the lists appear.** The List of Plates appears when `assets/woodcuts/` holds any image file; the List of Figures appears when the manuscript declares at least one numbered figure (a kind class without `decorative=true`). Both follow the Contents (tested in the production probe).
+- **`margin` versus `wrap-outer`.** In the PDF, `place=margin` is implemented as an outer-side wrap inside the text column, so it renders the same as `wrap-outer`; it is not a true margin figure. The chapter states that plainly (fact base 4.2 and 20.A.11).
+- **What the text and DOCX editions receive.** `figure-numbering.lua` runs in the portable chain (txt, docx), so a numbered figure's caption carries its "Figure C.N." label there too, in flow, with placement dropped; the Manuscript edition (stitched Markdown) is raw source and gets no filter at all (fact base 5.2, 20.B.9).
+- **Ornament markup.** `![](assets/woodcuts/rule.png){decorative=true}`: an empty alt, never numbered, never listed; `decorative` with `fig-alt` is refused (fact base 4.2).
