@@ -88,3 +88,7 @@ Managing editor's record. Append only.
 - Ch 1 COMMITTED. Ch 6 re-review APPROVED (3 shoulds) -> writer, then continuity.
 - Ch 8 Revision 2 DONE -> continuity. Ch 10 revised (5,148) -> re-review. Illustrator batches dispatched for ch 1, 2, 4.
 - Ch 7 Revision 2 DONE -> continuity. Ch 9 and 12 desks complete -> writers. Ruling: after the once-per-chapter gloss, a sentence about the file may use the format name; a sentence about the edition uses press's name.
+- Ch 3 continuity PASS; cross-chapter rulings: description "A girl falls into Wonderland."
+  book-wide; Ch 1 scaffold gains --owner; Ch 6 adopts the sample's sentinels (Twinkle /
+  tarts); "the book model" is the term. Writers 1, 3, 6 sent the items. Ch 6 Revision 2
+  DONE; ch 7 -> continuity.
