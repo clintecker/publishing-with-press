@@ -360,7 +360,7 @@ When all three files pass, the verifier prints its line. Example 8.2 shows it fo
 
 ## The pages verifier
 
-The `press pages` target builds the Pages bundle, the public Web site of the book, in *dist/pages*. The registry lists nine prerequisites for it. The target builds all of them: the PDF, the EPUB, the HTML, the Markdown, the text, the DOCX, the reader site, the source zip, and the sources companion. It then runs `verify_pages`. The README and the reference also list `press verify-pages`, which runs the same target.
+The `press pages` target builds the Pages bundle, the public Web site of the book, in *dist/pages*. The registry lists nine prerequisites for it. The target builds all of them: the PDF, the EPUB, the HTML, the Markdown, the text, the DOCX, the reader site, and the source zip. The ninth, the sources companion, joins them only when the book has a ledger in *config/authorities.yaml*. It then runs `verify_pages`. The README and the reference also list `press verify-pages`, which runs the same target.
 
 The verifier crawls the site the way a browser would. It reads every page and follows every `href` and `src` attribute, every CSS `url()`, and every `.css` file it finds. Each reference must resolve inside *dist/pages*. Table 8.5 lists the four ways a reference can fail.
 
@@ -444,7 +444,7 @@ The edges in @fig:rebuild-edges come straight from the press, and the earlier se
 
 The `press all` target runs the checker first, then builds every edition, the source zip, and the Pages bundle. Last, it runs the verifiers in this order: `verify_pages`, `verify_pdf`, `verify_formats`, and `verify_archives`.
 
-A commerce gate follows the verifiers. In an ordinary run the gate is advisory and says so, `(commerce gate is advisory here; a release build (PRESS_RELEASE=1) enforces it)`. Under `PRESS_RELEASE`, the press enforces it. Example 1.2 in Chapter 1 shows the summary lines of a full run.
+A commerce gate follows the verifiers. For a book without print ordering, such as the three-chapter Alice example, the run prints `commerce release gate: print ordering is not enabled; no commerce release gate`. For a book with print ordering enabled, outside a release build, the gate is advisory and says so: `(commerce gate is advisory here; a release build (PRESS_RELEASE=1) enforces it)`. Under `PRESS_RELEASE`, the press enforces it. Example 1.2 in Chapter 1 shows the summary lines of a full run.
 
 The law reaches the generated inputs too. Every pandoc build calls `book_inputs()` first. That function deletes *build/generated/*, regenerates the subject index, and writes *dist/alice-sources.md* from the authorities ledger. In the words of *docs/ARCHITECTURE.md*, "the generated appendices are cleaned first so stale copies cannot survive". An index from yesterday's manuscript cannot reach today's PDF.
 

@@ -241,3 +241,14 @@ vacuous:`) and drops my own use of the phrase. Example 8.3 opens with
 ordering*, and "commerce gate" stays as the gate's own name. Table 8.3
 gives the ISBN as `urn:isbn:` and the number, as Chapters 7 and 13 do.
 `press check` passes with nothing naming this file.
+
+## Revision 4
+
+The commerce-gate paragraph now quotes the line a book without print
+ordering prints (`commerce release gate: print ordering is not enabled;
+no commerce release gate`, from facts-01 S3, the three-chapter example).
+It says the advisory line appears only for a book with print ordering
+enabled, outside a release build. The `press pages` paragraph now says
+the sources companion, the ninth prerequisite, joins the build only when
+the book has *config/authorities.yaml*, which agrees with the sources
+companion section. `press check` passes with nothing naming this file.
