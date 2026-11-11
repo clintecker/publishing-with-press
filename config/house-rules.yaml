@@ -56,5 +56,6 @@ jargon-allow:
   - wired
   - seam
   - seams
+  - spine        # the bound edge of a book, named literally throughout
 
 audit-dirs: []

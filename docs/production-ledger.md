@@ -72,3 +72,7 @@ Managing editor's record. Append only.
   wording vs Ch 3) sent to the writer as Revision 3.
 - Ch 2 COMMITTED. Ch 1 re-review: five mechanical items back to the writer. Ch 10 drafted (5,095); desks dispatched.
 - Footnote labels must be unique across the whole book (pandoc merges files): hypcap and libertine collide between ch 5 and ch 9. Convention from now: prefix every footnote label with the chapter number (e.g. [^5-hypcap]). Continuity editor to enforce; markup.md updated.
+- Captures: press config session (set/unset print a diff; --dry-run says nothing written);
+  press all succeeds with no git repository (source zip archives nothing). facts-03 S4/S5.
+  Ruling: `spine` added to jargon-allow (the book means the bound edge). Ch 1 Revision 2
+  DONE -> continuity. Ch 3 re-review REVISE (9) and Ch 5 desks complete -> writers.

@@ -764,3 +764,71 @@ site-url: "https://wonderland-press.github.io/alice"
 ## S3. Ruling on the index position
 
 The merge order is chapters, then appendices sorted by filename letter, then the generated index, which is given the first free letter from `a`. Because `press add appendix` letters from `z` downward, the generated index file is usually lettered `a-` and therefore sorts first among the appendices in the merged book. State the mechanism; do not call it a bug.
+
+## S4. A real `press config` session (fresh scaffold `alice2`, 2026-11-11, verbatim)
+
+```text
+$ press config get author
+["Lewis Carroll"]
+$ press config get subtitle
+A subtitle
+$ press config set subtitle "A tale for a summer afternoon"
+--- a/metadata.yaml
++++ b/metadata.yaml
+@@ -1,5 +1,5 @@
+ title: "alice"
+-subtitle: "A subtitle"
++subtitle: "A tale for a summer afternoon"
+ author:
+   - "Lewis Carroll"
+ date: "First edition, 2026"
+$ press config get subtitle
+A tale for a summer afternoon
+$ press config set verify-min-pages 24 --dry-run
+--- a/metadata.yaml
++++ b/metadata.yaml
+@@ -25,7 +25,7 @@
+ # DRAFT settings; a release build (CI on a tag) refuses them until at
+ # least 2 sentinels and verify-min-pages >= 24 are set.
+ verify-sentinels: []
+-verify-min-pages: 1
++verify-min-pages: 24
+ # trim: {width: 6, height: 9}
+ 
+ # The print pack reads these when building the interior and cover wrap.
+(dry run: nothing written)
+$ press config unset subtitle
+--- a/metadata.yaml
++++ b/metadata.yaml
+@@ -1,5 +1,4 @@
+ title: "alice"
+-subtitle: "A tale for a summer afternoon"
+ author:
+   - "Lewis Carroll"
+ date: "First edition, 2026"
+$ press config validate
+config/metadata.yaml: ok
+config/house-rules.yaml: ok
+config/front-matter.yaml: ok
+config/aesthetic.yaml: ok
+config/index-terms.yaml: ok
+config/authorities.yaml: ok
+```
+
+So: `press config get` prints the value (a JSON list for a list field, the bare string otherwise, and `A subtitle` for the scaffold default); every `set` and `unset` prints a unified diff of the change it made to the file; `--dry-run` prints the diff and then `(dry run: nothing written)`; `validate` reports every config file, including the optional ones that are absent, as `ok`.
+
+## S5. `press all` in a directory that is not a git repository (tested 2026-11-11, exit 0)
+
+A fresh scaffold with no `.git` directory builds and verifies completely with `press all`. The Source edition is still produced (`Verified archives: alice-site.zip, alice-source.zip`); it simply archives no tracked files (the probe saw `archived 0 files`). So `git init` is not required before the first build; it is required before the Source edition means anything, and before the source zip can carry the manuscript. The closing lines were:
+
+```text
+Verified alice.pdf: 4 pages, 6 x 9 trim, embedded fonts, 0 sentinel(s) plus the title as witnesses, every rendered page contains ink, no edge clipping
+WARNING: epubcheck not installed; EPUB validated structurally only. The press toolchain runs the full check in CI. (brew install epubcheck)
+Verified alice.html, alice.epub, alice.md, alice.txt, alice.docx, site/ (0 sentinel(s), the title, and the manuscript line 'this sentence and the one before it; kee...' as witnesses); 7 editions agree on all 1 chapter witnesses
+Verified archives: alice-site.zip, alice-source.zip
+  ¶ verify     ✓ 7 editions match source
+commerce release gate: print ordering is not enabled; no commerce release gate
+
+  press. your book is ready → dist/
+
+```
