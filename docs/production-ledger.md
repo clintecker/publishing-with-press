@@ -78,3 +78,4 @@ Managing editor's record. Append only.
   DONE -> continuity. Ch 3 re-review REVISE (9) and Ch 5 desks complete -> writers.
 - Ch 12 drafted (6,528); desks dispatched. Ch 4 continuity: 1 block (Figure 4.1 running head on an opening page) -> writer Revision 3.
 - Ch 11 drafted (5,009); blank lines inserted before its art comments; desks dispatched.
+- Ch 9 drafted (5,708); desks dispatched.
