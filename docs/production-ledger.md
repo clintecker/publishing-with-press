@@ -44,3 +44,4 @@ Managing editor's record. Append only.
   pandoc 3.1.3: a text fence becomes Shaded/Highlighting with NormalTok only (black,
   wraps with breaklines); an untagged fence is verbatim and runs off the page. 64
   columns stays the target. tools/tag-fences.py applies the tag mechanically at commit.
+- Ch 6 drafted (6,167). Note from writer: the book's banned patterns read inside code fences too; writers describe banned strings rather than show them.
