@@ -40,3 +40,7 @@ Managing editor's record. Append only.
   the PDF (only pandoc's Highlighting environment carries fvextra's breaklines), so a
   longer line runs off the 4.54 in measure. Long real files are excerpted with a `...`
   line. markup.md, the typesetter brief, and the chapter briefs updated. Press issue filed.
+- Ruling (supersedes "untagged"): every fence is tagged `text`. Tested under the CI
+  pandoc 3.1.3: a text fence becomes Shaded/Highlighting with NormalTok only (black,
+  wraps with breaklines); an untagged fence is verbatim and runs off the page. 64
+  columns stays the target. tools/tag-fences.py applies the tag mechanically at commit.

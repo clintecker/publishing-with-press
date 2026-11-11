@@ -105,15 +105,18 @@ slug: "alice"
 
 - The caption is a bold paragraph directly above the fence: `Example C.N.`
   then a title in sentence case, no period at the end.
-- Fences are untagged (three backticks and nothing after them) or tagged
-  `text`. Never a language tag: a highlighted fence puts colour in the
-  print interior and the print verifier refuses it.
+- Every fence is tagged `text` (three backticks then `text`). Never a
+  language tag: a highlighted fence puts colour in the print interior and
+  the print verifier refuses it. Never untagged: an untagged fence is plain
+  verbatim in the PDF and cannot wrap. A `text` fence is black and wraps a
+  long line with a continuation hook (tested in the CI toolchain).
 - Sessions show the prompt as `$ ` (or `# ` for root), then the command,
   then the output. No bold, no colour. Elide with a line holding `...`.
-- Lines are at most 64 characters: an untagged fence is plain verbatim
-  in the PDF and a longer line runs off the page without wrapping. Excerpt
-  a long real file and end the excerpt with a `...` line; break a long
-  command with a trailing backslash. (A terminal panel figure is drawn
+- Lines are at most 64 characters, the measure's width in the code face,
+  so that nothing has to wrap; a longer verbatim line wraps with a hook
+  in a `text` fence, which is tolerable for a real file reproduced exactly
+  and ugly for anything else. Excerpt a long real file and end the excerpt
+  with a `...` line; break a long command with a trailing backslash. (A terminal panel figure is drawn
   at 72 columns, since it is an image and scales.) No trailing
   whitespace, even in code.
 - A syntax line uses `[ ]` for optional, `|` for alternatives, `...` for

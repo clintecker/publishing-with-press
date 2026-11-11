@@ -20,8 +20,8 @@ prove it builds.
 3. Read the file against the markup guide, construct by construct:
    - the "In this chapter" box form, the tip, warning, and sidebar forms
      (blockquote inside the classed Div, bold lead, lengths);
-   - example captions (`**Example C.N. Title**` directly above an untagged
-     or `text` fence; no language tags anywhere);
+   - example captions (`**Example C.N. Title**` directly above a fence tagged
+     `text`; never untagged, never a language tag);
    - code lines at most 64 characters; no trailing whitespace; prompts `$ `
      or `# `; `...` for elision;
    - tables: header row, proportioned separator, `Table: Table C.N. ...`
