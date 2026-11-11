@@ -1,0 +1,8 @@
+/* Publishing with Press: the plates are alpha masters, black ink on
+   transparency. The reader's dark theme panels them on --paper-warm
+   (#242120 in this book), where black ink nearly vanishes. In dark mode
+   only, set them on a light paper panel so the engraving reads as a
+   print laid on the dark page; the light theme is untouched. */
+@media (prefers-color-scheme: dark) {
+  figure img { background: #ece6dc; }
+}
