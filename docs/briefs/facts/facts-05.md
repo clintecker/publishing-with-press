@@ -376,3 +376,18 @@ Design rationales that work as sidebars:
 - **The finisher (supplied-interior PDF).** Planned on the Book breadth milestone, not shipped.
 - **The custom merchant-of-record commerce stack.** Icebox.
 - **Non-Latin and right-to-left scripts.** Icebox, "a major per script family".
+---
+
+# Supplement added by the managing editor (2026-11-11): tested rulings
+
+## S1. Where the `art:` comment goes
+
+Tested on pandoc 3.9.0.2 and the toolchain's 3.1.3: an image followed on the very next line by a comment is a `Para`, not a `Figure` (no caption, no number, no list entry, no cross-reference target); with ONE BLANK LINE between them the figure is intact. `figures.py` accepts both forms and `press figures` reports the directive either way, so nothing warns the author. The book states the rule as: image line, blank line, comment. The fact base's own compositor example (4.2, 8.5) shows the broken form; the book does not reproduce it. Press issue #280.
+
+## S2. A wrap and its directive
+
+Tested with the press PDF defaults: a comment between a `wrap-inner`/`wrap-outer` figure and the paragraph after it defeats the filter's fusion of the wrap onto that paragraph (`\end{wrapfigure}%` followed by text becomes a paragraph break), so the text no longer runs around the figure as designed. Therefore a wrapped figure carries no `art:` comment; the chapter says so and says `press illustrate <name> --subject "..."` is the way to commission one. Press issue #280.
+
+## S3. Print-safe and figure directories
+
+The print pass copies only `assets/*.jpg`, `assets/woodcuts/*`, and the logo (confirmed by a build: a figure under `assets/figures/` failed `press print` with "file not found"; press issue #272). The chapter states this as what the pass copies today and advises keeping every interior image under `assets/woodcuts/`.

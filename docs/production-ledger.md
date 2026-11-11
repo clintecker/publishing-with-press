@@ -66,3 +66,7 @@ Managing editor's record. Append only.
   example (three chapters, 23 pages) are quoted as such. Chapter witness rule added to
   facts-08. Ch 3 revised (6,731) -> re-review; Ch 4 Revision 2 DONE -> continuity.
 - Ruling: the slug change to `alice` covers the S1 to S3 captures when the prose labels them as the press's own three-chapter Alice example.
+- Tested: a comment between a wrap and its paragraph breaks the fusion. Rulings in
+  facts-05 S1 to S3; press issue #280 filed (next-line comment kills the figure; docs
+  show that form; wrap + directive). Ch 2 continuity: 1 block (composite action
+  wording vs Ch 3) sent to the writer as Revision 3.
