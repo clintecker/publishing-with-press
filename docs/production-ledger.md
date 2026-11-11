@@ -35,3 +35,4 @@ Managing editor's record. Append only.
 - Rulings: `press wordcount` is the length measure (prose at least three quarters of
   it); the arrow and pilcrow glyphs stay verbatim inside code blocks; facts-01 S3 adds
   the full 29-line press all capture for the tour's verification step.
+- facts-01 widened (S4: sections 3.1, 3.3, 2.1, 2.2, 4.1, 4.5, 12.2, 12.4; S5 rulings: slug from press new; drop cap not default).

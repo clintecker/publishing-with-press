@@ -507,3 +507,455 @@ commerce release gate: print ordering is not enabled; no commerce release gate
 ```
 
 Notes: the `¶` and `✓` glyphs and the `→` arrow are part of the real output and may appear inside a code block (the glyph law exempts code; Source Code Pro carries them). The run was on the press example whose slug is `alice-in-wonderland`; the book's sample uses `alice`. The slow step was the PDF: `pandoc took` lines show the per-step timing if present above.
+
+
+---
+
+# Supplement S4 added by the managing editor (2026-11-11): sections the chapter needs that its slice lacked
+
+### 3.1 `press new <directory> [--author A] [--publisher P] [--place PLACE] [--owner GH]`
+
+Source: `src/press/scaffold.py`.
+
+- **Flags:**
+  - `--author`: defaults to `git config user.name`, else "The Author".
+  - `--publisher`: defaults to the author.
+  - `--place`: defaults to "Earth".
+  - `--owner`: when given, uncomments `repository: "https://github.com/<owner>/<slug>"` and `site-url: "https://<owner>.github.io/<slug>"`. When omitted, those lines stay commented with `OWNER`.
+- **Steps:**
+  1. Refuses an existing path.
+  2. Validates the directory name as a slug *before* copying anything.
+  3. Copies `src/press/data/template`.
+  4. Renames `dot-*` to `.*`.
+  5. Stamps the four workflows into `.claude/workflows/`.
+  6. Substitutes `{{SLUG}} {{AUTHOR}} {{PUBLISHER}} {{PLACE}} {{REPOSITORY_LINE}} {{SITE_URL_LINE}}`.
+- **It does NOT run `git init`.** The README says `cd my-book && git init && make all`.
+- Captured output:
+
+  ```text
+  scaffolded demo -> /…/demo
+  next: edit config/metadata.yaml, write book/chapters/, run `press all`
+  ```
+
+**The exact tree** of a fresh `press new demo` (3.0.2), with notes:
+
+```text
+demo/
+├── .claude/workflows/
+│   ├── aesthetic-brief.js       # agent workflow: drafts config/aesthetic.yaml from a brief
+│   ├── art-direction.js         # agent workflow: writes art/commissions.md
+│   ├── authorities-research.js  # agent workflow: builds config/authorities.yaml
+│   └── editorial-passes.js      # agent workflow: the iterative editorial machine
+│                                #  (each starts "// scaffolded by press 3.0.2; source of truth: press data/workflows")
+├── .github/workflows/book.yml   # the whole CI: calls clintecker/press/.github/workflows/build.yml@v3
+├── .gitignore                   # build/ dist/ __pycache__/ .DS_Store
+├── book/chapters/00-preface.md  # a one-paragraph preface so the empty book builds and verifies
+├── CHANGELOG.md                 # Keep a Changelog; CI extracts the tagged section as release notes
+├── CLAUDE.md                    # 79 lines: the book's own agent/author guide (layout, commands, house laws)
+├── config/
+│   ├── front-matter.yaml        # all keys commented out; its PRESENCE turns on generated front matter
+│   ├── house-rules.yaml         # banned-patterns: {}, jargon-allow: [], audit-dirs: []
+│   └── metadata.yaml            # identity + press facts + verification knobs (see 3.3)
+├── Makefile                     # muscle-memory wrapper: every target -> python3 -m press $@
+└── requirements.txt             # press @ git+https://github.com/clintecker/press@v3 (local builds only)
+```
+
+**The scaffolded files, verbatim** (slug `demo`; author is the git user):
+
+`Makefile`:
+
+```make
+# Muscle-memory wrapper; the pipeline itself lives in the press package.
+PRESS ?= python3 -m press
+
+.PHONY: all check pdf epub html markdown site txt docx pages source verify verify-formats render wordcount clean
+
+all check pdf epub html markdown site txt docx pages source verify verify-formats render wordcount clean:
+	$(PRESS) $@
+```
+
+`requirements.txt`:
+
+```text
+# Local builds. CI does not read this file; the press action installs itself
+# from its own checkout. For day-to-day work prefer an editable install of
+# your press clone: pip install -e ~/path/to/press
+press @ git+https://github.com/clintecker/press@v3
+```
+
+`.github/workflows/book.yml`:
+
+```yaml
+name: Build book
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: read
+  pages: write
+  id-token: write
+
+jobs:
+  book:
+    uses: clintecker/press/.github/workflows/build.yml@v3
+```
+
+`book/chapters/00-preface.md`:
+
+```markdown
+# Preface {.unnumbered}
+
+Why this book exists, in your own voice, with no throat-clearing. Delete
+this sentence and the one before it; keep the heading. This paragraph only
+exists so a freshly scaffolded book builds and verifies before the first
+real word lands.
+```
+
+The scaffolded `CLAUDE.md` lists these house laws, verbatim:
+
+```text
+- No em or en dashes anywhere; rewrite the sentence instead.
+- Straight quotes only; sentence-case headings; no manual heading
+  numbers.
+- ASCII plus accented latin only; paragraphs under 190 words; no
+  trailing whitespace.
+- Sentinel strings in `config/metadata.yaml` must survive every
+  revision verbatim; they are how the verifiers prove the book is in
+  the artifacts.
+- Fixtures under `tests/known-bad/` must stay rejected; they are the
+  proof the checkers still work.
+```
+
+
+### 3.3 `config/metadata.yaml`, field by field
+
+There are two sources. The typed model lives in `src/press/bookmodel.py` and `booklib.py`. The CLI registry lives in `src/press/config_schema.py`; `press config list` output is verbatim in §17.
+
+Pandoc also reads the raw file (`metadata-file: "@book/config/metadata.yaml"` in every defaults file), so standard pandoc keys pass through.
+
+| Field | Type | Default | Meaning / rules |
+|---|---|---|---|
+| `title` | str | required | The book's title. |
+| `subtitle` | str | none | Its `or,` clauses stack on the title page and the landing page. |
+| `author` | str or list[str] | required | Byline. A single string is normalized to a tuple. `press config set` needs `--json` for lists. |
+| `date` | str | none | Free text. The first `1xxx`/`2xxx` year becomes the EPUB `dc:date` and the title page's lowercase roman numerals. |
+| `copyright` | str | none | Required once `config/front-matter.yaml` exists. |
+| `publisher` | str | none | Imprint. Required with front matter. Also exported to TeX as the env var `BOOK_PUBLISHER`. |
+| `publisher-place` | str | none | Required with front matter. |
+| `description` | str | none | One-sentence blurb. **`press check` requires it** (`check_source.py:45-51`). |
+| `slug` | str | required | Must match `[a-z0-9][a-z0-9-]*`. It is every artifact's basename. |
+| `repository` | str | none | Canonical repo URL. Absent: the landing page omits its source paragraph. |
+| `site-url` | str | none | Public Pages URL. The one authority for every absolute URL, canonical link, `og:image`, and sitemap. Absent: nothing URL-shaped is emitted. |
+| `keywords` | list[str] | none | Passed to the formats. |
+| `lang` | str | none | BCP-47 tag passed through to pandoc. The template sets `en-US`. |
+| `rights` | str | none | Passed through to pandoc. |
+| `verify-sentinels` | list[str] | `[]` | Phrases proven present in the source and in every artifact. Exact case; curly and straight quotes are equated. A release needs at least 2. |
+| `verify-min-pages` | int | 40 in the model; **the template sets 1** | PDF page floor. A release needs at least 24. |
+| `trim` | IMMUTABLE | derived | "trim is not set directly; choose it with print.profile". A legacy mapping is only cross-checked, and refused on disagreement. |
+| `print.profile` | str | `house-6x9` | Design profile: trim and interior geometry (§10). |
+| `print.provider` | str | `house` | Provider spec: spine and cover geometry. |
+| `print.binding` | str | `perfect-bound` | Or `saddle-stitch`, `coil`, `casewrap`, `dust-jacket`. |
+| `print.material` | str | `paperback` | Or `casewrap`, `linen`. |
+| `print.paper` | str | `cream` | `white` or `cream`. |
+| `print.page-thickness` | float | none | Inches per page. Overrides paper. |
+| `print.color-grade` | str | standard | e.g. `standard-color`, `premium-color`. Colour profiles only. |
+| `chapter-opening.style` | str | the profile's (house: `none`) | `none`, `drop-cap`, `raised-cap`, `ornate`. |
+| `chapter-opening.lines` | int | 3 | Text lines the initial spans. |
+| `chapter-opening.small-caps-remainder` | bool | true | Small caps for the rest of the first word. |
+| `registrations.isbn.print` / `.epub` | str | none | ISBN-13 or `pending`. |
+| `registrations.lccn` / `.issn` | str | none | Or `pending`. |
+| `registrations.retail` | bool | false | `true` makes missing or pending numbers fail `check`. |
+| `registrations.isbn-block.prefix` / `.size` | str / int | none | Owned registrant prefix. Size is 10, 100, or 1000. |
+| `commerce.print-ordering.*` | various | off | See §10.9. |
+
+**The release rule.** With `PRESS_RELEASE=1` (CI sets it on `refs/tags/v*`), `booklib.require_release_witnesses()` refuses vacuous witnesses:
+
+```text
+this is a release build (PRESS_RELEASE=1) and its witnesses are vacuous:
+verify-sentinels has N entries; a release needs at least 2 distinctive prose fragments
+verify-min-pages is N; a release needs at least 24
+```
+
+**Choosing sentinels.**
+
+- Pick them mid-chapter. The drop cap splits and small-caps a chapter's opening word, which breaks exact PDF matching. This comes from the maintainer's own practice notes.
+- The template's own advice: "pick 2-4 phrases from your actual manuscript, each distinctive enough to appear exactly once (a whole memorable clause, not a common word)".
+
+**The scaffolded `config/metadata.yaml`**, verbatim with `{{…}}` filled:
+
+```yaml
+title: "demo"
+subtitle: "A subtitle"
+author:
+  - "Clint Ecker"
+date: "First edition, 2026"
+lang: en-US
+copyright: "Copyright 2026."
+publisher: "Clint Ecker"
+publisher-place: "Earth"
+description: >-
+  One honest paragraph on what this book is.
+keywords:
+  - writing
+
+# Press facts: artifact basename, canonical repo, and the public Pages URL
+# release notes link to (omit site-url to skip public download links).
+slug: "demo"
+# repository: "https://github.com/OWNER/demo"
+# site-url: "https://OWNER.github.io/demo"
+
+# Verification knobs. Sentinels are prose fragments every rendered
+# format must contain: pick 2-4 phrases from your actual manuscript,
+# each distinctive enough to appear exactly once (a whole memorable
+# clause, not a common word). Empty sentinels and a one-page floor are
+# DRAFT settings; a release build (CI on a tag) refuses them until at
+# least 2 sentinels and verify-min-pages >= 24 are set.
+verify-sentinels: []
+verify-min-pages: 1
+# trim: {width: 6, height: 9}
+
+# The print pack reads these when building the interior and cover wrap.
+# print: {paper: cream}          # or white; or {page-thickness: 0.0025}
+
+# Registrations: validated by press check, injected into the colophon,
+# EPUB metadata, and the wrap barcode. "pending" is the one honest
+# placeholder; retail: true refuses to pass check while any placeholder
+# remains. See the registrations skill for the actual processes.
+# registrations:
+#   isbn:
+#     print: "pending"           # check digit validated when real
+#     epub: "pending"
+#   lccn: "pending"
+#   retail: false
+
+# Direct print ordering: ... (commerce block, commented; see 10.9)
+```
+
+The real file contains the full commented commerce block. It mentions "press qualify", **which is not a command**.
+
+The other two scaffolded configs, `config/house-rules.yaml` and `config/front-matter.yaml`, are quoted verbatim in §6.4 and §9.1.
+
+
+### 2.1 The Python package
+
+- `requires-python = ">=3.10"`. Python 3.10 through 3.14 are tested: CI runs all five on Ubuntu, plus 3.12 on macOS 15 (`docs/COMPATIBILITY.md`).
+- Runtime dependencies (`pyproject.toml`): `Pillow>=10.0`, `pypdf>=6.21.4`, `ruamel.yaml>=0.18`. ruamel is "the package's one YAML library (see press.yamlio)": it reads YAML 1.2 so bare `no`/`yes`/`on` stay strings, and its round-trip mode preserves comments.
+- Extras:
+  - `tui`: `textual>=8.2.8,<9`, for the desk.
+  - `dev`: ruff, mypy, pre-commit, build, twine, pytest, pytest-asyncio, pytest-cov, pytest-xdist, hypothesis, textual, plus `celebrimbor @ git+https://github.com/clintecker/celebrimbor@v0.12.0 ; python_version >= '3.11'`. celebrimbor is the quality framework; it is dev/CI only, never a book runtime dependency.
+- Classifier: "Development Status :: 4 - Beta". Licence `MIT`. Authors: Clint Ecker; maintainers: LGTM Systems, LLC.
+
+**Install paths:**
+
+1. **Pip from git at a tag.** This is the supported channel (`docs/INSTALL.md`):
+
+   ```sh
+   pip install "press @ git+https://github.com/clintecker/press@v3"
+   ```
+
+   "the press is not published to PyPI, and nothing in its metadata should imply otherwise". `@v3` floats; `@v3.0.0` (any three-part tag) is immutable.
+2. **Editable, for development or tracking a clone:** `pip install -e .` from a clone (`README.md`). The scaffolded `requirements.txt` comment recommends `pip install -e ~/path/to/press` for day-to-day book work.
+3. **With the desk:** `pip install 'press[tui]'`.
+4. **pipx.** Not documented anywhere in the repo. Do not claim it is supported. It would presumably work as a generic Python CLI, but nothing proves it.
+5. **The container, with no local toolchain at all** (`docs/INSTALL.md`):
+
+   ```sh
+   docker run --rm -v "$PWD":/book ghcr.io/clintecker/press-toolchain:latest \
+     bash -c "pip install --break-system-packages 'press @ git+https://github.com/clintecker/press@v3' && cd /book && press all"
+   ```
+
+6. **In CI.** The composite action installs press from its own checkout, never pip-from-git (§12).
+
+There are discovery commands that need no book and no toolchain: `press --version`, `press --help`, and `press <command> --help`. All three exit 0 (`SUPPORT.md`).
+
+
+### 2.2 System toolchain
+
+**macOS** (`docs/INSTALL.md`):
+
+```sh
+brew install pandoc poppler
+brew install --cask mactex-no-gui   # lualatex, latexmk, TeX Live
+brew install epubcheck              # optional: the retail EPUB gate locally
+```
+
+"Fonts: TeX Live carries Libertinus for the PDF; nothing else to install."
+
+**Debian/Ubuntu.** The `Dockerfile` is the canonical package list:
+
+```sh
+sudo apt-get install --no-install-recommends \
+  make git pandoc python3 python3-pip poppler-utils \
+  texlive-luatex texlive-latex-extra texlive-fonts-extra \
+  fonts-linuxlibertine latexmk epubcheck
+```
+
+- `fonts-linuxlibertine` is explicit because Ubuntu has no `fonts-libertinus`, and `--no-install-recommends` would drop the Libertine keyboard face.
+- `texlive-fonts-extra` also provides the `yinit` foliate initials used by `chapter-opening.style: ornate`.
+
+**Versions.** No pandoc or TeX version is pinned by number anywhere. "the exact tool versions are whatever Ubuntu 24.04 shipped, frozen by the image digest" (`docs/COMPATIBILITY.md`). Writers should say "Ubuntu 24.04's pandoc and TeX Live", not quote a version.
+
+**Required external tools** (from `src/press/doctor.py:28-39`):
+
+| Tool | Purpose (verbatim doctor text) | Required |
+|---|---|---|
+| pandoc | every build target | yes |
+| lualatex | PDF and print builds | yes |
+| latexmk | PDF and print builds (multi-pass convergence) | yes |
+| pdftoppm | PDF verification renders | yes |
+| pdffonts | font-embedding verification | yes |
+| pdfinfo | PDF structure verification | yes |
+| pdftotext | PDF text verification | yes |
+| git | scaffolding identity and book repositories | yes |
+| epubcheck | the retail EPUB gate (softens to a warning locally) | no |
+| claude | the operator: press improve, research, aesthetic briefs | no |
+
+doctor also reports:
+
+- `realesrgan`: "plate enhancement upscaling (press art enhance)", optional, found through the enhancer's own resolver;
+- `OPENAI_API_KEY` and `GEMINI_API_KEY`: `ok` or `unset`;
+- the Python version, against the tested range;
+- whether Pillow, pypdf, and ruamel.yaml import.
+
+**Not checked by doctor, but used:**
+
+- `pdfimages` (poppler). Its absence softens two checks to notes.
+- `java`, inside the container's epubcheck wrapper.
+- `oxipng` or `pngcrush`, optional for `art enhance`.
+- Headless Chrome, used only by the press's *own docs site* layout check (`scripts/check_layout.py`). It is not needed for books.
+
+**Toolchain image.** `ghcr.io/clintecker/press-toolchain`:
+
+- built `FROM ubuntu:24.04`;
+- multi-arch, amd64 and arm64 (#206);
+- public since 2026-07-20 (#161);
+- carries a `java -jar` wrapper for epubcheck at `/usr/local/bin/epubcheck`;
+- on amd64, carries `realesrgan-ncnn-vulkan` (v0.2.5.0 zip, sha256-verified) plus the remacri and ultrasharp models in `/usr/local/share/realesrgan/models`;
+- in the container, `pip install` needs `--break-system-packages`.
+
+**Apple Silicon.** This is the maintainer's primary platform. Local arm64 container builds work since the image went multi-arch. The arm64 image has no upstream Real-ESRGAN binary, so `art enhance` there resamples instead of upscaling (`docs/ILLUSTRATIONS.md`). `scripts/verify.sh --full` "runs natively on Apple Silicon since the toolchain image went multi-arch" (`CONTRIBUTING.md`).
+
+**First-run behavior** (a CLAUDE.md scar):
+
+> First LuaLaTeX run on a fresh machine triggers a several-minute font scan that looks like a hang. It is not a hang.
+
+
+### 4.1 The dialect
+
+Every pandoc build reads the manuscript as
+`markdown+smart+yaml_metadata_block+fenced_divs+footnotes`, with `standalone: true` and `number-sections: true`. The same settings appear in all six `src/press/data/defaults/*.yaml` files.
+
+- **Smart typography.** Because of `+smart`, the author types straight quotes and pandoc curls them in the output. Two hyphens (`--`) become an en dash, three (`---`) an em dash, and three dots an ellipsis. In source, though, the house bans the literal characters U+2014 and U+2013 and the curly quotes. Writing `--` in source is not banned by the checker, but the house law says "rewrite the sentence instead".
+- **Headings.** A `#` heading is a chapter (`top-level-division: chapter`). Chapters are numbered automatically. A heading marked `{.unnumbered}` or `{-}` gets no number.
+  - Manual numbering in a heading such as `# 3. Title` is refused in book prose with `manual number in heading`.
+  - A title-case heading is refused with `title-case heading: <text>`. The test: ignoring the first word, 21 listed small words, and ALL-CAPS words, at least 3 candidate words remain and 80% or more of them are capitalized.
+- **Glyph law.** Book prose may contain only tab, LF, CR, U+0020–U+007E, and U+00C0–U+017F (`style_audit.py:29`). That last range is the accented Latin letters, plus × and ÷.
+  - Everything in U+00A0–U+00BF fails: ©, °, §, £, «, », ½, NBSP, ¿.
+  - Greek, math symbols, and emoji also fail: `glyph U+XXXX is outside the print-font set`.
+  - Writers should state this law exactly. It is surprising, because © cannot be typed in a chapter.
+- **Paragraph law.** A paragraph must be under 190 words. Over 190 gives an error in book prose and a warning in `audit-dirs`:
+  `paragraph N has W words (the law is under 190; split it)`.
+  This was enforced from v1.7.0 (CHANGELOG).
+- **Trailing whitespace** is forbidden everywhere, including inside code fences.
+- **Footnotes** use the standard `[^label]` syntax. The PDF sets them at the foot of the page; the EPUB and the web reader collect them as linked notes. "There is no separate endnote setting" (`docs/BOOK-PARTS.md`).
+
+  ```markdown
+  The press was proven on one book first.[^scars]
+
+  [^scars]: Every scar in the pipeline was paid for by that first production.
+  ```
+
+- **Tables** are pandoc pipe tables. In the HTML edition and the reader, headed tables get `data-label` attributes on each cell (`webmeta.label_table_cells`). Below 34rem, the reader CSS turns each row into a card.
+- **Code** uses pandoc fenced code. In the PDF it is set in Source Code Pro scaled 0.86, with `fvextra` `breaklines,breakanywhere`. Prose rules skip fenced code, except the trailing-whitespace rule.
+- **Blockquotes.** In the PDF, `quote` is an `mdframed` box: papergray background, 0.4pt rulegray line, `\small\itshape`. The jargon lint skips blockquotes by default.
+- **Definition lists** are standard pandoc. They are the recommended form for a glossary appendix.
+- **Line blocks** (`| line`) preserve line breaks. They are the input form for the set pieces below.
+
+
+### 4.5 Drop caps and chapter openings
+
+These settings live in metadata `chapter-opening` and are merged over the design profile's default, which is `none` in every shipped profile.
+
+- **Styles:** `none`, `drop-cap`, `raised-cap`, `ornate`.
+  - `raised-cap` is accepted but renders the same as `drop-cap`. No code treats it differently.
+- **`lines`** defaults to 3 and **`small-caps-remainder`** to true.
+- **Where it applies.** `chapter-dropcap.lua` finds the first eligible paragraph after each level-1 heading that is not `{.unnumbered}`/`{.unlisted}`. It skips blockquotes (an epigraph), code, lists, tables, rules, and figures along the way.
+- **PDF.** The filter emits `\PressDropCap{lead}{I}{rest}`, which wraps `lettrine`:
+  `\lettrine[lines=3,depth=0,findent=2pt,nindent=0pt]{#2}{\scshape #3}`, preceded by `\Needspace*{4\baselineskip}`.
+- **Dialogue openers** (v3.0.0). The leading quotation mark, the "lead", hangs into the left margin at body size through `ante={\smash{\llap{...}}}` (Bringhurst's rule). On the web, `.drop-cap-lead` takes a margin of −.52em.
+- **`ornate`** sets the initial in the yinit foliate font (`yfonts`, from `texlive-fonts-extra`) in print only. The web and EPUB degrade it honestly to a styled display capital: Luminari / Apple Chancery / Zapfino… at 3.6em in the ornament colour.
+- **Unicode.** The initial is one grapheme, including combining marks.
+- **Formats without drop caps:** txt and docx.
+- **Scar** (from the maintainer's notes): sentinels must be mid-chapter phrases, because the drop cap splits and small-caps a chapter's opening word, which breaks exact PDF matching.
+
+
+### 12.2 The composite action (`action.yml`), verbatim
+
+```yaml
+name: press
+description: >-
+  Install the press from this action's own checkout and run a press target
+  against the calling book repository. Because GitHub materializes the action
+  repository onto the runner, even a private book can use the press with
+  no cross-repo token.
+inputs:
+  command:
+    description: press target to run (default builds and verifies everything)
+    default: all
+runs:
+  using: composite
+  steps:
+    - name: Install press
+      shell: bash
+      # Runtime dependencies from the hash-pinned lock first (#194: a pinned
+      # release resolves immutable dependency bytes, not whatever PyPI serves
+      # today), then press itself with --no-deps so nothing is resolved fresh.
+      run: |
+        python3 -m pip install --quiet --break-system-packages \
+          --require-hashes -r "$GITHUB_ACTION_PATH/requirements-lock.txt"
+        python3 -m pip install --quiet --break-system-packages \
+          --no-deps "$GITHUB_ACTION_PATH"
+    - name: Run press
+      shell: bash
+      env:
+        # The input reaches the script as an environment value, never
+        # interpolated into shell text, so metacharacters are data.
+        PRESS_COMMAND: ${{ inputs.command }}
+      run: |
+        if ! [[ "$PRESS_COMMAND" =~ ^[a-z][a-z0-9-]*( [A-Za-z0-9._/=-]+)*$ ]]; then
+          echo "press action: refusing command input: $PRESS_COMMAND"
+          echo "targets are lowercase words with plain path/flag arguments;"
+          echo "shell syntax is not part of the grammar"
+          exit 2
+        fi
+        read -r -a argv <<< "$PRESS_COMMAND"
+        python3 -m press "${argv[@]}"
+```
+
+**Self-checkout install is law.** From `CLAUDE.md`: "it keeps a private book working with no cross-repo token and pins the installed press to the exact action ref; do not replace it with pip-from-git."
+
+**The lock.** `requirements-lock.txt` pins three packages: `pillow==13.0.0`, `pypdf==6.21.4`, `ruamel-yaml==0.19.1`. It carries 87 sha256 hashes and was compiled with Python 3.12. Regenerate it with `scripts/lock-deps.sh`, which runs pip-compile in the pinned image. "pip-compile keeps existing pins, so a security bump is `scripts/lock-deps.sh --upgrade-package <name>`."
+
+
+### 12.4 The toolchain image
+
+- **Name and basis.** `ghcr.io/clintecker/press-toolchain`, built from `Dockerfile` (`FROM ubuntu:24.04`, `ENV PRESS_TOOLCHAIN=1`).
+- **apt packages:** make, git, gh, pandoc, python3, python3-pip, poppler-utils, epubcheck, texlive-luatex, texlive-latex-extra (for lettrine), texlive-fonts-extra (for yfonts/yinit), fonts-linuxlibertine, latexmk.
+- **epubcheck wrapper.** `printf '#!/bin/sh\nexec java -jar /usr/share/java/epubcheck.jar "$@"\n' > /usr/local/bin/epubcheck`.
+- **Image processing.** Real-ESRGAN plus the models, amd64 only. `mesa-vulkan-drivers` provides a software Vulkan.
+- **Lua tooling.** stylua v2.5.2, and selene 0.31.0 on amd64.
+- **Multi-arch.** The image is published for amd64 (`ubuntu-24.04`) and arm64 (`ubuntu-24.04-arm`) by `.github/workflows/toolchain.yml`, and each is smoked before push. The tags are `:latest` and `:sha-<SHA>`.
+- **Public since 2026-07-20 (#161).** "a book under any account pulls it with no package grant and no configured secret". In CI the pull is authenticated with the workflow's own `GITHUB_TOKEN`, "which works for a public image, including on fork and Dependabot pull requests". Locally it pulls anonymously.
+
+
+## S5. Rulings
+
+- `press new <directory>` sets `slug: "<directory>"` in the scaffolded `config/metadata.yaml` (see the scaffold in 3.1 and the field in 3.3), so `press new alice` yields slug `alice` and every artifact is `dist/alice.*`.
+- The drop cap is NOT the house default: `chapter-opening` defaults to `none` in every shipped profile (4.5); the Alice example opts in. The chapter must not say chapters open with a drop cap by default.
+- Python 3.10 through 3.14, pandoc, LuaLaTeX, latexmk, poppler (`pdftoppm`, `pdffonts`), epubcheck and a Java to run it, and the Libertine faces are the toolchain as 2.2 states it; the image is `ghcr.io/clintecker/press-toolchain` (12.4).
