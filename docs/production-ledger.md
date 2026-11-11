@@ -36,3 +36,7 @@ Managing editor's record. Append only.
   it); the arrow and pilcrow glyphs stay verbatim inside code blocks; facts-01 S3 adds
   the full 29-line press all capture for the tour's verification step.
 - facts-01 widened (S4: sections 3.1, 3.3, 2.1, 2.2, 4.1, 4.5, 12.2, 12.4; S5 rulings: slug from press new; drop cap not default).
+- Ruling: code fences are capped at 64 columns. Untagged fences are plain verbatim in
+  the PDF (only pandoc's Highlighting environment carries fvextra's breaklines), so a
+  longer line runs off the 4.54 in measure. Long real files are excerpted with a `...`
+  line. markup.md, the typesetter brief, and the chapter briefs updated. Press issue filed.

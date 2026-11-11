@@ -22,7 +22,7 @@ prove it builds.
      (blockquote inside the classed Div, bold lead, lengths);
    - example captions (`**Example C.N. Title**` directly above an untagged
      or `text` fence; no language tags anywhere);
-   - code lines at most 72 characters; no trailing whitespace; prompts `$ `
+   - code lines at most 64 characters; no trailing whitespace; prompts `$ `
      or `# `; `...` for elision;
    - tables: header row, proportioned separator, `Table: Table C.N. ...`
      caption after the table, sentences in the Meaning column;
@@ -36,7 +36,7 @@ prove it builds.
    - italics and constant width used as the guide assigns them;
    - footnote labels unique; the index comment present and last.
 4. Check every figure brief against the figure rules: no wrap placement
-   for a diagram; a terminal panel's transcript will fit 72 columns; a
+   for a diagram; a terminal panel's transcript will fit 72 columns (it is an image); a code fence holds 64; a
    matrix or tree with more than about 14 rows is flagged as too tall for
    the 1740 px cap.
 

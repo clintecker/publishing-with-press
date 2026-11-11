@@ -110,8 +110,11 @@ slug: "alice"
   print interior and the print verifier refuses it.
 - Sessions show the prompt as `$ ` (or `# ` for root), then the command,
   then the output. No bold, no colour. Elide with a line holding `...`.
-- Lines are at most 72 characters (a terminal panel is drawn at 72
-  columns, and the page wraps longer code lines with a hook). No trailing
+- Lines are at most 64 characters: an untagged fence is plain verbatim
+  in the PDF and a longer line runs off the page without wrapping. Excerpt
+  a long real file and end the excerpt with a `...` line; break a long
+  command with a trailing backslash. (A terminal panel figure is drawn
+  at 72 columns, since it is an image and scales.) No trailing
   whitespace, even in code.
 - A syntax line uses `[ ]` for optional, `|` for alternatives, `...` for
   repetition: `press add chapter|appendix <name> [--front]`.
