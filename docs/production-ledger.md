@@ -100,3 +100,4 @@ Managing editor's record. Append only.
 - Ruling (ch 13): in a captured block presented as what alice's run prints, metadata-derived values (author, publisher) may be the sample's own, stated as coming from the book's metadata; press's own text stays verbatim. A fresh-scaffold capture is labelled as such, never as the Alice book.
 - Ch 12 revised (6,574) -> re-review; facts-12 S1 confirms the deltas from source. Ch 13 fact + copy in; typesetter pending.
 - Ch 8 COMMITTED.
+- Ruling: 'the three-chapter example' is the short form after first mention. Ch 7 Revision 3 DONE; awaiting its continuity pass.

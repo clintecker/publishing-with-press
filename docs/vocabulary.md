@@ -27,7 +27,7 @@ defined in the same sentence; afterwards it is roman.
 | sentinel | a `verify-sentinels` phrase | marker, canary, probe |
 | witness | a text the verifiers require every edition to carry: a sentinel, the title, the manuscript witness line, a chapter witness line | fingerprint, signature, marker |
 | the Alice book | the book's sample: user alice's full novel, slug `alice` | the Alice example, the sample book (after first use), Alice's book |
-| the press's own three-chapter Alice example | press's gallery example `examples/alice-in-wonderland`, chapters 1 to 3 plus one appendix, 23 pages; the source of every real capture | the Alice example, the gallery Alice, the demo |
+| the press's own three-chapter Alice example | press's gallery example `examples/alice-in-wonderland`, chapters 1 to 3 plus one appendix, 23 pages; the source of every real capture; after first mention in a chapter, "the three-chapter example" | the Alice example, the gallery Alice, the demo |
 | the Pages bundle | the directory `dist/pages/` | the pages directory, the site bundle |
 | the Pages site | what GitHub Pages serves from the bundle | the Web site, the landing site |
 | vacuous witnesses | press's own phrase, in its refusal, for sentinels or a page floor too weak to prove anything (an empty sentinel list, a one-page floor); quote it only where press's message is quoted | weak sentinels, placeholder sentinels |
