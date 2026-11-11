@@ -106,3 +106,4 @@ Managing editor's record. Append only.
 - Ch 8 fix committed. Ch 14 drafted (5,716); desks dispatching as slots free.
 - Ch 1, 3 fixes committed; Ch 6 and Ch 7 COMMITTED (with figures 6.1-6.3). Ch 5 continuity: 1 block -> writer. Ruling: ornament = scene-break glyph; decoration = decorative image.
 - Ch 10 COMMITTED. Ch 3 errata (sources companion) applied to prose and Figure 3.3. Figures 5.1-5.3 drawn, awaiting ch 5's final commit.
+- Ch 5 COMMITTED with figures.
