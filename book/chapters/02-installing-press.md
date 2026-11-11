@@ -32,9 +32,9 @@ Table: Table 2.1. What a press installation needs
 
 The Python requirement is a floor. The tested range records only what the press's own tests run. At the time of this writing, the press's continuous integration (CI) runs all five Python releases from 3.10 to 3.14 on Ubuntu, plus Python 3.12 on macOS 15. A newer Python may work, but no test proves it yet. When you run `press doctor` on one, it says so.
 
-The package has three runtime dependencies, and pip installs them for you. Pillow handles images, and pypdf reads the finished PDF so the verifiers can inspect it. The third, ruamel.yaml, reads every configuration file. Press uses ruamel.yaml as its one YAML library for two reasons. First, it reads YAML 1.2, so a bare `no`, `yes`, or `on` in your metadata stays a string.[^yaml] Second, its round-trip mode keeps your comments when press writes a value back into one of your files.
+The package has three runtime dependencies, and pip installs them for you. Pillow handles images, and pypdf reads the finished PDF so the verifiers can inspect it. The third, ruamel.yaml, reads every configuration file. Press uses ruamel.yaml as its one YAML library for two reasons. First, it reads YAML 1.2, so a bare `no`, `yes`, or `on` in your metadata stays a string.[^2-yaml] Second, its round-trip mode keeps your comments when press writes a value back into one of your files.
 
-[^yaml]: YAML 1.1, the older revision of the language, treats those bare words as booleans. A metadata value of `no` would then arrive as false, which is a poor fate for a word in a title.
+[^2-yaml]: YAML 1.1, the older revision of the language, treats those bare words as booleans. A metadata value of `no` would then arrive as false, which is a poor fate for a word in a title.
 
 You do not need any of this to look around. Three commands work with no book and no toolchain at all: `press --version`, `press --help`, and `press` followed by any command name and `--help`. All three exit with status 0, so they are the right commands to run first on a new machine.
 
@@ -113,9 +113,9 @@ $ pip install -e "$HOME/src/press[tui]"
 
 In the second form the brackets follow the path, not the word `press`, because there the path names the package. The double quotes keep the shell from reading the brackets as a pattern, and they still let it expand `$HOME`.
 
-The `dev` extra exists for people who work on the press itself. It adds the linters, the type checker, and the test runner with its plugins. It also adds celebrimbor, the press's quality framework.[^dev] None of it belongs in a book's environment, and a book never needs it to build.
+The `dev` extra exists for people who work on the press itself. It adds the linters, the type checker, and the test runner with its plugins. It also adds celebrimbor, the press's quality framework.[^2-dev] None of it belongs in a book's environment, and a book never needs it to build.
 
-[^dev]: Celebrimbor is a development and CI dependency only. It is never a runtime dependency of a book, and it installs only on Python 3.11 or later.
+[^2-dev]: Celebrimbor is a development and CI dependency only. It is never a runtime dependency of a book, and it installs only on Python 3.11 or later.
 
 Table 2.2 collects the forms of installation and when each one fits.
 
@@ -282,9 +282,9 @@ The epubcheck wrapper deserves its own warning, because the Ubuntu launcher it r
 > **Warning:** Do not trust Ubuntu's own `epubcheck` launcher inside a container. It needs binfmt_misc, which containers do not register. The command exists and `which` finds it, but it dies with "Exec format error" only when it runs. Run the jar through `java -jar` instead, as the image's wrapper does.
 :::
 
-The press's verifier draws the same line the doctor draws. It reports a present-but-unrunnable tool as a fault in the toolchain, not as a fault in your EPUB. A missing epubcheck and a broken epubcheck call for different repairs, and neither one tells you anything about the book.[^binfmt]
+The press's verifier draws the same line the doctor draws. It reports a present-but-unrunnable tool as a fault in the toolchain, not as a fault in your EPUB. A missing epubcheck and a broken epubcheck call for different repairs, and neither one tells you anything about the book.[^2-binfmt]
 
-[^binfmt]: The *Dockerfile*'s comment on Real-ESRGAN refers to the same trap as "the epubcheck/binfmt scar", so the scar reached a second tool.
+[^2-binfmt]: The *Dockerfile*'s comment on Real-ESRGAN refers to the same trap as "the epubcheck/binfmt scar", so the scar reached a second tool.
 
 ### Pulling the image
 
@@ -330,9 +330,9 @@ The script lives in the press checkout, not in a book, and a book author never n
 
 ## Apple Silicon and other platforms
 
-Apple Silicon is the maintainer's primary platform, and the macOS route in Example 2.4 serves it. The press's own CI also runs Python 3.12 on macOS 15, so the Python half of press has a tested record on the Mac.[^macos]
+Apple Silicon is the maintainer's primary platform, and the macOS route in Example 2.4 serves it. The press's own CI also runs Python 3.12 on macOS 15, so the Python half of press has a tested record on the Mac.[^2-macos]
 
-[^macos]: The macOS job once ran on `macos-14`. GitHub retired that runner partway through a release, and GitHub canceled the job within a second with "configuration not supported". The job moved to `macos-15`.
+[^2-macos]: The macOS job once ran on `macos-14`. GitHub retired that runner partway through a release, and GitHub canceled the job within a second with "configuration not supported". The job moved to `macos-15`.
 
 Local container builds on Apple Silicon work too, because the press publishes an arm64 build of the toolchain image. The press's own full verification script, `scripts/verify.sh --full`, also runs natively on Apple Silicon for the same reason. Contributors to the press need no emulation either.
 
