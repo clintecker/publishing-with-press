@@ -434,3 +434,7 @@ Pages 2 to 6 are the generated front matter from `gen_front_matter.py` and `fron
 ## S2. The sample book's identity
 
 The sample `alice` is the book's own invention for the full novel: title *Alice's Adventures in Wonderland*, author Lewis Carroll, user alice on host hatter, owner wonderland-press, publisher and place as the Chapter 10 writer set them (Wonderland Press, Oxford), date as the scaffold writes it ("First edition, 2026"). It has no registrations block, no logomark, and no authorities ledger unless a chapter shows user alice creating one; a chapter that shows one presents it as what alice writes, never as a press default.
+
+## S3. Two details of the authorities ledger messages (from the press source, confirmed 2026-11-11)
+
+Entries are numbered from 1 in the ledger's refusals (`gen_authorities.py:174`, `config_schema.py:444`), and the `file:` path is printed as the ledger wrote it (`gen_authorities.py:139-140`). So an example that shows `entry 1:` and the declared path verbatim is correct.
