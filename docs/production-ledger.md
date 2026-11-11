@@ -93,3 +93,4 @@ Managing editor's record. Append only.
   tarts); "the book model" is the term. Writers 1, 3, 6 sent the items. Ch 6 Revision 2
   DONE; ch 7 -> continuity.
 - Ch 1 final fix committed. Ch 13 drafted (3,299); desks dispatched.
+- Ch 3 COMMITTED. Figures 4.1-4.3 committed. Ch 6 Revision 3 DONE -> continuity.
