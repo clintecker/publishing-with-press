@@ -231,7 +231,7 @@ reader; where it cannot, the handbook names the fallback.
 - Table: a pipe table with `Table: Table 3.1. press check options`
   beneath it.
 - Figure: `![Caption](assets/figures/NN-name.png){#fig:name .diagram}`
-  with a preceding `<!-- art: ... -->` directive holding the figure brief.
+  followed by a `<!-- art: ... -->` directive holding the figure brief.
   Placement attributes per Chapter 5's own rules (most diagrams are
   `inline` at `full-measure`; a tall one is `place=plate`).
 - Plate: `![Caption in the quiet plate-legend register](assets/woodcuts/name.png)`
