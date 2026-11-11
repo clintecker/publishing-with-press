@@ -338,3 +338,14 @@ Design rationales that work as sidebars:
 - **The finisher (supplied-interior PDF).** Planned on the Book breadth milestone, not shipped.
 - **The custom merchant-of-record commerce stack.** Icebox.
 - **Non-Latin and right-to-left scripts.** Icebox, "a major per script family".
+---
+
+# Supplement added by the managing editor (2026-11-11)
+
+## S1. What `registrations.retail: true` requires (from `src/press/registrations.py:340-362`, confirmed)
+
+`_retail_failures` runs only when `retail` is true. It requires an ISBN for both editions, `print` and `epub`: a missing one reports `isbn print missing` or `isbn epub missing`, and a `pending` one reports `isbn print` / `isbn epub` as pending. The refusal reads `retail edition declared while registrations are absent or pending: <list>`. The LCCN and ISSN are not part of the retail check; they are validated separately when present (`_issn_lccn_failures`). So a retail edition needs two real ISBNs and nothing else from this file.
+
+## S2. The sample book's identity for captures
+
+Per Chapter 10 (continuity bible): the sample `alice` has publisher Wonderland Press and place Oxford, author Lewis Carroll. A PCN capture taken from a fresh scaffold prints the scaffold's defaults (publisher = author, place "Earth"); the chapter either labels such a block as a fresh scaffold's output or changes only the slug and presents the alice values as what alice's run prints, saying which it did.
