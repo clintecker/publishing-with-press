@@ -412,3 +412,25 @@ Design rationales that work as sidebars:
 - **The finisher (supplied-interior PDF).** Planned on the Book breadth milestone, not shipped.
 - **The custom merchant-of-record commerce stack.** Icebox.
 - **Non-Latin and right-to-left scripts.** Icebox, "a major per script family".
+---
+
+# Supplement added by the managing editor (2026-11-11)
+
+## S1. The front matter's page order, as built (tested in the toolchain image on a probe book with `config/front-matter.yaml`, a cover, plates, and numbered figures)
+
+1. Cover (page 1, when `assets/cover.jpg` exists)
+2. Title page
+3. Copyright page (the press calls it the colophon page: edition note, rights, manufacture, colophon note, contact, motto, the logomark)
+4. Dedication
+5. Epigraph
+6. Acknowledgements
+7. Contents
+8. List of plates (only when `assets/woodcuts/` holds images)
+9. List of Figures (only when the manuscript declares a numbered figure)
+10. The Preface, then the chapters
+
+Pages 2 to 6 are the generated front matter from `gen_front_matter.py` and `front-matter.tex`, fed by `config/metadata.yaml` and `config/front-matter.yaml`. Pages 7 to 9 are NOT generated from the front-matter file: the Contents comes from pandoc's `toc: true` with `toc-depth: 1` in the PDF defaults, and the two lists come from the TeX header (`\PressListOfFigures`, the `lof` variable set when woodcuts exist). The title page sets the title in capitals with a trailing period and the subtitle in small caps; "by", the author, then the place and year in roman numerals.
+
+## S2. The sample book's identity
+
+The sample `alice` is the book's own invention for the full novel: title *Alice's Adventures in Wonderland*, author Lewis Carroll, user alice on host hatter, owner wonderland-press, publisher and place as the Chapter 10 writer set them (Wonderland Press, Oxford), date as the scaffold writes it ("First edition, 2026"). It has no registrations block, no logomark, and no authorities ledger unless a chapter shows user alice creating one; a chapter that shows one presents it as what alice writes, never as a press default.
