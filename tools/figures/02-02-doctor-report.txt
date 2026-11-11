@@ -1,0 +1,19 @@
+$ press doctor
+  [     ok] pandoc     every build target
+  [     ok] lualatex   PDF and print builds
+  [     ok] latexmk    PDF and print builds (multi-pass convergence)
+  [     ok] pdftoppm   PDF verification renders
+  [     ok] pdffonts   font-embedding verification
+  [     ok] pdfinfo    PDF structure verification
+  [     ok] pdftotext  PDF text verification
+  [     ok] git        scaffolding identity and book repositories
+  [ absent] epubcheck  the retail EPUB gate (softens to a warning locally)
+  [ BROKEN] claude     present but cannot execute; the operator: press improve, research, aesthetic briefs
+  [     ok] realesrgan plate enhancement upscaling (press art enhance)
+  [     ok] OPENAI_API_KEY   press art commission --model openai
+  [     ok] GEMINI_API_KEY   press art commission --model gemini
+  [     ok] python     3.12 is within the tested range 3.10 to 3.14
+  [     ok] python     Pillow, pypdf, ruamel.yaml importable
+
+not ready: claude (macOS: brew install pandoc mactex-no-gui poppler; Debian/Ubuntu: see the Dockerfile's package list)
+$
