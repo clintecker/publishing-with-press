@@ -11,3 +11,8 @@ Managing editor's record. Append only.
 - Ruling: proof figures retired from assets/woodcuts (unreferenced plates
   fail press check for every writer); the toolkit README is the API.
 - Ch 2 dev edit: dev-render and the install-environment facts were missing from facts-02; supplement S1/S2 appended with a ruling (venv is the book's advice, PEP 668 is Python's, not press's).
+- Ch 2 fact check: 3 contradicted, 9 unsupported, 13 drifted. Ruling: Figure 2.3's
+  "wrapfig/lettrine" came from my brief (production probe), not the fact file; drop
+  them, name only epubcheck and the Java wrapper. Ruling: "press doctor && press all"
+  advice is wrong per the doctor's optional-tool behaviour; the chapter states the
+  behaviour plainly and recommends reading the report, not chaining on its exit code.
