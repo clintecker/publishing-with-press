@@ -471,3 +471,39 @@ commerce release gate: print ordering is not enabled; no commerce release gate
 ## S2. Ruling: `press all` builds `dist/pages/`
 
 The fact base section 5.3 lists the `press all` sequence: 1 check, 2 every format, 3 the source zip, 4 pages, 5 the verifiers, 6 the commerce gate (advisory). So `press all` does assemble `dist/pages/`; QUICKSTART runs `press pages` afterwards only to show the command. The listing above confirms `pages` is present after `press all`.
+
+## S3. The complete `press all` output on the Alice example, captured 2026-11-11 (29 lines, verbatim; paths elided with ...)
+
+```text
+Source checks passed: 4 ordered Markdown files
+  note: em-dash.md also drew: - .../known-bad/em-dash.md:4: glyph U+2014 is outside the print-font set
+  note: en-dash.md also drew: - .../known-bad/en-dash.md:4: glyph U+2013 is outside the print-font set
+Checker self-test passed: 19 known-bad fixtures each tripped their declared rule, known-good fixture accepted, 2 extra diagnostics noted
+Editorial checks passed: 4 Markdown files
+Jargon check passed: no rewrite-status terms (full audit in build/jargon-report.txt)
+  ¶ check      ✓ style, source, jargon
++ pandoc --defaults=~/alice/build/defaults/pdf.yaml book/chapters/01-down-the-rabbit-hole.md book/chapters/02-the-pool-of-tears.md book/chapters/03-a-caucus-race-and-a-long-tale.md book/appendices/z-about-this-edition.md --output dist/alice-in-wonderland.pdf
+  pandoc took 26.7s
++ pandoc --defaults=~/alice/build/defaults/epub.yaml --metadata rights=The text and illustrations are in the public domain. Published by The Press (gallery example), Oxford. --epub-metadata=~/alice/build/epub-metadata.xml book/chapters/01-down-the-rabbit-hole.md book/chapters/02-the-pool-of-tears.md book/chapters/03-a-caucus-race-and-a-long-tale.md book/appendices/z-about-this-edition.md --output dist/alice-in-wonderland.epub
++ pandoc --defaults=~/alice/build/defaults/html.yaml book/chapters/01-down-the-rabbit-hole.md book/chapters/02-the-pool-of-tears.md book/chapters/03-a-caucus-race-and-a-long-tale.md book/appendices/z-about-this-edition.md --output dist/alice-in-wonderland.html
++ stitched 4 files -> dist/alice-in-wonderland.md
++ pandoc --defaults=~/alice/build/defaults/portable.yaml --to=plain --columns=80 book/chapters/01-down-the-rabbit-hole.md book/chapters/02-the-pool-of-tears.md book/chapters/03-a-caucus-race-and-a-long-tale.md book/appendices/z-about-this-edition.md --output dist/alice-in-wonderland.txt
++ pandoc --defaults=~/alice/build/defaults/portable.yaml --to=docx book/chapters/01-down-the-rabbit-hole.md book/chapters/02-the-pool-of-tears.md book/chapters/03-a-caucus-race-and-a-long-tale.md book/appendices/z-about-this-edition.md --output dist/alice-in-wonderland.docx
++ pandoc --defaults=~/alice/build/defaults/chunked.yaml --to=chunkedhtml book/chapters/01-down-the-rabbit-hole.md book/chapters/02-the-pool-of-tears.md book/chapters/03-a-caucus-race-and-a-long-tale.md book/appendices/z-about-this-edition.md --output dist/site
+~/alice/dist/alice-in-wonderland-source.zip
+archived 12 files; excluded dirs ['.git', '__pycache__', 'build', 'dist']
++ assembled pages site -> dist/pages
+  ¶ typeset    ✓ PDF · EPUB · web · text · DOCX
+Verified dist/pages: every local reference resolves (fragments and stylesheet assets included), 8 downloads present and linked, sentinels on the public reading surface
+Verified alice-in-wonderland.pdf: 23 pages, 6 x 9 trim, embedded fonts, 2 sentinel(s) plus the title as witnesses, every rendered page contains ink, no edge clipping, cover on page 1
+WARNING: epubcheck not installed; EPUB validated structurally only. The press toolchain runs the full check in CI. (brew install epubcheck)
+Verified alice-in-wonderland.html, alice-in-wonderland.epub, alice-in-wonderland.md, alice-in-wonderland.txt, alice-in-wonderland.docx, site/ (2 sentinel(s), the title, and the manuscript line 'and here alice began to get rather sleep...' as witnesses); 7 editions agree on all 4 chapter witnesses
+Verified archives: alice-in-wonderland-site.zip, alice-in-wonderland-source.zip
+  ¶ verify     ✓ 7 editions match source
+commerce release gate: print ordering is not enabled; no commerce release gate
+
+  press. your book is ready → dist/
+
+```
+
+Notes: the `¶` and `✓` glyphs and the `→` arrow are part of the real output and may appear inside a code block (the glyph law exempts code; Source Code Pro carries them). The run was on the press example whose slug is `alice-in-wonderland`; the book's sample uses `alice`. The slow step was the PDF: `pandoc took` lines show the per-step timing if present above.

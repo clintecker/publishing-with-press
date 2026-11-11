@@ -32,3 +32,6 @@ Managing editor's record. Append only.
   must move theirs in revision. facts-04 supplemented (examples table; tables, code,
   inline code, footnote-label scope). Press issues to file: logomark path pinned to
   gpt-image-1; illustrate always 1024 square.
+- Rulings: `press wordcount` is the length measure (prose at least three quarters of
+  it); the arrow and pilcrow glyphs stay verbatim inside code blocks; facts-01 S3 adds
+  the full 29-line press all capture for the tour's verification step.
