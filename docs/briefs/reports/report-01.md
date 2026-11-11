@@ -195,3 +195,7 @@ figures. `press wordcount`: 5,075.
 ## Revision 3 (continuity)
 
 Applied all of it: the reusable workflow, *build.yml*, named at the push step; "the manuscript" in the sentinel sentence; the Libertinus fonts (the footnote now says TeX Live carries Libertinus); Figure 1.2 bracket labels the whole toolchain; Table 1.1 glosses the Single-leaf and Chapter editions in its cell; Appendix A gives "every command"; *alice-sources.md* is the sources companion, and the table of authorities is the ledger in *config/authorities.yaml*; footnote labels prefixed `1-`. `press check`: nothing names this file. Word count 5,099.
+
+## Revision 4
+
+Example 1.1 and the Figure 1.3 brief now run `press new alice --owner wonderland-press`, and the scaffolding paragraph says `--owner` fills in the `repository` and `site-url` lines (no prose had said they stay commented). The description stays "A girl falls into Wonderland." `press check` passes. Word count 5119.

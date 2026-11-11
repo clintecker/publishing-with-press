@@ -125,12 +125,12 @@ The quickest way to understand the press is to watch it make a book. The sample 
 
 ### Scaffolding the book
 
-`press new` creates a book repository from the house template, and it takes the slug from the directory name. Example 1.1 creates the Alice book, sets its title, author, and description, and puts the scaffold under Git.
+`press new` creates a book repository from the house template, and it takes the slug from the directory name. The `--owner` option names the GitHub account, so the scaffold also fills in the `repository` and `site-url` lines of the metadata. Example 1.1 creates the Alice book, sets its title, author, and description, and puts the scaffold under Git.
 
 **Example 1.1. Scaffolding the Alice book**
 
 ```text
-$ press new alice
+$ press new alice --owner wonderland-press
 $ cd alice
 $ press config set title "Alice's Adventures in Wonderland" && \
   press config set author '["Lewis Carroll"]' --json && \
@@ -229,7 +229,7 @@ Each entry in Example 1.3 is an edition or holds one, and the section "The editi
 
 ![Three moments of the tour: scaffold, check, and the finished dist/](assets/woodcuts/01-03-ten-minute-tour.png){#fig:ten-minute-tour .diagram width=full-measure fig-alt="Three terminal windows stacked one above another. The first creates the alice book, the second shows press check passing, and the third lists the artifacts in the dist directory."}
 
-<!-- art: ARCHETYPE filmstrip, stacked vertically. Three boxed terminal panels, one above another, each 72 columns wide, black monospace on white, numbered 1, 2, 3 at the left of each frame. Panel 1, three lines: "$ press new alice"; "$ cd alice"; "$". Panel 2, five lines exactly: "$ press check"; "Source checks passed: 1 ordered Markdown files"; "..."; "Editorial checks passed: 1 Markdown files"; "...". Panel 3, eleven lines exactly: "$ ls dist/"; "alice-site.zip"; "alice-source.zip"; "alice.docx"; "alice.epub"; "alice.html"; "alice.md"; "alice.pdf"; "alice.txt"; "pages"; "site". Each panel is only as tall as its lines. The reader should see first the progression down the page, from an empty book to a full dist/. -->
+<!-- art: ARCHETYPE filmstrip, stacked vertically. Three boxed terminal panels, one above another, each 72 columns wide, black monospace on white, numbered 1, 2, 3 at the left of each frame. Panel 1, three lines: "$ press new alice --owner wonderland-press"; "$ cd alice"; "$". Panel 2, five lines exactly: "$ press check"; "Source checks passed: 1 ordered Markdown files"; "..."; "Editorial checks passed: 1 Markdown files"; "...". Panel 3, eleven lines exactly: "$ ls dist/"; "alice-site.zip"; "alice-source.zip"; "alice.docx"; "alice.epub"; "alice.html"; "alice.md"; "alice.pdf"; "alice.txt"; "pages"; "site". Each panel is only as tall as its lines. The reader should see first the progression down the page, from an empty book to a full dist/. -->
 
 ### Publishing the book
 
