@@ -1,0 +1,19 @@
+# The book's own cover style: a nineteenth-century natural-history engraving
+# of one animal on pure white, with the title band and type composited by
+# tools/cover.py after the fact. The model draws only the animal.
+styles:
+  engraved-animal:
+    name: "Engraved animal on white"
+    era: "natural-history plate, about 1870"
+    note: "One animal as a wood or steel engraving on plain white; no lettering; the press sets the band and type itself."
+    text: composited
+    prompt: |
+      A book cover artwork, portrait, 2:3, on pure white, not cream: a single
+      nineteenth-century natural-history engraving of {subject}, black ink
+      only, fine parallel hatching and crosshatching in the manner of a
+      zoological plate from about 1870, the whole animal visible and facing
+      left, anatomically correct, no background scenery, no water, no rocks,
+      no frame, no border, no shadow, no gradient, no gray wash. The animal
+      fills the middle of the sheet and leaves the top quarter and the
+      bottom quarter of the sheet entirely white and empty. No lettering of
+      any kind anywhere on the image.
