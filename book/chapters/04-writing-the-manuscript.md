@@ -15,11 +15,11 @@
 > - The fine work press does for you
 :::
 
-A chapter file is plain Markdown, and most of what you type in one is Markdown you already know. Press reads every chapter in one fixed dialect, holds it to a short list of laws, and does a good deal of typesetting on your behalf. This chapter describes the dialect, the laws, and the few constructs that belong to press alone. The examples come from the Alice example, the sample book that ships with press, which user `alice` keeps on the workstation `hatter`.
+A *chapter file*, one Markdown file in *book/chapters/*, is plain Markdown, and most of what you type in one is Markdown you already know. Press reads every chapter in one fixed dialect, holds it to a short list of laws, and does a good deal of typesetting on your behalf. This chapter describes the dialect, the laws, and the few constructs that belong to press alone. The examples come from the press's own Alice example, the gallery book that holds the first three chapters of Carroll's novel. The sample book `alice` keeps on the workstation `hatter` is the whole novel, and it sets these constructs the same way.
 
 ## The dialect
 
-Pandoc reads Markdown in many dialects. You build a dialect from a base format and a list of extensions, each one switched on with a plus sign. Press fixes the dialect for every build of every book. Every pandoc build in press reads the manuscript as `markdown+smart+yaml_metadata_block+fenced_divs+footnotes`, with `standalone: true` and `number-sections: true`. The same settings appear in all six defaults files under *src/press/data/defaults/*. A chapter that renders one way in the PDF therefore reads the same way in the EPUB and on the Web.
+Pandoc reads Markdown in many dialects. You build a dialect from a base format and a list of extensions, each switched on with a plus sign. Press fixes the dialect for every build of every book. Every pandoc build in press reads the manuscript as `markdown+smart+yaml_metadata_block+fenced_divs+footnotes`, with `standalone: true` and `number-sections: true`. The same settings appear in all six of the pandoc defaults files that press keeps inside its own package. Your book repository has no copy of them, so pandoc parses a chapter the same way for every edition it builds.
 
 Table 4.1 lists the parts of the dialect and what each one gives you.
 
@@ -27,48 +27,53 @@ Table 4.1 lists the parts of the dialect and what each one gives you.
 |---------------|-------------------------------------------------------------|
 | `markdown` | Pandoc's own Markdown is the base. Pipe tables, fenced code, line blocks, and definition lists all come from it. |
 | `+smart` | Pandoc turns straight quotes into curly ones and three periods into an ellipsis. It also turns runs of hyphens into dashes, which the house forbids. |
-| `+yaml_metadata_block` | Pandoc accepts a block of YAML metadata. |
-| `+fenced_divs` | Pandoc reads the lines between two fences of three colons as one classed block. The set pieces use this extension. |
+| `+yaml_metadata_block` | Pandoc accepts a block of YAML metadata. A press book keeps its metadata in *config/metadata.yaml* instead, as Chapter 3 describes. |
+| `+fenced_divs` | Pandoc reads the lines between two fences of three colons as one classed block. The set pieces, described later in this chapter, use this extension. |
 | `+footnotes` | Pandoc reads a note label in square brackets with a caret, and sets the note in the form each edition needs. |
 | `standalone: true` | Pandoc writes a complete document, never a fragment. |
 | `number-sections: true` | Pandoc numbers every chapter and every section heading. |
 
 Table: Table 4.1. The pandoc dialect press reads
 
-The `+smart` extension explains most of the character rules later in this chapter. Because pandoc curls quotes for you, you type the straight ones and let the machine choose the direction. Because pandoc turns hyphens into dashes, a sentence with two hyphens in it comes out with a dash in it, and the house does not set dashes in prose. The `number-sections` setting explains the heading rules. Pandoc already numbers your headings, so a number you type yourself prints twice.
+The `+smart` extension explains most of the character rules later in this chapter. Because pandoc curls quotes for you, you type the straight ones and let pandoc choose the direction. Because pandoc turns hyphens into dashes, a sentence with two hyphens in it comes out with a dash in it, and the house does not set dashes in prose. The `number-sections` setting explains the heading rules. Pandoc numbers your headings itself, so you type no numbers.
 
-@fig:page-anatomy shows where each construct in this chapter ends up on a printed page of the Alice example. The first four callouts are (1) the running head, (2) the folio, (3) the chapter title, and (4) a section heading. The other four are (5) the body text, (6) a footnote, (7) a blockquote in its box, and (8) a numbered figure with its caption. Two of the eight, the running head and the folio, have no markup at all. The house design sets them, and Chapter 9, *The house design*, describes them. You type the other six, and the rest of this chapter takes them in turn.
-
-<!-- art: ARCHETYPE page anatomy. One miniature 6 by 9 page in thin outline, centred. Inside, top to bottom: small type at the top outer corner; a large flush-left chapter title, "Down the rabbit-hole"; a bold section heading; grey text lines; a light grey hairline box of grey italic lines; a framed shape with a caption line "Figure 1.1"; a short rule with two small lines under it; a page number at the bottom outer corner. Thin callout lines end in dots and lead to numbered margin circles: 1 running head, 2 folio, 3 chapter title, 4 section heading, 5 body text, 6 footnote, 7 blockquote box, 8 numbered figure and caption. The reader sees the whole page first. -->
-![The parts of a printed page in the Alice example](assets/woodcuts/04-01-page-anatomy.png){#fig:page-anatomy .diagram width=full-measure fig-alt="A miniature book page in outline with eight numbered callouts pointing to the running head, the folio, the chapter title, a section heading, the body text, a footnote, a boxed blockquote, and a numbered figure with its caption."}
+One edition stands apart from all of this. The Manuscript edition (the stitched Markdown) is the raw manuscript, stitched together from your chapter files, and no filter runs on it. It keeps your straight quotes, your three periods, and every construct exactly as you typed it. Everything this chapter says about pandoc and the press filters applies to the rendered editions. They are the Print edition (PDF), the Circulating edition (EPUB), the Single-leaf edition (the self-contained HTML), the Chapter edition (the reader site), the Telegraphic edition (plain text), and the Office edition (DOCX).
 
 ## Headings and chapters
 
-A `#` heading is a chapter. Press sets pandoc's `top-level-division: chapter`, so one `#` at the start of a line starts a new chapter in every edition. A `##` heading is a section, and a `###` heading is a subsection. Pandoc numbers all three. In the PDF of the Alice example, the first section of the second chapter prints as 2.1, and its first subsection prints as 2.1.1.
+@fig:page-anatomy shows where the parts of a chapter end up on a printed page, here the opening page of the first chapter of the Alice example. The first callouts are (1) the folio, (2) the chapter title, and (3) the drop cap. Then come (4) the body text, (5) a section heading, and (6) a blockquote in its box. The last three are (7) a scene break, (8) a numbered figure with its caption, and (9) a footnote. An opening page carries no running head, and every later page of the chapter does. The house sets the running head and the folio with no markup from you (Chapter 9, *The house design*, describes both), and the drop cap comes from configuration. You type the rest, and Chapter 5 covers the figure.
 
-Press finds chapters by their filenames. A *chapter file* is a file in *book/chapters/* whose name starts with a digit and ends in `.md`. An *appendix file* is a file in *book/appendices/* whose name is a single lowercase letter, a hyphen, and the rest of the name. Press sorts each group by filename and merges the chapters first, then the appendixes, then the generated subject index. The sort is lexical, so a file named `10-the-lobster-quadrille.md` sorts before `4-the-rabbit-sends-in-a-little-bill.md`. Press pads the numbers it hands out to two digits for that reason.
+![The parts of a printed page in the Alice example](assets/woodcuts/04-01-page-anatomy.png){#fig:page-anatomy .diagram place=plate fig-alt="A miniature book page in outline with nine numbered callouts pointing to its folio, chapter title, drop cap, body text, section heading, blockquote, scene break, figure, and footnote."}
+
+<!-- art: ARCHETYPE page anatomy, portrait. One 6 by 9 chapter opening page in thin outline, with no running head. Top to bottom: a large flush-left chapter title, "Down the rabbit-hole"; a first paragraph opening with a three-line drop cap "A"; gray text lines; a bold section heading; a gray hairline box of italic lines; a staggered field of asterisks; a framed shape captioned "Figure 1.1"; a short rule over two small lines; a small page number centered at the foot. Thin callouts lead to numbered margin circles: 1 folio, 2 chapter title, 3 drop cap, 4 body text, 5 section heading, 6 blockquote box, 7 scene break, 8 numbered figure and caption, 9 footnote. The reader sees the whole page first. -->
+
+A `#` heading is a chapter. Press sets pandoc's `top-level-division: chapter` for the PDF and the EPUB, and in every rendered edition one `#` at the start of a line starts a new chapter. A `##` heading is a section, and a `###` heading is a subsection. Pandoc numbers all three.
+
+Press finds chapters by their filenames. A chapter file's name starts with a digit and ends in `.md`. An *appendix file* is a file in *book/appendices/* whose name is a single lowercase letter, a hyphen, and the rest of the name. Press sorts each group by filename and merges the chapters first, then the appendixes, then the generated subject index. The sort is lexical, so a file named *10-the-lobster-quadrille.md* sorts before *4-the-rabbit-sends-in-a-little-bill.md*. Press pads the numbers it hands out to at least two digits for that reason.
 
 ::: {.warning}
-> **Warning:** Press silently ignores any other `.md` file in *book/chapters/* or *book/appendices/*. A file named `notes.md` or `chapter-four.md` never reaches the book, and no target tells you so.
+> **Warning:** Start every chapter file's name with a digit. Press silently ignores any other `.md` file in *book/chapters/* or *book/appendices/*. A file named *notes.md* or *chapter-four.md* never reaches the book, and no target tells you so.
 :::
 
 The simplest way to start a chapter is to let press create the file. The Alice example holds the first three chapters of Carroll's book. If its highest chapter file starts with `03-`, the next `press add chapter` creates a file starting with `04-`:
 
-```
+```text
 $ press add chapter "The rabbit sends in a little Bill"
 ```
 
-Press lowercases the title and turns each run of characters that are not letters or digits into one hyphen, so the new file is *book/chapters/04-the-rabbit-sends-in-a-little-bill.md*. Press keeps a title you type verbatim as the heading. If you give a bare slug instead, such as `pool-of-tears`, press writes a sentence-case heading for you, `Pool of tears`. The new file holds a one-paragraph placeholder that says to delete it and begin. Press refuses to overwrite a file that already exists, and exits with status 1.
+Press lowercases the title and turns each run of characters that are not letters or digits into one hyphen, so the new file is *book/chapters/04-the-rabbit-sends-in-a-little-bill.md*. Press keeps the title you type, word for word, as the heading. If you give a bare slug instead, such as `pool-of-tears`, press writes a sentence-case heading for you, `Pool of tears`. The new file holds a one-paragraph placeholder that says to delete it and begin. Press refuses to overwrite a file that already exists, and exits with status 1.
+
+Appendixes work the same way with letters. The command `press add appendix` hands out letters counting down from `z-`, so a book's first appendix is a `z-` file. The generated subject index takes the first free letter counting up from `a`, so the index usually sorts before the appendixes you write yourself. Chapter 10, *Front matter, the index, and the table of authorities*, covers the index.
 
 ### Unnumbered chapters
 
-A preface, a foreword, or an introduction is a chapter with no number. Mark its heading with `{.unnumbered}` or the short form `{-}`, and pandoc skips it when it counts. The command `press add chapter preface --front` creates *book/chapters/00-preface.md* with the heading `# Preface {.unnumbered}`. The `00-` prefix sorts the file ahead of chapter one. An unnumbered chapter also gets no chapter opening, which the section "Chapter openings and drop caps" later in this chapter describes.
+A preface, a foreword, or an introduction is a chapter with no number. Mark its heading with `{.unnumbered}` or the short form `{-}`, and pandoc skips it when it counts. The command `press add chapter preface --front` creates *book/chapters/00-preface.md* with the heading `# Preface {.unnumbered}`. The `00-` prefix sorts the file ahead of chapter one. An unnumbered chapter also gets no drop cap or other special first letter, as the section "Chapter openings and drop caps" later in this chapter describes.
 
 Press has no support for parts. A book cannot group its chapters into Part One and Part Two, because the top-level division is the chapter and `#` always means a chapter. If your book needs parts, put the grouping in the chapter titles or in the preface.
 
 ### Numbers and capitals in headings
 
-You never type a number in a heading. The checker refuses a heading such as `# 3. The pool of tears` with the message `manual number in heading`, because pandoc would print the number a second time beside its own. The same goes for section headings. Write `## Who stole the tarts` and let pandoc number it.
+You never type a number in a heading. The *checker*, `press check`, refuses a heading such as `# 3. The pool of tears` with the message `manual number in heading`, because pandoc numbers the heading itself. The same goes for section headings. Write `## Who stole the tarts` and let pandoc number it.
 
 Headings are in sentence case: a capital on the first word and on proper names, and lowercase everywhere else. The checker refuses a title-case heading with the message `title-case heading:` followed by the heading text. The test is mechanical. The checker sets aside the first word, the words on a fixed list of 21 small words, and any word in all capitals. If at least three candidate words remain, and 80 percent or more of them start with a capital, the checker calls the heading title case.
 
@@ -76,27 +81,28 @@ Example 4.1 shows the test at work on the heading of Carroll's fourth chapter.
 
 **Example 4.1. Two headings for the same chapter**
 
-```
+```text
 # The Rabbit Sends In A Little Bill
 # The rabbit sends in a little Bill
 ```
 
-In the first heading, the candidates are at least Rabbit, Sends, Little, and Bill, and every one of them starts with a capital, so the checker refuses it. In the second, only Bill keeps its capital, because Bill is the lizard's name. One capital in four or five candidates is well under the line, and the checker accepts it. A short heading escapes the test entirely. `# Down the Rabbit-Hole` has too few candidates after the first word and the small words, so the checker lets it pass, although the house would still write it in sentence case.
+In the first heading, the candidates are at least Rabbit, Sends, Little, and Bill, and every one of them starts with a capital, so the checker refuses it. In the second, only Bill keeps its capital, because Bill is the lizard's name. One capital in four or five candidates is well under the line, and the checker accepts it. A short heading can pass the test in title case. `# Down the Rabbit-Hole` has too few candidates, or too few capitals among them, so it passes. The house would still write it in sentence case.
 
 ::: {.tip}
-> **Tip:** Type the title in sentence case when you run `press add chapter`. Press keeps the title verbatim, so a title-case title becomes a title-case heading, and the next `press check` refuses it.
+> **Tip:** Type the title in sentence case when you run `press add chapter`. Press keeps the title word for word, so a title-case title becomes a title-case heading, and the next `press check` refuses it.
 :::
 
 ### Referring to other parts of the book
 
-Press numbers figures and lets you cite them by name, but it has no machinery for citing chapters or sections. Give a figure an identifier and cite it as `@fig:page-anatomy`, and press prints "Figure 4.1" with a link. A citation of an identifier press does not know stays in the text as a raw citation, which you will see at once in a proof. For a chapter or a section, write the reference in words: "see Chapter 6, *Checking the manuscript*". Chapter 5, *Figures, plates, and illustrations*, covers figure identifiers in full.
+Press numbers figures and lets you cite them by name, but it has no machinery for citing chapters or sections. Give a figure an identifier in its attributes, such as `{#fig:page-anatomy}` at the end of its image line, and cite it in prose as `@fig:page-anatomy`. Press then prints "Figure 4.1" with a link. A citation of an identifier press does not know stays in the text as a raw citation, which you will see at once in a proof. For a chapter or a section, write the reference in words: "see Chapter 6, *Checking the manuscript*". Chapter 5, *Figures, plates, and illustrations*, covers figure identifiers in full.
 
 ![The compositor at the frame, setting a chapter by hand](assets/woodcuts/the-compositor-at-the-frame.png)
+
 <!-- art: a compositor in shirtsleeves standing at a sloped composing frame, seen three-quarter from the left at eye level, the upper and lower type cases angled before him, his left hand holding a brass composing stick with a line of type in it, his right hand lifting one sort from the case, the manuscript copy pinned to a small stand at eye height, a galley with set lines resting on the frame's ledge, a gas lamp bracket above; portrait composition; wood engraving with dense hatching and crosshatching, single black ink, no gray washes, no lettering anywhere -->
 
 ## Characters you may and may not type
 
-The checker holds every chapter file to a *glyph law*: a short list of the characters that may appear in book prose. The law exists for the print interior, as the checker's message says: a character outside the law is outside the print-font set. The checker refuses such a character before any build begins.
+The checker holds every chapter file to a *glyph law*: a short list of the characters that may appear in book prose. The law exists for the print interior, as the checker's message says: a character outside the law is outside the print-font set. `press check` refuses such a character wherever it finds one in prose.
 
 Table 4.2 gives the law exactly.
 
@@ -108,102 +114,94 @@ Table 4.2 gives the law exactly.
 
 Table: Table 4.2. The characters the glyph law allows in book prose
 
-Nothing else passes, and the gap between the two ranges is the surprising part. The block from U+00A0 through U+00BF holds the copyright, degree, section, and pound signs. It also holds the guillemets, the fractions, the inverted question mark, and the non-breaking space. Every one of them fails. Greek letters, mathematical symbols, and emoji fail too. For each one, the checker prints `glyph U+XXXX is outside the print-font set`, with the character's code point in place of the four X's.
+Nothing else passes, and the gap between the two ranges is the surprising part. The block from U+00A0 through U+00BF holds the copyright, degree, section, and pound signs. It also holds the guillemets, the fractions, the inverted question mark, and the non-breaking space. The checker refuses every one of them. It refuses Greek letters, mathematical symbols, and emoji too. For each one, the checker prints `glyph U+XXXX is outside the print-font set`, with the character's code point in place of the four X's.
 
-Example 4.2 shows some of the characters the law refuses. They appear here inside a code block, because the checker reads prose and skips fenced code.
+Example 4.2 shows a few of the characters the law refuses. They appear here inside a code block, because the checker skips fenced code.
 
 **Example 4.2. Characters the checker refuses in prose**
 
-```
-U+00A0      no-break space (invisible)
+```text
 U+00A3  £   pound sign
 U+00A7  §   section sign
 U+00A9  ©   copyright sign
-U+00B0  °   degree sign
-U+00BD  ½   vulgar fraction one half
-U+2013  –   en dash
 U+2014  —   em dash
-U+2018  ‘   left single quotation mark
-U+2019  ’   right single quotation mark
 U+201C  “   left double quotation mark
 U+201D  ”   right double quotation mark
 ```
 
-In practice you write the word: "thirty degrees", "five pounds", "section 4". A book's copyright line belongs to the generated front matter, which Chapter 10, *Front matter, the index, and the table of authorities*, describes. You never need the sign in a chapter.
+In practice you write the word: "thirty degrees", "five pounds", "section 4". A book's copyright line belongs to the generated front matter, which Chapter 10 describes. You never need the sign in a chapter.
 
 ::: {.warning}
-> **Warning:** Text pasted from a word processor or a Web page arrives full of curly quotes, dashes, and non-breaking spaces. Run `press check` after every paste. The non-breaking space is invisible on screen, and only the checker will find it.
+> **Warning:** Run `press check` after every paste from a word processor or a Web page. Pasted text arrives full of curly quotes, dashes, and non-breaking spaces, and the non-breaking space is invisible on screen. Only the checker will find it.
 :::
 
 ### The dash law
 
-The house sets no em dash and no en dash in prose. The checker refuses the em dash (U+2014), the en dash (U+2013), and the four curly quotation marks in the prose of a chapter. You type straight quotes and apostrophes, and pandoc curls them in every edition.
+The house sets no em dash and no en dash in prose. The checker refuses the em dash (U+2014), the en dash (U+2013), and the four curly quotation marks in the prose of a chapter. You type straight quotes and apostrophes, and pandoc curls them in every rendered edition.
 
 The two hyphens are a quieter case. Because of `+smart`, pandoc turns two hyphens into an en dash and three into an em dash. The checker does not refuse the hyphens in source, so a sentence with two hyphens in it passes `press check` and then prints with a dash. The house law is plain about what to do instead: rewrite the sentence. A comma, a colon, a period, or a pair of parentheses carries almost every job a dash does, and the rewrite is usually the better sentence. Example 4.3 shows one such rewrite.
 
 **Example 4.3. A sentence with a dash and its rewrite**
 
-```
+```text
 The Hatter's watch told the day of the month -- not the hour.
-The Hatter's watch told the day of the month, and never the hour.
+The Hatter's watch told the day of the month, never the hour.
 ```
 
 The ellipsis is the third conversion. You type three periods, and pandoc sets the single ellipsis character in the output. The ellipsis character, U+2026, lies outside the glyph law, so you could not type it in prose if you tried.
 
-### What the audit directories get
+### The book's own rules
 
-A book can name extra directories for the checker to read in `audit-dirs` in *config/house-rules.yaml*. Files there get a lighter battery than the manuscript. The checker applies the dash rules and the banned-phrase rules, but not the curly-quote rule, the glyph law, or the book's own banned patterns. A heading or paragraph problem in an audit directory is a warning, where the same problem in a chapter is an error. Chapter 6, *Checking the manuscript*, covers house rules and the audit directories in full.
-
-A book adds its own refusals in the same file, under `banned-patterns`. Each pattern is a case-sensitive regular expression, matched as written, with a label that the checker prints as `<file>:<line>: <label>`. The checker refuses a pattern that is not a valid regular expression, and its message quotes the pattern.
+A book can list extra directories for the checker under `audit-dirs` in *config/house-rules.yaml*, and the files there get a lighter battery than the manuscript. The same file can add refusals of the book's own under `banned-patterns`. Chapter 6, *Checking the manuscript*, covers both.
 
 ## Paragraphs, footnotes, and quotations
 
-A paragraph is any run of lines with no blank line inside it, as in all Markdown. Press adds one law of its own: a paragraph must be under 190 words. A paragraph of 190 words or more fails `press check`.[^paragraph-law] The message is `paragraph N has W words (the law is under 190; split it)`, where N numbers the paragraph and W counts its words. In an audit directory the same paragraph draws a warning.
+A paragraph is any run of lines with no blank line inside it, as in all Markdown. Press adds one law of its own: a paragraph must be under 190 words. The checker refuses a paragraph that breaks the law.[^4-paragraph-law] The message is `paragraph N has W words (the law is under 190; split it)`, where N numbers the paragraph and W counts its words. In an audit directory the same paragraph draws a warning.
 
-The law is a typesetting law as much as a prose law. A very long paragraph turns a page into one grey block and gives the eye nowhere to rest. Split the paragraph at the point where its subject turns.
+The law is a typesetting law as much as a prose law. A very long paragraph turns a page into one gray block and gives the eye nowhere to rest. Split the paragraph at the point where its subject turns.
+
+In our experience the split is rarely hard to find. A paragraph that runs long usually holds two topics: a rule and its history, or a command and what to do when it refuses. Give each topic its own paragraph and its own first sentence. If the paragraph is a single list of things, such as the options of a command, it probably wants to be a table. The section "Tables" later in this chapter covers them.
 
 Press forbids trailing whitespace everywhere: in prose, in headings, and inside code blocks too. Trailing whitespace is invisible, and a line ending in two spaces is a hard line break in Markdown. A stray pair of spaces can change the page and leave your editor's screen unchanged.
 
 ::: {.tip}
-> **Tip:** Set your editor to strip trailing whitespace when it saves a file. The checker refuses trailing whitespace even inside code blocks, where it reads nothing else.
+> **Tip:** Set your editor to strip trailing whitespace when it saves a file.
 :::
 
 ### Footnotes
 
-Footnotes use pandoc's standard syntax. You put a label in square brackets with a caret at the point of reference. The note itself goes on a line of its own that starts with the same label and a colon. The PDF sets each note at the foot of its page. The EPUB and the Web reader collect the notes as linked notes. Press has no separate setting for endnotes.
+Footnotes use pandoc's standard syntax: you put a label in square brackets with a caret at the point of reference. The note itself goes on a line of its own that starts with the same label and a colon. The PDF sets each note at the foot of its page, and the EPUB and the reader site collect the notes as linked notes. Press has no separate setting for endnotes. Because the PDF prints every note at the foot of its page, a long note pushes text onto the next page. Keep notes for asides and history, and put anything the reader needs to follow the argument into the body.
 
+```text
+Alice had not a moment to think about stopping herself.[^2-well]
+
+[^2-well]: Either the well was very deep, or she fell slowly.
 ```
-Alice had not a moment to think about stopping herself.[^well]
 
-[^well]: Either the well was very deep, or she fell very slowly.
-```
-
-A label must be unique within its chapter file. A short, descriptive label such as `well` is easier to find again than a number, and pandoc numbers the notes for you in each edition.
+A label must be unique across the whole book. Pandoc merges every chapter file into one document before it resolves footnotes, so two chapters that both use `[^2-well]` collide. A short, descriptive label is easier to find again than a number, and pandoc numbers the notes for you in each edition. We start every label with its chapter number, as in `2-well`, so it never collides with another chapter's notes.
 
 ### Quotations and epigraphs
 
-A blockquote is a paragraph whose lines start with `>`. In the PDF, the house sets each one in a framed box with a light paper-grey ground, a 0.4-point rule in grey, and small italic type. The jargon lint skips blockquotes by default, so a quoted passage that uses a word on the watchlist does not trip it.
+A blockquote is a paragraph whose lines start with `>`. In the PDF, the house sets each one in a framed box with a light paper-gray ground, a 0.4-point rule in gray, and small italic type. The *jargon lint*, the pass of the checker that looks for overused words, skips quotations, so a quoted passage does not trip it. Chapter 6 describes the jargon lint and its watchlist.
 
-A chapter epigraph is an ordinary blockquote placed right after the chapter heading. Press has no special syntax for one. The drop cap, if the book has one, skips the blockquote and lands on the first real paragraph after it. The book's own epigraph, the one on a front-matter page of its own, comes from `epigraph.quote` and `epigraph.attribution` in *config/front-matter.yaml* instead, and Chapter 10 describes it.
+A chapter epigraph is an ordinary blockquote that you place right after the chapter heading. Press has no special syntax for one and no attribution field. If an epigraph needs a source line, write it as the last line of the blockquote. The drop cap, if the book has one, skips the blockquote and goes on the first real paragraph after it. The book's own epigraph, the one on a front-matter page of its own, comes from `epigraph.quote` and `epigraph.attribution` in *config/front-matter.yaml* instead, and Chapter 10 describes it.
 
-```
+```text
 # Down the rabbit-hole
 
 > "And what is the use of a book," thought Alice,
 > "without pictures or conversations?"
-
-Alice was beginning to get very tired of sitting by her sister...
 ```
 
 ### Line blocks and definition lists
 
-Pandoc's line block keeps every line break you type. Start each line with a vertical bar and a space, and pandoc sets the lines exactly as you broke them. A short verse, an address, or a list of signatures can go in a plain line block. The set pieces later in this chapter take a line block as their input and give it a shape.
+Pandoc's line block keeps every line break you type. Start each line with a vertical bar and a space, and pandoc sets the lines exactly as you broke them. A short verse, an address, or a list of signatures can go in a plain line block. The set pieces later in this chapter take a line block as their input and give it a shape. Use a plain line block when the breaks matter and the shape does not, as in a postal address inside a letter. Reach for a set piece only when the shape is part of what the passage says.
 
 A definition list is standard pandoc too: a term on one line, then a line starting with a colon and a space that holds the definition. We recommend it for a glossary appendix, where each term needs a sentence or two after it.
 
 ### Sentences that other files name
 
-Three kinds of configuration point into your prose, and each one constrains how you revise. Press matches the terms in *config/index-terms.yaml* against the text by pattern, so you never mark up the manuscript for the index. A claim in *config/authorities.yaml* is an exact fragment of a sentence in your manuscript. If you reword that sentence, the claim no longer matches, and the build fails. A *sentinel* is a phrase in `verify-sentinels` in *config/metadata.yaml* that the PDF verifier looks for in the finished book, so it must survive every revision word for word. Chapter 10 covers the index and the authorities, and Chapter 8, *Verifying the artifacts*, covers sentinels.
+Three kinds of configuration point into your prose, and each one constrains how you revise. Press matches the terms in *config/index-terms.yaml* against the manuscript by pattern, so you never mark up the manuscript for the index. A claim in *config/authorities.yaml* is an exact fragment of your manuscript, so if you reword its sentence, the claim no longer matches and press refuses the build. A *sentinel* is a phrase in `verify-sentinels` in *config/metadata.yaml* that the verifiers look for in each finished edition, and it must survive every revision word for word. Chapter 10 covers the index and the authorities. Chapter 6, *Checking the manuscript*, explains sentinels, and Chapter 8, *Verifying the artifacts*, proves them in the finished editions.
 
 ## Tables
 
@@ -211,55 +209,69 @@ Press uses pandoc's pipe tables. Each row is a line, a vertical bar separates th
 
 **Example 4.4. A pipe table with a header row and a caption**
 
-```
+```text
 | Item | What it does |
 |------------|-------------------------------------------------|
 | The bottle | Alice shrinks until she is ten inches high. |
 | The cake | Alice grows until her head strikes the roof. |
 
-Table: What Alice swallows
+Table: Table 2.1. What Alice swallows
 ```
 
-Give every table a header row. In the HTML edition and on the reader site, press labels each cell of a headed table with the name of its column, in a `data-label` attribute. The reader stylesheet uses those labels on a narrow screen. Below a width of 34rem, it turns each row of the table into a card, with each cell set under its column's name.
+Press has no filter that numbers tables. In the PDF, the caption prints above the table, centered, in small italic type, with no automatic label in front of it. The house sets the caption package so that LaTeX adds no "Table 1:" of its own. In the Single-leaf edition and the EPUB, the caption becomes the table's own caption element. The book has no List of Tables. A book that wants its tables numbered types the number into the caption, as Example 4.4 does with "Table 2.1." and as this book does throughout.
+
+Pandoc decides the column widths from the source. If every line of a table fits within pandoc's 72 columns, pandoc sets the table at its natural width, each column as wide as its contents need. If any line runs past 72 columns, pandoc reads the relative widths from the separator row instead. A column whose run of hyphens is three times as long as its neighbor's gets three times the width. A table with long sentences in one column therefore needs a separator row drawn in proportion, as the tables in this chapter have.
+
+Give every table a header row. In the Single-leaf edition and on the reader site, press labels each cell of a headed table with the name of its column, in a `data-label` attribute. Below a width of 34rem, the reader site's stylesheet turns each row of the table into a card.
 
 Keep tables small. Two or three columns read well at every width, on a 6 by 9 page and on a small screen alike. A table of seven columns crowds a 6 by 9 page, and each of its cards runs to seven lines on a narrow screen. If a table needs that many columns, it is usually two tables.
 
 ## Code
 
-Code goes in a fenced block: a line of three backticks, the code, and another line of three backticks. In the PDF, the house sets fenced code in Source Code Pro scaled to 0.86. The `fvextra` package breaks a long line wherever it must, with the options `breaklines` and `breakanywhere`. Nothing runs off the page, but a broken line is harder to read than one you broke yourself.
+Code goes in a fenced block: a line of three backticks, the code, and another line of three backticks. In the PDF, the house sets fenced code in Source Code Pro, a little smaller than the body type. In a fence tagged `text`, a line too long for the measure wraps onto the next line, with a hooked mark to show the continuation. An untagged fence is set verbatim, and a long line in it runs off the page. Even a wrapped line is harder to read than one you broke yourself.
 
-The prose rules skip fenced code, with one exception. The checker reads no glyphs, dashes, or paragraph lengths inside a code block. You can show a session with real output there, or the characters from Example 4.2. The exception is trailing whitespace, which the checker refuses in code exactly as it does in prose.
+Pandoc highlights fenced code in color, in the PDF, the EPUB, the Single-leaf edition, and the reader site, with its default `pygments` style. A book cannot change the style. Highlighting matters most at the opening fence. If you name a language after the three backticks, such as `python` or `yaml`, pandoc colors the code by that language's rules. If you write `text`, the code prints in black.
+
+That choice reaches the printer. A language-tagged fence puts colored ink on the page, and `press verify-print` refuses the print interior with the message `print profile: colored ink on pages [N]`. The verifier of the reading PDF does not check the color of the ink, so the problem shows up only when you build the print pack. Chapter 12, *The print pack*, describes that build. We tag every fence in this book `text`, so it prints in black and wraps.
+
+::: {.warning}
+> **Warning:** Do not put a language name on a fence in a book that goes to print. The highlighted code prints in colored ink, and the print verifier refuses the whole interior.
+:::
+
+The prose rules skip fenced code, with one exception. The checker reads no glyphs, dashes, banned patterns, or paragraph lengths inside a code block. You can show a session with real output there, or the characters from Example 4.2. The exception is trailing whitespace, which the checker refuses in code exactly as it does in prose.
+
+Inline code, a word or a phrase between single backticks, prints in the same monospace face as a fenced block. The glyph law and the jargon lint skip inline code too. A book's banned patterns do not: they skip fenced code blocks only, so a pattern fires on a backticked span inside a prose line. Pandoc's smart typography leaves it alone, so `--front` in backticks keeps its two hyphens. Use inline code for anything a reader could type: a command, an option, a key, a value.
 
 A short session looks like this:
 
-```
+```text
 $ press check
 ...
 ```
 
-Show the prompt, then the command, then the output. Elide long or boring output with a line holding three periods. We use the `$` prompt throughout this book, on the workstation `hatter` and on the CI host `printshop` alike.
+Show the prompt, then the command, then the output, and show what the reader will really see. A session that you typed from memory, rather than copied from a terminal, is the first thing a careful reader catches out. Elide long or boring output with a line holding three periods. We use the `$` prompt throughout this book, on the workstation `hatter` and on the CI host `printshop` alike.
 
 ::: {.tip}
-> **Tip:** Keep code lines to 72 characters or fewer. The PDF will break a longer line for you, but it breaks it at the measure, which is rarely where a reader expects the break.
+> **Tip:** Keep code lines to 64 characters or fewer. A `text` fence wraps a longer line for you, but at the measure, which is rarely where a reader expects the break.
 :::
 
 ## Chapter openings and drop caps
 
-A *chapter opening* is the treatment of the first letter of each chapter. The book sets it with `chapter-opening` in *config/metadata.yaml*, and press merges that setting over the design profile's default. Every profile that ships with press defaults to `none`, so a new book opens its chapters with a plain paragraph. The Alice example sets a three-line drop cap with small caps for the rest of the first word.
+A *chapter opening* is the treatment of the first letter of each chapter. The book sets it with `chapter-opening` in *config/metadata.yaml*, and press merges that setting over the design profile's default. Every profile that comes with press defaults to `none`, so a new book opens its chapters with a plain paragraph. The Alice example sets a three-line drop cap with small caps for the rest of the first word.
 
 Table 4.3 lists the three settings.
 
 | Setting | Default | Meaning |
 |-----------------|-------------------|---------------------------------------------|
 | `style` | the profile's (`none`) | The value `none` sets a plain first paragraph. The value `drop-cap` sets a large initial that sinks into the text. The value `ornate` sets a foliate initial in print. |
-| `lines` | 3 | This is the number of text lines the initial spans. |
+| `lines` | 3 | The default initial is three text lines deep. |
 | `small-caps-remainder` | true | When this is true, press sets the rest of the first word in small caps. |
 
 Table: Table 4.3. The chapter-opening settings in config/metadata.yaml
 
-You can set them from the command line, which checks each value before it writes the file:
+Press also accepts the style `raised-cap`, which renders the same as `drop-cap`. You can set the style with `press config set`, which checks each value before it writes the file:
 
-```
+```text
 $ press config set chapter-opening.style drop-cap
 ```
 
@@ -267,34 +279,34 @@ In *config/metadata.yaml* the same settings form one block, as Example 4.5 shows
 
 **Example 4.5. The Alice example's chapter opening**
 
-```
+```text
 chapter-opening:
   style: drop-cap
   lines: 3
   small-caps-remainder: true
 ```
 
-### Where the drop cap lands
+### Where the drop cap goes
 
-The `chapter-dropcap.lua` filter finds the first eligible paragraph after each `#` heading. It skips any heading marked `{.unnumbered}` or `{.unlisted}`, so a preface opens plainly. On its way down the chapter it passes over blockquotes, code blocks, lists, tables, rules, and figures. A chapter that opens with an epigraph therefore gets its drop cap on the first paragraph of prose, where the reader expects it.
+The *chapter-dropcap.lua* filter finds the first eligible paragraph after each `#` heading, and it skips any chapter marked `{.unnumbered}`, so a preface opens plainly. On its way down the chapter it passes over blockquotes, code blocks, lists, tables, rules, and figures. A chapter that opens with an epigraph therefore gets its drop cap on the first paragraph of prose, where the reader expects it.
 
-In the PDF, the filter wraps the LaTeX `lettrine` package. Press guards the initial with `\Needspace*{4\baselineskip}`, so a drop cap never starts at the foot of a page with no room for its lines. The settings it passes are `lines=3,depth=0,findent=2pt,nindent=0pt`, and the rest of the first word goes in `\scshape`. The initial is always one grapheme, so an accented capital or a letter with a combining mark stays whole.
+In the PDF, press keeps a drop cap from starting at the foot of a page that has no room for its lines. The initial is always one grapheme, so an accented capital or a letter with a combining mark stays whole. We suggest opening each chapter with a paragraph of at least four or five lines. A three-line initial beside a one-line paragraph has nothing to sink into, and the page looks unfinished. The Telegraphic and Office editions carry no drop cap.
 
 ### Dialogue openers
 
 The second chapter of the Alice example opens with speech:
 
-```
+```text
 "Curiouser and curiouser!" cried Alice (she was so much
 surprised, that for the moment she quite forgot how to speak
 good English).
 ```
 
-The first character of that paragraph is a quotation mark, and the letter after it is the one that should drop. Press calls the quotation mark the *lead*, and it sets the capital C as the drop cap. It hangs the lead into the left margin at body size, so the C stays square with the text below it.[^hung-quote] On the Web, the lead carries the class `.drop-cap-lead` and a negative left margin of .52em, which gives the same effect.
+The first character of that paragraph is a quotation mark, and the letter after it is the one that should drop. Press calls the quotation mark the *lead*, and it sets the capital C as the drop cap. It hangs the lead into the left margin at body size, so the C stays square with the text below it.[^4-hung-quote] On the reader site, the lead carries the class `.drop-cap-lead` and a negative left margin of .52em, which gives the same effect.
 
 ### The ornate style
 
-The `ornate` style sets the initial in the yinit foliate font, from the `yfonts` package in the TeX Live fonts-extra collection. That font exists only in print. The Web and EPUB editions set a styled display capital instead, at 3.6em in the ornament colour. It uses a script face such as Luminari, Apple Chancery, or Zapfino, if the reader's machine has one.
+The `ornate` style sets the initial in the yinit foliate font, from the `yfonts` package in the TeX Live fonts-extra collection. That font exists only in print. The EPUB and the reader site set a styled display capital instead, at 3.6em in the ornament color. It uses a script face such as Luminari, Apple Chancery, or Zapfino, if the reader's machine has one.
 
 ::: {.warning}
 > **Warning:** Never choose a sentinel from the first words of a chapter. The drop cap splits the first word and sets its remainder in small caps, so the opening phrase no longer matches exactly in the PDF, and the verifier fails it. Pick a phrase from the middle of the chapter.
@@ -302,57 +314,51 @@ The `ornate` style sets the initial in the yinit foliate font, from the `yfonts`
 
 ## Scene breaks
 
-A *scene break* is a pause inside a chapter, a change of time or place that needs more than a new paragraph. In the manuscript you type it as a Markdown thematic break: a line holding three asterisks with spaces between them, `* * *`. The key `scene-break` in *config/aesthetic.yaml* chooses how press draws it, and the `scene-break.lua` filter does the drawing.
+A *scene break* is a pause inside a chapter, a change of time or place that needs more than a new paragraph. In the manuscript you type it as a Markdown thematic break: a line holding three asterisks with spaces between them, `* * *`. The key `scene-break` in *config/aesthetic.yaml* chooses how press draws it, and the *scene-break.lua* filter does the drawing.
 
 Table 4.4 lists the three values.
 
 | Value | Meaning |
 |---------------|-------------------------------------------------------------|
-| `rule` | This is the default. The PDF sets a plain horizontal rule, and the reader sets a small diamond between two hairlines that fade at their ends. |
-| `asterism` | Press sets three asterisks, centred and spaced a quad apart in the PDF, and as a paragraph of class `asterism` on the Web. |
-| `fairy-dust` | Press sets a staggered array of eleven asterisks in three rows of four, three, and four. It follows Tenniel's 1866 Alice. |
+| `rule` | This is the default. The PDF has a plain horizontal rule, and the reader site has a small diamond between two hairlines that fade at their ends. |
+| `asterism` | Press sets three asterisks, centered and spaced a quad apart in the PDF, and as a paragraph of class `asterism` on the reader site. |
+| `fairy-dust` | Press sets a staggered array of eleven asterisks in three rows of four, three, and four. Press describes it as Tenniel's 1866 array. |
 
 Table: Table 4.4. The scene-break ornaments
 
 @fig:scene-break-ornaments shows each ornament as it appears in the PDF and on the reader site. The Alice example uses `fairy-dust`, as Example 4.6 shows.
 
-<!-- art: ARCHETYPE matrix. A grid of three rows by two columns, thin rules between cells. Column heads in small sans: "PDF" left, "Reader" right. Row labels down the left in small monospace: "rule", "asterism", "fairy-dust". Each cell shows the ornament in black between grey text lines. Rule, PDF: a plain thin horizontal rule. Rule, Reader: a small solid diamond centred between two hairlines that taper away at their outer ends. Asterism, both cells: three centred asterisks with wide even spaces. Fairy-dust, both cells: eleven small asterisks in three centred staggered rows of four, three, and four. The reader sees the three ornaments down the rows first, then that only the rule differs between the columns. -->
-![The three scene-break ornaments in the PDF and on the reader site](assets/woodcuts/04-03-scene-break-ornaments.png){#fig:scene-break-ornaments .diagram width=full-measure fig-alt="A grid of three rows and two columns. A plain rule, three spaced asterisks, and a staggered field of eleven asterisks each appear once as printed in the PDF and once as shown on the reader site, where the rule becomes a diamond between fading hairlines."}
+![The three scene-break ornaments in the PDF and on the reader site](assets/woodcuts/04-02-scene-break-ornaments.png){#fig:scene-break-ornaments .diagram width=full-measure fig-alt="A grid of three rows and two columns. A plain rule, three spaced asterisks, and a staggered field of eleven asterisks each appear once as printed in the PDF and once as shown on the reader site, where the rule becomes a diamond between fading hairlines."}
+
+<!-- art: ARCHETYPE matrix. A grid of three rows by two columns, thin rules between cells. Column heads in small sans: "PDF" left, "Reader" right. Row labels down the left in small monospace: "rule", "asterism", "fairy-dust". Each cell shows the ornament in black between gray text lines. Rule, PDF: a plain thin horizontal rule. Rule, Reader: a small solid diamond centered between two hairlines that taper away at their outer ends. Asterism, both cells: three centered asterisks with wide even spaces. Fairy-dust, both cells: eleven small asterisks in three centered staggered rows of four, three, and four. The reader sees the three ornaments down the rows first, then that only the rule differs between the columns. -->
 
 **Example 4.6. The Alice example's scene break**
 
-```
+```text
 scene-break: fairy-dust
 ```
 
-In the PDF, the fairy dust is the LaTeX macro `\PressFairyDust`, with a step of 1.9em between its asterisks. On the Web it is a division of class `fairy-dust`. The division carries the role of a separator and is hidden from screen readers, which have no use for eleven asterisks. You type the same `* * *` whatever the book chooses. If the aesthetic changes later, every scene break in the book changes with it, and no chapter file needs an edit.
+On the reader site, the fairy dust is a division of class `fairy-dust`. The division carries the role of a separator, and press hides it from screen readers, which have no use for eleven asterisks. The Telegraphic and Office editions keep a plain rule whatever the book chooses.
+
+You type the same `* * *` in every case. If the aesthetic changes later, every scene break in the book changes with it, and no chapter file needs an edit. A book can therefore try all three ornaments, one build each, and keep the one that suits its pages.
 
 ## The set pieces
 
-Some passages need a shape of their own: an address that steps down the page, a poem on its own measure, a poem shaped like its subject. Press calls these the *set pieces*, and it has three: `cascade`, `verse`, and `tail`. Each one is a fenced div, a block between two lines of three colons, with the set piece's name after the first fence. Inside it you normally put a line block, and the `set-pieces.lua` filter lays out the form. If the div holds plain paragraphs instead of a line block, the filter counts each paragraph as one line.
+Some passages need a shape of their own: an address that steps down the page, a poem on its own measure, a poem shaped like its subject. Press calls these the *set pieces*, and it has three: `cascade`, `verse`, and `tail`. Each one is a fenced div, a block between two lines of three colons, with the set piece's name after the first fence. Inside it you normally put a line block, and the *set-pieces.lua* filter lays out the form. If the div holds plain paragraphs instead of a line block, the filter counts each paragraph as one line.
 
 @fig:set-pieces shows what each of the three does to the same four lines. They are the address Alice imagines writing to her own right foot, when she grows too tall to reach it.
 
+![What cascade, verse, and tail do to the same four lines](assets/woodcuts/04-03-set-pieces.png){#fig:set-pieces .diagram width=full-measure fig-alt="Three small frames side by side, each holding the same four-line address. In the first the lines step to the right one indent at a time, in the second they share one indented left edge, and in the third they swing in a curve and shrink line by line."}
+
 <!-- art: ARCHETYPE before/after, three frames. Three identical small page frames side by side, no arrows. Each frame holds the same four short serif lines: "Alice's Right Foot, Esq.", "Hearthrug,", "near the Fender,", "(with Alice's love)." Frame (a): each line starts one equal indent further right than the line above. Frame (b): all four lines share one left edge set well in from the frame. Frame (c): the lines swing right, left, then right in a gentle curve, and the type shrinks line by line. Under each frame a small sans label: "(a) cascade", "(b) verse", "(c) tail". The reader sees first that the words are the same in all three frames. -->
-![What cascade, verse, and tail do to the same four lines](assets/woodcuts/04-02-set-pieces.png){#fig:set-pieces .diagram width=full-measure fig-alt="Three small frames side by side, each holding the same four-line address. In the first the lines step to the right one indent at a time, in the second they share one indented left edge, and in the third they swing in a curve and shrink line by line."}
-
-Table 4.5 summarizes the three.
-
-| Set piece | Meaning |
-|---------------|-------------------------------------------------------------|
-| `cascade` | Each line steps one indent further in than the line above it. It suits an address or an inscription. |
-| `verse` | The lines take the house stanza measure, indented from the left, with space above and below. It suits a poem or a song. |
-| `tail` | The lines wind from side to side and shrink as they go. It exists for the Mouse's Tale. |
-
-Table: Table 4.5. The three set pieces
 
 ### Cascade
 
-A cascade indents each line by 2.4em times one less than its line number. The first line sits at the left edge, the second at 2.4em, the third at 4.8em, and so on down. The Alice example uses a cascade for the address in Carroll's second chapter, as Example 4.7 shows.
+A cascade suits an address or an inscription. It indents each line by 2.4em times one less than its line number. The first line sits at the left edge, the second at 2.4em, the third at 4.8em, and so on down. The Alice example uses a cascade for the address in Carroll's second chapter, as Example 4.7 shows.
 
 **Example 4.7. A cascade in the Alice example**
 
-```
+```text
 ::: cascade
 | Alice's Right Foot, Esq.
 | Hearthrug,
@@ -363,26 +369,28 @@ A cascade indents each line by 2.4em times one less than its line number. The fi
 
 ### Verse
 
-A verse block sets its lines to the house stanza measure, which the PDF calls `\PressVerse`. Every line starts 3em in from the left, with no paragraph indent, and the block has 0.7em of space above and below it. A blank line between groups of lines gives a stanza gap. An opening quotation mark at the start of a line hangs into the margin by protrusion, so the letters of every line align. On the reader site, the block carries the class `.verse`, with a left margin of 2.4em. Example 4.8 shows a verse block holding the start of the Lobster's song.
+A verse block suits a poem or a song, and it sets its lines to the house stanza measure. Every line starts 3em in from the left, with no paragraph indent, and the block has 0.7em of space above and below it. A blank line between groups of lines gives a stanza gap. An opening quotation mark at the start of a line hangs into the margin, so the letters of every line align. On the reader site, the block carries the class `.verse`, with a left margin of 2.4em. Example 4.8 shows a verse block holding the start of the crocodile poem from Carroll's second chapter.
 
 **Example 4.8. A verse block**
 
-```
+```text
 ::: verse
-| 'Tis the voice of the Lobster;
-| I heard him declare,
-| "You have baked me too brown,
-| I must sugar my hair."
+| How doth the little crocodile
+| Improve his shining tail,
+| And pour the waters of the Nile
+| On every golden scale!
 :::
 ```
 
 ### Tail
 
-The tail is the most elaborate of the three. It exists for the Mouse's Tale, which Carroll printed as a poem that winds down the page in the shape of a mouse's tail. The filter offsets each line from the left by 3.0em times the sine of 2 pi t, where t is the line's position along the tail. The lines therefore swing out and back, and the type tapers as the tail goes down. In the PDF the lines run from `\normalsize` through `\small`, `\footnotesize`, and `\scriptsize` to `\tiny`. On the Web they shrink from 1em to .68em.
+The tail is the most elaborate of the three. It exists for the Mouse's Tale, which Carroll printed as a poem that winds down the page in the shape of a mouse's tail. The filter swings each line out from the left edge and back along a sine curve, as much as 3.0em at its widest.
+
+The type also shrinks as the tail goes down. In the PDF it starts at body size and ends at the smallest size LaTeX offers, and on the reader site it shrinks from 1em to .68em. Example 4.9 shows the opening lines of the Mouse's Tale in a tail.
 
 **Example 4.9. The opening of the Mouse's Tale as a tail**
 
-```
+```text
 ::: tail
 | "Fury said to a
 | mouse, That he
@@ -398,34 +406,36 @@ The tail is the most elaborate of the three. It exists for the Mouse's Tale, whi
 
 ### What the set pieces leave alone
 
-The set pieces change the layout of the lines and nothing else. The words stay live text in every edition, so a reader can search for them, copy them, and hear them from a screen reader. The plain-text and DOCX editions get a native line block, with the line breaks kept and no shape. A book that uses no set pieces renders byte for byte as it did before press added them.
+The set pieces change the layout of the lines and nothing else. The words stay live text in every rendered edition, so a reader can search for them, copy them, and hear them from a screen reader. The Telegraphic and Office editions get a native line block, with the line breaks kept and no shape.
 
 ## The fine work press does for you
 
-Some typesetting is too fine to ask of an author. Press does it in a Lua filter, `typographic-spacing.lua`, which runs in every edition. The filter puts a *tie*, a non-breaking space, between a word and the word it must never leave at the end of a line. In the PDF the tie is LaTeX's `~`. In the other editions it is the non-breaking space character, U+00A0, which the glyph law forbids you to type yourself.
+Some typesetting is too fine to ask of an author. Press does it in a Lua filter, *typographic-spacing.lua*, which runs in every rendered edition. The filter puts a *tie*, a non-breaking space, between a word and the word it must never leave at the end of a line. In the PDF the tie is LaTeX's `~`. In the other rendered editions it is the non-breaking space character, U+00A0, which the glyph law forbids you to type yourself.
 
-The filter ties in three places, and none of them asks anything of you. After a title, it ties the title to a following capitalized word, for Mr., Mrs., Ms., Dr., Prof., St., Mt., Sr., Jr., Rev., Hon., Capt., Sgt., Gen., Col., Lt., and Fr. After a reference form, it ties the form to a following digit, for p., pp., No., Nos., Fig., Figs., Ch., Vol., Pt., and Eq. Between chained initials, it ties each initial to the next, as in "C. L. Dodgson".[^ties]
+The filter ties in three places, and none of them asks anything of you. After an honorific, it ties the honorific to a following capitalized word, for Mr., Mrs., Ms., Dr., Prof., St., Mt., Sr., Jr., Rev., Hon., Capt., Sgt., Gen., Col., Lt., and Fr. After a reference form, it ties the form to a following digit, for forms such as p., pp., No., Nos., Fig., Figs., Ch., Vol., Pt., and Eq. Between chained initials, it ties each initial to the next, as in "C. L. Dodgson".[^4-ties]
 
-The press states the principle plainly. The manuscript stays plain prose, the house does the fine work, and the filter leaves ordinary sentences exactly as you typed them, every full stop included. You never type a tie of your own. You type "Dr. Dodgson" and "p. 42", and the filter keeps each pair on one line in the PDF, the EPUB, and the reader alike.
+Each tie prevents a misreading. A line that ends on "Rev." with the name at the start of the next line reads, for an instant, as the end of a sentence. A page reference split after "p." leaves the number stranded on a line of its own. A name broken between its initials stops looking like a name. None of these is an error a checker could catch in the manuscript, because the line breaks do not exist until the page does.
 
-The same principle runs through this whole chapter. You type straight quotes and three periods, and pandoc sets curly quotes and an ellipsis. You type `* * *`, and the aesthetic chooses the ornament. You type a bare heading, and pandoc numbers it. You give a figure an identifier, and the `figure-numbering.lua` filter numbers it once, by chapter, and turns every `@fig:` citation into "Figure 4.1" with a link. Press needs no pandoc-crossref for this.
+The press states the principle plainly. The manuscript stays plain prose, the house does the fine work, and the filter leaves ordinary sentences exactly as you typed them, every period included. You never type a tie of your own. You type "Rev. Dodgson" and "p. 42", and the filter keeps each pair on one line in the PDF, the EPUB, and the reader site alike.
+
+Figures get the same treatment. The *figure-numbering.lua* filter numbers each figure once, by chapter, and turns every `@fig:` citation into "Figure 4.1" with a link, so press needs no pandoc-crossref.
 
 ::: {.sidebar}
 > **A stray asterisk and Fig-ure**
 >
-> The fine work has to be right, because an author cannot fix it from the manuscript. Two small faults in the placed figures of the PDF show what that means. The first was an asterisk. In figures with a placement, the float package's starred command `\caption*` printed a stray asterisk above the figure. Nothing in the manuscript had an asterisk in it. The author could only look at the proof and wonder.
+> An author cannot fix the fine work from the manuscript, so it has to be right. Two small faults in the placed figures of the PDF show what that means. In figures with a placement, the float package's `\caption*` printed a stray asterisk above the figure. Nothing in the manuscript had an asterisk in it. The author could only look at the proof and wonder.
 >
-> The second fault came with the wraps. A figure with text running around it has a narrow caption. In a narrow enough wrap, LaTeX hyphenated the label itself, and the caption began "Fig-" on one line and "ure" on the next. Again, nothing in the manuscript caused it, and nothing in the manuscript could stop it.
+> The second fault came with the wraps. A figure with text running around it has a narrow caption. In a narrow enough wrap, LaTeX hyphenated the label itself, and the caption began "Fig-" on one line and "ure" on the next.
 >
-> The fixes went into the house design. The caption package became the single authority for every caption in the book. The label went inside an `\mbox`, which LaTeX never breaks. An author who writes a figure today types a caption and nothing else, and the label prints whole.
+> The fixes went into the house design. The caption package became the single authority for every caption in the book. The label went inside an `\mbox`, which LaTeX never breaks. An author who writes a figure today types a caption and nothing else.
 :::
 
 The next chapter, *Figures, plates, and illustrations*, takes up the plates, the numbered figures, and the placements that put them on the page.
 
-[^paragraph-law]: According to the press's change log, the checker began to enforce the paragraph law in press 1.7.0.
+[^4-paragraph-law]: According to the press's change log, the checker began to enforce the paragraph law in press 1.7.0.
 
-[^hung-quote]: The press's notes call this Bringhurst's rule. The capital aligns with the text, and the quotation mark sits outside the measure.
+[^4-hung-quote]: Press calls this Bringhurst's rule. The capital aligns with the text, and the quotation mark sits outside the measure.
 
-[^ties]: Pandoc ties Mr. on its own. For that reason, the press's test for the tie once passed with no filter in place at all. The Lua coverage work for press 3.0.2 found the empty test. It also found that the Lua tests skipped silently in CI until CI set `PRESS_REQUIRE_LUA=1`.
+[^4-ties]: Pandoc ties Mr. on its own. For that reason, the press's test for the tie once passed with no filter in place at all. The Lua coverage work for press 3.0.2 found the empty test. The Lua tests, it turned out, also skipped silently in CI until CI set `PRESS_REQUIRE_LUA=1`.
 
-<!-- index: glyph law; dash law; em dash; ellipsis; title-case heading; press add chapter; unnumbered chapter; paragraph law; trailing whitespace; footnote; blockquote; epigraph; line block; pipe table; fenced code; chapter-opening; drop cap; dialogue opener; scene break; fairy-dust; set piece; cascade; verse; tail; tie -->
+<!-- index: glyph law; dash law; em dash; ellipsis; title-case heading; press add chapter; unnumbered chapter; paragraph law; trailing whitespace; footnote; blockquote; epigraph; pipe table; table caption; language tag; inline code; chapter-opening; drop cap; dialogue opener; scene break; fairy-dust; set piece; cascade; verse; tail -->
