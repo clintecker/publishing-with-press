@@ -86,3 +86,4 @@ Managing editor's record. Append only.
 - Ruling: edition names apply book-wide; chapters reviewed before the ruling get it in their open revision or in the whole-book continuity sweep. Writers 14, 15, 16 dispatched.
 - Ch 7 re-review APPROVED (2 shoulds: footnote prefix applied by me; edition gloss to writer, then continuity). Ch 11 desks complete -> writer. Vocabulary: art target.
 - Ch 1 COMMITTED. Ch 6 re-review APPROVED (3 shoulds) -> writer, then continuity.
+- Ch 8 Revision 2 DONE -> continuity. Ch 10 revised (5,148) -> re-review. Illustrator batches dispatched for ch 1, 2, 4.
