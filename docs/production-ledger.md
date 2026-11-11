@@ -103,3 +103,4 @@ Managing editor's record. Append only.
 - Ruling: 'the three-chapter example' is the short form after first mention. Ch 7 Revision 3 DONE; awaiting its continuity pass.
 - Ch 7 continuity PASS (naming items -> writer Revision 4). Ch 8: two facts from the ch 7 pass -> writer Revision 4, recommit. Whole-book sweep items: Ch 1 l.279 (press all and the commerce gate's print build); Ch 3 l.194 (rights passes through except the EPUB override).
 - Ch 11 Revision 2 DONE -> continuity. Ch 16 drafted (5,646). Ch 6 continuity PASS with fixes; the 'sentinel ... not found' wording in ch 1 and 3 is wrong (checker: 'sentinel not found in the manuscript:'; verifiers: 'missing text sentinel in PDF:' / '<label> missing sentinel:'); writers 1, 3, 6 sent. Vocabulary: fail, checker self-test.
+- Ch 8 fix committed. Ch 14 drafted (5,716); desks dispatching as slots free.
