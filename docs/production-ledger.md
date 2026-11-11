@@ -87,3 +87,4 @@ Managing editor's record. Append only.
 - Ch 7 re-review APPROVED (2 shoulds: footnote prefix applied by me; edition gloss to writer, then continuity). Ch 11 desks complete -> writer. Vocabulary: art target.
 - Ch 1 COMMITTED. Ch 6 re-review APPROVED (3 shoulds) -> writer, then continuity.
 - Ch 8 Revision 2 DONE -> continuity. Ch 10 revised (5,148) -> re-review. Illustrator batches dispatched for ch 1, 2, 4.
+- Ch 7 Revision 2 DONE -> continuity. Ch 9 and 12 desks complete -> writers. Ruling: after the once-per-chapter gloss, a sentence about the file may use the format name; a sentence about the edition uses press's name.
