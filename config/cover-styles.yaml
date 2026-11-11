@@ -5,7 +5,18 @@ styles:
   engraved-animal:
     name: "Engraved animal on white"
     era: "natural-history plate, about 1870"
-    note: "One animal as a wood or steel engraving on plain white; no lettering; the press sets the band and type itself."
+    note: >-
+      One animal as a wood or steel engraving on plain white; no lettering;
+      the press sets the band and type itself. Cover brief (tools/cover.py):
+      1800x2700 white ground; deep sepia band #4a2e1a across the top eighth
+      (338 px) with "A Workbench Handbook" reversed out in small caps at the
+      right; the title "Publishing with Press" flush left under the band in
+      Libertinus Serif condensed by horizontal scaling to 82 percent; the
+      subtitle "Building Books from Plain Text" in Libertinus Serif Italic
+      beneath; the engraving luminance-keyed to transparency and set
+      centre-to-lower-right, facing left into the title; "Clint Ecker"
+      bottom right; "LGTM Publishing" small in small caps bottom left.
+      Nothing else.
     text: composited
     prompt: |
       A book cover artwork, portrait, 2:3, on pure white, not cream: a single

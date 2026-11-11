@@ -327,3 +327,92 @@ Design rationales that work as sidebars:
 - **The finisher (supplied-interior PDF).** Planned on the Book breadth milestone, not shipped.
 - **The custom merchant-of-record commerce stack.** Icebox.
 - **Non-Latin and right-to-left scripts.** Icebox, "a major per script family".
+---
+
+# Supplement added by the managing editor (2026-11-11), from the press checkout
+
+## S1. `scripts/dev-render.sh` (header comment, verbatim)
+
+```text
+Run press inside the pinned toolchain container against a book, from a working
+checkout -- the developer harness for the exact bytes CI builds on.
+
+Why a container. The press needs LuaLaTeX, pandoc, the Libertine faces,
+epubcheck, and a Java that can run its jar -- a toolchain you rarely have all
+of locally, and never at the pinned versions. This mounts your checkout
+read-only, installs the locked Python deps into a cached layer, and runs
+`python -m press` straight from src/, so an edit to the source takes effect on
+the next run with no reinstall. Artifacts (and optional page previews) land in
+a host directory you can open.
+
+The toolchain image is read from .github/workflows/build.yml, so this always
+runs the same image the release contract pins: it cannot drift from CI.
+
+Usage:
+  scripts/dev-render.sh [TARGET ...] [options]
+
+  TARGET        one or more press targets (default: pdf). e.g. pdf epub web all
+  --book DIR    book repo to build (default: examples/alice-in-wonderland)
+  --out DIR     host dir for artifacts + previews (default: build/dev-render)
+  --preview[=N] after a pdf build, rasterise pages to JPEG at N dpi (default 120)
+  --shell       open an interactive shell in the container instead of building
+  -h, --help    this text
+
+Examples:
+  scripts/dev-render.sh                         # build Alice's PDF
+  scripts/dev-render.sh pdf --preview           # + JPEG page previews
+  scripts/dev-render.sh all --book ~/code/make-ready
+  scripts/dev-render.sh --shell                 # poke around the toolchain
+```
+
+It lives in the press checkout (not in a book) and is the press developer's
+edit-render-look loop, per `CLAUDE.md`: "it is the edit-render-look loop,
+not the proof; `scripts/verify.sh --full` is still the gate before tagging".
+Known limit (press issue #276): on macOS with Colima it can only mount a
+book under `$HOME`, and its default `--out` is inside the press checkout.
+
+## S2. Installing into an environment (what the press docs say, and a ruling)
+
+`docs/INSTALL.md` gives the install as a bare
+`pip install "press @ git+https://github.com/clintecker/press@v3"` and says
+"For development, clone and `pip install -e .`". It never mentions a
+virtual environment. The container recipe in the same file uses
+`pip install --break-system-packages ...` because the image's Python is
+Debian-managed. INSTALL.md's exact words on the channel: "Pip-from-git at a
+tag is the supported installation channel; the press is not published to
+PyPI".
+
+INSTALL.md, verbatim, on platforms: "Supported platforms are Linux (the
+container's Ubuntu 24.04 is the reference) and macOS. Python 3.10 through
+3.14 are tested on every push (Linux across all five, macOS on 3.12)".
+
+INSTALL.md's macOS toolchain: `brew install pandoc poppler`,
+`brew install --cask mactex-no-gui` ("lualatex, latexmk, TeX Live"),
+`brew install epubcheck` ("optional: the retail EPUB gate locally"). Fonts:
+"TeX Live carries Libertinus for the PDF; nothing else to install."
+
+INSTALL.md's Debian/Ubuntu package list, verbatim:
+
+```text
+sudo apt-get install --no-install-recommends \
+  make git pandoc python3 python3-pip poppler-utils \
+  texlive-luatex texlive-latex-extra texlive-fonts-extra \
+  fonts-linuxlibertine latexmk epubcheck
+```
+
+INSTALL.md's optional capabilities: `claude` (the Claude Code CLI) enables
+`press improve`, `press research`, `press aesthetic "<brief>"`;
+`OPENAI_API_KEY` and `GEMINI_API_KEY` enable `press art commission`;
+`epubcheck` locally "hardens the EPUB gate before push; CI always runs it
+regardless."
+
+**Ruling for the book.** The chapter may recommend a virtual environment
+(`python3 -m venv ~/.press-venv && ~/.press-venv/bin/pip install ...`) as
+the book's own advice, stated as such ("we recommend"), because a
+system-managed Python on Ubuntu 24.04 and Homebrew refuses a bare `pip
+install` into the system site-packages. That refusal is a fact about
+Python packaging (PEP 668), not about press, and the chapter must not
+attribute it to press or claim press documents it. The extras form is
+`pip install "press[tui] @ git+https://github.com/clintecker/press@v3"` for
+the git channel and `pip install -e '/path/to/press[tui]'` for an
+editable checkout; both are pip's standard syntax, not press-specific.

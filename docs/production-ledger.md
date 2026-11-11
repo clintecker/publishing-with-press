@@ -10,3 +10,4 @@ Managing editor's record. Append only.
   continuity. Four desks dispatched on ch 2.
 - Ruling: proof figures retired from assets/woodcuts (unreferenced plates
   fail press check for every writer); the toolkit README is the API.
+- Ch 2 dev edit: dev-render and the install-environment facts were missing from facts-02; supplement S1/S2 appended with a ruling (venv is the book's advice, PEP 668 is Python's, not press's).
