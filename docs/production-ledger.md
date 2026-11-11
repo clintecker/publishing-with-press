@@ -92,3 +92,4 @@ Managing editor's record. Append only.
   book-wide; Ch 1 scaffold gains --owner; Ch 6 adopts the sample's sentinels (Twinkle /
   tarts); "the book model" is the term. Writers 1, 3, 6 sent the items. Ch 6 Revision 2
   DONE; ch 7 -> continuity.
+- Ch 1 final fix committed. Ch 13 drafted (3,299); desks dispatched.
