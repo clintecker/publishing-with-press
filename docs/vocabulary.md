@@ -26,6 +26,7 @@ defined in the same sentence; afterwards it is roman.
 | known-bad fixture | a file that must be rejected | negative test, bad example |
 | sentinel | a `verify-sentinels` phrase | marker, canary, probe |
 | witness | the manuscript or chapter witness line | fingerprint, signature |
+| vacuous witnesses | press's own phrase, in its refusal, for sentinels or a page floor too weak to prove anything (an empty sentinel list, a one-page floor); quote it only where press's message is quoted | weak sentinels, placeholder sentinels |
 | release witnesses | press's own term for the release floor: at least two sentinels and `verify-min-pages` of 24 or more, enforced under `PRESS_RELEASE=1` | release requirements, release gate (reserved for the commerce gate) |
 | plate | an unnumbered illustration in the List of Plates | woodcut (except when naming the idiom), picture, image (use image for the file) |
 | figure | a numbered informative illustration ("Figure 5.2") | diagram (use only for the kind `.diagram`), graphic, illustration (use for the general class) |

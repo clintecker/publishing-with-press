@@ -80,3 +80,4 @@ Managing editor's record. Append only.
 - Ch 11 drafted (5,009); blank lines inserted before its art comments; desks dispatched.
 - Ch 9 drafted (5,708); desks dispatched.
 - Ch 4 COMMITTED.
+- Ch 3 Revision 2 DONE -> continuity. Ch 8 revised (6,662) -> re-review. Ch 10 blank lines applied.
