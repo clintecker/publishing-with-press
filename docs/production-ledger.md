@@ -101,3 +101,4 @@ Managing editor's record. Append only.
 - Ch 12 revised (6,574) -> re-review; facts-12 S1 confirms the deltas from source. Ch 13 fact + copy in; typesetter pending.
 - Ch 8 COMMITTED.
 - Ruling: 'the three-chapter example' is the short form after first mention. Ch 7 Revision 3 DONE; awaiting its continuity pass.
+- Ch 7 continuity PASS (naming items -> writer Revision 4). Ch 8: two facts from the ch 7 pass -> writer Revision 4, recommit. Whole-book sweep items: Ch 1 l.279 (press all and the commerce gate's print build); Ch 3 l.194 (rights passes through except the EPUB override).
