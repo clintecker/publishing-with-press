@@ -14,8 +14,9 @@ FONT CHOICE (recorded here on purpose)
 
 UNITS
     Canvas coordinates are typographic points at FINAL PRINT SIZE, origin at
-    the top left, y growing downward.  A full-measure figure is 432 pt (6 in)
-    wide and a half-measure figure 216 pt; at 300 dpi one point is 4.1667 px,
+    the top left, y growing downward.  The house text block is 4.54 in, so a full-measure
+    figure is 326.9 pt wide (1362 px), half 163.4 pt (680 px), third 109 pt
+    (455 px); height is capped at 1740 px; at 300 dpi one point is 4.1667 px,
     so a 0.5 pt stroke is 2 px and 8 pt text is 33 px high.  Nothing is ever
     scaled after rendering.
 """
@@ -41,10 +42,11 @@ from PIL import Image  # noqa: E402
 # ---------------------------------------------------------------- constants
 DPI = 300
 PX_PER_PT = DPI / 72.0
-FULL_PX, HALF_PX = 1800, 900
+FULL_PX, HALF_PX, THIRD_PX = 1362, 680, 455   # 4.54 in text block
+MAX_H_PX = 1740
 MARGIN_PX = 12
-MEASURE_PT = {"full": FULL_PX / PX_PER_PT, "half": HALF_PX / PX_PER_PT}
-MEASURE_PX = {"full": FULL_PX, "half": HALF_PX}
+MEASURE_PX = {"full": FULL_PX, "half": HALF_PX, "third": THIRD_PX}
+MEASURE_PT = {k: v / PX_PER_PT for k, v in MEASURE_PX.items()}
 
 BLACK = "#000000"
 WHITE = "#ffffff"
@@ -149,6 +151,9 @@ def finish_png(img: Image.Image, path, measure="full"):
         canvas = Image.new("L", (target, img.height), 255)
         canvas.paste(img, ((target - img.width) // 2, 0))
         img = canvas
+    if img.height > MAX_H_PX:
+        raise ValueError(f"image is {img.height} px tall, over the "
+                         f"{MAX_H_PX} px maximum")
     _check_margin(img, str(path))
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     img.save(path, format="PNG", dpi=(DPI, DPI), optimize=True)
@@ -356,9 +361,10 @@ class Canvas:
 
     # ---- text
     def text(self, x, y, s, mono=False, italic=False, size=SANS_PT,
-             align="left", va="center", bold=False, bg=False):
+             align="left", va="center", bold=False, bg=False,
+             allow_small=False):
         """Place text.  (x, y) is the anchor selected by align / va."""
-        if size < SMALL_PT - 1e-6:
+        if size < SMALL_PT - 1e-6 and not allow_small:
             print(f"look: warning, {size} pt text is under the {SMALL_PT} pt "
                   f"floor", file=sys.stderr)
         t = self.ax.text(
@@ -417,7 +423,7 @@ class Canvas:
 HOUSE_DOT = """\
 digraph G {{
   graph [fontname="{sans}", fontsize=8, dpi=300, rankdir={rankdir},
-         size="{size_in:.3f},40", pad=0.0, nodesep={nodesep}, ranksep={ranksep},
+         size="{size_in:.3f},5.8", pad=0.0, nodesep={nodesep}, ranksep={ranksep},
          splines={splines}, bgcolor="white", color="black", penwidth=0.5,
          labeljust=l{graph_extra}];
   node  [fontname="{sans}", fontsize=8, shape=box, style="rounded,filled",
@@ -463,7 +469,7 @@ def render_dot(name, body, out_path, measure="full", rankdir="LR",
 
     `body` is the node/edge statements.  Graphviz shrinks a layout that is
     wider than the measure; since that would shrink the text, the effective
-    scale is checked and a figure below 90 percent of true size is an error.
+    scale is checked and any shrinkage is an error.
     Returns the final PIL image.
     """
     size_in = (MEASURE_PX[measure] - 2 * MARGIN_PX - 4) / DPI
@@ -480,11 +486,11 @@ def render_dot(name, body, out_path, measure="full", rankdir="LR",
                          text=True, check=True).stdout.splitlines()[0].split()
     # plain reports the (already shrunk) size and the scale factor
     scale = float(nat[1])
-    if scale < 0.90:
+    if scale < 0.999:
         raise ValueError(
             f"{name}: Graphviz shrank the layout to {scale:.0%} to fit the "
-            f"measure; labels would fall under 7 pt.  Simplify or widen "
-            f"nothing: cut content or use rankdir=TB.")
+            f"{size_in:.2f} in measure; labels would fall under 8 pt.  Stack "
+            f"labels, split ranks, or use rankdir=TB.")
     subprocess.run(["dot", "-Tpng:cairo", str(dot_path), "-o", str(raw_png)],
                    check=True)
     img = Image.open(raw_png)
@@ -502,7 +508,7 @@ def repo_root():
 
 
 def figures_dir():
-    d = repo_root() / "assets" / "figures"
+    d = repo_root() / "assets" / "woodcuts"
     d.mkdir(parents=True, exist_ok=True)
     return d
 

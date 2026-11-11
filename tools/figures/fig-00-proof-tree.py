@@ -31,18 +31,18 @@ TREE = [
     (1, "requirements.txt", None),
 ]
 NOTES = {
-    "wf": "agent workflows, stamped with the press version",
-    "pre": "one paragraph, so an empty book builds and verifies",
-    "meta": "identity, press facts, and verification knobs",
+    "wf": "agent workflows, version-stamped",
+    "pre": "one paragraph; it builds empty",
+    "meta": "identity and verification knobs",
 }
 
-SIZE = 8.0
+SIZE = 7.5
 row = 12.5
-top, left = 14.0, 20.0
-indent = 15.0
+top, left = 14.0, 12.0
+indent = 12.0
 adv = look.mono_advance_pt(SIZE)
 c = look.Canvas(top * 2 + row * len(TREE), "full")
-ax_note = c.W - 20.0                      # annotations right-aligned here
+ax_note = c.W - 8.0                      # annotations right-aligned here
 trunk_x = {}                              # depth -> x of its trunk
 ys = [top + row * i + row / 2 for i in range(len(TREE))]
 for i, (d, name, key) in enumerate(TREE):

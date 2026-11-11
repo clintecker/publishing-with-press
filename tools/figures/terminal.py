@@ -38,12 +38,14 @@ def render(text, out_path, title="", cols=80, measure="full"):
     rows = wrap(text.splitlines(), cols)
     W = look.MEASURE_PT[measure]
     m = look.MARGIN_PX / look.PX_PER_PT + 1.0     # outer clear space, pt
-    pad = 6.0                                      # text inset inside frame
+    pad = 4.0                                      # text inset inside frame
     inner = W - 2 * m - 2 * pad
     longest = max([cols] + [len(r) for r, _ in rows])
     adv_em = look.mono_advance_pt(1.0)
     size = min(look.SANS_PT, inner / (longest * adv_em))
     size = int(size * 20) / 20.0
+    if size < 6.0:
+        print(f'terminal: warning, {size:.2f} pt mono is small', file=sys.stderr)
     lh = size * 1.32
     bar = 15.0
     H = m + bar + pad + len(rows) * lh + pad + m
@@ -62,7 +64,7 @@ def render(text, out_path, title="", cols=80, measure="full"):
                size=look.SANS_PT - 0.5)
     for i, (ln, prompt) in enumerate(rows):
         c.text(x0 + pad, y0 + bar + pad + i * lh, ln, mono=True, size=size,
-               bold=prompt, va="top")
+               bold=prompt, va="top", allow_small=True)
     c._texts = []          # monospace rows may legitimately touch; skip check
     return c.save(out_path, measure), size
 

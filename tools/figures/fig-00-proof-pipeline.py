@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Proof: the pipeline archetype (style guide 5.2 #1), Graphviz back end.
 
-Sources at left, `press check`, pandoc with its Lua filters, a branch to the
+Sources at top, `press check`, pandoc with its Lua filters, a branch to the
 PDF route and the other writers, one verifier, the artifacts stacked at right.
 """
 import sys
@@ -19,26 +19,28 @@ ARTIFACTS = ["alice.pdf", "alice.epub", "alice.html", "alice.txt",
 body = f"""
   src1 [label={L("", mono_lines=["book/chapters/", "*.md"])}, {FILE}, fillcolor="{FILLS[0]}"];
   src2 [label={L("", mono_lines=["config/", "*.yaml"])}, {FILE}, fillcolor="{FILLS[0]}"];
-  check [label={L("", mono_lines=["press", "check"])}, {PROCESS}, fillcolor="{FILLS[10]}"];
+  check [label={L("", mono_lines=["press check"])}, {PROCESS}, fillcolor="{FILLS[10]}"];
   pandoc [label={L("pandoc", mono_title=True, mono_lines=FILTERS)}, {PROCESS}, fillcolor="{FILLS[10]}"];
   latex [label={L("", mono_lines=["latexmk", "-lualatex"])}, {PROCESS}, fillcolor="{FILLS[10]}"];
-  other [label={L("", mono_lines=["EPUB", "HTML", "chunked", "plain", "docx"])}, {PROCESS}, fillcolor="{FILLS[10]}"];
-  verify [label={L("press", mono_lines=[]) .replace("</FONT>>", "</FONT><BR/><FONT FACE=\"Helvetica\" POINT-SIZE=\"8\">verify</FONT>>")}, {VERIFIER}, fillcolor="{FILLS[20]}"];
+  other [label={L("", mono_lines=["EPUB, HTML,", "chunked, plain,", "docx"])}, {PROCESS}, fillcolor="{FILLS[10]}"];
+  verify [label={L("press verify")}, {VERIFIER}, fillcolor="{FILLS[20]}"];
   subgraph cluster_dist {{
     label="dist/"; fontsize=7; fontname="{look.MONO_NAME}"; style="solid";
     color="black"; penwidth=0.5; margin=6;
 """
 for i, a in enumerate(ARTIFACTS):
     body += f'    a{i} [label={L(a, mono_title=True)}, {FILE}, fillcolor="{FILLS[0]}", margin="0.07,0.03"];\n'
-body += "    {rank=same; " + " -> ".join(f"a{i}" for i in reversed(range(len(ARTIFACTS)))) + " [style=invis];}\n  }\n"
+body += "    {rank=same; a0 -> a1 -> a2 [style=invis];}\n    {rank=same; a3 -> a4 -> a5 [style=invis];}\n"
+body += "    a0 -> a3 [style=invis]; a1 -> a4 [style=invis]; a2 -> a5 [style=invis];\n  }\n"
 body += """
+  {rank=same; src1; src2;}
   src1 -> check; src2 -> check;
   check -> pandoc;
   pandoc -> latex; pandoc -> other;
   latex -> verify; other -> verify;
-  verify -> a2 [lhead=cluster_dist];
+  verify -> a1 [lhead=cluster_dist];
 """
 look.render_dot("fig-00-proof-pipeline", body,
                 look.figures_dir() / "00-proof-pipeline.png",
-                measure="full", rankdir="LR", nodesep=0.12, ranksep=0.2,
+                measure="full", rankdir="TB", nodesep=0.25, ranksep=0.25,
                 splines="polyline", graph_extra=", compound=true")

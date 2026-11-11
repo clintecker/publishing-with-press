@@ -1,7 +1,7 @@
 # Figure toolkit
 
 Every diagram in the book is code. `look.py` fixes the house look; each
-`fig-*.py` script imports it and writes one PNG into `assets/figures/`.
+`fig-*.py` script imports it and writes one PNG into `assets/woodcuts/`.
 `tools/render-figures.sh` renders everything and checks the result.
 
 Fonts: **Helvetica** (labels) and **Menlo** (code), both from macOS. They ship
@@ -22,16 +22,16 @@ and Pillow (or a `.venv-tools/` holding them; the script prefers it).
 
 A captured terminal session is not a script: put the verbatim output in
 `tools/figures/NAME.txt` (first line `$ command`), optionally the window title
-in `NAME.title`, and the script renders `assets/figures/NAME.png`. Lines over
+in `NAME.title`, and the script renders `assets/woodcuts/NAME.png`. At 80 columns the type is about 6.5 pt (80 columns of Menlo cannot be larger inside 4.54 in). Lines over
 80 columns are word-wrapped with a two-space continuation indent.
 
 ## look.py
 
 Constants: `GRAY` (0/10/20/40 percent), `BOX_PT` 0.5, `ARROW_PT` 0.75,
-`SANS_PT` 8, `MONO_PT` 7, `SMALL_PT` 7 (floor), `FULL_PX` 1800, `HALF_PX` 900.
+`SANS_PT` 8, `MONO_PT` 7, `SMALL_PT` 7 (floor), `FULL_PX` 1362, `HALF_PX` 680, `THIRD_PX` 455, `MAX_H_PX` 1740.
 
-`Canvas(height_pt, measure="full"|"half")`: coordinates are points at final
-size (432 pt wide full, 216 pt half), origin top left, y down. Keep content at
+`Canvas(height_pt, measure="full"|"half"|"third")`: coordinates are points at final
+size (326.9 pt wide full, 163.4 half, 109 third; the house text block is 4.54 in), origin top left, y down. Keep content at
 least 6 pt from every edge; `save` refuses a figure whose ink enters the 12 px
 margin and warns on overlapping labels.
 
@@ -51,8 +51,8 @@ ranksep, splines)` wraps `body` in the house `graph/node/edge` defaults, writes
 `PROCESS`, `FILE`, `STORE`, `VERIFIER` as node-attribute fragments, `FILLS`
 for fill colours, and `dot_label(title, mono_lines, mono_title)` for labels.
 Graphviz shrinks a layout wider than the measure, which shrinks the text;
-`render_dot` errors if it would fall under 90 percent of true size, so cut
-content rather than accept small type. Narrow figures are padded, never
+`render_dot` errors on any shrinkage (graph sized to 4.45 in), so stack labels,
+split ranks, or use `rankdir=TB` rather than accept small type. Narrow figures are padded, never
 enlarged.
 
 ## Archetype to helper
@@ -71,7 +71,7 @@ enlarged.
 ## What render-figures.sh enforces
 
 It runs every `fig-*.py`, renders every `*.txt`, then checks each PNG in
-`assets/figures/`: mode `L` (8-bit grayscale, no alpha), width 1800 or 900,
-dpi metadata 300 x 300. It prints a table (file, width, height, mode, dpi,
+`assets/woodcuts/`: mode `L` (8-bit grayscale, no alpha), width 1362, 680 or 455 (4.54, 2.27, 1.52 in),
+dpi metadata 300 x 300, and that nothing but `.png` figures (no hidden or `._*` files) sits in the directory, since press refuses unreferenced files there. Height over 1740 px is refused by `look.py`. It prints a table (file, width, height, mode, dpi,
 bytes) and exits nonzero on any violation. `look.py` itself additionally
 refuses ink inside the 12 px margin.
