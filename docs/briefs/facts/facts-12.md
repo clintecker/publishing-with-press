@@ -542,3 +542,10 @@ Design rationales that work as sidebars:
 - **The finisher (supplied-interior PDF).** Planned on the Book breadth milestone, not shipped.
 - **The custom merchant-of-record commerce stack.** Icebox.
 - **Non-Latin and right-to-left scripts.** Icebox, "a major per script family".
+---
+
+# Supplement added by the managing editor (2026-11-11)
+
+## S1. The wrap deltas (from `src/press/gen_coverwrap.py:93-128`, confirmed)
+
+`_binding_geometry` returns, for a binding, the outer `margin` (the bleed for a soft cover, or a hardcover's wrap or turn-in), the horizontal `inner` offset (a casewrap `hinge`, or a jacket's `flap` plus connecting `strip`), and two deltas, `panel-width-delta` and `panel-height-delta`, read from the provider spec's `cover.bindings.<binding>` entry (default 0.0). "The deltas adjust a panel from trim to the board or jacket-cover size." Soft-cover bindings use built-in defaults: the bleed as margin, no inner, no delta. `wrap_geometry` then computes `panel_w = trim_w + width_delta` and `wrap_h = 2 * margin + trim_h + height_delta`. So the writer's reading is right: the deltas are the board or jacket oversize beyond the trim, zero for a paperback or a dust jacket unless the provider spec says otherwise, and the hinge enters only the width. A provider that lacks a binding is refused with `provider '<id>' does not define the '<binding>' binding; add a cover.bindings.<binding> entry to its spec`.
