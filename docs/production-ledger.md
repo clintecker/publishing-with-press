@@ -76,3 +76,4 @@ Managing editor's record. Append only.
   press all succeeds with no git repository (source zip archives nothing). facts-03 S4/S5.
   Ruling: `spine` added to jargon-allow (the book means the bound edge). Ch 1 Revision 2
   DONE -> continuity. Ch 3 re-review REVISE (9) and Ch 5 desks complete -> writers.
+- Ch 12 drafted (6,528); desks dispatched. Ch 4 continuity: 1 block (Figure 4.1 running head on an opening page) -> writer Revision 3.
