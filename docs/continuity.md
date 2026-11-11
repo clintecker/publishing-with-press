@@ -6,7 +6,7 @@ Maintained by the continuity editor only. Chapters are numbered as in
 Chapter 3's pass is done (report continuity-03): every entry citing it is
 confirmed or corrected, and Chapter 3 is the defining chapter for the sample
 book's config (sentinels, page floor, metadata values). Chapter 1's pass is done (report continuity-01): its
-entries are confirmed, with line numbers to the 315-line text. Chapter 4's pass is done (report continuity-04).
+entries are confirmed, with line numbers to the 315-line text. Chapter 4's pass is done (report continuity-04). Chapter 8's pass is done (report continuity-08).
 
 ## Fixed cast
 
@@ -75,6 +75,12 @@ per-chapter italic rule), but the gist must agree with the row below.
 | release witnesses | 3; 6 agrees | what a release build demands under `PRESS_RELEASE=1`: at least two sentinels and a page floor of at least 24. Ch. 6 l.392 gives the name to the two settings themselves (compatible) |
 | vacuous witnesses | 3; 6, 8 (l.82 cites Ch. 3) | press's phrase, in its release refusal, for draft knobs too weak to prove anything (empty sentinel list, one-page floor) |
 | writable / immutable / structured / file field | 3 | the four kinds of config field in `press config`: takes set and unset / refuses writes and says what to change (`trim`) / too rich for one command line (index terms, authorities, qualification records) / a whole file (*tex/title-page.tex*, assets). "immutable" here is not the immutable tag |
+| invariant | 7 (l.341); 8 (l.91) agrees | a named `INV-` entry in the press's ledger of properties it enforces. Ch. 8 names `INV-pdf-detector`, `INV-format-witness`, `INV-archive-source-policy`, `INV-graph-no-stale` (all critical) and `INV-archive-site-bytes` |
+| witness (the class) | 8 (l.400, Table 8.6) | any evidence a verifier requires: sentinels, title, manuscript witness, chapter witnesses, page floor; press's own line says "2 sentinel(s) plus the title as witnesses". `docs/vocabulary.md` is narrower (the lines only): continuity-08, finding 5 |
+| manuscript witness | 8 (l.218) | the longest markup-free line of 40 or more characters in the whole manuscript (free of fifteen characters: asterisk, underscore, backtick, square brackets, parentheses, angle brackets, both quotes, ampersand, hash, bang, vertical bar; Ch. 8 l.221); press chooses it; every edition but the PDF must carry it |
+| chapter witness | 8 (l.272) | the same rule applied to one chapter file; must appear on exactly one reader-site page and in every edition (the agreement check) |
+| float | 8 (sidebar l.133) | LaTeX's word for a block it may move to a better spot on the page (not a placement; vocabulary's "float" ban is for placement) |
+| commerce | 8 (l.382) | the optional ordering of printed copies from the book's site; Ch. 3, 7, 12 call the feature "print ordering" and keep "commerce" for the gate: continuity-08, finding 7 |
 
 ## Shared facts (a fact two chapters both state)
 
@@ -144,6 +150,15 @@ per-chapter italic rule), but the gist must agree with the row below.
 | Press history dates | first commit 2026-07-17; repository public since 2026-07-19 (per ROADMAP); 2.0.0 2026-07-21 ("composable press"); 3.0.0 2026-11-10 (design major); 3.0.2 2026-11-11 | 1 (l.60 to 66, 291); due Preface ("where press came from") |
 | Earlier books | *Mostly Done.* (extracted from); *Make Ready* (taken end to end: clothbound cover, fourteen plates, index, ISBNs, authorities); neither in the press repository | 1 (l.60, 64); due Preface |
 | Example conventions | `$` then what you type; a line of only `...` is elided output; the cast as fixed above | 1 (l.305), markup.md; due Preface |
+| The no-stale law | `INV-graph-no-stale`, critical; every verify target builds what it verifies before verifying it; CLI path only (importing a verifier module skips the rebuild); one exception: `press verify-formats` reads whatever *dist/alice.pdf* exists into the agreement check without rebuilding it, when `pdftotext` is present (source: `verify_formats.py` l.274); `book_inputs()` deletes *build/generated/* before every pandoc build | 6 (l.473), 8 (l.431 to 451, Figure 8.2): agree. **7 (l.339) states it with no exception: conflict, continuity-08, finding 3** |
+| What each verify target builds | `press verify`: pdf, then `verify_pdf`. `press verify-formats`: epub, html, markdown, txt, docx, site, source, then `verify_formats`, `verify_archives`. `press pages` (alias `press verify-pages`): the nine prerequisites pdf, epub, html, markdown, txt, docx, site, source, sources, then pages and `verify_pages`. `press verify-print`: print, `verify_pdf --profile print`, then coverwrap and `verify_coverwrap` only with *assets/cover.jpg*, else `no assets/cover.jpg; interior verified, wrap not built`. `press coverwrap`: print, coverwrap, `verify_coverwrap` | 6 (l.36, `press verify` without the checker), 7 (l.349 to 357), 8 (l.59, 160, 177, 210, 363, Figure 8.2), 12 (l.178): agree |
+| `press all` verifier order | `verify_pages`, `verify_pdf`, `verify_formats`, `verify_archives` | 7 (l.377 art, l.418), 8 (l.445) |
+| Per-edition witnesses | every edition carries the title, every sentinel, and the manuscript witness (`INV-format-witness`, critical); the PDF carries title and sentinels, not the manuscript witness; the `Verified` line prints the witness lowercased, cut at 40 characters | 8 (l.216 to 230, 287 to 294, Table 8.6); due App. C |
+| Sentinel matching and places | exact case; straight and curly quotes equal; the title is case-folded in the PDF; a sentinel is checked in the manuscript (checker), the PDF, every edition, and the public reading site | 6 (l.361, 365), 8 (l.106, 114, 376, Table 8.6): agree |
+| Agreement windows | the chapter witness cut into windows of eight consecutive words, a new window every four words; any one window present passes | 8 (l.418, footnote); due App. C |
+| Source zip policy | Git-tracked files only; `alice/` prefix; fixed member timestamp 2026-07-16 12:00 (not `SOURCE_DATE_EPOCH`, which is 1784160000 = 2026-07-16 00:00 UTC, Ch. 7 l.151); modes 0o755 or 0o644; DEFLATE level 9; excludes `build`, `dist`, `.git`, `__pycache__`; skips junk; never follows a symlink; a secret-pattern filename aborts the archive; the gallery example reports `archived 12 files` | 3 (Git and the source zip), 7 (l.287, 398), 8 (l.335 to 349) |
+| epubcheck outcomes | five: missing under `PRESS_TOOLCHAIN` fails; missing without it warns; present but cannot run fails as a toolchain fault; nonzero exit fails; pass. The image sets `PRESS_TOOLCHAIN`; press does not key on `CI` | 1, 2 (soft locally), 8 (Table 8.4, l.317); due 14 |
+| Doctor states | `absent` (optional missing), `MISSING` (required missing), `BROKEN`; a broken optional tool still keeps the machine from ready; the report opens with its own header line `press doctor` | 2 (Table, l.239 to 256), 8 (l.470, 483): agree |
 
 ## Cross-references and promises (from, to, what is promised)
 
@@ -226,6 +241,13 @@ conflict.
 | 8 (l.106) | 3 | set the two sentinels with `press config set`. Kept (l.243). |
 | 9 (l.135) | 3 | a book names its design profile in its metadata. Kept (Table 3.5, `print.profile`). |
 | 10 (l.171) | 3 | the landing page stacks the subtitle's clauses. Kept (Table 3.3), but **cited as *The shape of a book***: conflict, continuity-03, finding 2. |
+| 8 (l.25, 447; l.465; l.491; l.412) | 1; 2; 4; 6 | the four laws and Example 1.2; `press doctor`; the drop cap splitting the first word; the checker looks for sentinels in the manuscript. All kept (Ch. 1 l.68 to 108, 176 to 192; Ch. 2 l.224 to 262; Ch. 4; Ch. 6 l.361). |
+| 8 (l.31, 177, 382) | 12, *The print pack* | covers `verify_coverwrap`; the wrap built by `press verify-print`; print ordering. Kept in draft (Ch. 12 l.290 to 298, Table 12.5; "Ordering a copy"). |
+| 8 (l.357) | 10, *Front matter, the index, and the table of authorities* | describes the ledger that feeds the sources companion. Kept in draft (Ch. 10 l.399 to 410). |
+| 8 (l.509) | 9, *The house design* | next chapter: the typography and layout the verifiers inspect. Kept in draft. |
+| 8 (l.27, 210, 274, 412, 459) | 8 | the cover check later (l.179); "Archives and the source edition" later (l.325); "Witnesses and cross-edition agreement" later (l.398); "What the PDF verifier checks" earlier (l.57); the order in the previous section (l.445). All kept. |
+| 2 (l.381); 3 (l.535); 4 (l.204); 6 (l.357, 473); 7 (l.357, 422, 513); 10 (l.410); 12 (l.178, 298); 13 (l.254) | 8, *Verifying the artifacts* | reading a failure; the verifiers; sentinels proved in the editions; both settings proved; the edges target by target; what each verifier inspects; what a missing epubcheck costs; opening the artifacts; the archive verifier; the print verifier in full; the EPUB identifier check. All kept (13 in substance: Table 8.3, l.257, no `urn:isbn:` form). Bible items due 8 (epubcheck scar, `pdfimages`) kept (l.323; l.188, 191). |
+| 8 (l.51, 433, 485) | Figures 8.1 `@fig:what-each-verifier-inspects`, 8.2 `@fig:rebuild-edges`, 8.3 `@fig:verify-run` | the check-by-run matrix; the rebuild edges and the verify-formats exception; a failed `press verify` on `hatter`. All present (l.53, 435, 487). |
 
 ## Numbering check (per chapter: figures, tables, examples)
 
@@ -235,6 +257,7 @@ conflict.
 | 3 | 3.1 `03-01-scaffold-tree`, 3.2 `03-02-how-files-sort`, 3.3 `03-03-dist-after-all`: no gap, no repeat, slugs match, every `@fig:` has its figure, each cited before or at its place, order matches design.md section 5 | 3.1 to 3.6, no gap | 3.1 to 3.12, no gap; five uncaptioned fences (l.23, 242, 274, 412, 543), none referred to by number |
 | 4 | 4.1 `04-01-page-anatomy`, 4.2 `04-02-scene-break-ornaments`, 4.3 `04-03-set-pieces`: no gap, no repeat, slugs match, every `@fig:` has its figure, each cited before it appears. Reading order swaps design.md's 4.2 and 4.3 (update design.md). One plate, *the-compositor-at-the-frame.png*, unnumbered. PNGs 04-01 to 04-03 not yet drawn | 4.1 to 4.4, no gap | 4.1 to 4.9, no gap; six short uncaptioned fences (l.60, 175, 189, 247, 274, 299), none referred to again |
 | 1 | 1.1 `01-01-pipeline-overview`, 1.2 `01-02-the-stack`, 1.3 `01-03-ten-minute-tour`: design.md order, no gap, no repeat, slugs match, every `@fig:` has its figure and is cited at or before it. PNGs are placeholders. Frontispiece plate *the-shop-at-morning.png* unnumbered, present | 1.1, 1.2, no gap | 1.1 to 1.3, no gap; three short uncaptioned fences (l.148, 162, 238), none referred to again |
+| 8 | 8.1 `08-01-what-each-verifier-inspects`, 8.2 `08-02-rebuild-edges`, 8.3 `08-03-verify-run`: design.md order, no gap, no repeat, slugs match, every `@fig:` has its figure, each cited before it appears. Plate *the-witness-that-could-say-no.png* unnumbered | 8.1 to 8.7, no gap | 8.1 to 8.3, no gap; every fence `text`, none over 64 columns; many short uncaptioned message fences, none referred to by number |
 
 ## For the Preface (from Chapter 1)
 
