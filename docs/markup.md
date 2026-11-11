@@ -84,7 +84,7 @@ against the house rules. ...
   classed box; the EPUB shows a ruled quote.
 - A tip or warning is one to four sentences and begins with the bold lead
   word and a colon. A sidebar begins with a bold title line, then a blank
-  quote line, then its paragraphs, 150 to 250 words. Do not put a heading,
+  quote line, then its paragraphs, 120 to 180 words in all (the checker counts the whole sidebar as one paragraph and refuses 190). Do not put a heading,
   a table, a figure, or a code block inside one.
 - At most eight tips and warnings and one sidebar per chapter.
 

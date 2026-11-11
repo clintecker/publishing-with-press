@@ -21,3 +21,9 @@ Managing editor's record. Append only.
   An art: comment plus its image line is one paragraph for the 190-word law
   (markup.md updated). Process fault: my `git add -A` swept in-progress drafts;
   from now on only named files are committed while writers are active.
+- Ch 1 and Ch 3 drafted. Real captures appended to facts-01 (ls dist/ after press
+  all on Alice) and facts-03 (press add output, commerce block, --owner lines).
+  Rulings: press all does build pages (fact base 5.3); sidebars are capped at 180
+  words because the checker counts a sidebar as one paragraph; figure files are
+  numbered in order of appearance. Untracked 12 placeholder PNGs the sweep had
+  committed. Desks dispatched on ch 1 and ch 3.

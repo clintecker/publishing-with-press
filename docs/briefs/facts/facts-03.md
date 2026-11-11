@@ -702,3 +702,65 @@ Design rationales that work as sidebars:
 - **The finisher (supplied-interior PDF).** Planned on the Book breadth milestone, not shipped.
 - **The custom merchant-of-record commerce stack.** Icebox.
 - **Non-Latin and right-to-left scripts.** Icebox, "a major per script family".
+---
+
+# Supplement added by the managing editor (2026-11-11): real captures
+
+## S1. `press add`, captured in a fresh `press new alice --author "Lewis Carroll" --owner wonderland-press` book
+
+```text
+$ press add chapter "Down the rabbit-hole"
+created book/chapters/01-down-the-rabbit-hole.md
+$ press add appendix about-the-author
+created book/appendices/z-about-the-author.md
+$ press add appendix glossary
+created book/appendices/y-glossary.md
+$ ls -1 book/chapters book/appendices
+book/chapters:
+00-preface.md
+01-down-the-rabbit-hole.md
+
+book/appendices:
+y-glossary.md
+z-about-the-author.md
+$ cat book/chapters/01-down-the-rabbit-hole.md
+# Down the rabbit-hole
+
+Write this part here. This placeholder paragraph only exists so the file is valid Markdown that builds; delete it and begin.
+```
+
+The `metadata.yaml` that `--owner wonderland-press` and `--author "Lewis Carroll"` produce has these lines (verbatim):
+
+```text
+author:
+  - "Lewis Carroll"
+repository: "https://github.com/wonderland-press/alice"
+site-url: "https://wonderland-press.github.io/alice"
+```
+
+## S2. The commerce block of the scaffolded metadata.yaml, verbatim
+
+```text
+# Direct print ordering: a reader-facing "Order a print copy" link to a
+# provider-hosted checkout (Lulu, Peecho, a Bookvault store, ...). The
+# provider is the seller of record and owns payment, tax, fulfillment,
+# and support; this block holds only URLs and a name, never a credential
+# or a price. Enable it once the edition is qualified (press qualify).
+# A policy link is optional: give a URL to link your own hosted page, or
+# omit it and press generates an honest page on your book site. Add
+# policies: {support,privacy,refund} text to append your own words.
+# commerce:
+#   print-ordering:
+#     enabled: true
+#     edition: paperback
+#     storefront-url: "https://www.lulu.com/shop/..."
+#     seller-of-record: "Lulu"     # who the reader actually buys from
+#     support-url: "https://example.test/support"   # optional; omit to generate
+#     # privacy-url / refund-url omitted -> press generates those pages
+#     policies:
+#       privacy: "We keep no reader data; the provider handles your order."
+```
+
+## S3. Ruling on the index position
+
+The merge order is chapters, then appendices sorted by filename letter, then the generated index, which is given the first free letter from `a`. Because `press add appendix` letters from `z` downward, the generated index file is usually lettered `a-` and therefore sorts first among the appendices in the merged book. State the mechanism; do not call it a bug.

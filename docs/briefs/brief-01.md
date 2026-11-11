@@ -79,7 +79,7 @@ and elide output with `...`.
 
 Suggested sidebar material: war story 20 (11.5% coverage, broken covers: why a producer is only proven by a verifier).
 
-One sidebar of 150 to 250 words, from the war stories in your fact file's
+One sidebar of 120 to 180 words, from the war stories in your fact file's
 shared context (pick one that belongs to this chapter's subject; the
 chapter's row in `docs/design.md` may name it). Three to eight tips and
 warnings, one to four sentences each, imperative.

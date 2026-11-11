@@ -439,3 +439,35 @@ Design rationales that work as sidebars:
 - **The finisher (supplied-interior PDF).** Planned on the Book breadth milestone, not shipped.
 - **The custom merchant-of-record commerce stack.** Icebox.
 - **Non-Latin and right-to-left scripts.** Icebox, "a major per script family".
+---
+
+# Supplement added by the managing editor (2026-11-11): real capture
+
+## S1. `ls dist/` after `press all` on the press's own Alice example (slug `alice-in-wonderland`), captured 2026-11-11
+
+```text
+$ ls dist/
+alice-in-wonderland-site.zip
+alice-in-wonderland-source.zip
+alice-in-wonderland.docx
+alice-in-wonderland.epub
+alice-in-wonderland.html
+alice-in-wonderland.md
+alice-in-wonderland.pdf
+alice-in-wonderland.txt
+pages
+site
+```
+
+For the book's sample (slug `alice`) replace `alice-in-wonderland` with `alice` and keep everything else. The run ended with these lines, verbatim:
+
+```text
+commerce release gate: print ordering is not enabled; no commerce release gate
+
+  press. your book is ready → dist/
+
+```
+
+## S2. Ruling: `press all` builds `dist/pages/`
+
+The fact base section 5.3 lists the `press all` sequence: 1 check, 2 every format, 3 the source zip, 4 pages, 5 the verifiers, 6 the commerce gate (advisory). So `press all` does assemble `dist/pages/`; QUICKSTART runs `press pages` afterwards only to show the command. The listing above confirms `pages` is present after `press all`.

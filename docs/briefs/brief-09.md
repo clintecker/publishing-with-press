@@ -80,7 +80,7 @@ and elide output with `...`.
 
 Suggested sidebar material: design rationale: design is part of the contract (CLAUDE.md), with the v3.0.0 design major as the example.
 
-One sidebar of 150 to 250 words, from the war stories in your fact file's
+One sidebar of 120 to 180 words, from the war stories in your fact file's
 shared context (pick one that belongs to this chapter's subject; the
 chapter's row in `docs/design.md` may name it). Three to eight tips and
 warnings, one to four sentences each, imperative.
