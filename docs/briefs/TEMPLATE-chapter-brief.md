@@ -106,7 +106,7 @@ look up (`metadata.yaml`; `sentinel`; `drop cap`; `press check`):
 ## Done means
 
 1. `~/code/.pwp-venv/bin/press check` passes from the repository root with
-   no error naming your file.
+   no error naming your file (run it from `/Users/clint/code/publishing-with-press`).
 2. `python3 tools/ste_check.py book/chapters/{NN}-{slug}.md` reports no
    finding you cannot defend in your report (quoted output and tables will
    trip the sentence counter; those are fine; a semicolon or a passive
@@ -116,16 +116,17 @@ look up (`metadata.yaml`; `sentinel`; `drop cap`; `press check`):
 4. You have reread the chapter once as the reader, cut every sentence that
    adds nothing, and checked each numbered figure, table, and example is
    referenced before it appears.
-5. Commit: `git add book/chapters/{NN}-{slug}.md && git commit -m "Chapter
-   {N}: {Title}"` with the trailer line
-   `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`.
+5. Do not commit. Other writers work in this repository at the same time
+   on other files; the managing editor commits each chapter. If `press
+   check` fails naming another writer's file, that is not yours: rerun
+   once, then report it in one line and proceed.
 6. Write your report to `docs/briefs/reports/report-{NN}.md`: the word
    count, the figure list with one line each on what the directive asks
    for, any fact you needed and could not find (you left it out; say so),
    any place the fact file contradicted itself, and the checker's residual
    findings with your defence. Return only: status (DONE, DONE_WITH_CONCERNS,
-   NEEDS_CONTEXT, or BLOCKED), the commit hash, the word count, and
-   concerns in at most five lines.
+   NEEDS_CONTEXT, or BLOCKED), the word count, and concerns in at most
+   five lines.
 
 You never dispatch subagents. Review comes from the controller after your
 report.
