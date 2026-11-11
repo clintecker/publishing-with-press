@@ -149,3 +149,30 @@ Coordinator rulings: 1 to 9 applied. On ruling 4, the chapter now references `02
 ### Checker residuals after revision
 
 `press check` reports nothing against the chapter text. The only failures are the placeholder-name issue above, plus other files. `ste_check` residuals: the three art directives and the fig-alt lines (length and semicolons, not prose). Line 35 is the footnote-marker join. Line 43 is a semicolon inside INSTALL.md's verbatim sentence. "harness" appears inside the dev-render header's verbatim quotation. "check out" is the Git verb. The index comment and the gerund headings are as before.
+
+## Revision 2 (scoped re-review)
+
+Word count: 5,257 (`press wordcount`).
+
+1. N1: applied. Each of the three `art:` comments now sits on the line right after its image line, with its text unchanged. `press figures` now shows a description for all three.
+2. O2: applied. The sentence now reads "seems to hang for several minutes".
+3. O3: applied. *release contract* is now defined at its first use, in the "Which versions" paragraph. The later sentence uses the plain term.
+4. N2: applied. A new paragraph after Example 2.1 says that Debian and Ubuntu ship `venv` in `python3-venv`. It says the package is missing from the press's list and that `python3 -m venv` fails without it. It then gives the book's own addition as a short `text` fence: `sudo apt-get install python3-venv`.
+5. N3: applied.
+   - Example 2.1's pip line is broken with a trailing backslash.
+   - Example 2.4 lost its two `#` comments. The sentence before it now gives their content in prose, quoting "optional: the retail EPUB gate locally". The earlier note about narrowing the comment spacing is gone.
+   - `tools/tag-fences.py` tagged all 8 fences `text`.
+   - No fence line is longer than 64 columns.
+
+Two other edits came out of the checks:
+
+- `press check` newly flagged two lines in the dev-render paragraph:
+  - "harness", inside the quoted header phrase, as assistant vocabulary. I paraphrased the phrase without quotation marks.
+  - "quick look, and", which matches the `Look,` run-up pattern. It now reads "JPEG previews".
+- The jargon lint listed two advisory findings, "settle" and "readiness". I reworded both.
+
+`press check` now reports nothing for this chapter. Its exit status is 1 only because of the jargon findings in Chapters 1, 3, and 5. `ste_check` residuals are as in the previous revision: the art directives and the image lines, the footnote-marker join at line 35, verbatim quotations, and the index comment.
+
+## Revision 3 (continuity)
+
+Applied every item. (1) The composite action is now "the piece of the press that the reusable workflow runs to install it", and the reusable workflow's gloss is unchanged. (2) "The project" became "the press" in five places. (3) The three mays: "could not run", "inside the pinned toolchain image", and the operator's commands are now "commands", not targets. The italic definition of *toolchain image* moved to its first use in "What you need". `tools/space-art-comments.py` inserted 0 lines, because each `art:` comment already had one blank line after its image line. `press check` names nothing in this chapter. Its only failures are in `09-the-house-design.md`. Word count: 5,271.
