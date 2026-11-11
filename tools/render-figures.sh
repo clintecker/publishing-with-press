@@ -18,20 +18,24 @@ for t in tools/figures/*.txt; do
   name="$(basename "$t" .txt)"
   title=""
   [ -f "tools/figures/$name.title" ] && title="$(head -n1 "tools/figures/$name.title")"
+  cols=80
+  [ -f "tools/figures/$name.cols" ] && cols="$(head -n1 "tools/figures/$name.cols")"
   echo "== $t"
-  "$PY" tools/figures/terminal.py "$t" "assets/woodcuts/$name.png" --title "$title"
+  "$PY" tools/figures/terminal.py "$t" "assets/woodcuts/$name.png" --title "$title" --cols "$cols"
 done
 
 "$PY" - <<'PYEOF'
 import sys
+import re
 from pathlib import Path
 from PIL import Image
 
 rows, bad = [], []
 for q in sorted(Path("assets/woodcuts").glob("*")):
+    if re.match(r"^the-[a-z0-9-]+\.png$", q.name): continue  # plates: alpha masters, not figures
     if q.name.startswith(".") or q.name.startswith("._") or q.suffix != ".png":
         bad.append(f"{q.name}: unexpected file in assets/woodcuts (press refuses unreferenced files)")
-for p in sorted(Path("assets/woodcuts").glob("*.png")):
+for p in sorted(Path("assets/woodcuts").glob("[0-9][0-9]-[0-9][0-9]-*.png")):
     im = Image.open(p)
     dpi = im.info.get("dpi", (0, 0))
     dpi = tuple(round(float(d)) for d in dpi)
