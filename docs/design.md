@@ -82,9 +82,23 @@ where the two differ. The rulings:
    Latin.** This is press law and also the prose contract.
 4. **Paragraphs under 190 words; the 80-word average the prose contract
    wants is well inside it.**
-5. **Chapters open with a drop cap in the PDF.** The house does this; a
-   technical book of the period did not. The Preface is `{.unnumbered}`
-   and gets none. Sentinels are therefore mid-chapter phrases.
+5. **No drop caps.** The house default (`chapter-opening: none`) stays, as
+   a technical book of the period would have it. Sentinels are still
+   mid-chapter phrases, never a heading, caption, or code line.
+5a. **Sections keep press's numbers** (1.1, 1.1.1 in the PDF and the
+   reader). Some period books numbered sections and some did not; typing
+   `{-}` on every heading is noise a writer will forget, and the numbers
+   help the "see the section" cross-references.
+5b. **Figures live in `assets/woodcuts/` as grayscale PNG**, 1362 px wide
+   at full measure, because press's print pass copies images from no other
+   directory (press issue #272). Plates share the directory; the List of
+   Plates holds only the unnumbered ones.
+5c. **Code fences are untagged.** A language tag colours the code and the
+   print interior's black-ink check refuses it (press issue #273).
+5d. **Tips, warnings, sidebars, and the "In this chapter" box are
+   blockquotes inside classed Divs**, since the blockquote is the one boxed
+   element every edition renders (press issue #274 covers the missing
+   preamble hook).
 6. **The front colophon the press generates stays** (title page, imprint,
    rights, edition note, production note, motto). The period's
    back-of-book colophon with the animal paragraph is an authored
@@ -238,9 +252,9 @@ About 42 numbered figures and 6 plates, plus the cover.
 
 - **Diagrams** are drawn as code (Graphviz `dot` for graphs and flows,
   Python with Pillow or matplotlib for page anatomies, trees, matrices,
-  and timelines) in `tools/figures/NN-name.py` or `.dot`, rendered to
-  grayscale PNG at 300 dpi, 1800 px wide for a full-measure figure, by
-  `tools/render-figures.sh`. The look: black on white, 10 and 20 percent
+  and timelines) in `tools/figures/fig-CC-NN-slug.py`, rendered to grayscale PNG at 300
+  dpi, 1362 px wide for a full-measure figure (the 4.54 in text block), by
+  `tools/render-figures.sh`, into `assets/woodcuts/`. The look: black on white, 10 and 20 percent
   gray fills, 0.5 pt boxes and 0.75 pt arrows, small filled arrowheads,
   Helvetica-style labels at 7 to 8 pt with code in a monospace, rounded
   boxes for programs and square boxes with a dog-ear for files, a cylinder
@@ -300,9 +314,8 @@ About 42 numbered figures and 6 plates, plus the cover.
   `<!-- expect: banned-pattern -->`.
 - `assets/web/extra.css`: the tip, warning, sidebar, in-this-chapter, and
   example-caption styles for the reader and HTML editions.
-- `config/metadata.yaml` `header-includes`: the LaTeX for the same
-  constructs in the PDF (per the production handbook's confirmation that
-  `header-includes` passes through, as Make Ready's does).
+- No `header-includes`: press ignores it for the PDF and it breaks the
+  EPUB (issue #274). The PDF look of the boxes is the house blockquote.
 
 ## 10. Production plan
 
