@@ -64,7 +64,9 @@ defined in the same sentence; afterwards it is roman.
 | scar | a production failure turned into a guard | lesson, gotcha, footgun |
 | invariant | an `INV-` ledger entry | guarantee, rule, contract (reserved for the release contract and the extension contract) |
 | the quality gate | the celebrimbor gate | CI checks, the ratchet (use for a floor) |
-| refuse / refusal | what press does when it stops with a message | fail (use for a verifier result), error out, reject (use for fixtures and intake) |
+| refuse / refusal | what press does when it stops with a message | error out, reject (use for fixtures and intake) |
+| fail | what a check, a pass, a verifier, or a build does when its result is red; ordinary English, allowed for any of them | error, break |
+| checker self-test | the checker's second pass, which proves each fixture trips its rule (press prints `Checker self-test passed`) | checking the checkers (as a name; fine as a description), the fixture pass, selftest (that is `press selftest`, press's own test suite) |
 | run | what you do with a command | execute, invoke, fire |
 | directory | a folder | folder |
 | Web site, Web page, the Web, e-mail, filename, manpage, appendixes, Unix | spellings | website, email, file name, man page, appendices, UNIX |
