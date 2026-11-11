@@ -47,6 +47,7 @@ defined in the same sentence; afterwards it is roman.
 | the release contract | the workflow that proves a tag | the release check, release CI |
 | floating tag / immutable tag | `v3` / `v3.0.2` | moving tag, major tag, pinned tag (use "pin" for the act) |
 | the aesthetic | `config/aesthetic.yaml` and its merge | theme, style config, look |
+| art target | the `--as` value of `press art accept` and the `[targets]` of `press art commission` (cover, plate, logomark, portrait); press's own synopsis word, so keep it, always with "art" in front | target (reserved for a CLI command), kind, slot |
 | commission | a prompt for an image model, in `art/commissions.md` | prompt (use for the text itself), request |
 | intake | what `press art accept` does | import, ingest, acceptance (use for the record) |
 | alpha master | a plate kept as ink on transparency | transparent PNG, master file |

@@ -84,3 +84,4 @@ Managing editor's record. Append only.
 - Ch 5 revised (6,237) -> re-review; stale croquet-ground placeholder removed. Ch 7 revised (6,199) -> re-review. Ch 10 desks complete -> writer.
 - Ruling: 'the table of authorities' is the ledger (config/authorities.yaml); 'the sources companion' is dist/<slug>-sources.md. Ch 1 continuity: 1 should -> writer, then commit. Footnote prefixes applied to ch 2 and 4 mechanically.
 - Ruling: edition names apply book-wide; chapters reviewed before the ruling get it in their open revision or in the whole-book continuity sweep. Writers 14, 15, 16 dispatched.
+- Ch 7 re-review APPROVED (2 shoulds: footnote prefix applied by me; edition gloss to writer, then continuity). Ch 11 desks complete -> writer. Vocabulary: art target.
