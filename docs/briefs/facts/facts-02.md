@@ -416,3 +416,7 @@ attribute it to press or claim press documents it. The extras form is
 `pip install "press[tui] @ git+https://github.com/clintecker/press@v3"` for
 the git channel and `pip install -e '/path/to/press[tui]'` for an
 editable checkout; both are pip's standard syntax, not press-specific.
+
+## S3. `python3 -m venv` on Debian and Ubuntu
+
+On Debian and Ubuntu the `venv` module ships in a separate package, `python3-venv`, which the press's documented package list does not include; `python3 -m venv` fails with a message telling you to install it. This is a Debian packaging fact, not a press fact; the book may add `python3-venv` to the apt line it recommends for a virtual environment, stated as its own addition to the press's list.

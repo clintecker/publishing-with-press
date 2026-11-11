@@ -45,3 +45,8 @@ Managing editor's record. Append only.
   wraps with breaklines); an untagged fence is verbatim and runs off the page. 64
   columns stays the target. tools/tag-fences.py applies the tag mechanically at commit.
 - Ch 6 drafted (6,167). Note from writer: the book's banned patterns read inside code fences too; writers describe banned strings rather than show them.
+- Ch 7 (5,798) and Ch 8 (6,765) drafted. facts-07 gains the full press all capture with
+  pandoc echoes, the pdf.yaml defaults template and its rendered copy, press wordcount;
+  facts-08 gains real press verify and verify-formats runs; facts-02 gains the
+  python3-venv note. Ch 2 re-review: REVISE with five mechanical items; sent back.
+  Desks dispatched on ch 7 and 8.

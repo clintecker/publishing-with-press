@@ -434,3 +434,28 @@ Design rationales that work as sidebars:
 - **The finisher (supplied-interior PDF).** Planned on the Book breadth milestone, not shipped.
 - **The custom merchant-of-record commerce stack.** Icebox.
 - **Non-Latin and right-to-left scripts.** Icebox, "a major per script family".
+---
+
+# Supplement added by the managing editor (2026-11-11): real captures
+
+## S1. `press verify` on the Alice example (exit 0), verbatim apart from path elision
+
+```text
+$ press verify
+  pandoc took 23.7s
+Verified alice-in-wonderland.pdf: 23 pages, 6 x 9 trim, embedded fonts, 2 sentinel(s) plus the title as witnesses, every rendered page contains ink, no edge clipping, cover on page 1
+```
+
+## S2. `press verify-formats` on the same book (exit 0), verbatim apart from path elision
+
+```text
+$ press verify-formats
++ stitched 4 files -> dist/alice-in-wonderland.md
+~/alice/dist/alice-in-wonderland-source.zip
+archived 12 files; excluded dirs ['.git', '__pycache__', 'build', 'dist']
+WARNING: epubcheck not installed; EPUB validated structurally only. The press toolchain runs the full check in CI. (brew install epubcheck)
+Verified alice-in-wonderland.html, alice-in-wonderland.epub, alice-in-wonderland.md, alice-in-wonderland.txt, alice-in-wonderland.docx, site/ (2 sentinel(s), the title, and the manuscript line 'and here alice began to get rather sleep...' as witnesses); 7 editions agree on all 4 chapter witnesses
+Verified archives: alice-in-wonderland-site.zip, alice-in-wonderland-source.zip
+```
+
+The slug is `alice-in-wonderland`; the book's sample uses `alice`. The WARNING line is what a machine without epubcheck prints; in the toolchain image epubcheck runs. The `press all` run that preceded these ended with `  ¶ verify     ✓ 7 editions match source` (full capture in facts-01 S3).

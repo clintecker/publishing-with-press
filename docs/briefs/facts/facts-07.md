@@ -416,3 +416,143 @@ Design rationales that work as sidebars:
 - **The finisher (supplied-interior PDF).** Planned on the Book breadth milestone, not shipped.
 - **The custom merchant-of-record commerce stack.** Icebox.
 - **Non-Latin and right-to-left scripts.** Icebox, "a major per script family".
+---
+
+# Supplement added by the managing editor (2026-11-11): real captures
+
+## S1. The complete `press all` output on the Alice example, with the pandoc echo lines (verbatim; paths elided)
+
+```text
+$ press all
+Source checks passed: 4 ordered Markdown files
+  note: em-dash.md also drew: - .../known-bad/em-dash.md:4: glyph U+2014 is outside the print-font set
+  note: en-dash.md also drew: - .../known-bad/en-dash.md:4: glyph U+2013 is outside the print-font set
+Checker self-test passed: 19 known-bad fixtures each tripped their declared rule, known-good fixture accepted, 2 extra diagnostics noted
+Editorial checks passed: 4 Markdown files
+Jargon check passed: no rewrite-status terms (full audit in build/jargon-report.txt)
+  ¶ check      ✓ style, source, jargon
++ pandoc --defaults=~/alice/build/defaults/pdf.yaml book/chapters/01-down-the-rabbit-hole.md book/chapters/02-the-pool-of-tears.md book/chapters/03-a-caucus-race-and-a-long-tale.md book/appendices/z-about-this-edition.md --output dist/alice-in-wonderland.pdf
+  pandoc took 26.7s
++ pandoc --defaults=~/alice/build/defaults/epub.yaml --metadata rights=The text and illustrations are in the public domain. Published by The Press (gallery example), Oxford. --epub-metadata=~/alice/build/epub-metadata.xml book/chapters/01-down-the-rabbit-hole.md book/chapters/02-the-pool-of-tears.md book/chapters/03-a-caucus-race-and-a-long-tale.md book/appendices/z-about-this-edition.md --output dist/alice-in-wonderland.epub
++ pandoc --defaults=~/alice/build/defaults/html.yaml book/chapters/01-down-the-rabbit-hole.md book/chapters/02-the-pool-of-tears.md book/chapters/03-a-caucus-race-and-a-long-tale.md book/appendices/z-about-this-edition.md --output dist/alice-in-wonderland.html
++ stitched 4 files -> dist/alice-in-wonderland.md
++ pandoc --defaults=~/alice/build/defaults/portable.yaml --to=plain --columns=80 book/chapters/01-down-the-rabbit-hole.md book/chapters/02-the-pool-of-tears.md book/chapters/03-a-caucus-race-and-a-long-tale.md book/appendices/z-about-this-edition.md --output dist/alice-in-wonderland.txt
++ pandoc --defaults=~/alice/build/defaults/portable.yaml --to=docx book/chapters/01-down-the-rabbit-hole.md book/chapters/02-the-pool-of-tears.md book/chapters/03-a-caucus-race-and-a-long-tale.md book/appendices/z-about-this-edition.md --output dist/alice-in-wonderland.docx
++ pandoc --defaults=~/alice/build/defaults/chunked.yaml --to=chunkedhtml book/chapters/01-down-the-rabbit-hole.md book/chapters/02-the-pool-of-tears.md book/chapters/03-a-caucus-race-and-a-long-tale.md book/appendices/z-about-this-edition.md --output dist/site
+~/alice/dist/alice-in-wonderland-source.zip
+archived 12 files; excluded dirs ['.git', '__pycache__', 'build', 'dist']
++ assembled pages site -> dist/pages
+  ¶ typeset    ✓ PDF · EPUB · web · text · DOCX
+Verified dist/pages: every local reference resolves (fragments and stylesheet assets included), 8 downloads present and linked, sentinels on the public reading surface
+Verified alice-in-wonderland.pdf: 23 pages, 6 x 9 trim, embedded fonts, 2 sentinel(s) plus the title as witnesses, every rendered page contains ink, no edge clipping, cover on page 1
+WARNING: epubcheck not installed; EPUB validated structurally only. The press toolchain runs the full check in CI. (brew install epubcheck)
+Verified alice-in-wonderland.html, alice-in-wonderland.epub, alice-in-wonderland.md, alice-in-wonderland.txt, alice-in-wonderland.docx, site/ (2 sentinel(s), the title, and the manuscript line 'and here alice began to get rather sleep...' as witnesses); 7 editions agree on all 4 chapter witnesses
+Verified archives: alice-in-wonderland-site.zip, alice-in-wonderland-source.zip
+  ¶ verify     ✓ 7 editions match source
+commerce release gate: print ordering is not enabled; no commerce release gate
+
+  press. your book is ready → dist/
+
+```
+
+## S2. A defaults template and its rendered copy (verbatim)
+
+The package template `src/press/data/defaults/pdf.yaml`:
+
+```text
+from: markdown+smart+yaml_metadata_block+fenced_divs+footnotes
+standalone: true
+toc: true
+toc-depth: 1
+number-sections: true
+top-level-division: chapter
+pdf-engine: latexmk
+pdf-engine-opts:
+  - -lualatex
+metadata-file: "@book/config/metadata.yaml"
+filters:
+  - "@press/lua/typographic-spacing.lua"
+  - "@press/lua/set-pieces.lua"
+  - "@press/lua/chapter-dropcap.lua"
+  - "@press/lua/scene-break.lua"
+  - "@press/lua/figure-numbering.lua"
+include-in-header:
+  - "@press/tex/book-header.tex"
+  - "@book/build/profile-geometry.tex?optional"
+  - "@book/build/profile-dropcap.tex?optional"
+  - "@book/build/aesthetic.tex?optional"
+  - "@book/build/front-matter.tex?optional"
+  - "@book/tex/title-page.tex?optional"
+variables:
+  documentclass: scrbook
+  classoption:
+    - oneside
+    - openany
+    - headings=small
+  fontsize: 10pt
+  colorlinks: true
+  linkcolor: black
+  urlcolor: linkgreen
+  citecolor: black
+  toc-title: Contents
+  lot: false
+  thanks: ""
+```
+
+The rendered copy `build/defaults/pdf.yaml` in the Alice book after `press pdf` (paths elided to `.../press` and `~/alice`):
+
+```text
+from: markdown+smart+yaml_metadata_block+fenced_divs+footnotes
+standalone: true
+toc: true
+toc-depth: 1
+number-sections: true
+top-level-division: chapter
+pdf-engine: latexmk
+pdf-engine-opts:
+- -lualatex
+metadata-file: ~/alice/config/metadata.yaml
+filters:
+- .../press/data/lua/typographic-spacing.lua
+- .../press/data/lua/set-pieces.lua
+- .../press/data/lua/chapter-dropcap.lua
+- .../press/data/lua/scene-break.lua
+- .../press/data/lua/figure-numbering.lua
+include-in-header:
+- .../press/data/tex/book-header.tex
+- ~/alice/build/profile-geometry.tex
+- ~/alice/build/profile-dropcap.tex
+- ~/alice/build/aesthetic.tex
+- ~/alice/build/front-matter.tex
+variables:
+  documentclass: scrbook
+  classoption:
+  - oneside
+  - openany
+  - headings=small
+  fontsize: 10pt
+  colorlinks: true
+  linkcolor: black
+  urlcolor: linkgreen
+  citecolor: black
+  toc-title: Contents
+  lot: false
+  thanks: ''
+  lof: true
+metadata:
+  chapter-opening-style: drop-cap
+  chapter-opening-lines: 3
+  chapter-opening-smallcaps: 'true'
+  scene-break-ornament: fairy-dust
+```
+
+## S3. `press wordcount` on the Alice example (verbatim)
+
+```text
+$ press wordcount
+  2160  book/chapters/01-down-the-rabbit-hole.md
+  2136  book/chapters/02-the-pool-of-tears.md
+  1721  book/chapters/03-a-caucus-race-and-a-long-tale.md
+   228  book/appendices/z-about-this-edition.md
+  6245  TOTAL
+```
