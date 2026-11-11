@@ -50,6 +50,8 @@ defined in the same sentence; afterwards it is roman.
 | commission | a prompt for an image model, in `art/commissions.md` | prompt (use for the text itself), request |
 | intake | what `press art accept` does | import, ingest, acceptance (use for the record) |
 | alpha master | a plate kept as ink on transparency | transparent PNG, master file |
+| the table of authorities | the ledger `config/authorities.yaml` and the claims it holds | the authorities file, the sources ledger, the citations |
+| the sources companion | the generated `dist/<slug>-sources.md`, the Sources edition's companion document | the authorities document, the sources appendix, the bibliography |
 | the desk | `press desk` | the TUI, the dashboard, the UI |
 | workflow | a packaged agent procedure | pipeline, automation, playbook |
 | skill | a packaged authoring guide | prompt, guide, doc |

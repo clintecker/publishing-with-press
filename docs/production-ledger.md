@@ -82,3 +82,4 @@ Managing editor's record. Append only.
 - Ch 4 COMMITTED.
 - Ch 3 Revision 2 DONE -> continuity. Ch 8 revised (6,662) -> re-review. Ch 10 blank lines applied.
 - Ch 5 revised (6,237) -> re-review; stale croquet-ground placeholder removed. Ch 7 revised (6,199) -> re-review. Ch 10 desks complete -> writer.
+- Ruling: 'the table of authorities' is the ledger (config/authorities.yaml); 'the sources companion' is dist/<slug>-sources.md. Ch 1 continuity: 1 should -> writer, then commit. Footnote prefixes applied to ch 2 and 4 mechanically.
