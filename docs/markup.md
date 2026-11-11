@@ -148,7 +148,9 @@ Figure 7.1 shows the graph the registry declares.
 - Refer to the figure in prose before it appears, by `@fig:slug`, which
   renders as "Figure 7.1". Never "the figure below".
 - The `art:` comment is the illustrator's brief and comes immediately
-  before the image line. Name the archetype (pipeline, data-flow, tree,
+  before the image line. The checker counts the comment and the image line
+  as one paragraph, so the two together stay under 190 words; put detail
+  the illustrator needs beyond that in the report file. Name the archetype (pipeline, data-flow, tree,
   stack, topology, before/after, page anatomy, state machine, filmstrip,
   flowchart, timeline, matrix) and list every element in reading order.
 - The image path is `assets/woodcuts/CC-NN-slug.png` (chapter, sequence,

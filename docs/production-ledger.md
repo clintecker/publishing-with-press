@@ -16,3 +16,8 @@ Managing editor's record. Append only.
   them, name only epubcheck and the Java wrapper. Ruling: "press doctor && press all"
   advice is wrong per the doctor's optional-tool behaviour; the chapter states the
   behaviour plainly and recommends reading the report, not chaining on its exit code.
+- Ch 4 drafted (5,718 words). Rulings: sentinels are introduced in Ch 6 (the
+  checker validates them) and proven in Ch 8 (the verifiers); Ch 4 points to Ch 6.
+  An art: comment plus its image line is one paragraph for the 190-word law
+  (markup.md updated). Process fault: my `git add -A` swept in-progress drafts;
+  from now on only named files are committed while writers are active.
