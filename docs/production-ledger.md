@@ -27,3 +27,8 @@ Managing editor's record. Append only.
   words because the checker counts a sidebar as one paragraph; figure files are
   numbered in order of appearance. Untracked 12 placeholder PNGs the sweep had
   committed. Desks dispatched on ch 1 and ch 3.
+- Art accepted (six plates, logomark, cover) and committed. Correction: the art:
+  comment goes AFTER the image line (figures.py); markup.md fixed; chapters 1 to 4
+  must move theirs in revision. facts-04 supplemented (examples table; tables, code,
+  inline code, footnote-label scope). Press issues to file: logomark path pinned to
+  gpt-image-1; illustrate always 1024 square.

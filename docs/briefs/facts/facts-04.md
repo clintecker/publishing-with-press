@@ -411,3 +411,71 @@ Design rationales that work as sidebars:
 - **The finisher (supplied-interior PDF).** Planned on the Book breadth milestone, not shipped.
 - **The custom merchant-of-record commerce stack.** Icebox.
 - **Non-Latin and right-to-left scripts.** Icebox, "a major per script family".
+---
+
+# Supplement added by the managing editor (2026-11-11)
+
+## S1. The example books (fact base section 3.6)
+
+### 3.6 The example books (`examples/*/`, the gallery)
+
+Each of the nine examples is a complete book repository with the same layout:
+
+- `config/metadata.yaml` and `config/aesthetic.yaml`
+- `assets/cover.jpg`
+- `book/chapters/` and `book/appendices/`
+- `verify-min-pages: 1`
+
+**What none of them has:** `config/authorities.yaml`, `tex/title-page.tex`, or a `registrations` block.
+
+**Build any of them:**
+
+```sh
+git clone https://github.com/clintecker/press && cd press
+pip install -e . && cd examples/tidepool-field-notes && press all
+```
+
+**How the gallery is published:**
+
+- The docs site builds each example's PDF inside the pinned image (`scripts/build_examples.py`).
+- `docs/GALLERY.md` shows each example's cover and two real pages.
+- The covers are one-time Penguin tri-band commissions in each book's accent. They are committed assets, never regenerated in CI.
+
+| Example | Genre | Title | Print config | Exercises |
+|---|---|---|---|---|
+| `alice-in-wonderland` | public-domain classic (Carroll, ch. 1–3) | "Alice's Adventures in Wonderland" (lang en-GB, Oxford) | `house-6x9`; drop-cap, 3 lines, small caps | Tenniel's 1865 wood engravings as plates; `art/commissions.md`; front matter (edition-note, epigraph, rights, manufacture, colophon-note); aesthetic "Wonderland engraving" with `scene-break: fairy-dust`; `::: verse`, `::: cascade`, `::: tail` (the Mouse's Tale); a dialogue opener ("Curiouser and curiouser!") with a hung quote; appendix `z-about-this-edition.md` |
+| `field-days-almanac` | children's nature almanac | "Field Days: A young naturalist's almanac" | `binding: saddle-stitch` (no spine); drop-cap, 3 lines | four seasonal chapters |
+| `hearthstone-cookbook` | cookbook | "The Hearthstone Table: Plain food for cold months" | `house-6x9-color`, `provider: kdp`, `paper: white` | **colour interior**; `index-terms.yaml`; dedication |
+| `on-the-commons-monograph` | academic monograph | "The Reasonable Commons: Cooperation without coercion in small communities" | house | footnote citations; dedication and acknowledgements |
+| `signal-and-noise-manual` | technical field manual (radio) | "Signal and Noise: A field manual for small radio" | house | every figure placement (`inline`, `wrap-inner`, `wrap-outer`, `plate`, `full-bleed`, `frontispiece`; full and half measure; `outset`; `fig-alt`) in `04-plates-and-placement.md`; tables; glossary appendix `x-glossary.md`; index; `house-rules.yaml` jargon-allow (gate, gating, clean, drift) |
+| `small-hours-chapbook` | poetry chapbook | "Small Hours: Poems for the middle of the night" | `novella-5x8` | verse as hard line breaks; `assets/web/extra.css` (narrow 30rem measure, line-height 1.85); dedication and epigraph |
+| `the-long-field-essays` | essay collection | "The Long Field: Essays on staying put" | house | footnotes; dedication, epigraph, acknowledgements; `y-also-by.md` |
+| `the-tinsmith-novella` | literary novella | "The Tinsmith's Daughter: A novella" | `novella-5x8`; drop-cap | `house-rules.yaml` (jargon-allow seam, clean); aesthetic "Cold steel minimal"; `a-also-by.md` |
+| `tidepool-field-notes` | natural-history field guide | "Between the Tides: A field guide to the rocky shore" | house | a preface plus four intertidal-zone chapters; footnotes; no front-matter file |
+
+**What differs, and where it lives** (from `docs/GALLERY.md`):
+
+| To change… | Set this | Seen in |
+|---|---|---|
+| Trim | `print: profile:` in `config/metadata.yaml` | the 5×8 chapbook and novella |
+| Palette and register | `config/aesthetic.yaml` | every book |
+| The initial that opens each chapter | `chapter-opening:` in `config/metadata.yaml` | the novella and the almanac |
+| Binding | `print: binding:` in `config/metadata.yaml` | the saddle-stitched almanac |
+| Dedication, epigraph, acknowledgements | `config/front-matter.yaml` | cookbook, monograph, chapbook, essays, novella |
+| A subject index | `config/index-terms.yaml` | the cookbook and the manual |
+| Interior illustration plates | plate files in `assets/woodcuts/` | the Alice example |
+| The reading measure and web styling | `assets/web/extra.css` | the chapbook |
+
+
+## S2. Tables, code, and inline code (tested in the production probe, press 3.0.2)
+
+- There is no table-numbering filter. A pipe table's caption line `Table: ...` renders in the PDF as a centred small italic caption above the table (the caption package is set with `labelformat=empty`, so no automatic "Table 1:"); in HTML and EPUB as `<caption>`. `lot: false`, so there is no List of Tables. A book that wants "Table 4.1" types it into the caption.
+- Column widths: a pipe table whose source lines exceed pandoc's `--columns` (72) gets relative column widths from the dash counts in its separator row; a short table is set at natural width.
+- Fenced code is highlighted by pandoc's skylighting with the default `pygments` style, in colour, in the PDF, EPUB, and web editions; a book cannot change the style (no defaults merge). In the PDF, code is set in Source Code Pro scaled 0.86 and long lines wrap (`fvextra` with `breaklines,breakanywhere`) with a hooked continuation mark.
+- A language-tagged fence puts coloured ink on the page, and `press verify-print` refuses the print interior with `print profile: colored ink on pages [N]`. Untagged fences, or fences tagged `text`, print in black (press issue #273). The reading PDF's verifier does not check ink colour.
+- Inline code (backticks) is set in the same monospace face; the glyph law and the banned-pattern battery skip fenced code blocks and inline code (`style_audit`: "Prose rules skip fenced code, except the trailing-whitespace rule"). The jargon lint skips code spans, URLs, and quotations.
+- Footnote labels: pandoc merges every chapter file into one document before it resolves footnotes, so a label must be unique across the whole book, not only within a file.
+
+## S3. Where the `art:` comment goes (figures.py:93-99)
+
+The comment follows the image line: "It may sit on the next line or after one blank line". A comment before an image line is attached to nothing. The book's markup guide was corrected to say so on 2026-11-11.
