@@ -39,7 +39,9 @@ defined in the same sentence; afterwards it is roman.
 | wrap | text flowing beside a figure | runaround (give once as the trade name), float |
 | set piece | `::: cascade`, `::: verse`, `::: tail` | special block, custom div |
 | chapter opening | the drop cap and its style | initial, lettrine (give once), drop cap (use for the `drop-cap` style only) |
-| scene break | the `***` thematic break | section break, ornament (use for the glyph) |
+| scene break | the `***` thematic break | section break |
+| ornament | the scene-break glyph (rule, asterism, fairy-dust) | decoration, flourish |
+| decoration | an image marked `decorative=true`: empty alt, never numbered, never listed | ornament, dingbat |
 | profile / design profile | a sealed interior geometry (`house-6x9` and the rest) | trim preset, layout, theme |
 | provider | a print vendor spec (`house`, `lulu`, `kdp`, `ingram`) | printer (reserved for the machine or shop), vendor, service |
 | the print pack | print interior, cover wrap, checklists | print mode, print build |
