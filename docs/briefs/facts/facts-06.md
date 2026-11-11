@@ -514,3 +514,11 @@ Jargon check passed: no rewrite-status terms (full audit in build/jargon-report.
 ## S5. Ruling on the two Alices
 
 The book's running sample `alice` is the full novel (twelve chapters) that user alice is producing; press's gallery example `alice-in-wonderland` holds chapters 1 to 3 of the novel plus one appendix and renders 23 pages. A capture taken from the gallery example (this one, the `press all` in facts-01 S3, the verify runs in facts-08) is quoted as such: "on the press's own three-chapter Alice example". The fresh-scaffold capture in 3.4 (one file, 19 fixtures) is labelled as a fresh scaffold's output, never as the Alice book's. The sample book sets `verify-min-pages: 24` only once its chapters exist.
+
+## S6. The title-case test's small words (from `style_audit.py`, verbatim list)
+
+a, an, and, as, at, but, by, for, from, in, into, nor, of, on, or, over, the, to, up, with, without (21 words). The test ignores the heading's first word, these words, and ALL-CAPS words; if at least three candidate words remain and 80 percent or more of them are capitalised, the heading is refused as title case.
+
+## S7. Two names
+
+The fixture pass prints `Checker self-test passed: ...`; call it the *checker self-test*, press's own name. Press's own test suite (pytest, `press selftest`) is a different thing: call it *press's test suite* or `press selftest` by name, never "the self-test".
