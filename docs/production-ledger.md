@@ -50,3 +50,4 @@ Managing editor's record. Append only.
   facts-08 gains real press verify and verify-formats runs; facts-02 gains the
   python3-venv note. Ch 2 re-review: REVISE with five mechanical items; sent back.
   Desks dispatched on ch 7 and 8.
+- Wave 3 writers 9, 10, 11 dispatched; Ch 12 deferred (20-agent cap), dispatch when a slot frees.
