@@ -483,3 +483,14 @@ Design rationales that work as sidebars:
 - **The finisher (supplied-interior PDF).** Planned on the Book breadth milestone, not shipped.
 - **The custom merchant-of-record commerce stack.** Icebox.
 - **Non-Latin and right-to-left scripts.** Icebox, "a major per script family".
+---
+
+# Supplement added by the managing editor (2026-11-11)
+
+## S1. Which commands run the checker (from `src/press/__main__.py`, confirmed)
+
+A bare format target (`press pdf`, `press epub`, `press html`, `press site`, `press txt`, `press docx`, `press markdown`) calls `build.build_target(<name>)` directly and does not run `press check` first. `press verify` builds the PDF the same way, then runs the PDF verifier. `press all` runs the checker's four passes first (source checks, check-the-checkers, style audit, jargon lint) and stops at the first failure before any format is built. So the known-bad fixtures run "in `press check` and `press all`, not in a bare `press pdf`" (fact base 20.A.10). The sentence "every build passes through press check" is true of `press all` and of CI (whose reusable workflow runs `press all`), and false of a bare format target; the chapter says which.
+
+## S2. Exit status
+
+The fact base records only "nonzero" for a failed `press check` (its exit is 1 in the captured refusals, see `press add` and `press check` captures where given); a usage error exits 2 (fact base 3.2 for `press add`). Say "exits with status 1" only where a capture shows it; otherwise "nonzero".

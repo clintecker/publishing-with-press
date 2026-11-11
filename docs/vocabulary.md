@@ -13,7 +13,8 @@ defined in the same sentence; afterwards it is roman.
 | the manuscript | the chapters and appendices under `book/` | the source, the content, the text (for the files) |
 | chapter file / appendix file | one Markdown file | section file, document |
 | target | a `press` command that builds, checks, or verifies | task, step, stage, job, goal |
-| edition | one published form of the book (PDF, EPUB, HTML, reader site, Markdown, text, DOCX) | format (use only for a file format such as PNG), output, version |
+| edition | one published form of the book | format (use only for a file format such as PNG), output, version |
+| the Print edition (PDF), the Circulating edition (EPUB), the Single-leaf edition (the self-contained HTML), the Manuscript edition (the stitched Markdown), the Telegraphic edition (plain text), the Office edition (DOCX), the Chapter edition (the reader site and its zip), the Source edition (the source zip) | press's own names for the editions, from its landing page; use the name, glossed once per chapter with its format in parentheses | the PDF edition, the Markdown edition, the text edition, the web edition, the e-book |
 | artifact | a file or directory in `dist/` that the registry names | output, product, deliverable, build |
 | the registry | the artifact graph in `registry.py` | the graph, the DAG, the table |
 | the catalog | the typed command table | the command list, the menu |

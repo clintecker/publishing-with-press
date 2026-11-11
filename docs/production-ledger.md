@@ -56,3 +56,8 @@ Managing editor's record. Append only.
   figure. Rule: image, blank line, art comment. tools/space-art-comments.py applied to
   02, 04, 05, 06, 07, 08, 15, colophon; writers of 01, 03, 09, 10, 11 instructed.
   Ch 2 Revision 2 DONE; Ch 4 re-review REVISE (4 items); Ch 5 drafted (5,772).
+- Rulings: edition names are press's landing-page names (Print, Circulating, Single-leaf,
+  Manuscript, Telegraphic, Office, Chapter, Source edition), glossed once per chapter;
+  glyphs like the pilcrow are allowed in code blocks only, not table cells (the checker
+  refuses them there). facts-06 S1: bare format targets do not run the checker; press
+  all and CI do. Ch 1 revised (5,066) -> re-review.
