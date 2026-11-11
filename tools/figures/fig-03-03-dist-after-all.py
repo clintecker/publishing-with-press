@@ -9,7 +9,7 @@ rows = [
     ("alice.md", "Manuscript edition"), ("alice.txt", "Telegraphic edition"),
     ("alice.docx", "Office edition"), ("alice-site.zip", "Chapter edition"),
     ("alice-source.zip", "Source edition"),
-    ("alice-sources.md", "table of authorities, only with config/authorities.yaml"),
+    ("alice-sources.md", "sources companion, only with config/authorities.yaml"),
     ("site/", "the per-chapter reader"), ("pages/", "the GitHub Pages bundle (see Chapter 14)"),
 ]
 top = 14
