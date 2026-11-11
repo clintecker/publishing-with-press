@@ -51,3 +51,8 @@ Managing editor's record. Append only.
   python3-venv note. Ch 2 re-review: REVISE with five mechanical items; sent back.
   Desks dispatched on ch 7 and 8.
 - Wave 3 writers 9, 10, 11 dispatched; Ch 12 deferred (20-agent cap), dispatch when a slot frees.
+- Correction (tested on pandoc 3.9 and the CI 3.1.3): an image followed on the next
+  line by a comment is a Para, not a Figure; one blank line between restores the
+  figure. Rule: image, blank line, art comment. tools/space-art-comments.py applied to
+  02, 04, 05, 06, 07, 08, 15, colophon; writers of 01, 03, 09, 10, 11 instructed.
+  Ch 2 Revision 2 DONE; Ch 4 re-review REVISE (4 items); Ch 5 drafted (5,772).

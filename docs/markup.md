@@ -148,14 +148,19 @@ Table: Table 6.1. press check options
 Figure 7.1 shows the graph the registry declares.
 
 ![The build graph the registry declares](assets/woodcuts/07-01-build-graph.png){#fig:build-graph .diagram width=full-measure fig-alt="A left-to-right diagram: chapter and config files flow into press check, then pandoc with its filters, then into seven editions, which converge on the verifiers."}
+
 <!-- art: ARCHETYPE pipeline, left to right. Left: two file icons, "book/chapters/*.md" and "config/*.yaml". Centre: a rounded process box "press check", then a rounded box "pandoc" listing in small monospace the five filters in order (typographic-spacing, set-pieces, chapter-dropcap, scene-break, figure-numbering). Right: ... The reader should see first that every edition starts from the same two inputs. -->
 ```
 
 - Refer to the figure in prose before it appears, by `@fig:slug`, which
   renders as "Figure 7.1". Never "the figure below".
-- The `art:` comment is the illustrator's brief and comes on the line
-  immediately AFTER the image line (press attaches a comment to the image
-  it follows; a comment before the image belongs to nothing). The checker counts the comment and the image line
+- The `art:` comment is the illustrator's brief and comes AFTER the image
+  line with ONE BLANK LINE between them. Press attaches a comment to the
+  image it follows (a comment before the image belongs to nothing), and
+  pandoc makes a figure only of an image that stands alone in its
+  paragraph: a comment on the very next line turns the figure into plain
+  inline text with no caption and no list entry. Image, blank line,
+  comment. The checker counts the comment and the image line
   as one paragraph, so the two together stay under 190 words; put detail
   the illustrator needs beyond that in the report file. Name the archetype (pipeline, data-flow, tree,
   stack, topology, before/after, page anatomy, state machine, filmstrip,

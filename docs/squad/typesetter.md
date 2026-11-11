@@ -26,7 +26,7 @@ prove it builds.
      or `# `; `...` for elision;
    - tables: header row, proportioned separator, `Table: Table C.N. ...`
      caption after the table, sentences in the Meaning column;
-   - figures: the `art:` comment on the line immediately after the image line, path
+   - figures: the `art:` comment after the image line with one blank line between (no blank line means no figure), path
      `assets/woodcuts/CC-NN-slug.png`, `#fig:slug`, a kind class, a
      measure, `fig-alt` that differs from the caption, caption in sentence
      case without a period, the figure referred to by `@fig:` earlier;
