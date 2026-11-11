@@ -459,3 +459,13 @@ Verified archives: alice-in-wonderland-site.zip, alice-in-wonderland-source.zip
 ```
 
 The slug is `alice-in-wonderland`; the book's sample uses `alice`. The WARNING line is what a machine without epubcheck prints; in the toolchain image epubcheck runs. The `press all` run that preceded these ended with `  ¶ verify     ✓ 7 editions match source` (full capture in facts-01 S3).
+
+## S3. The witnesses (from `verify_formats.py`, as the fact base glossary and the production probe state them)
+
+- The *manuscript witness* is the longest markup-free line of 40 or more characters in the whole manuscript: a line containing none of the characters `* _ ` [ ] ( ) < > " ' & # ! |`. Every edition must carry it.
+- A *chapter witness* is the same rule applied per chapter file: its longest such line. The formats verifier requires all seven editions to agree on every chapter's witness ("7 editions agree on all 4 chapter witnesses" in the S2 capture), and the reader site uses the chapter witnesses for page identity.
+- A raw line of 40 or more plain characters that is not prose (a long code line without any of those characters) can therefore become a witness and fail the HTML and EPUB verifiers when it does not survive rendering.
+
+## S4. Ruling on the page floor
+
+Press's own gallery Alice renders 23 pages with `verify-min-pages: 1`; the book's sample `alice` is the full novel and sets 24 only once its twelve chapters exist. Any capture from the gallery example is quoted as "the press's own three-chapter Alice example". See facts-06 S5.

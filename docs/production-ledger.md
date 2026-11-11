@@ -61,3 +61,7 @@ Managing editor's record. Append only.
   glyphs like the pilcrow are allowed in code blocks only, not table cells (the checker
   refuses them there). facts-06 S1: bare format targets do not run the checker; press
   all and CI do. Ch 1 revised (5,066) -> re-review.
+- Rulings: banned patterns skip fenced code, fire in inline code (tested). The two
+  Alices: the book's sample `alice` is the full novel; captures from press's gallery
+  example (three chapters, 23 pages) are quoted as such. Chapter witness rule added to
+  facts-08. Ch 3 revised (6,731) -> re-review; Ch 4 Revision 2 DONE -> continuity.

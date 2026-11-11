@@ -494,3 +494,23 @@ A bare format target (`press pdf`, `press epub`, `press html`, `press site`, `pr
 ## S2. Exit status
 
 The fact base records only "nonzero" for a failed `press check` (its exit is 1 in the captured refusals, see `press add` and `press check` captures where given); a usage error exits 2 (fact base 3.2 for `press add`). Say "exits with status 1" only where a capture shows it; otherwise "nonzero".
+
+## S3. What the book's banned patterns read (tested 2026-11-11)
+
+A banned pattern in `config/house-rules.yaml` does NOT fire inside a fenced code block, but it DOES fire inside inline code (a backticked span in a prose line) and in any other prose line. Test: a fence containing "leverages a robust" drew nothing; an inline `delve` on a prose line drew `assistant vocabulary`. The universal battery behaves the same way ("Prose rules skip fenced code, except the trailing-whitespace rule").
+
+## S4. A real `press check` on press's own Alice gallery example (four manuscript files, no book fixtures), verbatim apart from path elision
+
+```text
+$ press check
+Source checks passed: 4 ordered Markdown files
+  note: em-dash.md also drew: - .../known-bad/em-dash.md:4: glyph U+2014 is outside the print-font set
+  note: en-dash.md also drew: - .../known-bad/en-dash.md:4: glyph U+2013 is outside the print-font set
+Checker self-test passed: 19 known-bad fixtures each tripped their declared rule, known-good fixture accepted, 2 extra diagnostics noted
+Editorial checks passed: 4 Markdown files
+Jargon check passed: no rewrite-status terms (full audit in build/jargon-report.txt)
+```
+
+## S5. Ruling on the two Alices
+
+The book's running sample `alice` is the full novel (twelve chapters) that user alice is producing; press's gallery example `alice-in-wonderland` holds chapters 1 to 3 of the novel plus one appendix and renders 23 pages. A capture taken from the gallery example (this one, the `press all` in facts-01 S3, the verify runs in facts-08) is quoted as such: "on the press's own three-chapter Alice example". The fresh-scaffold capture in 3.4 (one file, 19 fixtures) is labelled as a fresh scaffold's output, never as the Alice book's. The sample book sets `verify-min-pages: 24` only once its chapters exist.
