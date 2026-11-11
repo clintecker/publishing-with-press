@@ -2,3 +2,6 @@ build/
 dist/
 __pycache__/
 .DS_Store
+.venv-tools/
+tools/figures/.fontcache/
+tools/figures/.build/
