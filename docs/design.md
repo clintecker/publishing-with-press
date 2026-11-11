@@ -93,8 +93,10 @@ where the two differ. The rulings:
    at full measure, because press's print pass copies images from no other
    directory (press issue #272). Plates share the directory; the List of
    Plates holds only the unnumbered ones.
-5c. **Code fences are untagged.** A language tag colours the code and the
-   print interior's black-ink check refuses it (press issue #273).
+5c. **Every code fence is tagged `text`.** A language tag colours the code
+   and the print interior's black-ink check refuses it (press issue #273);
+   an untagged fence is plain verbatim and cannot wrap (press issue #279).
+   A `text` fence is black and wraps.
 5d. **Tips, warnings, sidebars, and the "In this chapter" box are
    blockquotes inside classed Divs**, since the blockquote is the one boxed
    element every edition renders (press issue #274 covers the missing
