@@ -1,0 +1,13 @@
+$ press check
+Source checks passed: 4 ordered Markdown files
+  note: em-dash.md also drew: - .../known-bad/em-dash.md:4:
+    glyph U+2014 is outside the print-font set
+  note: en-dash.md also drew: - .../known-bad/en-dash.md:4:
+    glyph U+2013 is outside the print-font set
+Checker self-test passed: 19 known-bad fixtures each tripped
+    their declared rule, known-good fixture accepted, 2 extra
+    diagnostics noted
+Editorial checks passed: 4 Markdown files
+Jargon check passed: no rewrite-status terms (full audit in
+    build/jargon-report.txt)
+$
