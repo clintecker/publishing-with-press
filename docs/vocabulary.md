@@ -25,7 +25,11 @@ defined in the same sentence; afterwards it is roman.
 | the watchlist | the jargon term list | banned words, the blocklist |
 | known-bad fixture | a file that must be rejected | negative test, bad example |
 | sentinel | a `verify-sentinels` phrase | marker, canary, probe |
-| witness | the manuscript or chapter witness line | fingerprint, signature |
+| witness | a text the verifiers require every edition to carry: a sentinel, the title, the manuscript witness line, a chapter witness line | fingerprint, signature, marker |
+| the Alice book | the book's sample: user alice's full novel, slug `alice` | the Alice example, the sample book (after first use), Alice's book |
+| the press's own three-chapter Alice example | press's gallery example `examples/alice-in-wonderland`, chapters 1 to 3 plus one appendix, 23 pages; the source of every real capture | the Alice example, the gallery Alice, the demo |
+| the Pages bundle | the directory `dist/pages/` | the pages directory, the site bundle |
+| the Pages site | what GitHub Pages serves from the bundle | the Web site, the landing site |
 | vacuous witnesses | press's own phrase, in its refusal, for sentinels or a page floor too weak to prove anything (an empty sentinel list, a one-page floor); quote it only where press's message is quoted | weak sentinels, placeholder sentinels |
 | release witnesses | press's own term for the release floor: at least two sentinels and `verify-min-pages` of 24 or more, enforced under `PRESS_RELEASE=1` | release requirements, release gate (reserved for the commerce gate) |
 | plate | an unnumbered illustration in the List of Plates | woodcut (except when naming the idiom), picture, image (use image for the file) |
