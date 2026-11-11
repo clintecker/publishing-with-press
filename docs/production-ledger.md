@@ -70,3 +70,4 @@ Managing editor's record. Append only.
   facts-05 S1 to S3; press issue #280 filed (next-line comment kills the figure; docs
   show that form; wrap + directive). Ch 2 continuity: 1 block (composite action
   wording vs Ch 3) sent to the writer as Revision 3.
+- Ch 2 COMMITTED. Ch 1 re-review: five mechanical items back to the writer. Ch 10 drafted (5,095); desks dispatched.
