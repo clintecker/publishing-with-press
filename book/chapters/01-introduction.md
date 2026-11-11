@@ -153,9 +153,9 @@ Editorial checks passed: 1 Markdown files
 ...
 ```
 
-The count is 1 because the scaffold holds a single chapter file, the preface. The first line reports the source checks, which read every chapter file in order. The `Editorial checks` line reports the style audit. The two elided lines report the other passes. One is a selftest of the checker's own rules. The other is the jargon lint, which looks for terms from the *watchlist*, the press's list of overused words.
+The count is 1 because the scaffold holds a single chapter file, the preface. The first line reports the source checks, which read every chapter file in order. The `Editorial checks` line reports the style audit. The two elided lines report the other passes. One is a self-test of the checker's own rules. The other is the jargon lint, which looks for terms from the *watchlist*, the press's list of overused words.
 
-The selftest is the unusual pass. A *known-bad fixture* is a file that every check must reject. On each check, the press runs all 19 of its known-bad fixtures through its own rules. If a rule stops catching the thing it exists to catch, the selftest fails before that broken rule can pass your manuscript.
+The self-test is the unusual pass. A *known-bad fixture* is a file that every check must reject. On each check, the press runs all 19 of its known-bad fixtures through its own rules. If a rule stops catching the thing it exists to catch, the self-test fails before that broken rule can pass your manuscript.
 
 `press wordcount` counts the prose. It strips fenced and inline code. It counts HTML comments, so a comment inside a chapter adds to the total.
 
@@ -247,7 +247,7 @@ When the tour goes wrong, the QUICKSTART lists five usual causes:
 
 1. `pandoc is required`. The toolchain is missing, or pandoc is not on your path.
 2. A style or jargon failure. The checker refused something in the manuscript.
-3. `sentinel ... not found`. A verifier could not find a sentinel phrase, which the section "The editions" explains.
+3. `sentinel ... not found`. The checker could not find a sentinel phrase in the manuscript, which the section "The editions" explains.
 4. A font scan that looks like a hang. The warning earlier in this section covers it.
 5. A CI build that dies at "Initialize containers". Run the build again. The image is public, so no permission is missing.
 
@@ -280,7 +280,7 @@ A book with a *config/authorities.yaml*, its table of authorities, gets one more
 
 Everything the press makes on the way to *dist/* stays in the build directory, *build/*. That directory holds the rendered pandoc defaults, the generated subject index, the front matter as TeX, the jargon report, and the page images that `press render` draws at 160 dpi. `press clean` deletes both *build/* and *dist/*.
 
-A *sentinel* is a phrase from the manuscript, listed under `verify-sentinels` in *config/metadata.yaml*, that the verifiers must find in the manuscript and in every artifact. If one goes missing, the build stops with `sentinel ... not found`. A second setting, `verify-min-pages`, sets the fewest pages the PDF may have. The scaffold writes 1, which suits a book that is one preface long. If you delete that line, the default of 40 applies, and a short book then fails. A release build refuses both draft values, and it needs at least 2 sentinels and a floor of at least 24 pages.
+A *sentinel* is a phrase from the manuscript, listed under `verify-sentinels` in *config/metadata.yaml*, that the verifiers must find in the manuscript and in every artifact. If a sentinel leaves the manuscript, the checker refuses with `sentinel not found in the manuscript:`, and if an edition lacks one, the verifier for that edition fails and names it. A second setting, `verify-min-pages`, sets the fewest pages the PDF may have. The scaffold writes 1, which suits a book that is one preface long. If you delete that line, the default of 40 applies, and a short book then fails. A release build refuses both draft values: it needs at least 2 sentinels and a floor of at least 24 pages.
 
 ::: {.warning}
 > **Warning:** If your book uses the drop-cap chapter opening, do not take a sentinel from the first words of a chapter. The drop cap splits the first word and sets the rest of it in small caps, so a sentinel placed there fails the exact match in the PDF. The house default is no drop cap at all.

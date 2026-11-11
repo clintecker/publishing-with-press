@@ -296,3 +296,15 @@ Applied continuity items 5 to 9 and the description ruling.
 
 Footnotes are prefixed `3-`, and every fence was already tagged. `press
 check` is fully green, all four passes. `press wordcount` is 6,795.
+
+## Revision 4 (Chapter 6 and 7 continuity)
+
+- The sentinel refusals now quote the checker's `sentinel not found in the
+  manuscript:` and the verifiers' `missing text sentinel in PDF:` and
+  `<label> missing sentinel:`.
+- The checker's passes now carry Chapter 6's names: the source checks, the
+  checker self-test, the style audit, and the jargon lint.
+- Table 3.3's `rights` row now has a clause for the EPUB exception, where
+  the press sets its own `--metadata rights=` value.
+
+`press check` is green on all four passes.

@@ -191,7 +191,7 @@ The first block of the file names the book. Table 3.3 gives each field, its defa
 | `publisher-place` | none | It is the place of the imprint. The model needs it with front matter. |
 | `description` | none | It is a one-sentence blurb for the landing page and the stores. The `press check` target refuses a book without one. |
 | `keywords` | none | It is a list of subject keywords, which press passes to the editions. |
-| `rights` | none | It is a rights statement, which press passes through to pandoc. |
+| `rights` | none | It is a rights statement, which press passes through to pandoc, except in the EPUB, where the press sets its own `--metadata rights=` value. |
 
 Table: Table 3.3. Identity fields in metadata.yaml
 
@@ -530,13 +530,13 @@ pages
 site
 ```
 
-The run follows a fixed order. First come the four passes of the checker: the source checks, the self-test, the editorial checks, and the jargon check. The four files are its three chapters and its appendix. Next, pandoc builds each edition, and the press prints every pandoc command line with a leading `+`. The press then stitches the Manuscript edition (the raw Markdown), packs the Source edition, and assembles the Pages bundle. The verifiers run last, and the commerce release gate only reports, because print ordering is off.
+The run follows a fixed order. First come the four passes of the checker: the source checks, the checker self-test, the style audit, and the jargon lint. The four files are its three chapters and its appendix. Next, pandoc builds each edition, and the press prints every pandoc command line with a leading `+`. The press then stitches the Manuscript edition (the raw Markdown), packs the Source edition, and assembles the Pages bundle. The verifiers run last, and the commerce release gate only reports, because print ordering is off.
 
 The self-test line says that every known-bad fixture that comes with the press still trips the rule it declares. That line proves the checker works on known-bad input. The press runs those fixtures in `press check` and in `press all`, and not in a bare `press pdf`. Chapter 6 takes the four passes apart, and Chapter 8, *Verifying the artifacts*, covers the verifiers. On a machine without epubcheck, the run also prints a warning that it validated the EPUB structurally only, and the toolchain image runs the full check in CI.
 
 The first time LuaLaTeX runs on a new machine, it scans the system fonts, and that scan takes several minutes. It is not a hang, although it is a convincing imitation of one. Let it finish.
 
-The other refusals a first build is likely to meet are short and plain. The message `pandoc is required` means the toolchain is missing. A style or jargon failure names the file and the rule. The message `sentinel ... not found` means a sentinel is not in the manuscript, or not in one of the artifacts.
+The other refusals a first build is likely to meet are short and plain. The message `pandoc is required` means the toolchain is missing. A failure in the style audit or the jargon lint names the file and the rule. The checker prints `sentinel not found in the manuscript:` when a sentinel is missing from the manuscript. A verifier that cannot find a sentinel in an artifact prints its own form, such as `missing text sentinel in PDF:` or `<label> missing sentinel:`.
 
 The `press wordcount` target is the one you will run daily. It prints one line per manuscript file and a total. On a fresh scaffold it looks like this, and yours now lists the new files too:
 

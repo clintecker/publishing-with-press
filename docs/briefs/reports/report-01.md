@@ -199,3 +199,7 @@ Applied all of it: the reusable workflow, *build.yml*, named at the push step; "
 ## Revision 4
 
 Example 1.1 and the Figure 1.3 brief now run `press new alice --owner wonderland-press`, and the scaffolding paragraph says `--owner` fills in the `repository` and `site-url` lines (no prose had said they stay commented). The description stays "A girl falls into Wonderland." `press check` passes. Word count 5119.
+
+## Revision 5
+
+The refusal list now attributes `sentinel ... not found` to the checker (a phrase missing from the manuscript); the sentinel paragraph quotes the checker message `sentinel not found in the manuscript:` and says in words that an edition's verifier fails and names a missing sentinel. "selftest" became "self-test" (no use refers to `press selftest`). `press check` passes. Word count 5138.
