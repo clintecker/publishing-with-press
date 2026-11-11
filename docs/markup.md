@@ -53,8 +53,11 @@ against the house rules. ...
   `` `--strict` ``, `` `verify-min-pages` ``, `` `PRESS_RELEASE` ``.
 - Program names as proper nouns are roman: pandoc, LuaLaTeX, latexmk,
   epubcheck, Graphviz, Git. The command is constant width: `` `pandoc` ``.
-- Footnote: `text.[^note]` and, at the end of the section,
-  `[^note]: The note.` Labels are unique within the file.
+- Footnote: `text.[^6-note]` and, at the end of the section,
+  `[^6-note]: The note.` Labels are unique across the whole book, because
+  press merges every chapter into one document, so every label begins
+  with the chapter number (`[^6-...]`, `[^12-...]`, `[^a-...]` for
+  Appendix A).
 
 ## Tips, warnings, and sidebars
 

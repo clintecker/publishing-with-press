@@ -71,3 +71,4 @@ Managing editor's record. Append only.
   show that form; wrap + directive). Ch 2 continuity: 1 block (composite action
   wording vs Ch 3) sent to the writer as Revision 3.
 - Ch 2 COMMITTED. Ch 1 re-review: five mechanical items back to the writer. Ch 10 drafted (5,095); desks dispatched.
+- Footnote labels must be unique across the whole book (pandoc merges files): hypcap and libertine collide between ch 5 and ch 9. Convention from now: prefix every footnote label with the chapter number (e.g. [^5-hypcap]). Continuity editor to enforce; markup.md updated.
