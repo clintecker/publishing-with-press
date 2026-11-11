@@ -1,0 +1,60 @@
+# House rules for Publishing with Press. The universal battery (em and en
+# dashes, curly quotes, "not only ... but also", "at its core", "let's
+# dive", "without further ado", "stands as a testament", "vibrant tapestry",
+# throat-clearing, "in conclusion") is the press's own and runs first. The
+# patterns below add the rest of the one-sighting tells from the prose
+# contract (docs/design.md section 6). Labels are what press check prints
+# and what tests/known-bad fixtures declare with <!-- expect: ... -->.
+banned-patterns:
+  '(?i)\bnot (just|merely|simply) \b[^.;:]{1,60}\b(but|it is|it''s) \b': "staging: not X but Y"
+  '(?i)\b(This|That|It) (doesn''t|does not) mean [^.]{1,60}\. (It|This|That) means\b': "staging: not X but Y"
+  '(?i)\b(Let''s|Let us) (take a look|look at|get started|begin|start)\b': "staging: run-up"
+  '(?i)\b(Here''s the thing|Honestly\?|Real talk|The thing is,|Look,)': "staging: run-up"
+  '(?i)\b(To be clear|I''m not saying|Don''t get me wrong|One might be tempted|You might think)\b': "staging: arguing with no one"
+  '(?i)\b(That''s|That is) (the real win|the point|the key|what matters)\b': "staging: one-line closer"
+  '(?i)\b(Let that sink in|Read that again)\b': "staging: one-line closer"
+  '(?i)\b(delve|delves|delving|leverag(e|es|ed|ing)|seamless(ly)?|crucial(ly)?|pivotal|showcas(e|es|ed|ing)|underscor(e|es|ed|ing)|utiliz(e|es|ed|ing)|meticulous(ly)?|intricate|streamlin(e|es|ed|ing)|empower(s|ed|ing)?|harness(es|ed|ing)?|foster(s|ed|ing)?|game-changer|unlock(s|ed|ing)?|tapestry|testament)\b': "assistant vocabulary"
+  '(?i)\brobust(ly|ness)?\b': "assistant vocabulary"
+  '(?i)\b(serves|stands|functions|operates) as (a|an|the)\b': "avoiding is/has"
+  '(?i)\bboast(s|ed|ing)?\b': "avoiding is/has"
+  '(?i)\b(marks|marked|represents) a (pivotal|crucial|key|significant) (moment|step|shift)\b': "inflated significance"
+  '(?i)\bthe future (looks|is) bright\b': "inflated significance"
+  '(?i)\bplays? a (key|crucial|pivotal|vital) role\b': "inflated significance"
+  '(?i), (ensuring|highlighting|underscoring|showcasing|fostering|reflecting|emphasizing|symbolizing) \b': "-ing rider"
+  '(?i)\b(deep dive|spin up|under the hood|out of the box|footgun|TL;DR|folks)\b': "modern idiom"
+  '(?i)\b(key takeaways?|in this section,? we will|as we''ve seen|as we have seen)\b': "meta-narration"
+
+# Watchlist terms the book must use because they are press's own names
+# for things (a surface, a gate, a scaffold). Each stays literal here.
+jargon-allow:
+  - gate
+  - gating
+  - gated
+  - surface
+  - surfaces
+  - scaffold
+  - scaffolds
+  - scaffolding
+  - drift
+  - parity
+  - clean
+  - cleanly
+  - verified
+  - canonical
+  - ship
+  - shipped
+  - lands
+  - landed
+  - round-trip
+  - end-to-end
+  - fallback
+  - stale
+  - handoff
+  - truth
+  - proves
+  - wiring
+  - wired
+  - seam
+  - seams
+
+audit-dirs: []

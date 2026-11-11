@@ -1,0 +1,77 @@
+title: "Publishing with Press"
+subtitle: "Building Books from Plain Text"
+author:
+  - "Clint Ecker"
+date: "First edition, 2026"
+lang: en-US
+copyright: "Copyright 2026 Clint Ecker. All rights reserved."
+publisher: "LGTM Publishing"
+publisher-place: "Chicago, Illinois"
+description: >-
+  A technical manual for press, the small-press pipeline that turns a
+  directory of Markdown chapters into a verified book in print, EPUB, and
+  on the Web. It covers installing the toolchain, the shape of a book
+  repository, writing and checking the manuscript, building and verifying
+  every edition, the house design, the art department, the print pack,
+  registrations, continuous integration and the release contract, the
+  operator desk, and the internals, with a command reference, a
+  configuration reference, a glossary, and an index.
+keywords:
+  - publishing
+  - book production
+  - pandoc
+  - LaTeX
+  - Markdown
+  - verification
+  - technical manual
+
+# Press facts: artifact basename, canonical repo, and the public Pages URL
+# release notes link to (omit site-url to skip public download links).
+slug: "publishing-with-press"
+repository: "https://github.com/clintecker/publishing-with-press"
+site-url: "https://clintecker.github.io/publishing-with-press"
+
+# Verification knobs. Sentinels are prose fragments every rendered
+# format must contain: pick 2-4 phrases from your actual manuscript,
+# each distinctive enough to appear exactly once (a whole memorable
+# clause, not a common word). Empty sentinels and a one-page floor are
+# DRAFT settings; a release build (CI on a tag) refuses them until at
+# least 2 sentinels and verify-min-pages >= 24 are set.
+verify-sentinels: []
+verify-min-pages: 1
+trim: {width: 6, height: 9}
+
+# The print pack reads these when building the interior and cover wrap.
+print:
+  profile: house-6x9
+  paper: cream
+
+# Registrations: validated by press check, injected into the colophon,
+# EPUB metadata, and the wrap barcode. "pending" is the one honest
+# placeholder; retail: true refuses to pass check while any placeholder
+# remains. See the registrations skill for the actual processes.
+# registrations:
+#   isbn:
+#     print: "pending"           # check digit validated when real
+#     epub: "pending"
+#   lccn: "pending"
+#   retail: false
+
+# Direct print ordering: a reader-facing "Order a print copy" link to a
+# provider-hosted checkout (Lulu, Peecho, a Bookvault store, ...). The
+# provider is the seller of record and owns payment, tax, fulfillment,
+# and support; this block holds only URLs and a name, never a credential
+# or a price. Enable it once the edition is qualified (press qualify).
+# A policy link is optional: give a URL to link your own hosted page, or
+# omit it and press generates an honest page on your book site. Add
+# policies: {support,privacy,refund} text to append your own words.
+# commerce:
+#   print-ordering:
+#     enabled: true
+#     edition: paperback
+#     storefront-url: "https://www.lulu.com/shop/..."
+#     seller-of-record: "Lulu"     # who the reader actually buys from
+#     support-url: "https://example.test/support"   # optional; omit to generate
+#     # privacy-url / refund-url omitted -> press generates those pages
+#     policies:
+#       privacy: "We keep no reader data; the provider handles your order."

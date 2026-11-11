@@ -1,0 +1,27 @@
+# Front matter for Publishing with Press. Its presence asks the press to
+# generate the title page, colophon, and surrounding pages from config.
+dedication: "For everyone who has built a book twice."
+
+epigraph:
+  quote: >-
+    The compositor who is careful to correct his own errors will seldom
+    be troubled by those of the reader.
+  attribution: "Theodore Low De Vinne, The Practice of Typography, 1900"
+
+acknowledgements: >-
+  This book was drafted by machines under direction and corrected by
+  machines under suspicion. The errors that remain were approved by a
+  person.
+
+edition-note: "First edition, first printing"
+manufacture: "Printed in the United States of America"
+colophon-note: >-
+  Set in Libertinus Serif and Libertinus Mono by pandoc and LuaLaTeX
+  under the direction of press 3.0.2, the pipeline this book describes,
+  and proofed by the same verifiers it documents.
+rights-notice: >-
+  The text of this book may be quoted and its examples reused in your own
+  books and build scripts without permission. Reproducing a substantial
+  part of it requires the publisher's consent.
+contact: "https://github.com/clintecker/publishing-with-press/issues"
+motto: "One master, every surface."

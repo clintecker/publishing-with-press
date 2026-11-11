@@ -1,0 +1,77 @@
+# Publishing with Press: the visual identity. An homage to the technical
+# publisher's animal book of about 1999: a white ground, a single colour
+# band, a nineteenth-century engraving of an animal, condensed serif type.
+name: "Animal book, 1999"
+
+register: >-
+  A technical manual from a Unix bookstore shelf in 1999: plain, exact,
+  and dry. The cover is a museum label with a woodcut on it; the interior
+  art is black-and-white line work. Nothing decorative, nothing glossy.
+
+cover:
+  medium: >-
+    A trade paperback with a matte white cover, flat and straight-on, no
+    mockup, no perspective, no drop shadow.
+  field: >-
+    Pure white, with one solid deep sepia band across the top eighth of
+    the cover carrying a short reversed-out series line in small caps.
+  ink: "flat black offset ink; the band in deep sepia #4a2e1a; no foil"
+  type-treatment: >-
+    The title large, flush left, in a condensed old-style serif (a
+    Garamond-class face), black; the subtitle beneath it in italic,
+    smaller; the author's name bottom right; the imprint bottom left,
+    small.
+  ornament: "none; the white ground and the band are the whole frame"
+  emblem: >-
+    A nineteenth-century natural-history wood engraving of a common
+    cuttlefish (Sepia officinalis), black line on white, unframed, sitting
+    centre-to-lower-right at about forty-five percent of the cover height,
+    the animal facing into the title.
+
+plates:
+  medium: >-
+    Wood engraving with dense hatching and crosshatching, single black
+    ink, no gray washes, in the manner of a nineteenth-century trade
+    manual plate.
+  composition: >-
+    One idea per plate, composed deliberately landscape or portrait; an
+    earnest scene of a print shop whose machines are compact brass
+    apparatus; the joke lives in the subject and the style stays solemn.
+
+logomark:
+  tradition: >-
+    A printer's mark: a small single-ink device, a cuttlefish in a roundel
+    with the imprint's initials, on transparency.
+
+portrait:
+  style: >-
+    An engraved oval trade-journal portrait, dense hatching, single ink.
+
+web-palette:
+  cloth: "#4a2e1a"
+  cloth-deep: "#33200f"
+  foil: "#6b5a4a"
+  foil-bright: "#8a7a6a"
+  foil-deep: "#4f4034"
+  paper: "#ffffff"
+  paper-warm: "#f6f3ee"
+  ink: "#1a1a1a"
+  ink-soft: "#4a4a4a"
+  link: "#5a3a22"
+
+web-palette-dark:
+  cloth: "#1a110a"
+  paper: "#1c1a18"
+  paper-warm: "#242120"
+  ink: "#e6e1da"
+  ink-soft: "#b3aca3"
+
+typography:
+  web-family: 'Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif'
+  pdf-family: ""
+
+book-colors:
+  ink: "1A1A1A"
+  muted: "5A5A5A"
+  accent: "4A2E1A"
+  link: "4A2E1A"
