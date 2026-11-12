@@ -169,7 +169,7 @@ The press calls the page after the title page the *colophon*, although most read
 | Publisher | The words "Published by" precede the `publisher`. |
 | Place | The `publisher-place` appears on its own line. |
 | Manufacture | The `manufacture` line appears here. |
-| Registrations | The press sets one line for each registration number the book declares, such as "ISBN (print)", "ISBN (ebook)", and "LCCN". |
+| Registrations | The press sets one line for each ISBN the book declares, "ISBN (print)" and "ISBN (ebook)", and one for the LCCN. The ISSN does not print. |
 | Contact | The `contact` address appears here. |
 | Colophon note | The press sets the `colophon-note` in italic. |
 | Motto | The press sets the `motto` in italic. |
@@ -252,7 +252,7 @@ entry 3: term is missing or empty
 entry 3: match must be a non-empty list of strings
 ```
 
-The first message is one line in the press's output, broken here to fit the page. The other two name the entry by its position in the list.
+The last two name the entry by its position in the list.
 
 ### How the press finds a term
 
@@ -283,7 +283,7 @@ gen_index: curated terms match nothing in the text: Jabberwock
 (fix the patterns or remove the terms; silence is not allowed)
 ```
 
-The press prints the message as one line. It appears here on two to fit the page. The rule exists because an index term with no locators is a promise the book does not keep. A reader who looks up "Jabberwock" and finds nothing after the word learns only that the index is wrong. A revision that cuts the last mention of a term would leave such an entry. The zero-hit rule turns the cut into a refusal you see at your desk.[^10-silence]
+The rule exists because an index term with no locators is a promise the book does not keep. A reader who looks up "Jabberwock" and finds nothing after the word learns only that the index is wrong. A revision that cuts the last mention of a term would leave such an entry. The zero-hit rule turns the cut into a refusal you see at your desk.[^10-silence]
 
 The fix is one of the two the message names. Either the pattern is wrong, and you correct the `match` list, or the subject no longer appears in the book, and you remove the entry.
 
@@ -356,7 +356,7 @@ entry 2: ambiguous, "illustrations by John Tenniel" appears 2
 times in book/chapters/00-preface.md; lengthen the fragment
 ```
 
-Each message is one line in the press's output, broken here to fit the page. Table 10.7 lists every fault the press reports.
+Table 10.7 lists every fault the press reports.
 
 | Fault | Meaning |
 |-------------|---------------------------------------------------------------------|
@@ -377,7 +377,7 @@ The `file` key changes how strict the count is. Without it, the claim must appea
 
 ### What the ledger is not
 
-The press says plainly what the ledger does not do: "It verifies a sources ledger; it is not a BibTeX or CSL citation engine." The ledger prints no superscripts, numbers no notes, and formats no bibliography. For a citation the reader should see in the text, write a footnote. The ledger then records, out of the reader's sight, that the footnote's sentence still says what its source supports.
+The press says what the ledger does not do: "It verifies a sources ledger; it is not a BibTeX or CSL citation engine." The ledger prints no superscripts, numbers no notes, and formats no bibliography. For a citation the reader should see in the text, write a footnote.
 
 You need not build the ledger by hand. The `authorities-research` workflow populates it, and so does `press research`. Chapter 15, *The operator's desk and the editorial machines*, describes both.
 

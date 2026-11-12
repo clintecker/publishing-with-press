@@ -580,7 +580,7 @@ press figures
 
 **Options.** None.
 
-**Example.** Example A.6 shows the start of the entry for one plate.
+**Example.** Example A.6 shows the start of the entry for one plate. The White Rabbit has no class, so the report calls it a `figure`. The numbering treats it as a plate (Chapter 5).
 
 **Example A.6. press figures**
 
@@ -591,7 +591,7 @@ $ press figures
     "file": "book/chapters/01-down-the-rabbit-hole.md",
     "src": "assets/woodcuts/white-rabbit.png",
     "caption": "The White Rabbit",
-    "kind": "plate",
+    "kind": "figure",
     ...
 ```
 
@@ -906,7 +906,7 @@ https://www.loc.gov/publish/pcn/  (self-publishers use PCN, not
 press pdf
 ```
 
-**Description.** Builds the Print edition, *dist/alice.pdf*, through pandoc and then latexmk, which runs LuaLaTeX as many times as the lists need. On the way, it generates the front matter and the subject index and checks the table of authorities. The index or the table of authorities can refuse the build. The first run on a fresh machine spends several minutes on a font scan, which looks like a hang and is not one.
+**Description.** Builds the Print edition, *dist/alice.pdf*, through pandoc and then latexmk, which runs LuaLaTeX as many times as the lists need. On the way, it generates the front matter and the subject index and checks the table of authorities. The index or the table of authorities can refuse the build. A fresh machine's first run is slow (the first run's font scan, Chapter 2).
 
 **Options.** None.
 

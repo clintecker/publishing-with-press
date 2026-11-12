@@ -46,7 +46,7 @@ $ press config set print.profile novella-5x8 && \
 
 The binding decides the shape of the cover. A `perfect-bound` book has a back, a spine, and a front, in that order. A `saddle-stitch` book and a `coil` book have no spine at all. A `casewrap` book is a hardcover printed on the board itself, with a turn-in where the paper folds over the board and a hinge beside the spine. A `dust-jacket` book wears a printed jacket with flaps that tuck inside the boards.
 
-The material decides what the press prints on that shape. The press prints a `paperback` cover or a `casewrap` cover all over. A `linen` cover is cloth, so the press suppresses the printed field and prints only the dust jacket that goes over it. The documentation states the reason plainly: "Press never bakes a simulated cloth texture into a real linen cover."
+The material decides what the press prints on that shape. The press prints a `paperback` cover or a `casewrap` cover all over. A `linen` cover is cloth, so the press suppresses the printed field and prints only the dust jacket that goes over it. The documentation states the reason: "Press never bakes a simulated cloth texture into a real linen cover."
 
 Not every provider makes every combination, and the press knows which ones each provider offers. `press check` refuses an unsupported trim, binding, or ink combination before any render begins. The message comes from the provider spec itself, through `ProviderSpec.check_selection`. You learn that KDP makes no dust jacket before LuaLaTeX sets a single page.
 
@@ -85,7 +85,7 @@ A color interior has one more requirement, and it comes from the spine. The spin
 
 A *provider* is a print shop's specification as the press records it: `house`, `kdp`, `lulu`, or `ingramspark`. The profile decides what the pages look like. The provider decides how wide the spine is, how far a hardcover's board and hinge extend, and which trims, bindings, and page counts the shop accepts. The default is `house`, a set of numbers that belongs to no shop in particular. The section "The layout" later in this chapter shows how these numbers place the bands of the cover wrap.
 
-The provider data comes from one reviewed ledger, *quality/providers.yaml*, in the press repository. The press generates its installed copy from it, and *docs/PROVIDER-DATA.md* gives the rule plainly: "Never edit it by hand."
+The provider data comes from one reviewed ledger, *quality/providers.yaml*, in the press repository. The press generates its installed copy from it, and *docs/PROVIDER-DATA.md* gives the rule: "Never edit it by hand."
 
 ### Four spine shapes
 
@@ -152,11 +152,11 @@ The print interior and the Print edition come from the same manuscript, but they
 
 `press print` builds the interior and nothing else. Pandoc and latexmk set it with the `print.yaml` defaults, two-sided, with the print-safe filter added to the chain. Run it when you want to look at the interior before any verifier reads it, for example after you move a figure. The target writes *dist/alice-interior.pdf*. It runs no verifier, so treat that file as a draft.
 
-The `print.yaml` defaults carry one scar of their own. A two-sided KOMA document must spell "open chapters on any page" as `open=any`. The standard-class spelling `openany` "is silently ignored under twoside", and `open=right` would leave a blank verso after every chapter that ends on a recto. The defaults use the KOMA spelling.
+The `print.yaml` defaults spell the open-chapter option the KOMA way, for the reason Chapter 9 tells.
 
 `press verify-print` is the target you upload from. It builds the interior, runs the print verifier on it, and then builds and verifies the cover wrap, because the Alice book has *assets/cover.jpg*. Without a cover, the target prints `no assets/cover.jpg; interior verified, wrap not built` and stops there. Chapter 8, *Verifying the artifacts*, gives the checks of the print verifier in full.
 
-`press all` builds neither the print interior nor the cover wrap. It builds and verifies every edition a reader downloads, and the Pages bundle that serves them. The print pack has its own targets. The one exception is the *commerce gate*, the last step of `press all`, which guards print ordering. In a book that enables print ordering, that gate builds the interior and the wrap, as the section "Ordering a copy" later in this chapter explains.
+`press all` does not build the print pack. Its own targets do, and the *commerce gate* (the last step of `press all`) builds it in a book that enables print ordering.
 
 ::: {.tip}
 > **Tip:** Run `press verify-print` before every upload to a print shop.
@@ -299,7 +299,7 @@ Table: Table 12.5. The `verify_coverwrap` checks, in order
 
 The size check compares the wrap with the arithmetic that built it, so the generator and the verifier cannot disagree about the spine. The transparency message names the reason for the rule: "coverwrap embeds N image(s) with transparency (a soft mask); a print preflight flags it...". If the front panel has almost no variation, the verifier says that "the cover art did not survive". An EAN-13 has 59 transitions across its bars, and the check asks for at least 25. `verify_coverwrap` reports each fault by name, so the message tells you which check to look at.
 
-When every check passes, the verifier prints one line. Example 12.5 gives its form, broken here across lines to fit the page. The last clause reads one way for a wrap with an ISBN and the other way for a placeholder.
+When every check passes, the verifier prints one line. Example 12.5 gives its form. The last clause reads one way for a wrap with an ISBN and the other way for a placeholder.
 
 **Example 12.5. The `verify_coverwrap` success line**
 
@@ -312,7 +312,7 @@ readable with quiet zones | honest placeholder present
 
 ## Qualification and the golden copy
 
-A verified PDF tells you that the files are right. It cannot tell you that the shop prints them right. The press keeps that second question apart from the first. Its *docs/PROVIDER-QUALIFICATION.md* begins with a plain statement: "A provider here is *researched*, not *qualified*."
+A verified PDF tells you that the files are right. It cannot tell you that the shop prints them right. The press's *docs/PROVIDER-QUALIFICATION.md* begins with a plain statement: "A provider here is *researched*, not *qualified*."
 
 ### The researched providers
 

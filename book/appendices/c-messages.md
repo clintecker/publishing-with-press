@@ -8,6 +8,20 @@ When a check or a verifier fails, press exits with status 1. When an external to
 
 To find a message, search this appendix for a fixed word in it, such as "sentinel" or "trim". The values on your terminal will differ from the values in this appendix.
 
+This appendix holds the checker's and the verifiers' messages. Table C.1 points to the chapters that quote the messages of the generators, intake, `press config`, the retail flag, and the commerce gate.
+
+| Messages from | Quoted in |
+|------------------------------------------|----------------------------------|
+| `gen_index`, the subject index | Chapter 10 |
+| `gen_authorities`, the table of authorities | Chapter 10 |
+| `front matter needs`, the generated front matter | Chapter 10 |
+| `press art accept`, intake | Chapter 11 |
+| `press config` | Chapter 3 |
+| `registrations.retail`, the retail flag | Chapter 13 |
+| The commerce gate | Chapter 7 and Chapter 12 |
+
+Table: Table C.1. Messages quoted outside this appendix
+
 ## press check {-}
 
 The checker runs four passes in order: the source checks, the checker self-test, the style audit, and the jargon lint. It stops at the first pass that fails, so the passes after it do not read your manuscript on that run. Fix the fault behind every message before you run the check again. Chapter 6, *Checking the manuscript*, describes each pass.

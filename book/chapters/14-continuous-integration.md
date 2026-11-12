@@ -27,7 +27,7 @@ A book's CI does almost none of its own work. Its workflow file names one reusab
 
 The book's own *CLAUDE.md* says that this file "is the whole file and should stay that way". The file decides two things: when CI runs, and what CI may touch. It runs on a push to any branch, on a tag that starts with `v`, on a pull request, and on demand through `workflow_dispatch`. It grants four permissions: `contents: write`, `packages: read`, `pages: write`, and `id-token: write`. Everything else belongs to the press.
 
-The file is short for a reason. The first law of the press is that the press states each fact once. The way to build a book is a fact about the press, so it lives in the press, and the book refers to it by tag. A book that copied the build steps into its own workflow would hold a second copy of them, and that copy would go stale at the next release. The press's *CLAUDE.md*, which this book calls the maintainer's guide from here on, puts the rule in one clause: "if a book needs machinery, the machinery belongs here".
+The file is short for a reason. The first law of the press is that the press states each fact once. The way to build a book is a fact about the press, so it lives in the press, and the book refers to it by tag. A book that copied the build steps into its own workflow would hold a second copy of them, and that copy would go stale at the next release. The press's *CLAUDE.md*, which this book calls the maintainer's guide from here on, puts the rule: "if a book needs machinery, the machinery belongs here".
 
 @fig:ci-topology shows the machines that take part in one run. `alice` pushes from `hatter` to the repository. GitHub starts a run on `printshop`, which reads *book.yml* and follows it to the press's reusable workflow at `v3`. The runner pulls the toolchain image by its digest from the container registry, *ghcr.io*, and builds inside it. After a push to the default branch, `main`, the run deploys the Pages site. After a tag, it publishes a GitHub Release.
 
@@ -67,7 +67,7 @@ At the time of this writing, *build.yml* at the tag `v3.0.2` names the composite
 
 Step 3 runs a short Python heredoc that begins with `from press import booklib`. Its comment explains the choice: "The slug law and normalization live in the press; this step asks the installed press instead of keeping a second copy". The step yields three outputs, `slug`, `title`, and `site_url`, and the release job reads them. A shell line could read the slug straight from *config/metadata.yaml*. It would then hold a second copy of the slug law, and the first law of the press forbids that.
 
-In step 4, the setting `if-no-files-found: error` turns an upload with nothing to send into a failure. A run that produced no artifacts cannot pass with nothing to show.
+In step 4, the setting `if-no-files-found: error` turns an upload with nothing to send into a failure.
 
 ### Actions pinned by commit
 
@@ -105,7 +105,7 @@ runs:
           --no-deps "$GITHUB_ACTION_PATH"
 ```
 
-The description states the design in one sentence: "Because GitHub materializes the action repository onto the runner, even a private book can use the press with no cross-repo token." The variable `GITHUB_ACTION_PATH` names that copy of the press, and the install step installs press from it. Nothing in the step fetches press from anywhere else.
+The description states the design: "Because GitHub materializes the action repository onto the runner, even a private book can use the press with no cross-repo token." The variable `GITHUB_ACTION_PATH` names that copy of the press, and the install step installs press from it. Nothing in the step fetches press from anywhere else.
 
 ### Self-checkout install
 
@@ -197,7 +197,7 @@ $ cd ~/alice
 $ docker run --rm -v "$PWD":/book \
     ghcr.io/clintecker/press-toolchain:sha-...@sha256:... \
     bash -c "pip install --break-system-packages \
-    'press @ git+https://github.com/clintecker/press@v3' \
+    'press @ git+https://github.com/clintecker/press@v3.0.2' \
     && cd /book && press all"
 ...
 ```
@@ -391,7 +391,7 @@ The release notes depend on the Pages site. Each link under "Public downloads" p
 
 ## Moving between majors
 
-A book stays on its major until you move the pin. The press's migration guide puts it plainly: "Old pins keep working". When you want the next major, `press migrate` moves the pin. Table 14.4 lists its subcommands.
+A book stays on its major until you move the pin. The press's migration guide says: "Old pins keep working". When you want the next major, `press migrate` moves the pin. Table 14.4 lists its subcommands.
 
 | Command | Meaning |
 |--------------------------|--------------------------------------------------|

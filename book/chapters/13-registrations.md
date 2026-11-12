@@ -18,7 +18,7 @@ A book for sale carries numbers that other people issue. Each edition needs an I
 
 ## The governing rule
 
-A *registration* is a number that an outside agency assigns to your book and that the book must then carry. The registrations skill, which comes with the press, states the rule for all of them in one sentence: "The press never issues a number over the network." The skill then separates three activities, which Table 13.1 lists.
+A *registration* is a number that an outside agency assigns to your book and that the book must then carry. The registrations skill, which comes with the press, states the rule for all of them: "The press never issues a number over the network." The skill then separates three activities, which Table 13.1 lists.
 
 | Activity | Who acts | Meaning |
 |------------------|------------------|----------------------------------------------------|
@@ -71,12 +71,12 @@ The example prefix holds ten digits, and a block of 100 needs `12 - 2` of them. 
 The checker refuses a malformed block. The press does not validate an incomplete block, one with the prefix or the size missing. The press cannot judge a prefix until it knows the size that goes with it.
 
 ::: {.tip}
-> **Tip:** Set the prefix and the size in the same sitting. A block with only one of the two passes the checker without inspection. The checker then says nothing about a wrong prefix.
+> **Tip:** Set the prefix and the size in the same sitting. A block with only one of the two passes the checker without inspection, so a wrong prefix goes unremarked.
 :::
 
 ### Status and assignment
 
-The target `press isbn status` reports on the block. In a fresh scaffold, with no block yet, it says so and tells you what to set. Example 13.3 shows that run, with the output broken into three lines to fit the page.
+The target `press isbn status` reports on the block. In a fresh scaffold, with no block yet, it says so and tells you what to set. Example 13.3 shows that run.
 
 **Example 13.3. The status of a fresh scaffold with no ISBN block**
 
@@ -89,7 +89,7 @@ size: 100)
 
 With a block in place, the same target prints one line in the form `ISBN block {prefix} (size N): X assigned, Y free`. Run it before every assignment, so that you know how much of the block you have left.
 
-The target `press isbn assign` takes the edition, `print` or `epub`. It mints the lowest unused publication number and computes the check digit, the EAN-13 digit that Chapter 12, *The print pack*, works through by hand. Then it joins the parts with hyphens, as `{prefix}-{publication}-{check}`. The target writes the result through the validated path of `press config`, the same check that any `press config set` passes. A print number goes to the key `registrations.isbn.print`, and the EPUB number goes to the key `registrations.isbn.epub` beside it.
+The target `press isbn assign` takes the edition, `print` or `epub`. It mints the lowest unused publication number and computes the check digit, the EAN-13 digit that Chapter 12, *The print pack*, works through by hand. Then it joins the parts with hyphens, as `{prefix}-{publication}-{check}`. The target writes the result through the validated path of `press config`, the same check that any `press config set` passes. A print number goes to the key `registrations.isbn.print`, and the EPUB number goes to the key `registrations.isbn.epub` beside it. The press knows only the two ISBNs in this repository. A press with several titles on one block keeps its own register and sets `registrations.isbn.print` by hand from it in every book but the first.
 
 Two cases stop the assignment. If the edition already holds a number other than `pending`, the press refuses and tells you to "unset it first to reassign". If the block has no free numbers left, the press refuses with "Buy another prefix from your agency".
 
@@ -133,7 +133,7 @@ A self-publisher gets an LCCN through the Preassigned Control Number (PCN) progr
 
 A pending number is useful while the book is in production and wrong in a book for sale. The key `registrations.retail` tells the press which of the two you build. When it is `false`, the default, a missing or pending number produces only advice.
 
-When it is `true`, the book must carry two real ISBNs, one for `print` and one for `epub`. A missing ISBN appears in the refusal as `isbn print missing` or `isbn epub missing`, and a pending one appears as pending. A book need not declare an LCCN or an ISSN. If it declares either one, the number must be real, because a `pending` LCCN or ISSN also appears in the refusal. The refusal reads as follows, broken here to fit the page:
+When it is `true`, the book must carry two real ISBNs, one for `print` and one for `epub`. A missing ISBN appears in the refusal as `isbn print missing` or `isbn epub missing`, and a pending one appears as pending. A book need not declare an LCCN or an ISSN. If it declares either one, the number must be real, because a `pending` LCCN or ISSN also appears in the refusal. The refusal reads:
 
 ```text
 retail edition declared while registrations are absent or
@@ -162,7 +162,7 @@ $ press all
 
 The target `press pcn` assembles the field values for the PrePub Book Link form. It reads them from the book's metadata and prints them as a list. You copy the values into the form yourself, because the press never contacts the Library of Congress.
 
-Example 13.5 shows the target in a fresh scaffold made with `press new alice --author "Lewis Carroll"`. The scaffold predates the changes of Chapters 3 and 10, and you have set no registration yet. The values come from the book's metadata, and the labels and the layout are the press's. The author and the publisher are both Lewis Carroll, because the scaffold uses the author as the publisher by default. Example 13.5 breaks two long lines to fit the page and omits the closing advice, which the next paragraph quotes.
+Example 13.5 shows the target in a fresh scaffold made with `press new alice --author "Lewis Carroll"`. The scaffold predates the changes of Chapters 3 and 10, and you have set no registration yet. The values come from the book's metadata, and the labels and the layout are the press's. The author and the publisher are both Lewis Carroll, because the scaffold uses the author as the publisher by default. Example 13.5 omits the closing advice, which the next paragraph quotes.
 
 **Example 13.5. The PCN field values for a fresh Alice scaffold**
 
@@ -235,7 +235,7 @@ The target `press lookup` asks a public catalog about an LCCN or an ISSN. Its sy
 press lookup lccn|issn [<number>]
 ```
 
-The documentation describes it as "the one command that reaches the network; ordinary builds never do. It is never an issuance path." With a number on the command line, the target looks up that number. Without one, it looks up the number in `registrations.lccn` or `registrations.issn`. An LCCN goes to *https://lccn.loc.gov/{lccn}/mods*, which returns a MODS XML record. An ISSN goes to *https://portal.issn.org/resource/ISSN/{issn}*, which returns JSON-LD.
+The documentation describes it as "the one command that reaches the network; ordinary builds never do. It is never an issuance path." It is the one such command among the registration targets, and the art and operator commands reach their own services. With a number on the command line, the target looks up that number. Without one, it looks up the number in `registrations.lccn` or `registrations.issn`. An LCCN goes to *https://lccn.loc.gov/{lccn}/mods*, which returns a MODS XML record. An ISSN goes to *https://portal.issn.org/resource/ISSN/{issn}*, which returns JSON-LD.
 
 The lookup talks to servers that the press does not control, so it holds every request to fixed limits. Table 13.4 lists them.
 

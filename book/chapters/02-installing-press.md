@@ -40,7 +40,7 @@ You do not need any of this to look around. Three commands work with no book and
 
 ## Installing the Python package
 
-The press is not on PyPI. Its install guide says so plainly: "Pip-from-git at a tag is the supported installation channel; the press is not published to PyPI". A plain `pip install press` does not install this press. Instead, you install press straight from its Git repository at a tag, and pip builds the package from that tag.
+The press is not on PyPI. Its install guide says: "Pip-from-git at a tag is the supported installation channel; the press is not published to PyPI". A plain `pip install press` does not install this press. Instead, you install press straight from its Git repository at a tag, and pip builds the package from that tag.
 
 ### Choosing where the package goes
 
@@ -52,6 +52,12 @@ A virtual environment is a private directory with its own `pip` and its own `pre
 
 The supported channel is pip with a Git URL. In Example 2.1, `alice` creates the environment, activates it, installs the current major version, and asks the new command who it is.
 
+On Debian and Ubuntu, the `venv` module comes in a separate package, `python3-venv`, which the press's package list does not include. Without it, `python3 -m venv` fails with a message that tells you to install it. We therefore add one package to the press's list for this book's advice:
+
+```text
+$ sudo apt-get install python3-venv
+```
+
 **Example 2.1. Installing press into a virtual environment**
 
 ```text
@@ -62,12 +68,6 @@ $ pip install \
 ...
 $ press --version
 ...
-```
-
-On Debian and Ubuntu, the `venv` module comes in a separate package, `python3-venv`, which the press's package list does not include. Without it, `python3 -m venv` fails with a message that tells you to install it. We therefore add one package to the press's list for this book's advice:
-
-```text
-$ sudo apt-get install python3-venv
 ```
 
 The quotation marks matter. The requirement contains spaces, so the shell would otherwise split it into pieces that pip cannot read. Once the environment is active, `pip` and `press` both mean the copies inside *~/.press-venv*. In a new terminal, run the activation line again, or call the commands by their full paths, such as *~/.press-venv/bin/press*.
@@ -129,6 +129,8 @@ Table 2.2 collects the forms of installation and when each one fits.
 
 Table: Table 2.2. Ways to install press
 
+To take a new release on your workstation, run `pip install --upgrade "press @ git+https://github.com/clintecker/press@v3"`. The floating tag moves on GitHub, not in your environment.
+
 ### Installing in continuous integration
 
 A book's CI does not use any of these commands. The *composite action*, the piece of the press that the reusable workflow runs to install it, installs press from the action's own checkout, never with pip from Git. That choice keeps a private book working without a token for a second repository, and it pins the installed press to the exact ref of the action. Chapter 14, *Continuous integration and the release contract*, covers the action in detail. The press on `printshop` and the press on `hatter` arrive by different roads, but both roads can start at the same tag.
@@ -189,7 +191,7 @@ The last command is optional, and we recommend it anyway. Without a local epubch
 
 ### Installing on Debian and Ubuntu
 
-On Debian and Ubuntu, the reference package list is the press's own *Dockerfile*, because that file builds the toolchain image that every CI build uses. Example 2.5 shows the list as a single `apt-get` command. One package in it needs a warning first.
+On Debian and Ubuntu, the reference package list is the press's own *Dockerfile*, because that file builds the toolchain image that every CI build uses. Example 2.5 shows the list as a single `apt-get` command.
 
 ::: {.warning}
 > **Warning:** Do not drop `fonts-linuxlibertine` from the command because the TeX packages look like enough. With `--no-install-recommends`, nothing else in the list installs the Libertine keyboard face.
@@ -207,7 +209,7 @@ $ sudo apt-get install --no-install-recommends \
 
 Most of these names explain themselves. The package `poppler-utils` holds the four poppler programs from Table 2.3. The package `texlive-latex-extra` holds lettrine, the LaTeX package that sets the large first letter of each chapter opening. The package `texlive-fonts-extra` holds the `yinit` foliate initials that the `ornate` chapter-opening style uses.
 
-The package `fonts-linuxlibertine` is a *scar*, the press's word for a production failure turned into a guard. Ubuntu has no `fonts-libertinus` package, so the obvious name does not exist. The `--no-install-recommends` flag also drops the Libertine keyboard face. The press records both facts in its scars list, and the *Dockerfile* now names `fonts-linuxlibertine` explicitly.
+The package `fonts-linuxlibertine` is a scar. Ubuntu has no `fonts-libertinus` package, so the obvious name does not exist. The `--no-install-recommends` flag also drops the Libertine keyboard face. The press records both facts in its scars list, and the *Dockerfile* now names `fonts-linuxlibertine` explicitly.
 
 Ubuntu's `epubcheck` package has one more trap, which appears only inside a container. The section "The toolchain image" later in this chapter explains it.
 
@@ -243,7 +245,7 @@ Table 2.4 lists the states you will meet most often.
 
 Table: Table 2.4. States in the doctor's report
 
-The `BROKEN` state catches a program that is present and still useless. The doctor does not stop at finding a file on your `PATH`. A tool that fails both `--version` and `-v` within 15 s counts as broken, whatever `which` says about it. The section "The toolchain image" later in this chapter tells the story of a program that exists and still cannot run.
+The `BROKEN` state catches a program that is present and still useless. The doctor does not stop at finding a file on your `PATH`. A tool that fails both probes counts as broken, whatever `which` says about it. The section "The toolchain image" later in this chapter tells the story of a program that exists and still cannot run.
 
 The two API key lines report only whether each variable is set. They name the command that reads each key, `press art commission`, with the model it selects. Neither key matters until you generate art, the subject of Chapter 11, *The art department*.
 
@@ -274,7 +276,7 @@ The image starts `FROM ubuntu:24.04` and sets one environment variable of its ow
 - `mesa-vulkan-drivers`, a software Vulkan for Real-ESRGAN to run on
 - stylua and, on amd64, selene, the Lua tools that the press runs over its own filters
 
-The variable `PRESS_TOOLCHAIN` tells press that it runs in the reference environment. Press decides how strict its toolchain checks are from that variable. The press chose its own variable on purpose, because the ambient `CI` variable has a trap: `CI=false` is truthy.
+The variable `PRESS_TOOLCHAIN` tells press that it runs in the reference environment. Press decides how strict its toolchain checks are from that variable. The press chose its own variable instead of the ambient `CI` (Chapter 8 says why).
 
 The epubcheck wrapper deserves its own warning, because the Ubuntu launcher it replaces hides a failure.
 
@@ -330,15 +332,13 @@ The script lives in the press checkout, not in a book, and a book author never n
 
 ## Apple Silicon and other platforms
 
-Apple Silicon is the maintainer's primary platform, and the macOS route in Example 2.4 serves it. The press's own CI also runs Python 3.12 on macOS 15, so the Python half of press has a tested record on the Mac.[^2-macos]
+Apple Silicon is the maintainer's primary platform, and the macOS route in Example 2.4 serves it. The press's own CI also runs Python 3.12 on macOS 15, so the Python half of press has a tested record on the Mac.
 
-[^2-macos]: The macOS job once ran on `macos-14`. GitHub retired that runner partway through a release, and GitHub canceled the job within a second with "configuration not supported". The job moved to `macos-15`.
-
-Local container builds on Apple Silicon work too, because the press publishes an arm64 build of the toolchain image. The press's own full verification script, `scripts/verify.sh --full`, also runs natively on Apple Silicon for the same reason. Contributors to the press need no emulation either.
+Local container builds on Apple Silicon work too, because the press publishes an arm64 build of the toolchain image. The press's own full verification script, `scripts/verify.sh --full`, also runs natively on Apple Silicon for the same reason.
 
 The arm64 image differs from the amd64 image in one respect. Real-ESRGAN publishes no upstream arm64 binary, so the arm64 image carries no upscaler. In the arm64 image, `press art enhance` resamples a plate instead of upscaling it.
 
-The install guide states the supported platforms in one sentence: "Supported platforms are Linux (the container's Ubuntu 24.04 is the reference) and macOS." On Linux, the route is Debian or Ubuntu with the package list from Example 2.5, or the toolchain image on either architecture. CI runs every tested Python release on Ubuntu, and the image itself is Ubuntu 24.04. Ubuntu therefore has the strongest record of any platform.
+The install guide states the supported platforms: "Supported platforms are Linux (the container's Ubuntu 24.04 is the reference) and macOS." On Linux, the route is Debian or Ubuntu with the package list from Example 2.5, or the toolchain image on either architecture. CI runs every tested Python release on Ubuntu, and the image itself is Ubuntu 24.04. Ubuntu therefore has the strongest record of any platform.
 
 Outside those routes, the press makes no claim. It does not test Windows. It does not test a Python newer than 3.14, or a pandoc and TeX Live other than Ubuntu 24.04's. Pip is the only installer the press documents. Other Python installers may work, because press is an ordinary command-line package, but the press does not test them. The toolchain image is the one route whose exact bytes the press proves on every release.
 
@@ -369,12 +369,10 @@ On a machine where LuaLaTeX runs for the first time, the first PDF build holds a
 >
 > The first LuaLaTeX run on a fresh machine starts with a font scan, and the scan lasts several minutes. Nothing about it looks like progress. It looks like a hang, and every instinct a programmer has says to interrupt the build and start over.
 >
-> Do not interrupt it. The press's scars list records the behavior in two flat sentences: "First LuaLaTeX run on a fresh machine triggers a several-minute font scan that looks like a hang. It is not a hang." The quick start and the install guide both repeat the warning, so a new author meets it before the first build.
+> Do not interrupt it. The press's scars list records the behavior: "First LuaLaTeX run on a fresh machine triggers a several-minute font scan that looks like a hang. It is not a hang." The quick start and the install guide both repeat the warning, so a new author meets it before the first build.
 >
 > Start the first build, make a cup of tea, and come back to a machine that is past its scan and at work on your book.
 :::
-
-The scan belongs to LuaLaTeX, and press does not hurry it. If a build on a fresh machine seems to hang for several minutes, wait: it is almost certainly the scan.
 
 ### After the first build
 

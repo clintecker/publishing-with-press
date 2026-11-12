@@ -20,7 +20,7 @@ The earlier chapters treated press as a machine that takes a manuscript in and h
 
 ## A map of the package
 
-The press is one Python package, *src/press/*, of about 19,750 lines at the time of this writing. Every book repository runs the same code, and the package holds no book of its own. The title, the slug, the sentinels, the banned patterns, the front matter, and the art all live in the book repository. The press's *CLAUDE.md* states the rule in one sentence: "There is no book in here." It also states the other half of the rule: "if a book needs machinery, the machinery belongs here".
+The press is one Python package, *src/press/*, of about 19,750 lines at the time of this writing. Every book repository runs the same code, and the package holds no book of its own. The title, the slug, the sentinels, the banned patterns, the front matter, and the art all live in the book repository. The press's *CLAUDE.md* states the rule: "There is no book in here." It also states the other half of the rule: "if a book needs machinery, the machinery belongs here".
 
 The press enforces the first half in CI. Its *integration gate* is the CI job that builds the wheel, scaffolds a stranger's book, and runs `press all`. The gate requires that "no original-book identity may appear in a clean scaffold's public artifacts".
 
@@ -71,19 +71,17 @@ Two generators run at this point. `gen_index` writes the subject index into *bui
 
 Next, `render_defaults` turns each defaults template in the package into a concrete file, such as *build/defaults/pdf.yaml*. The templates name their paths with the prefixes `@press/` and `@book/` and the suffix `?optional`, as Chapter 7, *Building the editions*, describes. `render_defaults` resolves each prefix against the installed press or the book repository. It drops an optional file that the book does not have.
 
-Pandoc reads each rendered file, runs its Lua filters over the manuscript, and hands the result to a writer. For the Print edition (the PDF) and the print interior, pandoc writes LaTeX and latexmk runs LuaLaTeX with `-lualatex`. The EPUB writer makes the Circulating edition (EPUB), and the HTML writer makes the Single-leaf edition (the self-contained HTML). The chunked HTML writer makes the Chapter edition (the reader site and its zip). The plain and DOCX writers make the Telegraphic edition (plain text) and the Office edition (DOCX). The Manuscript edition (the stitched Markdown) and the Source edition (the source zip) go to *dist/* without pandoc.
+Pandoc reads each rendered file, runs its Lua filters over the manuscript, and hands the result to a writer. For the Print edition (the PDF) and the print interior, pandoc writes LaTeX and latexmk runs LuaLaTeX with `-lualatex`. The EPUB, HTML, chunked HTML, plain, and DOCX writers make the other five rendered editions. The stitched Markdown and the source zip go to *dist/* without pandoc.
 
 The press writes every edition into *dist/* under the slug, as *alice.pdf*, *alice.epub*, and the rest. Three verifiers then open them. `verify_pdf` inspects the PDF, and `verify_formats` inspects the other editions and runs epubcheck on the EPUB. `verify_archives` opens the two zips and, when *config/authorities.yaml* exists, the sources companion. Then `verify_pages` crawls the assembled *dist/pages/*.
 
-The third law governs the bottom of the figure: "Verifying without rebuilding is forbidden by construction." The command line enforces it through the dependency edges in the registry, so a verify target rebuilds the artifacts it verifies. There is one exception. `press verify-formats` reads an existing *dist/alice.pdf* into its cross-edition agreement check without rebuilding it. The invariant ledger, which the section "Invariants" describes, records the rule as `INV-graph-no-stale`.
+The third law governs the bottom of the figure: "Verifying without rebuilding is forbidden by construction." The command line enforces it through the dependency edges in the registry, so a verify target rebuilds the artifacts it verifies, with the one exception Chapter 8 names. The invariant ledger, which the section "Invariants" describes, records the rule as `INV-graph-no-stale`.
 
 On `printshop`, CI keeps the artifacts as the upload bundle when the build finishes. A push of a tag also creates a GitHub Release, with notes taken from the CHANGELOG. A push to `main` deploys the Pages site from the Pages bundle. Chapter 14, *Continuous integration and the release contract*, covers that half of the path.
 
 The print pack takes a side branch that the figure leaves out. `print_safe` prepares the images, the build writes the print interior, and `verify_pdf --profile print` inspects it. Then `gen_coverwrap` draws the cover wrap in TikZ through latexmk, and `verify_coverwrap` inspects the wrap. The `publish` checklist, the edition manifest, and qualification follow. The commerce gate at the end of `press all` builds this branch only for a book that enables print ordering.
 
-Two fixed dates keep the artifacts reproducible. Unless you set `SOURCE_DATE_EPOCH` yourself, the press sets it to `1784160000`. The source zip stamps every member with one fixed timestamp.[^16-epoch]
-
-[^16-epoch]: Both values fall on the same day. The epoch value is 2026-07-16, and the source zip's timestamp is 2026-07-16 at 12:00.
+Two fixed dates keep the artifacts reproducible: `SOURCE_DATE_EPOCH` (Chapter 7) and the source zip's member timestamp (Chapter 8).
 
 ## One statement of each fact
 
@@ -97,7 +95,7 @@ YAML has one door. *yamlio.py* calls itself "the single YAML door". Every read o
 
 `press selftest --write-docs` generates four things from their sources: *docs/REFERENCE.md*, *docs/INVARIANTS.md*, *docs/PROVIDER-QUALIFICATION.md*, and the packaged provider record. The selftest's `docs` check fails on any difference in the three documents, so they cannot fall behind the code. The `contract_mirror` check keeps *AGENTS.md* equal to *CLAUDE.md* below the heading in the same way.
 
-One fact lives in two places on purpose. The jargon lint exists in the press package and again inside the overused-jargon skill, because the skill must work without the press installed. The `jargon_parity` check requires the two copies to match byte for byte.
+One fact lives in two places by design: the jargon lint and its copy in the overused-jargon skill (Chapter 15). The `jargon_parity` check requires them to match byte for byte.
 
 ::: {.tip}
 > **Tip:** After you change a command, an invariant, or a provider record, run `press selftest --write-docs` and commit the regenerated documents in the same commit as the change.
@@ -143,7 +141,7 @@ When an external tool fails, the press unwraps Python's `CalledProcessError` and
 
 Table: Table 16.2. Exit statuses of press targets
 
-The press reads the image-model keys, `OPENAI_API_KEY` and `GEMINI_API_KEY`, on demand and never stores them, under `INV-art-key-never-stored`. The press also decides how strict to be about the toolchain from `PRESS_TOOLCHAIN`, which the toolchain image sets, and never from the ambient `CI` variable. Chapter 8 gives the reason: a variable set to `CI=false` would still read as true.
+The press reads the image-model keys, `OPENAI_API_KEY` and `GEMINI_API_KEY`, on demand and never stores them, under `INV-art-key-never-stored`. The press also decides how strict to be about the toolchain from `PRESS_TOOLCHAIN`, which the toolchain image sets, and never from the ambient `CI` variable. Chapter 8 gives the reason.
 
 ::: {.warning}
 > **Warning:** Keep every `subprocess`, `os.environ`, and `urllib` call inside *adapters/*, their one approved home. The gate refuses a direct process call anywhere else in the package.
@@ -164,7 +162,7 @@ Each entry has four parts, which Table 16.3 describes.
 
 Table: Table 16.3. The four parts of a ledger entry
 
-The press states its reason for the fourth part: "An honest limitation column is the point: a guarantee whose edges are unstated is a guarantee waiting to be overtrusted." An invariant without its limits invites you to lean on it where it does not hold. Table 16.4 shows four of the limits as the ledger records them.
+The press states its reason for the fourth part: "An honest limitation column is the point: a guarantee whose edges are unstated is a guarantee waiting to be overtrusted." Table 16.4 shows four of the limits as the ledger records them.
 
 | Invariant | Does not cover |
 |----------------------------|----------------------------------------------------------|
@@ -175,11 +173,7 @@ The press states its reason for the fourth part: "An honest limitation column is
 
 Table: Table 16.4. Limits that the ledger states
 
-Read the limits before you write code that depends on an invariant. `INV-graph-no-stale` is the usual trap for a developer. A script that imports `verify_pdf` and calls it on *dist/alice.pdf* skips the rebuild. So does the cross-edition agreement check in `press verify-formats`, which reads whatever PDF already sits in *dist/*.
-
-::: {.warning}
-> **Warning:** Do not call a verifier module directly on *dist/* to check a book. Run the verify target from the command line, and run `press pdf` before `press verify-formats`, so that every file the check reads is current.
-:::
+Read the limits before you write code that depends on an invariant. `INV-graph-no-stale` is the usual trap for a developer. A script that imports `verify_pdf` and calls it on *dist/alice.pdf* skips the rebuild.
 
 The 13 critical invariants include several that earlier chapters met at work, among them `INV-pdf-detector` and `INV-format-witness` in Chapter 8. The others are `INV-archive-source-policy`, `INV-config-slug`, `INV-edition-manifest`, `INV-editorial-checkers`, `INV-extension-conformance`, `INV-extension-seal`, `INV-graph-no-stale`, `INV-migration-safe`, `INV-provider-contract`, `INV-release-receipt-chain`, and `INV-release-tag-grammar`.
 
@@ -223,7 +217,7 @@ The press's development checks run on a separate framework called celebrimbor, a
 - a mutation-score floor over the pure modules `barcode`, `artifact_status`, `dropcaps`, and `figures`, driven by *src/press/mutation.py*
 - the Lua coverage floor, *.celebrimbor/baselines/lua-coverage.yaml*
 
-The gate's philosophy, in *CONTRIBUTING.md*, reads: "Coverage measures that a line *ran*, not that its output was *right*... a title-page generator shipped a dropped and a clipped cover at 11.5% coverage: the lines ran, the artifact was never inspected." The rule that follows is "A producer is only proven by a verifier that rejects a broken artifact." The PDF verifier's cover check on page 1 exists because of that title page.
+The gate's philosophy, in *CONTRIBUTING.md*, reads: "Coverage measures that a line *ran*, not that its output was *right*." The rule that follows is "A producer is only proven by a verifier that rejects a broken artifact." The PDF verifier's cover check on page 1 exists because of the cover that passed at 11.5 percent (Chapter 1).
 
 A *producer* in that rule is code that writes an artifact, such as the title-page generator. The *producer ledger*, *.celebrimbor/producers.yaml*, records the producers, and its pending entries carry `review_by` dates. The gate also holds *surfaces.yaml*, beside the ledger in *.celebrimbor/*, and a file named *known-bad.expected.yaml*.
 
@@ -247,25 +241,15 @@ The gate is one part of the press's own CI. Table 16.5 lists the main workflows 
 
 Table: Table 16.5. The main workflows of the press repository
 
-The integration gate runs the press as a stranger would. In its own words, it must "build the wheel, scaffold a stranger's book, run the whole `press all`, and prove tampering turns the verifier red".[^16-macos]
-
-[^16-macos]: The macOS job once ran on `macos-14`. GitHub retired that runner in the middle of a release and canceled every job on it within a second, with "configuration not supported". The job moved to `macos-15`.
+The integration gate runs the press as a stranger would. In its own words, it must "build the wheel, scaffold a stranger's book, run the whole `press all`, and prove tampering turns the verifier red".
 
 ## Trust receipts
 
-One of the product laws in *ROADMAP.md* describes how the press builds trust: "Trust accumulates from deterministic functions through compositions, real tools, complete workflows, consumer repositories, and release identity. A higher layer cannot erase missing proof below it." *Trust receipts*, the records that *src/press/receipts.py* keeps for each layer of proof, enforce the second sentence.
-
-The module defines 12 layers. From the bottom, they are collection, unit, property, component, damage, graph, scenario, integration, distribution, container, boundary, and release. The module groups them into three release tiers, named quality, integration, and release. @fig:trust-tiers draws the layers as a stack and the tiers beside them.
+Chapter 14 describes the trust receipts, the twelve layers (@fig:trust-tiers), and the release receipt that names the wheel and toolchain digests. The ledger names the complete-chain rule `INV-release-receipt-chain`, and the selftest's `receipt_chain` check exercises it.
 
 ![The trust receipt chain](assets/woodcuts/16-03-trust-tiers.png){#fig:trust-tiers .diagram width=full-measure fig-alt="Twelve stacked bands of proof, from collection at the bottom to release at the top, each linked to the band below. Beside them, three tier boxes feed two CI receipts into an assemble step that writes one release receipt."}
 
 <!-- art: ARCHETYPE stack. Left, twelve thin bands, alternating 10 and 20 percent gray, bottom to top: "collection", "unit", "property", "component", "damage", "graph", "scenario", "integration", "distribution", "container", "boundary", "release". A small chain-link glyph joins each band to the one below. Right, a separate column of three boxes, bottom to top, not aligned to particular bands: "quality tier", "integration tier", "release tier". From the first two, arrows labeled in monospace "receipt-quality" and "receipt-integration" run into a rounded box "press.receipts assemble". It writes a dog-eared file "release-receipt" with two lines inside: "wheel digest", "toolchain digest". Small italic note under the left stack: "a gap anywhere breaks the chain". The reader should see first the unbroken links of the left stack. -->
-
-The receipts module accepts only a complete chain, with "every layer present, contiguous, and linked to its predecessor". A partial chain cannot stand in for the layers it lacks, so a green release tier cannot hide a missing unit layer. The ledger names this `INV-release-receipt-chain`, and the selftest's `receipt_chain` check exercises it.
-
-The receipts travel through CI. The `quality` job in *selftest.yml* ends with a receipt. When an immutable tag such as `v3.0.2` arrives, the release contract builds the wheel and downloads the `receipt-quality` and `receipt-integration` upload bundles. It runs `python3 -m press.receipts assemble` over them and uploads the result as `release-receipt`.
-
-The final release receipt names two digests: the digest of the built wheel and the digest of the pinned toolchain image. To learn which toolchain bytes stood behind a release, read its release receipt.
 
 ## Extensions
 
@@ -318,7 +302,7 @@ A book can still extend the press today through files that need no manifest. *co
 
 ## Contributing a scar
 
-A *scar* is the press's word for a production failure turned into a guard. The fourth law states the policy: "Every production failure earns a mechanical guard and an entry in CLAUDE.md's scars list. Do not relearn them." The product laws in *ROADMAP.md* say what form the guard takes: "A scar becomes an executable invariant, a named proof, or an explicit public contract".
+The fourth law states the policy: "Every production failure earns a mechanical guard and an entry in CLAUDE.md's scars list. Do not relearn them." The product laws in *ROADMAP.md* say what form the guard takes: "A scar becomes an executable invariant, a named proof, or an explicit public contract".
 
 The second law ranks the guards. It reads: "Prefer machinery that produces the right thing to machinery that detects the wrong thing, and either to a sentence in a document asking people to behave." If a generator can make the failure impossible, write the generator. If it cannot, write a check for the checker or a verifier that refuses the broken result.
 
@@ -351,7 +335,7 @@ $ scripts/verify.sh
 ...
 ```
 
-The editable install points `press` in *~/alice* at the files in *~/press*, so an edit takes effect at the next run. After `pre-commit install`, every commit runs ruff, mypy, shellcheck, yamllint, pymarkdown, the TOML and JSON checks, and the selftest. CI runs the same battery with `pre-commit run --all-files`. *CONTRIBUTING.md* puts the point of `press all` plainly: "A green `pip install` is not a working pipeline."
+The editable install points `press` in *~/alice* at the files in *~/press*, so an edit takes effect at the next run. After `pre-commit install`, every commit runs ruff, mypy, shellcheck, yamllint, pymarkdown, the TOML and JSON checks, and the selftest. CI runs the same battery with `pre-commit run --all-files`. *CONTRIBUTING.md* puts the point of `press all`: "A green `pip install` is not a working pipeline."
 
 *scripts/verify.sh* runs lint, types, the selftest, and pytest first, and then the coverage and mutation ratchets and the site build. With `--quick`, it stops after the fast layer. With `--full`, it also runs CI's container gauntlet in the pinned toolchain image, which needs Docker. Run `--full` before you push. To look at rendered output while you tune a template or a filter, *scripts/dev-render.sh* builds one book in the pinned image from the checkout, with no reinstall.
 

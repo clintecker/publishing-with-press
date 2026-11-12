@@ -31,7 +31,7 @@ Table 6.1 names the four passes in the order press runs them.
 
 Table: Table 6.1. The four passes of press check
 
-The source checks come first, because the later passes read files that the source checks confirm are there. Press proves its rules second, before they read a line of yours. The two passes that read prose come last.
+The source checks come first, because the later passes read files that the source checks confirm are there. Press proves its rules second, before they read a line of yours.
 
 @fig:checker-guards-the-build shows the checker as `press all` runs it, between your files and the editions. Everything to the left of the large box is the manuscript and its configuration. Everything to the right is an edition, and `press all` builds none of it until all four passes succeed. A bare `press pdf`, `press epub`, or other format target goes straight to the build and runs none of the four passes. The `press verify` target builds the Print edition (PDF) the same way, without the checker, and then runs the PDF verifier.
 
@@ -72,7 +72,7 @@ When every source check passes, press prints one line, `Source checks passed: N 
 
 ## Checking the checkers
 
-Press calls the second pass, `check_the_checkers`, the *checker self-test*. It proves on every check that each rule can refuse something, and the press puts the reason plainly: "A rule that cannot fail is not a rule." It runs the style audit and the jargon lint over a set of files that the rules must refuse. If any of them gets through, the check fails.
+Press calls the second pass, `check_the_checkers`, the *checker self-test*. It proves on every check that each rule can refuse something, and the press gives the reason: "A rule that cannot fail is not a rule." It runs the style audit and the jargon lint over a set of files that the rules must refuse. If any of them gets through, the check fails.
 
 A *known-bad fixture* is a Markdown file that the checker must reject. The press package carries 19 of them, and the checker also reads every Markdown file in your book's *tests/known-bad/* directory. Each fixture targets one rule, and every packaged fixture declares which rule must catch it.
 
@@ -101,7 +101,7 @@ The press package also holds one *known-good fixture*, a file named *clean.md* t
 
 <!-- art: ARCHETYPE flowchart, top to bottom. Top: a dog-eared file icon labeled "tests/known-bad/very-unique.md", with its first line shown inside in small monospace: the HTML comment that holds "expect: very unique". Arrow down to a rounded process box "style audit and jargon lint". Arrow down to a diamond "did the declared rule fire?". From the diamond, an arrow labeled "Yes" in small italic runs right to a rectangle "fixture passes". An arrow labeled "No" runs down to a rectangle with a 40% gray drop shadow holding, in small monospace on two lines, "very-unique.md: expected rule 'very unique'" and "did not fire (no diagnostics at all)". The reader should see first the No branch, which is the failure that keeps a dead rule out of the checker. -->
 
-The checker self-test has three ways to fail, and Example 6.2 gives the message for each, folded to fit the page. The text in angle brackets stands for the fixture's name, the rule, and the diagnostics.
+The checker self-test has three ways to fail, and Example 6.2 gives the message for each. The text in angle brackets stands for the fixture's name, the rule, and the diagnostics.
 
 **Example 6.2. The three checker self-test failures**
 
@@ -255,7 +255,7 @@ authoritative       genuinely
 
 The inspect terms are more ordinary words that engineers overuse: spine, gate, scaffold, wiring, drift, surface, canonical, fallback, stale, churn, and others. Several of them are also the literal names of things in press. The watchlist therefore asks a question about each sighting and leaves the answer to you.
 
-Example 6.6 shows three rows of the watchlist, folded to fit the page. In the file, each row is one line. The `question` column is the useful one, because it asks what the term stands for, and the answer is usually the sentence to write instead.
+Example 6.6 shows three rows of the watchlist. In the file, each row is one line. The `question` column is the useful one, because it asks what the term stands for, and the answer is usually the sentence to write instead.
 
 **Example 6.6. Three rows of the watchlist**
 
@@ -296,7 +296,7 @@ You can also run the lint by hand. The `--json` option prints the findings for a
 > **Warning:** Do not edit the watchlist inside the installed press package to silence a term. The next install overwrites your edit. Add the term to `jargon-allow` in your book's house rules instead.
 :::
 
-[^6-twocopies]: The jargon lint exists twice. One copy lives in the press package, and a portable copy lives inside the overused-jargon skill, so that the skill works without press installed. A check in `press selftest` requires the two copies to match byte for byte, function by function, except for the function that parses the command line.
+[^6-twocopies]: A second, identical copy of the lint lives in the overused-jargon skill (Chapter 15).
 
 ## House rules
 
@@ -329,7 +329,7 @@ A banned pattern is a regular expression, and press applies it exactly as writte
 
 A match prints as `<file>:<line>: <label>`. The label is your message to the author, so write it as advice. "very unique (unique does not grade)" tells the author what to fix and why. A bare "banned" tells the author only that something is wrong.
 
-Press refuses a pattern that does not compile. Example 6.9 shows the message, folded to fit the page. The text in angle brackets holds the pattern and the error the regular-expression engine reported.
+Press refuses a pattern that does not compile. Example 6.9 shows the message. The text in angle brackets holds the pattern and the error the regular-expression engine reported.
 
 **Example 6.9. The refusal of a malformed pattern**
 
@@ -373,7 +373,7 @@ verify-sentinels:
 verify-min-pages: 24
 ```
 
-The scaffold's template gives the rule for choosing them: "pick 2-4 phrases from your actual manuscript, each distinctive enough to appear exactly once (a whole memorable clause, not a common word)". A single common word appears in every book, so it proves nothing about yours.
+The scaffold's template gives the rule for choosing them: "pick 2-4 phrases from your actual manuscript, each distinctive enough to appear exactly once (a whole memorable clause, not a common word)". A single common word appears in every book, so it proves nothing about yours. Prefer short words: a word LuaLaTeX hyphenates at a line end breaks the match.
 
 ::: {.warning}
 > **Warning:** If your book sets a drop cap, do not choose a sentinel from the first words of a chapter. The drop cap splits and small-caps the opening word, and the Print edition's text no longer matches the phrase exactly. Choose a clause from the middle of a chapter.
@@ -389,7 +389,7 @@ The value has two defaults, and the difference matters. The book model's default
 
 ### Draft settings and release builds
 
-The scaffold's template calls two settings draft settings: an empty sentinel list and a one-page floor. A draft build accepts them, and a release build refuses them. Press calls the two settings the *release witnesses*. When the environment variable `PRESS_RELEASE` holds 1, press requires at least two sentinels and a page floor of at least 24. It refuses vacuous witnesses with the message in Example 6.11, folded to fit the page.
+The scaffold's template calls two settings draft settings: an empty sentinel list and a one-page floor. A draft build accepts them, and a release build refuses them. Press calls the two settings the *release witnesses*. When the environment variable `PRESS_RELEASE` holds 1, press requires at least two sentinels and a page floor of at least 24. It refuses vacuous witnesses with the message in Example 6.11.
 
 **Example 6.11. The release refusal**
 
@@ -405,7 +405,7 @@ The reusable workflow sets `PRESS_RELEASE=1` when it builds a tag that begins wi
 
 ## Reading the output
 
-A passing check prints a line for each pass. Example 6.12 shows a run on the press's own three-chapter Alice example, a sample book that holds Carroll's first three chapters and one appendix. It has no fixtures of its own, so its checker self-test counts 19. The example folds long lines to fit the page and shortens the paths in the notes.
+A passing check prints a line for each pass. Example 6.12 shows a run on the press's own three-chapter Alice example, a sample book that holds Carroll's first three chapters and one appendix. It has no fixtures of its own, so its checker self-test counts 19. The example shortens the paths in the notes.
 
 **Example 6.12. A passing check on the three-chapter example**
 
@@ -434,7 +434,7 @@ The two note lines belong to the checker self-test, although they print before i
 
 ### Reading a failure
 
-A failing pass prints a header and then one diagnostic to a line. The style audit's header is `Editorial checks failed:`, and each diagnostic below it begins with a hyphen, the filename, and a colon. Most diagnostics then give the line number, so your editor can jump to the line. The paragraph diagnostic gives the paragraph number instead. Example 6.13 shows the end of a failed check on the Alice book, folded to fit the page.
+A failing pass prints a header and then one diagnostic to a line. The style audit's header is `Editorial checks failed:`, and each diagnostic below it begins with a hyphen, the filename, and a colon. Most diagnostics then give the line number, so your editor can jump to the line. The paragraph diagnostic gives the paragraph number instead. Example 6.13 shows the end of a failed check on the Alice book.
 
 **Example 6.13. A failed style audit in the Alice book**
 
@@ -448,7 +448,7 @@ Editorial checks failed:
 
 The jargon lint never ran in Example 6.13. The check stopped at the third pass, so a rewrite term in the same chapter would wait for the next run. Fix every diagnostic in a failure before you run the check again, because the pass after it may have more to say.
 
-Table 6.5 collects the diagnostics you are most likely to meet. Appendix C, *Messages and refusals*, holds the full list.
+Table 6.5 collects the diagnostics you are most likely to meet. Appendix C holds the checker's and the verifiers' messages.
 
 | Diagnostic form | Meaning |
 |------------------|------------------------------------------------------------|
@@ -470,7 +470,7 @@ When all four passes succeed, `press check` exits with status 0. When any pass f
 
 `press all` runs the checker's four passes before it builds any edition, and it stops at the first failure. A manuscript that fails the check therefore never reaches pandoc under `press all`. A bare format target builds without the checker, as the section "The four passes" describes.
 
-Press also declares dependency edges between its targets. Each verify target rebuilds what it verifies before it inspects it, so a verifier does not bless an edition that the current manuscript did not produce. The one exception is `press verify-formats`, which includes an existing Print edition, *dist/alice.pdf*, in its cross-edition agreement check without rebuilding it. Chapter 8 describes the edges target by target.
+Each verify target rebuilds what it verifies before it inspects it, with one exception that Chapter 8 explains.
 
 A continuous-integration build reads the same status. The reusable workflow runs `press all`, so a failed check fails the CI job before any edition is built. Chapter 14, *Continuous integration and the release contract*, describes the workflow.
 
@@ -495,7 +495,7 @@ The chain works only if the checker's own status reaches the `&&`. When a shell 
 >
 > The mechanism needs no bug in any program. In such a chain, the checker can fail and say so, in plain text, on the terminal. Grep reads that text, finds a line it matches, perhaps an earlier pass's summary, and exits 0, as grep does. The shell sees a status of 0 at the `&&` and runs the next command. Every program does its job, and whatever the check guarded goes out.
 >
-> The cure is a habit. Let the checker's own status reach the `&&`, and read its output when it fails.
+> Let the checker's own status reach the `&&`, and read its output when it fails.
 :::
 
 Chapter 7, *Building the editions*, takes the manuscript that the checker passed and builds each edition from it.

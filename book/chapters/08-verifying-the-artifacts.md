@@ -14,7 +14,7 @@
 > - Reading a failure
 :::
 
-A build that exits with status zero tells you that pandoc and LuaLaTeX stopped without complaint. It tells you nothing about the pages inside the PDF. Press therefore opens every artifact it makes, renders or unpacks it, and compares it with the manuscript before it calls the build good. This chapter describes the programs that do that work, the checks each one runs, and the exact message each one prints when a check fails. The examples come from the Alice book, the full novel that user `alice` builds on the workstation `hatter` and that CI builds on the host `printshop`. The real runs in Examples 8.1 and 8.2 come from the press's own three-chapter Alice example.
+Press opens every artifact it makes, renders or unpacks it, and compares it with the manuscript before it calls the build good. This chapter describes the programs that do that work, the checks each one runs, and the exact message each one prints when a check fails. The examples come from the Alice book, the full novel that user `alice` builds on the workstation `hatter` and that CI builds on the host `printshop`. The real runs in Examples 8.1 and 8.2 come from the press's own three-chapter Alice example.
 
 ![The witness that could say no, inspecting a finished sheet](assets/woodcuts/the-witness-that-could-say-no.png)
 
@@ -22,9 +22,9 @@ A build that exits with status zero tells you that pandoc and LuaLaTeX stopped w
 
 ## Artifacts as objects
 
-The press works under four laws, which its *docs/ARCHITECTURE.md* states and Chapter 1, *Introduction*, describes. The third law governs this chapter: "Artifacts are verified as objects." The text of the law continues: "A green build means the actual PDF was rendered and inspected, the actual EPUB was validated by the tool retail channels run, the actual site was crawled." Its last sentence reads: "Verifying without rebuilding is forbidden by construction." The press ROADMAP puts the same idea in fewer words. Verifiers prove artifacts as objects "rather than trusting command exit status".
+The press works under four laws, which its *docs/ARCHITECTURE.md* states and Chapter 1, *Introduction*, describes. The third law governs this chapter: "Artifacts are verified as objects." The text of the law continues: "A green build means the actual PDF was rendered and inspected, the actual EPUB was validated by the tool retail channels run, the actual site was crawled." Its last sentence reads: "Verifying without rebuilding is forbidden by construction." The press ROADMAP says the same: verifiers prove artifacts as objects "rather than trusting command exit status".
 
-The press learned this law from a failure. Its CONTRIBUTING file records that "a title-page generator shipped a dropped and a clipped cover at 11.5% coverage: the lines ran, the artifact was never inspected." The tests ran the code, but nobody inspected the artifact, in which the generator dropped one cover and clipped another. The press drew a rule from the incident: "A producer is only proven by a verifier that rejects a broken artifact." The cover check that you meet later in this chapter exists because of that sentence.
+The press learned this law from the cover that passed at 11.5 percent coverage (Chapter 1), and drew a rule from it: "A producer is only proven by a verifier that rejects a broken artifact." The cover check later in this chapter is that rule at work.
 
 A *verifier* is a `verify_*` module in the press, together with the check it runs on a finished artifact. This chapter follows five verifier runs. `verify_pdf` reads the Print edition (the reading PDF). `verify_formats` reads the Circulating edition (EPUB), the Single-leaf edition (the self-contained HTML), and the Manuscript edition (the stitched Markdown). It also reads the Telegraphic edition (plain text), the Office edition (DOCX), and the Chapter edition (the reader site and its zip). `verify_archives` reads the zip files, among them the Source edition (the source zip), and `verify_pages` crawls the Pages bundle. The fifth run is `verify_pdf` again, with its print profile, on the print interior.
 
@@ -132,7 +132,7 @@ The first means that a link points at nothing. The second means that the links p
 >
 > The link check exists because the links in the PDF once went to the wrong place. LaTeX treats a figure as a *float*, a block it is free to move to a better spot on the page. Its link package, hyperref, set the anchor of each float at its caption. A plate's caption sits under the image, so a link from the List of Plates opened the page scrolled to the caption, with the plate itself above the reader's view.
 >
-> The first fix loaded the `hypcap` package, which moves the anchor to the top of the float. A later version of the house design dropped that package and set `hypcap=true` in the package that sets captions, which does the same job from one place. The press's CLAUDE.md kept the scar as an instruction: "When touching PDF links, verify destinations with pypdf". The verifier now does it on every verify run, so nobody has to remember.
+> The first fix loaded the `hypcap` package, which moves the anchor to the top of the float. A later version of the house design dropped that package and set `hypcap=true` in the package that sets captions, which does the same job from one place. The press's CLAUDE.md kept the scar as an instruction: "When touching PDF links, verify destinations with pypdf".
 :::
 
 ### Rendering and ink
@@ -159,14 +159,14 @@ The print profile forgives exactly one blank page, and only on one condition. Th
 
 The `press verify-print` target builds the print interior, *dist/alice-interior.pdf*, and runs `verify_pdf --profile print` on it. The print profile adds two checks that matter only on paper.
 
-The first concerns the margins. A printed book has a wider margin at the gutter, so the text block sits farther right on a recto than on a verso. The verifier skips the first 20 percent of the pages. It then finds the median left edge of the ink on rectos and on versos. The two medians must differ by at least 18 pixels at 120 dots per inch. If they do not, the verifier prints this message, here broken across two lines to fit the page:
+The first concerns the margins. A printed book has a wider margin at the gutter, so the text block sits farther right on a recto than on a verso. The verifier skips the first 20 percent of the pages. It then finds the median left edge of the ink on rectos and on versos. The two medians must differ by at least 18 pixels at 120 dots per inch. If they do not, the verifier prints:
 
 ```text
 print profile: margins do not mirror (recto left edge Xpx,
 verso Ypx); the gutter is missing
 ```
 
-The second check concerns color. A page fails when more than 200 of its pixels have an RGB channel spread of 48 or more, which means that a reader sees color in them. The verifier skips the check when the profile declares `ink: color`. The message names a likely cause. It appears here on three lines to fit the page:
+The second check concerns color. A page fails when more than 200 of its pixels have an RGB channel spread of 48 or more, which means that a reader sees color in them. The verifier skips the check when the profile declares `ink: color`. The message names a likely cause:
 
 ```text
 print profile: colored ink on pages [...] (a colored cover
@@ -174,11 +174,11 @@ plate in a hand-authored tex/title-page.tex belongs on the
 wrap; supply tex/title-page-print.tex without it)
 ```
 
-After the interior passes, `press verify-print` looks for *assets/cover.jpg*. If the cover is there, the target builds the cover wrap and runs `verify_coverwrap` on it, as Chapter 12 describes. Without a cover, the target prints `no assets/cover.jpg; interior verified, wrap not built` and stops there.
+After the interior passes, `press verify-print` looks for *assets/cover.jpg*. If the cover is there, the target builds the cover wrap and runs `verify_coverwrap` on it, as Chapter 12 describes. Without a cover, the target stops after the interior.
 
 ### The cover on page 1
 
-The reading profile has one check of its own, the one that the 11.5 percent story produced. It applies when *assets/cover.jpg* exists and the book has no *tex/title-page.tex* of its own. In that case the press generates the front matter, and the cover plate belongs on page 1 of the reading PDF. The verifier looks at page 1 twice. If the page renders blank, it prints this message, broken here to fit the page:
+The reading profile has one check of its own, the one that the 11.5 percent story produced. It applies when *assets/cover.jpg* exists and the book has no *tex/title-page.tex* of its own. In that case the press generates the front matter, and the cover plate belongs on page 1 of the reading PDF. The verifier looks at page 1 twice. If the page renders blank, it prints:
 
 ```text
 assets/cover.jpg exists but page 1 of the reading PDF renders
@@ -191,7 +191,7 @@ If page 1 has ink but no image, the message ends `carries no cover image -- the 
 > **Tip:** Install `pdfimages` on your workstation and confirm it runs. Without it, two checks soften to notes, `press doctor` does not warn you, and a note is easy to miss in a long run.
 :::
 
-When every check passes, the verifier prints one line. Example 8.1 shows a real run from the three-chapter example, which renders 23 pages. The slug reads `alice`, and the page breaks the line in three. The tail of the line depends on the profile. The print profile ends `, mirrored margins, black ink only` in place of `, cover on page 1`.
+When every check passes, the verifier prints one line. Example 8.1 shows a real run from the three-chapter example, which renders 23 pages. The slug reads `alice`. The tail of the line depends on the profile. The print profile ends `, mirrored margins, black ink only` in place of `, cover on page 1`.
 
 **Example 8.1. A press verify run on the three-chapter example**
 
@@ -249,7 +249,7 @@ Table: Table 8.3. The checks each edition adds
 
 The figure-label check catches a numbered figure that vanished in the HTML or the EPUB. The verifier counts the figures the manuscript declares and the labels the edition prints. If they differ, the HTML message reads `HTML carries N numbered-figure labels; the source declares M`. The EPUB message reports the same comparison.
 
-The EPUB checks reach into the package. `EPUB has invalid mimetype` and `EPUB missing container.xml` mean that the zip is not an EPUB at all. Two more messages concern the metadata, the first broken here to fit the page:
+The EPUB checks reach into the package. `EPUB has invalid mimetype` and `EPUB missing container.xml` mean that the zip is not an EPUB at all. Two more messages concern the metadata:
 
 ```text
 EPUB carries an empty dc:date (retail validators reject it);
@@ -271,7 +271,7 @@ site has N chapter pages; expected at least M
 
 The verifier then checks each chapter by its chapter witness. A *chapter witness* follows the same rule as the manuscript witness, applied to one chapter file: it is the longest markup-free line of 40 or more characters in that file. Each chapter's witness must appear on exactly one page of the site. A chapter missing from every page fails with `reader site is missing <chapter>:` and the details. A chapter on two pages fails with `reader site duplicates <chapter>:` and the details. The last message, `site carries N plates; expected M`, counts the plates.
 
-When every edition passes, the verifier checks agreement across editions, as the section "Witnesses and cross-edition agreement" later in this chapter describes. It then prints one line. Example 8.2 shows a real run on the three-chapter example, with the slug changed to `alice` and the long lines broken to fit the page. The run also shows the source zip's report and the `verify_archives` line.
+When every edition passes, the verifier checks agreement across editions, as the section "Witnesses and cross-edition agreement" later in this chapter describes. It then prints one line. Example 8.2 shows a real run on the three-chapter example, with the slug changed to `alice`. The run also shows the source zip's report and the `verify_archives` line.
 
 **Example 8.2. A press verify-formats run on the three-chapter example**
 
@@ -307,14 +307,14 @@ Retail channels validate an EPUB with epubcheck, so the press runs the same tool
 
 Table: Table 8.4. The outcomes of the epubcheck run
 
-The two cases of a missing epubcheck print different messages, because they mean different things. Inside the toolchain image, where CI cuts releases, a missing epubcheck is a fault in the image. On `hatter`, where `alice` writes, it is a tool that she can install when she likes. Example 8.2 showed the local warning. Inside the image, the verifier prints this message instead, broken here to fit the page:
+The two cases of a missing epubcheck print different messages, because they mean different things. Inside the toolchain image, where CI cuts releases, a missing epubcheck is a fault in the image. On `hatter`, where `alice` writes, it is a tool that she can install when she likes. Example 8.2 showed the local warning. Inside the image, the verifier prints instead:
 
 ```text
 epubcheck missing from the press toolchain image; the
 retail-format gate cannot be skipped where releases are cut
 ```
 
-The press decides which case applies by looking at `PRESS_TOOLCHAIN`. It does not look at `CI`. The press's source gives the reason: keying on `CI` would fail "because `CI=false` would read as truthy".[^8-ci-false] The toolchain image sets `PRESS_TOOLCHAIN`. An ordinary workstation does not.
+The press decides which case applies by looking at `PRESS_TOOLCHAIN`. It does not look at `CI`. The press's source gives the reason: keying on `CI` would fail "because `CI=false` would read as truthy".[^8-ci-false] The toolchain image sets `PRESS_TOOLCHAIN`, and an ordinary workstation does not.
 
 ::: {.tip}
 > **Tip:** Install epubcheck on your workstation if you can, with the command the warning names. A local run without it validates the EPUB structurally only, and the first full check then happens in CI, an e-mail later.
@@ -387,7 +387,7 @@ One check, in the first group, looks for leaks from the build machine. The head 
 /Users/|/home/|/dist/|/build/|file://
 ```
 
-A head that contains */Users/alice/* picked up a path from `hatter`, and every visitor would see it in the page source. The check catches the mistake before the site deploys. When everything passes, the verifier prints its line, broken here to fit the page:
+A head that contains */Users/alice/* picked up a path from `hatter`, and every visitor would see it in the page source. The check catches the mistake before the site deploys. When everything passes, the verifier prints:
 
 ```text
 Verified dist/pages: every local reference resolves
@@ -417,7 +417,7 @@ The last check in `verify_formats` compares every edition with the manuscript, c
 
 The match tolerates the ways an edition changes text. The PDF adds running heads in the middle of a paragraph, and text extraction sometimes glues two words together at a line end. So the check does not demand the whole witness line in one piece. It cuts the line into windows of eight consecutive words, with a new window every four words. The chapter passes when any one window appears in the edition.[^8-window]
 
-When an edition fails, the message names the edition and counts the missing chapters. It prints as one line, broken here to fit the page:
+When an edition fails, the message names the edition and counts the missing chapters:
 
 ```text
 <label> disagrees with the manuscript: it is missing content
@@ -444,9 +444,9 @@ The edges in @fig:rebuild-edges come straight from the press, and the earlier se
 
 The `press all` target runs the checker first, then builds every edition, the source zip, and the Pages bundle. Last, it runs the verifiers in this order: `verify_pages`, `verify_pdf`, `verify_formats`, and `verify_archives`.
 
-A commerce gate follows the verifiers. For a book without print ordering, such as the three-chapter example, the run prints `commerce release gate: print ordering is not enabled; no commerce release gate`. For a book with print ordering enabled, outside a release build, the gate is advisory and says so: `(commerce gate is advisory here; a release build (PRESS_RELEASE=1) enforces it)`. Under `PRESS_RELEASE`, the press enforces it. Example 1.2 in Chapter 1 shows the summary lines of a full run.
+A commerce gate follows the verifiers (Chapter 7).
 
-The law reaches the generated inputs too. Every pandoc build calls `book_inputs()` first. That function deletes *build/generated/*, regenerates the subject index, and writes *dist/alice-sources.md* from the table of authorities. In the words of *docs/ARCHITECTURE.md*, "the generated appendices are cleaned first so stale copies cannot survive".
+The law reaches the generated inputs too: every pandoc build regenerates them first (Chapter 7).
 
 The invariant has a stated limit, and the ledger records it: "CLI-path only; importing a verifier module directly skips the rebuild." The edges live in the `press` command. A script that imports `press.verify_pdf` and calls it on *dist/alice.pdf* reads whatever file is there, fresh or not.
 
@@ -489,7 +489,7 @@ When the fault lies in the book, the message tells you what went missing, and yo
 
 <!-- art: ARCHETYPE terminal. A plain light terminal window with a thin 0.5 pt frame and a title bar reading "alice@hatter". Inside, in monospace, three lines, top to bottom: "$ press verify", then a line holding only "...", then "missing text sentinel in PDF: Twinkle, twinkle, little bat". No color, no bold. Draw the last line at full black and the first two in 40% gray. The reader sees the sentinel message first. -->
 
-A missing sentinel has three usual causes. The first is a revision that reworded the phrase. Search the manuscript for it. If the checker also fails on it, the manuscript is the culprit. The second is a phrase at the start of a chapter, where the chapter opening splits the first word and small-caps the rest, as Chapter 4, *Writing the manuscript*, explains. The third is an edition that lost the chapter, and the agreement check in `press verify-formats` counts the chapters that an edition lacks.
+A missing sentinel has four usual causes. The first is a revision that reworded the phrase. Search the manuscript for it. If the checker also fails on it, the manuscript is the culprit. The second is a phrase at the start of a chapter, where the chapter opening splits the first word and small-caps the rest, as Chapter 4, *Writing the manuscript*, explains. The third is an edition that lost the chapter, and the agreement check in `press verify-formats` counts the chapters that an edition lacks. The fourth is a word in the phrase that LuaLaTeX hyphenated at a line end. Choose shorter words or another phrase.
 
 ::: {.tip}
 > **Tip:** When a sentinel fails in the PDF, run `press verify-formats` too. Its agreement check counts the chapters that each edition is missing, which tells you if the PDF lost a whole chapter.

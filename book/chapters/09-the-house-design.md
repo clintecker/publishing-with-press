@@ -73,9 +73,7 @@ The house sets its body text in Libertinus at 10 points. Table 9.2 lists the set
 
 Table: Table 9.2. The house type
 
-A book can choose another body face in its *aesthetic*, the visual identity in *config/aesthetic.yaml*, through the key `typography.pdf-family`. When that key is empty, the header uses the packaged Libertinus. When it names a family, the header writes `\setmainfont{<family>}[Numbers=OldStyle]` instead, so the chosen face sets its numerals in the old style, with descenders like lowercase letters.[^9-libertine]
-
-[^9-libertine]: The face has its own scar. Ubuntu has no `fonts-libertinus` package, and an install with `--no-install-recommends` drops the Libertine keyboard face. The toolchain image therefore names `fonts-linuxlibertine` explicitly. Chapter 2, *Installing press*, lists the packages.
+A book can choose another body face in its *aesthetic*, the visual identity in *config/aesthetic.yaml*, through the key `typography.pdf-family`. When that key is empty, the header uses the packaged Libertinus. When it names a family, the header writes `\setmainfont{<family>}[Numbers=OldStyle]` instead, so the chosen face sets its numerals in the old style, with descenders like lowercase letters.
 
 ### Line breaking
 
@@ -89,11 +87,9 @@ Four more values control the shape of the paragraph. The value `\parfillskip=0pt
 
 The header sets every heading in bold, in the ink color, and ragged on the right. A chapter title has 1.25 lines of space after it. A section heading has 1.6 lines before it and 0.55 after it, and a subsection heading has 1.2 before and 0.35 after. Each heading also reserves room for the text that follows it: five lines for a section and four for a subsection. A heading therefore never sits alone at the foot of a page.
 
-The contents page goes one level deep: it lists the chapters. The plates and the figures have separate lists, the List of Plates and the List of Figures. A scar lives here. The setting `toc-depth: 1` sets the TeX counter `tocdepth` to 0, and that silently empties the List of Plates. The header now raises the depth inside the plates list itself, so a shallow contents page and a full List of Plates live together.
+The contents page goes one level deep: it lists the chapters. The plates and the figures have separate lists, the List of Plates and the List of Figures (a scar Chapter 7 tells kept the List of Plates full at that depth).
 
-One package sets every caption. The header gives the `caption` package the options `font={small,it}`, `labelformat=empty`, `justification=centering`, and `hypcap=true`. Captions are therefore small, italic, and centered. The last option sends a link in the List of Plates to the top of the plate instead of to its caption.[^9-hypcap]
-
-[^9-hypcap]: Earlier versions of press loaded a separate `hypcap` package for this. The `caption` package now does the work alone, and it is the single authority over captions in the house header.
+One package sets every caption. The header gives the `caption` package the options `font={small,it}`, `labelformat=empty`, `justification=centering`, and `hypcap=true`. Captions are therefore small, italic, and centered. The last option sends a link in the List of Plates to the top of the plate instead of to its caption.
 
 ### Color and links
 
@@ -132,7 +128,7 @@ The print interior is two-sided, so its inner and outer heads change sides from 
 
 ## Six profiles
 
-A design profile fixes a trim, four margins, a height cap, an indent and leading, and a column width for the Web. At the time of this writing, press 3.0.2 has six of them. A book chooses one with the field `print.profile` in *config/metadata.yaml*, and the default is `house-6x9`. The documentation divides the labor in one sentence: "choosing a profile changes the design's proportions; choosing an aesthetic changes its voice." The font family and the palette belong to the aesthetic, and everything that depends on the size of the page belongs to the profile.
+A design profile fixes a trim, four margins, a height cap, an indent and leading, and a column width for the Web. At the time of this writing, press 3.0.2 has six of them. A book chooses one with the field `print.profile` in *config/metadata.yaml*, and the default is `house-6x9`. The documentation divides the labor: "choosing a profile changes the design's proportions; choosing an aesthetic changes its voice." The font family and the palette belong to the aesthetic, and everything that depends on the size of the page belongs to the profile.
 
 To move the Alice book to the novella page, user `alice` runs one command on `hatter`:
 
@@ -166,7 +162,7 @@ The PDF body stays at 10 points in every profile, and the indent and the leading
 
 The color profile is the one exception to the single-ink law. A book that needs color plates or figures inside chooses `house-6x9-color`. It accepts a cost, and Chapter 12 explains why some providers refuse a color interior.
 
-The list has a limit, which *NON-GOALS.md* states: "Press is a prose engine." Another trim, a color interior, or large print is a new profile and core press work. A fixed-layout picture book or a magazine is a new engine, and press does not take it on.
+Another trim, a color interior, or large print is a new profile. A new engine is outside the press (Chapter 1).
 
 ::: {.tip}
 > **Tip:** Choose the profile before you commission art. The height cap and the text width set the largest size a plate can print at, and a plate drawn for one page may look cramped on a smaller one.
@@ -217,7 +213,7 @@ Each page carries the metadata that search engines and social sites read: a cano
 
 The description of a chapter page comes from the chapter itself. Press takes the first paragraph of at least 20 characters and cuts it to 157 characters plus three periods.
 
-All of this depends on the field `site-url`. The rule is short: "when there is no public base URL, nothing URL-shaped is emitted." A book without it gets no canonical link, no `og:url` or `og:image`, and no sitemap.
+All of this depends on the field `site-url`. The rule is short: "when there is no public base URL, nothing URL-shaped is emitted."
 
 ::: {.tip}
 > **Tip:** Set `site-url` in *config/metadata.yaml* before you publish the reader site. Without it the pages still read correctly, but search engines and social sites get no address to show.
@@ -227,7 +223,7 @@ All of this depends on the field `site-url`. The rule is short: "when there is n
 
 The Single-leaf edition (the self-contained HTML) uses *book.css*. That sheet takes the same ink, muted, and accent values as the PDF, and it sets the text on a near-white paper. Its face is Charter, then Bitstream Charter, then Georgia, at 19 pixels on a 1.58 line, in a column at most 42 rem wide. It has no dark theme.
 
-The Circulating edition (EPUB) uses *epub.css*. That sheet sets a serif face on a 1.45 line, a drop cap at 3 em, and a rule that keeps a figure inside the screen. It sets no colors at all, and the press gives the reason in five words: "the reader owns the theme."
+The Circulating edition (EPUB) uses *epub.css*. That sheet sets a serif face on a 1.45 line, a drop cap at 3 em, and a rule that keeps a figure inside the screen. It sets no colors at all, and the press gives the reason: "the reader owns the theme."
 
 ## The landing page
 
@@ -272,7 +268,7 @@ A book keeps its visual identity in *config/aesthetic.yaml*, and press merges th
 
 Table: Table 9.7. The aesthetic keys that touch the design
 
-The tokens a palette can name are `paper`, `paper-warm`, `ink`, `ink-soft`, `cloth`, `cloth-deep`, `foil`, `foil-bright`, `foil-deep`, `hairline`, `link`, and `ornament`. Press rewrites the light palette into the sheet before the dark-mode seam and the dark palette after it, so the two themes stay separate.
+The tokens a palette can name are `paper`, `paper-warm`, `ink`, `ink-soft`, `cloth`, `cloth-deep`, `foil`, `foil-bright`, `foil-deep`, `hairline`, `link`, `ornament`, and `accent`, which only the cover prompt reads. Press rewrites the light palette into the sheet before the dark-mode seam and the dark palette after it, so the two themes stay separate.
 
 Suppose `alice` wants a red cloth in the manner of a Victorian gift book. She writes the file in Example 9.1. It keeps the house foil, paper, and ink tones, and it changes the two cloth tokens. In the PDF it sets the links to the deep cloth red and restates the accent in the cloth red. The header uses the accent nowhere. It also asks for the fairy-dust scene break.
 
@@ -311,7 +307,7 @@ A Web palette value is a CSS color, so it keeps its `#`. A `book-colors` value g
 > **Warning:** Do not put a `#` before a `book-colors` value. Those values go into TeX, which wants the six hex digits alone.
 :::
 
-The merge works at the top level, and that surprises authors once. When the book's file names a section, such as `web-palette` or `book-colors`, the whole section replaces the house section of the same name. Nothing from the house section survives inside it. The house documentation gives the rule in eight words: "restate a whole section when you touch it." Example 9.1 follows it. It writes nine tokens of the light palette and all four book colors, including the values it keeps.
+The merge works at the top level, and that surprises authors once. When the book's file names a section, such as `web-palette` or `book-colors`, the whole section replaces the house section of the same name. Nothing from the house section survives inside it. The house documentation's rule is "restate a whole section when you touch it." Example 9.1 follows it. It writes nine tokens of the light palette and all four book colors, including the values it keeps.
 
 ::: {.tip}
 > **Tip:** When you change one field of an aesthetic section, copy the whole section into your file first and edit the copy. The merge replaces the section as a whole.
@@ -374,7 +370,7 @@ Press makes a promise about design, and *ARCHITECTURE.md* states it:
 
 > Within a major version, a fix may correct broken output ... but must not change the typography or layout of a book that was already valid. A book that rebuilt cleanly yesterday must produce the same design today.
 
-The press repository states the same rule from the other side: "design and template changes require a new major." The promise follows from how books use press. A book pins a release tag, as Chapter 14, *Continuous integration and the release contract*, describes. A *floating tag* such as `v3` moves to each new compatible release, and an *immutable tag* such as `v3.0.2` never moves. An author on the floating tag takes every fix in the major without reading the release notes. If a fix moved a line break, that author would find a different book after a routine rebuild.
+The press repository states the same rule from the other side: "design and template changes require a new major." The promise follows from how books use press. A book pins a release tag, as Chapter 14, *Continuous integration and the release contract*, describes. An author on the floating tag takes every fix in the major without reading the release notes. If a fix moved a line break, that author would find a different book after a routine rebuild.
 
 A change of design moves more than one line. A different hyphenation penalty breaks a paragraph in a new place, and the paragraph may then gain or lose a line. One extra line can push a heading to the next page. Across a whole book the page count changes, and the page count sets the width of the spine on the cover wrap (Chapter 12 shows the arithmetic). An author proofs those exact pages.
 
@@ -394,7 +390,7 @@ Each profile carries a `design-major`, and the file *profile-seals.yaml* in the 
 
 The press also keeps visual regression baselines, rendered pages that its tests compare against. The rule for the baselines matches the rule for the design. A maintainer may record new baselines only "with a reason", and only in a new major. A patch that changes a page therefore shows up as a failed comparison in the press's own tests.
 
-For your own pin, the rule means this: on `v3`, your book keeps the design it has today through every release of version 3. On `v3.0.2`, it keeps the same press code, the same composite action, and the same toolchain bytes forever. A new design reaches your book only when you change the major in your pin.
+For your own pin, the rule means this: on `v3`, your book keeps the design it has today through every release of version 3. On `v3.0.2`, nothing moves. A new design reaches your book only when you change the major in your pin.
 
 ::: {.tip}
 > **Tip:** Before you move a book to a new major, build the PDF on the old pin and keep it. Compare it with the new build page by page, and proof again any page that moved.

@@ -332,7 +332,7 @@ To draft the file, run `press aesthetic "<brief>"`, which runs the `aesthetic-br
 
 ## *config/index-terms.yaml* {-}
 
-This file holds the curated terms of the subject index. In `press config list` it is the structured field `index-terms`. The press sends you to the file or to the index workflow instead of the shell. With no file, the book has no index. Chapter 10 explains the index.
+This file holds the curated terms of the subject index. In `press config list` it is the structured field `index-terms`. The press's help text names an "index workflow", but at the time of this writing none ships, so edit the file by hand. With no file, the book has no index. Chapter 10 explains the index.
 
 The file is a list, not a mapping, and each entry has two keys. Example B.2 shows two entries.
 

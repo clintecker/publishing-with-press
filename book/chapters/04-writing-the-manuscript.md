@@ -49,21 +49,13 @@ One edition stands apart from all of this. The Manuscript edition (the stitched 
 
 A `#` heading is a chapter. Press sets pandoc's `top-level-division: chapter` for the PDF and the EPUB, and in every rendered edition one `#` at the start of a line starts a new chapter. A `##` heading is a section, and a `###` heading is a subsection. Pandoc numbers all three.
 
-Press finds chapters by their filenames. A chapter file's name starts with a digit and ends in `.md`. An *appendix file* is a file in *book/appendices/* whose name is a single lowercase letter, a hyphen, and the rest of the name. Press sorts each group by filename and merges the chapters first, then the appendixes in letter order, with the generated subject index among them by its own letter. The sort is lexical, so a file named *10-the-lobster-quadrille.md* sorts before *4-the-rabbit-sends-in-a-little-bill.md*. Press pads the numbers it hands out to at least two digits for that reason.
-
-::: {.warning}
-> **Warning:** Start every chapter file's name with a digit. Press silently ignores any other `.md` file in *book/chapters/* or *book/appendices/*. A file named *notes.md* or *chapter-four.md* never reaches the book, and no target tells you so.
-:::
-
-The simplest way to start a chapter is to let press create the file. The three-chapter example ends with Carroll's third chapter. If its highest chapter file starts with `03-`, the next `press add chapter` creates a file starting with `04-`:
+A chapter file's name starts with a digit, and Chapter 3 gives the sorting rules.
 
 ```text
 $ press add chapter "The rabbit sends in a little Bill"
 ```
 
-Press lowercases the title and turns each run of characters that are not letters or digits into one hyphen, so the new file is *book/chapters/04-the-rabbit-sends-in-a-little-bill.md*. Press keeps the title you type, word for word, as the heading. If you give a bare slug instead, such as `pool-of-tears`, press writes a sentence-case heading for you, `Pool of tears`. The new file holds a one-paragraph placeholder that says to delete it and begin. Press refuses to overwrite a file that already exists, and exits with status 1.
-
-Appendixes work the same way with letters. The command `press add appendix` hands out letters counting down from `z-`, so a book's first appendix is a `z-` file. The generated subject index takes the first free letter counting up from `a`, so the index usually sorts before the appendixes you write yourself. Chapter 10, *Front matter, the index, and the table of authorities*, covers the index.
+`press add chapter` names the file and writes the heading word for word (Chapter 3).
 
 ### Unnumbered chapters
 
@@ -129,7 +121,7 @@ U+201C  “   left double quotation mark
 U+201D  ”   right double quotation mark
 ```
 
-In practice you write the word: "thirty degrees", "five pounds", "section 4". A book's copyright line belongs to the generated front matter, which Chapter 10 describes. You never need the sign in a chapter.
+In practice you write the word: "thirty degrees", "five pounds", "section 4". A book's copyright line belongs to the generated front matter, which Chapter 10 describes.
 
 ::: {.warning}
 > **Warning:** Run `press check` after every paste from a word processor or a Web page. Pasted text arrives full of curly quotes, dashes, and non-breaking spaces, and the non-breaking space is invisible on screen. Only the checker will find it.
@@ -139,7 +131,7 @@ In practice you write the word: "thirty degrees", "five pounds", "section 4". A 
 
 The house sets no em dash and no en dash in prose. The checker refuses the em dash (U+2014), the en dash (U+2013), and the four curly quotation marks in the prose of a chapter. You type straight quotes and apostrophes, and pandoc curls them in every rendered edition.
 
-The two hyphens are a quieter case. Because of `+smart`, pandoc turns two hyphens into an en dash and three into an em dash. The checker does not refuse the hyphens in source, so a sentence with two hyphens in it passes `press check` and then prints with a dash. The house law is plain about what to do instead: rewrite the sentence. A comma, a colon, a period, or a pair of parentheses carries almost every job a dash does, and the rewrite is usually the better sentence. Example 4.3 shows one such rewrite.
+The two hyphens are a quieter case. Because of `+smart`, pandoc turns two hyphens into an en dash and three into an em dash. The checker does not refuse the hyphens in source, so a sentence with two hyphens in it passes `press check` and then prints with a dash. The house law says what to do instead: rewrite the sentence. A comma, a colon, a period, or a pair of parentheses carries almost every job a dash does, and the rewrite is usually the better sentence. Example 4.3 shows one such rewrite.
 
 **Example 4.3. A sentence with a dash and its rewrite**
 
@@ -288,7 +280,7 @@ chapter-opening:
 
 ### Where the drop cap goes
 
-The *chapter-dropcap.lua* filter finds the first eligible paragraph after each `#` heading, and it skips any chapter marked `{.unnumbered}`, so a preface opens plainly. On its way down the chapter it passes over blockquotes, code blocks, lists, tables, rules, and figures. A chapter that opens with an epigraph therefore gets its drop cap on the first paragraph of prose, where the reader expects it.
+The *chapter-dropcap.lua* filter finds the first eligible paragraph after each `#` heading, and it skips any chapter marked `{.unnumbered}`, so a preface opens with a plain paragraph. On its way down the chapter it passes over blockquotes, code blocks, lists, tables, rules, and figures. A chapter that opens with an epigraph therefore gets its drop cap on the first paragraph of prose, where the reader expects it.
 
 In the PDF, press keeps a drop cap from starting at the foot of a page that has no room for its lines. The initial is always one grapheme, so an accented capital or a letter with a combining mark stays whole. We suggest opening each chapter with a paragraph of at least four or five lines. A three-line initial beside a one-line paragraph has nothing to sink into, and the page looks unfinished. The Telegraphic and Office editions carry no drop cap.
 
@@ -307,10 +299,6 @@ The first character of that paragraph is a quotation mark, and the letter after 
 ### The ornate style
 
 The `ornate` style sets the initial in the yinit foliate font, from the `yfonts` package in the TeX Live fonts-extra collection. That font exists only in print. The EPUB and the reader site set a styled display capital instead, at 3.6em in the ornament color. It uses a script face such as Luminari, Apple Chancery, or Zapfino, if the reader's machine has one.
-
-::: {.warning}
-> **Warning:** Never choose a sentinel from the first words of a chapter. The drop cap splits the first word and sets its remainder in small caps, so the opening phrase no longer matches exactly in the PDF, and the verifier fails it. Pick a phrase from the middle of the chapter.
-:::
 
 ## Scene breaks
 
@@ -416,7 +404,7 @@ The filter ties in three places, and none of them asks anything of you. After an
 
 Each tie prevents a misreading. A line that ends on "Rev." with the name at the start of the next line reads, for an instant, as the end of a sentence. A page reference split after "p." leaves the number stranded on a line of its own. A name broken between its initials stops looking like a name. None of these is an error a checker could catch in the manuscript, because the line breaks do not exist until the page does.
 
-The press states the principle plainly. The manuscript stays plain prose, the house does the fine work, and the filter leaves ordinary sentences exactly as you typed them, every period included. You type "Rev. Dodgson" and "p. 42" with ordinary spaces, and the filter keeps each pair on one line in the PDF, the EPUB, and the reader site alike.
+The manuscript stays plain prose, the house does the fine work, and the filter leaves ordinary sentences exactly as you typed them, every period included. You type "Rev. Dodgson" and "p. 42" with ordinary spaces, and the filter keeps each pair on one line in the PDF, the EPUB, and the reader site alike.
 
 Figures get the same treatment. The *figure-numbering.lua* filter numbers each figure once, by chapter, and turns every `@fig:` citation into "Figure 4.1" with a link, so press needs no pandoc-crossref.
 
@@ -436,4 +424,4 @@ The next chapter, *Figures, plates, and illustrations*, takes up the plates, the
 
 [^4-hung-quote]: Press calls this Bringhurst's rule. The capital aligns with the text, and the quotation mark sits outside the measure.
 
-[^4-ties]: Pandoc ties Mr. on its own. For that reason, the press's test for the tie once passed with no filter in place at all. The Lua coverage work for press 3.0.2 found the empty test. The Lua tests, it turned out, also skipped silently in CI until CI set `PRESS_REQUIRE_LUA=1`.
+[^4-ties]: Pandoc ties Mr. on its own, and the filter covers the rest. Chapter 16 tells what that once did to a test.

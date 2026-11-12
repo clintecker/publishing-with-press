@@ -21,7 +21,7 @@ The press is a program that does the work of an old print shop, from compositor 
 
 ## What press is
 
-The press README describes the program in one plain sentence:
+The press README describes the program:
 
 > A complete small press: everything required to turn a directory of Markdown chapters into a publishable book.
 
@@ -59,15 +59,15 @@ Above the toolchain, the press carries *the house*, its default design and law. 
 
 The maintainer extracted the press from the production of an earlier book, *Mostly Done.*, so that the next book would not repeat the work. The package docstring gives the motive: "Extracted from the production of one book so the next book starts with the scars already paid for." In the press's vocabulary, a production failure turned into a guard is a *scar*. The first commit carries the date 2026-07-17.
 
-The work moved quickly after that. Version 2.0.0 followed on 2026-07-21 as the "composable press", with design profiles, print providers, and an extension contract. Version 3.0.0 arrived on 2026-11-10. It was a design major, and the section "Versions and the pinned contract" later in this chapter explains why design needs one.
+The work moved quickly after that. Version 2.0.0 followed on 2026-07-21 as the "composable press", with design profiles, print providers, and an extension contract. Version 3.0.0 arrived on 2026-11-10. It was a design major, and Chapter 9 explains why design needs one.
 
 A second book put the docstring's claim to the test. *Make Ready* was "taken end to end through the built-in facilities". It had a commissioned clothbound cover, fourteen engraved plates finished by `press art enhance`, a subject index, registered ISBNs, and a table of authorities. The press repository holds only the machinery, and each book keeps its own repository.
 
-One maintainer, Clint Ecker of LGTM Systems, LLC, looks after the press. Books from that shop appear under the LGTM Publishing imprint. The license is MIT, "code and bundled content alike". The README is plain about ownership: "A book you make with the press is yours entirely." The ROADMAP records the repository `clintecker/press` as public since 2026-07-19, and the documentation site is at *https://clintecker.github.io/press/*.
+One maintainer, Clint Ecker of LGTM Systems, LLC, looks after the press. Books from that shop appear under the LGTM Publishing imprint. The license is MIT, "code and bundled content alike". The README says of ownership: "A book you make with the press is yours entirely." The ROADMAP records the repository `clintecker/press` as public since 2026-07-19, and the documentation site is at *https://clintecker.github.io/press/*.
 
 ## The four laws
 
-The press repository sets out four laws in *docs/ARCHITECTURE.md*. They account for most of the decisions you will meet in later chapters, including several that look strange the first time a refusal stops your build. Each law fits in a line.
+The press repository sets out four laws in *docs/ARCHITECTURE.md*. They account for most of the decisions you will meet in later chapters, including several that look strange the first time a refusal stops your build.
 
 ### Facts are stated once
 
@@ -75,7 +75,7 @@ The first law reads "Facts are stated once." *ARCHITECTURE.md* then gives each k
 
 The Alice book shows the law at small scale. `press new alice` writes the slug `alice` once, into *config/metadata.yaml*. The registry derives every filename from it, so the PDF becomes *alice.pdf* and the EPUB becomes *alice.epub*. Nobody types either name. The ROADMAP states the same law as a product rule: facts are stated once and projected mechanically.
 
-The law also runs in the other direction. The press repository contains no book. Its *CLAUDE.md* says so plainly: "Every book-specific fact (title, slug, sentinels, banned vocabulary, front matter, art) lives in the book repository that consumes this package." The same file adds "if a book needs machinery, the machinery belongs here". A book repository therefore holds book facts only, and a capability that one book needs goes into the press, where every other book can use it.
+The law also runs in the other direction. The press repository contains no book. Its *CLAUDE.md* says: "Every book-specific fact (title, slug, sentinels, banned vocabulary, front matter, art) lives in the book repository that consumes this package." The same file adds "if a book needs machinery, the machinery belongs here". A book repository therefore holds book facts only, and a capability that one book needs goes into the press, where every other book can use it.
 
 ### Generators over checkers over conventions
 
@@ -89,12 +89,12 @@ The tallest scar in the press shows the order at work. "A figure taller than the
 
 The third law sets the standard for a green build: "A green build means the actual PDF was rendered and inspected, the actual EPUB was validated by the tool retail channels run, the actual site was crawled." The ROADMAP adds that verifiers prove artifacts as objects "rather than trusting command exit status". An exit status of zero tells you that a program finished. It tells you nothing about whether the PDF has a cover.
 
-*ARCHITECTURE.md* draws the line between the two halves of the work in one sentence: "generation makes a fact true, verification proves it stayed true all the way into the object a reader receives." The law also forbids verifying without rebuilding. A verifier that inspects last week's PDF accepts last week's PDF. The press's own notes say that "the CLI's dependency edges exist so that cannot happen".
+*ARCHITECTURE.md* draws the line between the two halves of the work: "generation makes a fact true, verification proves it stayed true all the way into the object a reader receives." The law also forbids verifying without rebuilding. A verifier that inspects last week's PDF accepts last week's PDF. The press's own notes say that "the CLI's dependency edges exist so that cannot happen".
 
 ::: {.sidebar}
 > **The cover that passed at 11.5 percent**
 >
-> A title-page generator in the press once went out with a dropped cover and a clipped cover. The generator had tests, and they covered 11.5 percent of its lines. *CONTRIBUTING.md* records the cause in one clause: "the lines ran, the artifact was never inspected."
+> A title-page generator in the press once went out with a dropped cover and a clipped cover. The generator had tests, and they covered 11.5 percent of its lines. *CONTRIBUTING.md* records the cause: "the lines ran, the artifact was never inspected."
 >
 > Nothing in the suite opened the PDF and looked at page 1. The tests asked whether the code executed, and it did. Nobody asked whether a reader would find a cover at the front of the book.
 >
@@ -115,7 +115,7 @@ The same file gives a test for new requests. Another trim, a color interior, or 
 
 Some smaller limits follow from the same choice. The press has no book-level `\part` divisions. Its cross-references point at figures and nothing else, so it does not number a reference to a chapter or a section for you. It does not generate a glossary or an "also by" page, although both appear in the plans. Non-Latin and right-to-left scripts sit in the icebox, at the stated price of "a major per script family". Nobody tests the press on Windows.
 
-The press also has no plugin loader. *ARCHITECTURE.md* gives the reason in one line: "Behavior cannot come from the accident of which package imported first." Extensions go through a declared extension contract, which Chapter 16, *Inside the press*, describes.
+The press also has no plugin loader. *ARCHITECTURE.md* gives the reason: "Behavior cannot come from the accident of which package imported first." Extensions go through a declared extension contract, which Chapter 16, *Inside the press*, describes.
 
 The QUICKSTART draws the boundary from the author's side. The title, the author, the words, and the visual identity are "yours to decide". The build order, the verification pipeline, the filenames, and the editions belong to the press. If you want to rename *alice.pdf* or skip epubcheck, you ask for something the press does not offer.
 
@@ -139,7 +139,7 @@ $ git init && git add -A && git commit -m "First book"
 ...
 ```
 
-The new directory holds a *config/metadata.yaml* with `slug: "alice"`, a *book/chapters/* directory with a one-paragraph preface, and the rest of the scaffold. Chapter 3, *The shape of a book repository*, walks through it file by file. Each `press config set` writes one field, and the `--json` option reads the value as JSON, which is how a list of authors goes in. The checker refuses a book without a description, so the tour sets one now. `press new` does not run `git init`, and the source archive holds only the files Git tracks, so the tour commits the scaffold before the first build.[^1-make]
+The new directory holds a *config/metadata.yaml* with `slug: "alice"`, a *book/chapters/* directory with a one-paragraph preface, and the rest of the scaffold. Chapter 3, *The shape of a book repository*, walks through it file by file. Each `press config set` writes one field, and the `--json` option reads the value as JSON, which is how a list of authors goes in. The checker refuses a book without a description, so the tour sets one now. `press new` does not run `git init`, so the tour commits the scaffold first, which is the habit the Source edition rewards once the book lives in a repository.[^1-make]
 
 ### Checking the manuscript
 
@@ -156,14 +156,6 @@ Editorial checks passed: 1 Markdown files
 The count is 1 because the scaffold holds a single chapter file, the preface. The first line reports the source checks, which read every chapter file in order. The `Editorial checks` line reports the style audit. The two elided lines report the other passes. One is a self-test of the checker's own rules. The other is the jargon lint, which looks for terms from the *watchlist*, the press's list of overused words.
 
 The self-test is the unusual pass. A *known-bad fixture* is a file that every check must reject. On each check, the press runs all 19 of its known-bad fixtures through its own rules. If a rule stops catching the thing it exists to catch, the self-test fails before that broken rule can pass your manuscript.
-
-`press wordcount` counts the prose. It strips fenced and inline code. It counts HTML comments, so a comment inside a chapter adds to the total.
-
-```text
-$ press wordcount
-    42  book/chapters/00-preface.md
-    42  TOTAL
-```
 
 ### Building everything
 
@@ -243,13 +235,12 @@ $ git push -u origin main
 
 Then enable GitHub Pages once, in the repository settings on GitHub: under Pages, set Source to GitHub Actions. From then on, the CI runner, which this book calls `printshop`, builds the book inside the toolchain image on every push. Chapter 14, *Continuous integration and the release contract*, follows that build step by step.
 
-When the tour goes wrong, the QUICKSTART lists five usual causes:
+When the tour goes wrong, the QUICKSTART lists five usual causes. One is the font scan in the warning earlier in this section, and the other four follow:
 
 1. `pandoc is required`. The toolchain is missing, or pandoc is not on your path.
 2. A style or jargon failure. The checker refused something in the manuscript.
 3. `sentinel not found in the manuscript:`. The checker could not find a sentinel phrase in the manuscript, which the section "The editions" explains.
-4. A font scan that looks like a hang. The warning earlier in this section covers it.
-5. A CI build that dies at "Initialize containers". Run the build again. The image is public, so no permission is missing.
+4. A CI build that dies at "Initialize containers". Run the build again. The image is public, so no permission is missing.
 
 ::: {.tip}
 > **Tip:** To see a finished book before you write one, build an example from the gallery. Clone the press repository, run `pip install -e .` in it, change into *examples/alice-in-wonderland/*, and run `press all`. That example sets Tenniel's 1865 wood engravings as *plates*, the unnumbered illustrations in the List of Plates.
@@ -276,19 +267,15 @@ The Pages bundle, *dist/pages/*, gathers the editions for readers. It holds the 
 
 A book with a *config/authorities.yaml*, its table of authorities, gets one more file. The press generates *alice-sources.md*, *the sources companion*, a document published beside the book. Chapter 10, *Front matter, the index, and the table of authorities*, covers it. The three-chapter example has no authorities file, so its *dist/* has no sources companion.
 
-*The print pack* is the set of artifacts a printer needs. It holds a print-profile interior, a *cover wrap* (the whole cover, back to front, as one PDF) with a computed spine and an EAN-13 barcode, and the retail channel checklists. `press all` does not build the print pack, except through the commerce gate in a book that enables print ordering. Its own targets do: `press print`, `press verify-print`, and `press coverwrap`, which add *alice-interior.pdf* and *alice-coverwrap.pdf* to *dist/*. Chapter 12, *The print pack*, covers it in full.
+*The print pack* is the set of artifacts a printer needs. It holds a print-profile interior, a *cover wrap* (the whole cover, back to front, as one PDF) with a computed spine and an EAN-13 barcode, and the retail channel checklists. Its own targets build it. Chapter 12, *The print pack*, covers it in full.
 
 Everything the press makes on the way to *dist/* stays in the build directory, *build/*. That directory holds the rendered pandoc defaults, the generated subject index, the front matter as TeX, the jargon report, and the page images that `press render` draws at 160 dpi. `press clean` deletes both *build/* and *dist/*.
 
 A *sentinel* is a phrase from the manuscript, listed under `verify-sentinels` in *config/metadata.yaml*, that the verifiers must find in the manuscript and in every artifact. If a sentinel leaves the manuscript, the checker refuses with `sentinel not found in the manuscript:`. If an edition lacks one, the verifier for that edition fails and names it. A second setting, `verify-min-pages`, sets the fewest pages the PDF may have. The scaffold writes 1, which suits a book that is one preface long. If you delete that line, the default of 40 applies, and a short book then fails. A release build refuses both draft values: it needs at least 2 sentinels and a floor of at least 24 pages.
 
-::: {.warning}
-> **Warning:** If your book uses the drop-cap chapter opening, do not take a sentinel from the first words of a chapter. The drop cap splits the first word and sets the rest of it in small caps, so a sentinel placed there fails the exact match in the PDF. The house default is no drop cap at all.
-:::
-
 ## Versions and the pinned contract
 
-At the time of this writing, the current release is press 3.0.2, dated 2026-11-11. A *floating tag* such as `v3` moves forward within its major as new releases come out, and an *immutable tag* such as `v3.0.2` names one release forever. *The release contract* is the workflow that proves a tag. At each three-part tag, it requires the press's reusable workflow to pin the toolchain image by an `@sha256:` digest, which fixes the exact bytes. Design falls under the same contract: within a major, fixes may correct broken output, but they must not change the typography or layout of a valid book. A design change needs a new major, which is why v3.0.0 is one.
+At the time of this writing, the current release is press 3.0.2, dated 2026-11-11. A *floating tag* such as `v3` moves forward within its major as new releases come out, and an *immutable tag* such as `v3.0.2` names one release forever. Chapter 14 explains the release contract that proves each tag, and Chapter 9 explains why a design change needs a new major.
 
 ::: {.tip}
 > **Tip:** Pin `v3` to receive fixes as they come. When a book must rebuild from the same press and toolchain years from now, pin a three-part tag such as `v3.0.2` and move that pin on purpose. Chapter 14, *Continuous integration and the release contract*, takes the mechanism apart.
@@ -296,18 +283,10 @@ At the time of this writing, the current release is press 3.0.2, dated 2026-11-1
 
 ## How to read this book
 
-The chapters follow the order in which you make a book. Chapters 2 through 8 take a book from installation to verified artifacts. They cover installation, the shape of a book repository, the manuscript, figures and plates, checking, building, and verifying. Read them in order the first time.
-
-Chapters 9 through 13 cover the work that follows a sound manuscript: the house design, the front matter and index, the art department, the print pack, and registrations. Read them when your book needs them. Chapters 14 through 16 are for the person who runs the press. They cover continuous integration and the release contract, *the desk* (the terminal screen that `press desk` opens) and the editorial workflows, and the internals.
-
-The appendixes are for reference. Appendix A, *Command reference*, gives every command in manual-page form, and Appendix B, *Configuration reference*, gives every key of every config file. If the press stops a build with a message you do not recognize, look it up in Appendix C, *Messages and refusals*, before you read the code. Appendix D, *The toolchain, platform by platform*, covers each operating system, and Appendix E, *Glossary*, defines the terms.
-
-The Preface lists the typographic conventions, and two of them matter at once. Sessions show the `$` prompt followed by what you type. A line that holds only `...` marks output that the example leaves out. Every example hangs on the Alice book: the user `alice` on `hatter`, the CI runner `printshop`, and the repository owner `wonderland-press`. The author typed the chapter references in this book by hand, because the press cross-references figures and nothing else. By the terms of the second law they are a convention, the weakest kind of guard, and you should treat them with the matching degree of trust.
-
 Chapter 2, *Installing press*, puts the toolchain on `hatter`.
 
 [^1-name]: The program writes its name in lowercase, like the command, and it uses the pilcrow, the paragraph sign, as its mark.
 
-[^1-libertine]: TeX Live carries Libertinus for the PDF. Ubuntu has no `fonts-libertinus` package, and `--no-install-recommends` drops the Libertine keyboard face, so the toolchain image names `fonts-linuxlibertine` explicitly.
+[^1-libertine]: TeX Live carries Libertinus for the PDF. Chapter 2 names the one Ubuntu package the fonts need.
 
 [^1-make]: The press README's own quick start runs `git init` in the same place, with `make all` in place of `press all`. The scaffold's Makefile passes every target to `python3 -m press`.

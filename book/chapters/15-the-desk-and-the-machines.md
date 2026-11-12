@@ -19,7 +19,7 @@ You can drive press in two ways: by hand, one target at a time, or by agent, thr
 
 ## Two ways to drive the press
 
-The first way is by hand. Every action press takes on a book starts as a `press` command. You can type the command at the shell prompt or pick it from a list on the desk. Both routes reach the same code. The desk builds the argument list you would type and runs `press` as a child process. The press's documentation puts it in one sentence: "Every action it runs is a `press <target>` you can type yourself; the RUN view even prints the exact command it launched." The RUN view is the desk's screen for a target while it runs.
+The first way is by hand. Every action press takes on a book starts as a `press` command. You can type the command at the shell prompt or pick it from a list on the desk. Both routes reach the same code. The desk builds the argument list you would type and runs `press` as a child process. The press's documentation puts it: "Every action it runs is a `press <target>` you can type yourself; the RUN view even prints the exact command it launched." The RUN view is the desk's screen for a target while it runs.
 
 The command line suits scripts, CI, and anyone who already knows the target names. The desk suits a working session at the keyboard. It keeps the book's state in view while you work: which artifacts exist, which tools the machine lacks, and what the last run printed. Every action the desk runs is a command you can type yourself. What it adds is the view and the setup wizard.
 
@@ -106,7 +106,7 @@ Table: Table 15.3. Evidence states in the live desk
 
 The read model can express two more states. One marks an artifact whose current digest matches a verified digest, and the other marks an artifact whose bytes changed after verification. Both depend on recorded verification evidence, and the live desk passes none to the model. In practice every present artifact on the desk shows `o`, even right after a green `press all`.
 
-That is less of a gap than it looks. A verifier checks the artifact at the moment it runs, and the exit status of `press all` reports the result.
+The gap is small in practice: a verifier checks the artifact at the moment it runs, and the exit status of `press all` reports the result.
 
 ::: {.warning}
 > **Warning:** Do not wait for a "verified" glyph on the desk before you publish. The live desk never shows one. Run `press all`, or the target's own verifier, and read its exit status.
@@ -219,7 +219,7 @@ The *synthesize* phase runs one synthesizer for each file. The synthesizer appli
 
 The *law* phase runs `press check` until it passes. The workflow repairs a failure "by rewriting sentences (never by substituting other punctuation)", and it restores any sentinel an edit removed. The agents work under the house law, a fixed string the workflow puts in front of them, shown here in Example 15.2.
 
-**Example 15.2. The house law, broken here to fit the page**
+**Example 15.2. The house law**
 
 ```text
 HOUSE LAW (mechanical, build-enforced): no em or en dashes
@@ -343,7 +343,7 @@ Every operator run grants the Workflow tool and runs with `--permission-mode acc
 
 ### Counsel mode
 
-Without `--apply`, `press improve` runs in *counsel mode*. It uses the workflow's report form, which runs one round, writes its suggestions to *build/editorial-report.md*, and applies nothing. The press's documentation says the mode "touches nothing", and press checks that claim mechanically. Before the run it computes a SHA-256 fingerprint of *book/* and *config/*, and after the run it computes the fingerprint again. If the two differ, `press improve` stops with this message, broken here to fit the page:
+Without `--apply`, `press improve` runs in *counsel mode*. It uses the workflow's report form, which runs one round, writes its suggestions to *build/editorial-report.md*, and applies nothing. The press's documentation says the mode "touches nothing", and press checks that claim mechanically. Before the run it computes a SHA-256 fingerprint of *book/* and *config/*, and after the run it computes the fingerprint again. If the two differ, `press improve` stops with:
 
 ```text
 counsel mode changed the manuscript or config; that
@@ -371,7 +371,7 @@ Counsel mode runs one round, so it is the cheaper way to learn what the passes t
 
 The `editorial-passes` workflow does not trust the prose skills alone. It names five faults, the named diseases of agent prose, and hard-codes them in its source. Example 15.5 quotes them from the workflow's source. The `${MAXIMS}` in the first item is the `maxims` argument.
 
-**Example 15.5. The named diseases, broken here to fit the page**
+**Example 15.5. The named diseases**
 
 ```text
 1. Epigram compulsion: paragraphs that close on coined
@@ -391,12 +391,12 @@ The `editorial-passes` workflow does not trust the prose skills alone. It names 
    signposting, formulaic negative parallelism.
 ```
 
-The press's maintainers give the reason in one sentence. The workflow hard-codes the diseases "because 'apply the skills' alone produces locally-obedient, globally-patterned prose." A chapter agent that closes each paragraph on a maxim breaks no rule in any skill it read. Twelve chapter agents that all do the same give the book a pattern. None of them can see it, because each one reads only its own file.
+The workflow hard-codes the diseases "because 'apply the skills' alone produces locally-obedient, globally-patterned prose." A chapter agent that closes each paragraph on a maxim breaks no rule in any skill it read. Twelve chapter agents that all do the same give the book a pattern. None of them can see it, because each one reads only its own file.
 
 The diseases name that pattern, so every agent in the round looks for the same faults. The maxim quota turns the first one into a number. A chapter may keep two coined maxims by default, and the workflow demotes the rest to plain statement or cuts them. The `maxims` argument changes the quota, and no argument removes the list. The whole-book lenses for cadence and repetition read across chapters for the same reason. Each of them sees every chapter, so it sees a rhythm that a chapter agent, alone with one file, cannot.
 
 [^15-pipe]: The desk's documentation puts it more briefly: "It never draws into a pipe."
 
-[^15-popen]: The launcher has a history. The press keeps subprocess calls behind the adapters gate around `press.adapters`. That gate once missed `from subprocess import Popen`, and the desk's launcher used exactly that form. The gate now resolves aliases, and the launcher moved into `press.adapters`.
+[^15-popen]: The launcher lives in `press.adapters` for a reason Chapter 16 tells.
 
 [^15-counsel]: The word is the press's own. A counsel gives advice and does not sign the papers.

@@ -19,7 +19,7 @@ A book needs pictures as well as words: a cover, the plates inside it, the *logo
 
 ## What the art department is
 
-The *art department* is the set of press commands that commission, accept, and finish the book's art. Each picture starts as a *commission*, a prompt for an image model that the book keeps in *art/commissions.md*, and press runs each commission once. You generate each image on your own machine, with your own API keys, and you commit the result to the book repository as an asset. The CI build never generates art. The toolchain image holds no keys, and the press never stores them, so a build on `printshop` can only use the files that `alice` committed from `hatter`.
+The *art department* is the set of press commands that commission, accept, and finish the book's art. Each picture starts as a *commission*, a prompt for an image model that the book keeps in *art/commissions.md*, and press runs a commission only when you ask it to, and the build never does. You generate each image on your own machine, with your own API keys, and you commit the result to the book repository as an asset. The CI build never generates art. The toolchain image holds no keys, and the press never stores them, so a build on `printshop` can only use the files that `alice` committed from `hatter`.
 
 This arrangement keeps the build deterministic. A cover that an image model drew last Tuesday stays the same cover in every later build. The build reads the committed file and never asks the model again. It also keeps the cost in your hands. Every request to an image model costs money, and only a command that you run on your own machine can make one.
 
@@ -54,19 +54,17 @@ To take a picture through the loop:
 
 Skills and workflows run in Claude Code, an agent program whose command is `claude`. Chapter 15, *The operator's desk and the editorial machines*, describes them.
 
-Step 7 matters more than it looks. The CI build on `printshop` reads only committed files, so an image that stays on `hatter` never reaches an edition. Step 2 carries a rule of its own. A plate that sits on disk and that no image line in the manuscript references is an orphan, and `press check` refuses the book over it.
+The CI build on `printshop` reads only committed files, so an image that stays on `hatter` never reaches an edition. Step 2 carries a rule of its own. A plate that sits on disk and that no image line in the manuscript references is an orphan, and `press check` refuses the book over it.
 
 ## The aesthetic
 
 The aesthetic comes first, because the commission prompts draw on it. The *aesthetic* is the book's visual identity: its cover grammar, its plate medium, its logomark tradition, its portrait style, and its register. It lives in *config/aesthetic.yaml*, which is optional.
 
-A book without the file gets the house aesthetic, which the press carries as *src/press/data/aesthetic-house.yaml* under the name "Victorian treatise". Its register gives the idea in three sentences: "Earnest nineteenth-century trade manual. The joke lives in the subject; the style stays dead serious. A ridiculous scene rendered earnestly is the voice."
+A book without the file gets the house aesthetic, which the press carries as *src/press/data/aesthetic-house.yaml* under the name "Victorian treatise". Its register: "Earnest nineteenth-century trade manual. The joke lives in the subject; the style stays dead serious. A ridiculous scene rendered earnestly is the voice."
 
 The house aesthetic writes its art direction in plain sentences, one key at a time. Its cover is Victorian publisher's bookcloth, with "everything stamped as if by a brass die", on a solid cloth-colored field with a fine woven grain. The ink is gilt, a metallic gold stamping. The title and subtitle stand in stacked, centered letterpress capitals inside a border of two thin rules, with a small fleuron at each inner corner. One central engraved medallion carries the book's strongest image, "cut as a woodcut with hatching, never a gradient". The plates are wood engravings in single black ink, one idea to a plate, composed deliberately landscape or portrait.
 
-To see the aesthetic that a book actually gets, run `press aesthetic` with no arguments. It prints one comment line, `# effective aesthetic (<source path>)`, and then the merged YAML. The merge is shallow at the top level. The press copies the house file and lays each top-level section of the book's file over it, whole.
-
-Suppose the Alice book writes a `cover:` section with only a `style:` key in it. The house `cover:` section then disappears, and its medium, field, ink, and emblem go with it. The rule in the press's own words is "restate a whole section when you touch it".
+To see the aesthetic that a book actually gets, run `press aesthetic` with no arguments. It prints one comment line, `# effective aesthetic (<source path>)`, and then the merged YAML. The merge is shallow: a section the book names replaces the whole house section (Chapter 9), so Example 11.1 restates every key.
 
 Example 11.1 adds a `plates:` section to the Alice book's *config/aesthetic.yaml*, the file of Chapter 9's Example 9.1, and restates every key in it.
 
@@ -109,6 +107,10 @@ Some things in the art department are law and are not configurable. The press st
 press cover [--style <id>] [--subject <text>] [--print]
 press cover --list
 ```
+
+::: {.tip}
+> **Tip:** `press <command> --help` prints the argument grammar only. Most options in this book are accepted but not listed. Appendix A marks each one.
+:::
 
 A *cover style* is a named prompt template for a whole genre of cover. The press carries ten of them in *src/press/data/cover-styles.yaml*, and `press cover --list` prints each with a one-line note. The command picks the style from `--style`, then from `cover.style` in the aesthetic, and then falls back to `penguin-tri-band`. Table 11.2 describes the ten styles.
 
@@ -313,11 +315,11 @@ A color plate follows a simpler path. It keeps any alpha it arrives with. Intake
 
 The alpha master exists so that one file can serve every place a plate appears, as @fig:one-master-every-surface in the previous section shows. Each edition composites the same ink onto its own ground.
 
-The print interior flattens the master onto white when the book builds. The print-safe pass, which Chapter 5, *Figures, plates, and illustrations*, describes, does this for every plate, figure, and logomark in the print interior. The print vendors are the reason. Lulu once flagged a book's logomark for its transparency, and for its resolution of over 600 PPI, so the pass now flattens each of those images and caps its resolution.
+The print interior flattens the master onto white when the book builds. The print-safe pass, which Chapter 5, *Figures, plates, and illustrations*, describes, does this for every plate, figure, and logomark in the print interior. The print vendors are the reason (Chapter 12).
 
 The Chapter edition (the reader site) serves the alpha master as it is, so a plate reads correctly on a light page and on a dark one. For the cloth cover, the press documentation describes the same treatment. A cloth cover would flatten the master onto the field color, which is how the logomark already works.
 
-The rule against baking a plate onto white is a scar. Plates were once baked JPEGs, because truecolor PNG barely compresses the grain of an engraving. A baked plate carries its white ground onto cream paper and onto a dark page alike. The press now keeps the master as ink on transparency and solves the size problem in `press art enhance`. The scars list puts it plainly: "Do not reintroduce a baked-white JPEG master."
+The rule against baking a plate onto white is a scar. Plates were once baked JPEGs, because truecolor PNG barely compresses the grain of an engraving. A baked plate carries its white ground onto cream paper and onto a dark page alike. The press now keeps the master as ink on transparency and solves the size problem in `press art enhance`. The scars list says: "Do not reintroduce a baked-white JPEG master."
 
 ::: {.warning}
 > **Warning:** Do not convert a plate in *assets/woodcuts/* to JPEG to save space. A JPEG has no alpha channel, so the plate loses its transparency for good. Run `press art enhance` instead.
@@ -385,7 +387,7 @@ The file uses fixed headings, and Example 11.3 shows its shape for the Alice boo
 
 ```
 A Victorian publisher's bookcloth cover ...
-```text
+```
 
 ## Plates
 
@@ -394,19 +396,19 @@ A Victorian publisher's bookcloth cover ...
 ```
 A small girl in a pinafore runs after a white rabbit
 ... landscape composition ...
-```text
+```
 
 ## Logomark
 
 ```
 A printer's mark ...
-```text
+```
 
 ## Author portrait
 
 ```
 An engraved oval trade-journal portrait ...
-```text
+```
 ````
 
 At the time of this writing, the command reads a plate's shape from the words of its prompt. The phrase "landscape composition" selects the landscape size, and "portrait composition" selects the portrait size, as in the rabbit's prompt in Example 11.3. Any other prompt gets the square size, which the house aesthetic warns against: "a square plate wastes the trim."

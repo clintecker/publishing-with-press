@@ -107,7 +107,7 @@ This book uses the following typographical conventions:
 :   The shell prompt for an ordinary user. A `#` prompt means that the command must run as root. The few commands in this book that need root run through `sudo` at an ordinary `$` prompt. Inside a file, such as a YAML file or a Makefile, a leading `#` begins a comment and is not a prompt.
 
 `[ ]`, `|`, and `...`
-:   In syntax lines, square brackets enclose an optional item, a vertical bar separates alternatives of which you choose one, and three periods mark an item you may repeat. In an example, a line that holds only `...` marks output that the example leaves out.
+:   In syntax lines, square brackets enclose an optional item, a vertical bar separates alternatives of which you choose one, and three periods mark an item you may repeat. In an example, a line that holds only `...` marks output that the example leaves out. A message shown on more than one line in this book is one line in the terminal.
 
 Tip
 :   A short paragraph set off from the text that opens with the word Tip gives a suggestion or a shortcut.
@@ -134,7 +134,7 @@ This book is here to help you get your books built. In general, you may quote th
 
 We appreciate, but do not require, attribution. An attribution usually includes the title, the author, and the copyright line, for example: "*Publishing with Press*, by Clint Ecker. Copyright 2026 Clint Ecker."
 
-The press itself has a license of its own, MIT, for "code and bundled content alike". Its README is plain about the result: "A book you make with the press is yours entirely." Nothing in this book changes those terms.
+The press itself has a license of its own, MIT, for "code and bundled content alike". Its README says: "A book you make with the press is yours entirely." Nothing in this book changes those terms.
 
 We wrote the examples against press 3.0.2, the current release at the time of this writing. Commands, options, and messages can change between releases. If an example fails on a later release, check `press --help` and Appendix A, *Command reference*, against the version you run, and then tell us.
 

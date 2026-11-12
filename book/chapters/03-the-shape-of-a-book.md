@@ -36,6 +36,10 @@ Table 3.1 lists the options and the value each one takes when you leave it out.
 
 Table: Table 3.1. press new options
 
+::: {.tip}
+> **Tip:** `press <command> --help` prints the argument grammar only. The options in this table, and most options in this book, are accepted but not listed. Appendix A marks each one.
+:::
+
 The Alice book belongs to the GitHub account `wonderland-press`, and its author is Lewis Carroll, so `alice` gives both on the command line. Example 3.1 shows the whole session. The first line of output ends with the absolute path of the new directory, which we shorten here. We also cut the end of the second line, which goes on to tell you to run `press all`.
 
 **Example 3.1. Scaffolding the Alice book**
@@ -125,7 +129,7 @@ The file *config/metadata.yaml* is the one file that makes a directory a book. I
 
 The press reads the file through its *book model*, the typed set of rules it holds for every field. For each field, the model records the kind of value, whether the field must be present, and its default. Every build checks the file against the model, and Chapter 16, *Inside the press*, shows how the model works. Pandoc reads the raw file as well. Every pandoc defaults file names the metadata file as its `metadata-file`, so a standard pandoc key that you add here passes through to every edition.
 
-Example 3.2 shows the start of the file as `press new alice` writes it, after the scaffold fills the placeholders. We cut two comment lines above `slug`. After `site-url`, the real file goes on with the verification knobs, which the section "Verification knobs" later in this chapter shows, and with commented lines for print and registrations. It ends with a commented block for direct print ordering, the last part of Example 3.2. We wrapped that block's opening comment to fit the page and cut the ends of four long lines.
+Example 3.2 shows the start of the file as `press new alice` writes it, after the scaffold fills the placeholders. We cut two comment lines above `slug`. After `site-url`, the real file goes on with the verification knobs, which the section "Verification knobs" later in this chapter shows, and with commented lines for print and registrations. It ends with a commented block for direct print ordering, the last part of Example 3.2. We cut the ends of four long lines.
 
 **Example 3.2. The scaffolded config/metadata.yaml, in part**
 
@@ -219,15 +223,11 @@ The rule for `site-url` follows from the first law of the press: "Facts are stat
 
 A *sentinel* is a phrase from your manuscript that the verifiers must find, character for character, in the manuscript and in every artifact. If the PDF, the EPUB, or the Telegraphic edition (the plain text) loses a chapter on the way out, a sentinel from that chapter goes missing. The verifier then fails. Matching uses exact case, and the verifiers treat curly and straight quotes as equal.
 
-The template's own advice for choosing them is good: "pick 2-4 phrases from your actual manuscript, each distinctive enough to appear exactly once (a whole memorable clause, not a common word)". For Alice we will use two lines of verse from the middle of their chapters, "Twinkle, twinkle, little bat" and "she made some tarts".
-
-::: {.warning}
-> **Warning:** Never take a sentinel from the first words of a chapter. A chapter opening can set the first word as one large capital followed by small capitals. The PDF then no longer contains the phrase as you typed it.
-:::
+The template's own advice for choosing them is good: "pick 2-4 phrases from your actual manuscript, each distinctive enough to appear exactly once (a whole memorable clause, not a common word)", and take them from the middle of a chapter, never its first words (Chapter 6 says why). Prefer short words: a word LuaLaTeX hyphenates at a line end breaks the match. For Alice we will use two lines of verse from the middle of their chapters, "Twinkle, twinkle, little bat" and "she made some tarts".
 
 The *page floor*, the fewest pages the PDF may have, is the second knob. The PDF verifier fails a PDF with fewer pages than `verify-min-pages`. The model's default of 40 suits a finished book. The template writes 1 so that a new book with nothing but its preface stub passes on the first day.
 
-Both settings of the template are draft settings. When CI builds a tag whose name starts with `v`, it sets the environment variable `PRESS_RELEASE=1`. The press then demands its *release witnesses*: at least two sentinels and a page floor of at least 24. It refuses draft knobs as *vacuous witnesses*, too weak to prove anything. Example 3.3 shows the refusal that a freshly scaffolded book draws at its first tagged release. We fold its first line to fit the page and cut the end of the second.
+Both settings of the template are draft settings. When CI builds a tag whose name starts with `v`, it sets the environment variable `PRESS_RELEASE=1`. The press then demands its *release witnesses*: at least two sentinels and a page floor of at least 24. It refuses draft knobs as *vacuous witnesses*, too weak to prove anything. Example 3.3 shows the refusal that a freshly scaffolded book draws at its first tagged release. We cut the end of the second line.
 
 **Example 3.3. The release refusal for draft knobs**
 
@@ -371,6 +371,8 @@ config/index-terms.yaml: ok
 config/authorities.yaml: ok
 ```
 
+For the aesthetic file, `ok` means only that it parsed as YAML. No key is checked.
+
 The desk offers a third way in. Run `press desk` and type `w` for the setup wizard, which asks for the title, the subtitle, the author, and the description. For any other field, use `press config` or an editor.
 
 ## Chapters, appendixes, and how they sort
@@ -413,7 +415,7 @@ You can create a chapter file in any editor, as long as you get the name right. 
 press add chapter|appendix <name> [--front]
 ```
 
-The `press add` target turns the name into a filename. It lowercases the name and replaces each run of characters that are not letters or digits with one hyphen. For the heading, it keeps a human title exactly as you typed it. A chapter gets the number one past the highest existing chapter, zero-padded to at least two digits. The first chapter of a book is `01`.
+The `press add` target turns the name into a filename. It lowercases the name and replaces each run of characters that are not letters or digits with one hyphen. For the heading, it keeps a human title exactly as you typed it. A chapter gets the number one past the highest existing chapter, zero-padded to at least two digits, so the first chapter is `01`.
 
 Example 3.7 shows `alice` adding the first chapter and two pieces of back matter, then listing the two directories and the new chapter file. Each `press add` prints `created` and the path of the new file. We cut the end of the last line.
 
@@ -534,19 +536,9 @@ The run follows a fixed order. First come the four passes of the checker: the so
 
 The self-test line says that every known-bad fixture that comes with the press still trips the rule it declares. That line proves the checker works on known-bad input. The press runs those fixtures in `press check` and in `press all`, and not in a bare `press pdf`. Chapter 6 takes the four passes apart, and Chapter 8, *Verifying the artifacts*, covers the verifiers. On a machine without epubcheck, the run also prints a warning that it validated the EPUB structurally only, and the toolchain image runs the full check in CI.
 
-The first time LuaLaTeX runs on a new machine, it scans the system fonts, and that scan takes several minutes. It is not a hang, although it is a convincing imitation of one. Let it finish.
-
 The other refusals a first build is likely to meet are short and plain. The message `pandoc is required` means the toolchain is missing. A failure in the style audit or the jargon lint names the file and the rule. The checker prints `sentinel not found in the manuscript:` when a sentinel is missing from the manuscript. A verifier that cannot find a sentinel in an artifact prints its own form, such as `missing text sentinel in PDF:` or `<label> missing sentinel:`.
 
-The `press wordcount` target is the one you will run daily. It prints one line per manuscript file and a total. On a fresh scaffold it looks like this, and yours now lists the new files too:
-
-```text
-$ press wordcount
-    42  book/chapters/00-preface.md
-    42  TOTAL
-```
-
-It strips fenced and inline code before it counts. It does not strip HTML comments, so the art directions you write as comments count as words.[^3-wordcount]
+Run `press wordcount` to see the new files counted (Chapter 7).
 
 ## What Git has to do with it
 
@@ -594,7 +586,7 @@ jobs:
 
 With this file, CI builds the book on a push to any branch, on a tag that starts with `v`, on a pull request, or on demand. The file grants the job four permissions, and it hands all the work to one line: the reusable workflow at `v3`. The reusable workflow pins the composite action and the toolchain image, so the book never names either one.
 
-On the CI host, which in our examples is `printshop`, the job runs inside the toolchain image. The reusable workflow pins that image by digest to the bytes the release contract proved. If a CI run dies at the step "Initialize containers", run it again. The image is public, and the step needs no secret.
+On the CI host, which in our examples is `printshop`, the job runs inside the toolchain image. The reusable workflow pins that image by digest to the bytes the release contract proved.
 
 On a tag push, CI does two more things. It sets `PRESS_RELEASE=1`, which turns on the release refusal of Example 3.3. It also takes the tag's section of *CHANGELOG.md* as the release notes. Chapter 14, *Continuous integration and the release contract*, covers the rest.
 
@@ -612,9 +604,7 @@ A full build writes into two directories at the top of the book repository. The 
 
 ### The editions in dist
 
-The first eight files in @fig:dist-after-all are the editions, and the registry gives each edition a name. The PDF is the Print edition, and the EPUB is the Circulating edition. The single HTML file is the Single-leaf edition, and it carries everything it needs inside itself. The Manuscript edition is the Markdown file, which press stitches together from your chapter files and appendix files without running them through pandoc. The Telegraphic edition is the plain-text file, set at 80 columns, and the DOCX file is the Office edition.
-
-The two zip files box the rest. The file *alice-site.zip* is the Chapter edition, the per-chapter reader in one download, and *alice-source.zip* is the Source edition. A book with *config/authorities.yaml* also gets *alice-sources.md*, the sources companion, which the press publishes as a separate file in *dist/*.
+The first eight files are the editions, named as Table 1.2 names them, and the figure's annotations give each name. A book with *config/authorities.yaml* also gets *alice-sources.md*, the sources companion, which the press publishes as a separate file in *dist/*.
 
 The two directories are for the Web. The directory *site/* holds the per-chapter reader: an index page, the reader stylesheet, one page per chapter, and its assets.
 
@@ -622,13 +612,7 @@ The directory *pages/* is the Pages bundle, which GitHub Pages serves. It holds 
 
 ### Files `press all` does not make
 
-The print pack builds only when you ask for it. Between them, the `press print`, `press verify-print`, and `press coverwrap` targets add *alice-interior.pdf* and *alice-coverwrap.pdf* to *dist/*. The registration targets add their own files: `press pcn` writes *alice-pcn.txt*, `press onix` writes *alice.onix.xml*, and other targets write the publish checklists that Chapter 12 describes. In a book without print ordering, `press all` makes none of these.
-
-::: {.warning}
-> **Warning:** Do not run a verifier over *dist/* and trust the result without a fresh build. Run `press all`, which rebuilds each artifact before it verifies it.
-:::
-
-A verifier run over an old *dist/* proves only that last week's files were good. When it passes them, it accepts artifacts that no longer match the manuscript. The press now wires its targets to their dependencies so that a build target runs before the verifier that inspects its artifact.
+The print pack builds only when you ask for it. Between them, the `press print`, `press verify-print`, and `press coverwrap` targets add *alice-interior.pdf* and *alice-coverwrap.pdf* to *dist/*. The registration targets add their own files: `press pcn` writes *alice-pcn.txt*, `press onix` writes *alice.onix.xml*, and other targets write the publish checklists that Chapter 12 describes.
 
 ### The build directory
 
@@ -642,6 +626,4 @@ Chapter 4, *Writing the manuscript*, opens the chapter files themselves.
 
 [^3-epubdate]: Epubcheck, the tool the retail channels run, rejects the empty `dc:date` element under its rule RSC-005. The press writes the year it extracts into *build/epub-metadata.xml*.
 
-[^3-printf]: The source of `press add` states the purpose plainly. It exists so that authors never `printf > file`.
-
-[^3-wordcount]: The counter matches words with the pattern `\b[\w'-]+\b`, so a hyphenated compound or a contraction counts as one word.
+[^3-printf]: The source of `press add` states the purpose. It exists so that authors never `printf > file`.

@@ -2,7 +2,7 @@
 
 Press is a Python package, and it does little by itself. The work of making a book falls to *the toolchain*, the outside programs press runs: pandoc, LuaLaTeX, latexmk, the fonts, epubcheck with the Java that runs it, and poppler. This appendix gives the toolchain for each platform the press supports, then *the toolchain image* that carries all of it, then what the press does not test. Chapter 2, *Installing press*, walks through the same ground as a first installation.
 
-The press's install guide names its platforms in one sentence: "Supported platforms are Linux (the container's Ubuntu 24.04 is the reference) and macOS." In this appendix, Linux means Debian and Ubuntu with the package list below, or the toolchain image on either of its two architectures.
+The press's install guide names its platforms: "Supported platforms are Linux (the container's Ubuntu 24.04 is the reference) and macOS." In this appendix, Linux means Debian and Ubuntu with the package list below, or the toolchain image on either of its two architectures.
 
 ## What every platform needs {-}
 
@@ -58,19 +58,19 @@ Each of two packages in the list carries a *scar*, the press's word for a produc
 
 The first is the font. The house PDF face is Libertinus, which TeX Live carries. Ubuntu has no `fonts-libertinus` package. Also, `--no-install-recommends` drops the Libertine keyboard face. The *Dockerfile* therefore names `fonts-linuxlibertine` explicitly. If you copy the flag, keep that package in your own list.
 
-The second is epubcheck. Ubuntu's `epubcheck` launcher runs the jar through binfmt_misc, which containers do not register. The command exists and `which` finds it. It dies with "Exec format error" only when it runs.
+The second is epubcheck: Ubuntu's launcher runs the jar through binfmt_misc, which containers do not register, so it dies with "Exec format error" only when it runs (Chapter 2).
 
-The press repairs this in two parts. The toolchain image replaces the launcher with a plain wrapper, shown in Example D.4. The verifier reports a present-but-unrunnable epubcheck as a fault in the toolchain, not in your EPUB.
+The press repairs this in two parts: the image's wrapper (Example D.4) replaces the launcher, and the verifier reports a present-but-unrunnable epubcheck as a fault in the toolchain, not in your EPUB.
 
 ::: {.warning}
-> **Warning:** If you build your own container from Ubuntu, do not trust the packaged `epubcheck` launcher. Install a wrapper that runs `java -jar /usr/share/java/epubcheck.jar` with the original arguments, as the toolchain image does.
+> **Warning:** If you build your own container from Ubuntu, replace the packaged `epubcheck` launcher with a wrapper that runs `java -jar /usr/share/java/epubcheck.jar` with the original arguments.
 :::
 
 The verifier's message for the broken launcher reads `epubcheck is present but cannot run (<exc>); the toolchain image is broken`. Appendix C, *Messages and refusals*, lists the other epubcheck messages.
 
 ### Installing press on Debian and Ubuntu {-}
 
-Ubuntu 24.04 manages its own Python. That Python refuses a bare `pip install` into its site-packages directory. The rule comes from Python's packaging standards (PEP 668), not from press. The press's install guide never mentions a virtual environment, and its container recipe uses `--break-system-packages` instead.
+Ubuntu 24.04's own Python refuses a bare `pip install` under PEP 668, and the press's container recipe answers with `--break-system-packages` (Chapter 2).
 
 We recommend that you give press a virtual environment of its own. On Debian and Ubuntu the `venv` module comes in a separate package, `python3-venv`, which the press's list does not include. Example D.2 adds that package to the press's list, as our own addition. It then installs press from Git at the *floating tag* `v3`, the tag that moves to each compatible v3 release.
 
@@ -93,7 +93,7 @@ The press pins no pandoc or TeX Live release by number. Its compatibility notes 
 
 ## macOS {-}
 
-On macOS, Homebrew supplies the whole toolchain, TeX distribution included. Example D.3 gives the three commands from the install guide, with the guide's own comments wrapped to fit the page.
+On macOS, Homebrew supplies the whole toolchain, TeX distribution included. Example D.3 gives the three commands from the install guide, with the guide's own comments.
 
 **Example D.3. The toolchain on macOS**
 
@@ -115,13 +115,7 @@ A Homebrew Python refuses a bare `pip install` into its own site-packages direct
 
 ### Apple Silicon {-}
 
-Apple Silicon is the maintainer's primary platform. Local container builds on Apple Silicon work, because the press publishes the toolchain image for arm64. The press's full verification script, `scripts/verify.sh --full`, also runs natively on Apple Silicon.[^d-runner]
-
-[^d-runner]: The press's macOS CI job once ran on `macos-14`. GitHub retired that runner partway through a release and canceled the job within a second with "configuration not supported". The press moved the job to `macos-15`.
-
-### The first LuaLaTeX run {-}
-
-On a fresh machine, the first LuaLaTeX run scans the installed fonts for several minutes. The run looks hung, and it is not. Let the first `press pdf` finish before you decide something is wrong.
+Apple Silicon is the maintainer's primary platform. Local container builds on Apple Silicon work, because the press publishes the toolchain image for arm64. The press's full verification script, `scripts/verify.sh --full`, also runs natively on Apple Silicon.
 
 ## The toolchain image {-}
 
@@ -144,7 +138,7 @@ Example D.4 shows the wrapper, as the *Dockerfile* writes it. It is the image's 
 exec java -jar /usr/share/java/epubcheck.jar "$@"
 ```
 
-The variable `PRESS_TOOLCHAIN` tells press that it runs in the reference environment. Press sets its strictness from that variable. Inside the image, a missing epubcheck is fatal, where on a workstation it is a warning. Press does not read the ambient `CI` variable for this, because `CI=false` would read as truthy.
+The variable `PRESS_TOOLCHAIN` tells press that it runs in the reference environment. Press sets its strictness from that variable. Inside the image, a missing epubcheck is fatal, where on a workstation it is a warning. Press does not read the ambient `CI` variable for this.
 
 ### Architectures, tags, and the digest {-}
 
@@ -156,7 +150,7 @@ The image is public. A book under any account pulls it with no package grant and
 
 ### Running a build in the image {-}
 
-Example D.5 runs `press all` in the image from the top of the `alice` book repository on `hatter`. The command mounts the book repository at */book*, installs press inside the container, and runs the target there.
+Example D.5 runs `press all` in the image from the top of the `alice` book repository on `hatter`, mounted at */book* (Chapter 2).
 
 **Example D.5. Building the editions inside the toolchain image**
 
@@ -170,13 +164,13 @@ $ docker run --rm -v "$PWD":/book \
 ...
 ```
 
-Inside the image, `pip install` needs `--break-system-packages`, because the image's Python belongs to the operating system and refuses a bare install. The `--rm` flag removes the container when the build ends. The artifacts remain in the book repository's *dist/* directory, which lives on the mounted volume.
+Inside the image, `pip install` needs `--break-system-packages`, `--rm` removes the container afterward, and the artifacts stay in the mounted *dist/* (Chapter 2).
 
-The tag `:latest` suits an experiment. For a build that matches CI exactly, replace `:latest` with the digest from the `image:` line of the press's *build.yml* at the tag your book pins. Then install press at that same immutable tag. CI itself installs press from the composite action's own checkout of that tag, never with pip from Git. Chapter 14, *Continuous integration and the release contract*, shows where the pin lives.
+For a build that matches CI, replace `:latest` with the digest on the `image:` line of the press's *build.yml* at your book's tag, and install press at that tag (Chapters 2 and 14).
 
 ### The developer's render loop {-}
 
-People who work on the press itself have *scripts/dev-render.sh* in the press checkout. It runs `python -m press` from the checkout's *src/* directory inside the pinned toolchain image, so a source edit takes effect on the next run with no reinstall. It reads the image from *build.yml*, so it runs the image that the reusable workflow pins. The press's notes call it "the edit-render-look loop, not the proof". On macOS with Colima, it can mount a book only under `$HOME`.[^d-colima] A book author never needs it.
+People who work on the press itself have *scripts/dev-render.sh*, which runs the checkout inside the pinned toolchain image (Chapter 2) and on macOS with Colima can mount a book only under `$HOME`.[^d-colima]
 
 [^d-colima]: This limit is press issue #276. The script's default `--out` directory also lies inside the press checkout.
 

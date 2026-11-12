@@ -42,7 +42,7 @@ Table 7.1 lists the build targets in the order the press lists them. The slug is
 
 Table: Table 7.1. The build targets
 
-The press's landing page gives the editions names of their own. The reading editions are the Print edition (the PDF), the Circulating edition (the EPUB), and the Single-leaf edition (the self-contained HTML). The others are the Manuscript edition (the stitched Markdown), the Telegraphic edition (plain text), the Office edition (DOCX), the Chapter edition (the reader site and its zip), and the Source edition (the source zip). The rest of this chapter calls the PDF, the EPUB, the single-file HTML, and the reader site by their formats, as the targets do. It uses the press's names for the Manuscript, Telegraphic, Office, and Source editions.
+The rest of this chapter calls the PDF, the EPUB, the single-file HTML, and the reader site by their formats, as the targets do. It uses the press's names for the Manuscript, Telegraphic, Office, and Source editions.
 
 Every target in the table that calls pandoc needs it on your `PATH`. If pandoc is missing, the press refuses the build at once with the message `pandoc is required`. Chapter 2, *Installing press*, describes how to install it.
 
@@ -56,7 +56,7 @@ The targets are not independent, because some *artifacts*, the files and directo
 
 ## What pandoc is told
 
-Every edition except the Manuscript edition and the Source edition comes out of pandoc. The press builds a pandoc command line for each one, always in the same shape, and runs it from the root of the book repository. It prints each command before it runs it, with a plus sign and a space in front. The captures in this chapter come from the press's own three-chapter Alice example, which lives under *examples/alice-in-wonderland* in a press checkout. The Alice book itself, the full novel, lives in *~/alice* on `hatter`. The captures print the example's directory as *~/alice* too, so that their paths match the rest of the chapter. Example 7.1 shows the line for the single-file HTML, broken across lines to fit the page.
+Every edition except the Manuscript edition and the Source edition comes out of pandoc. The press builds a pandoc command line for each one, always in the same shape, and runs it from the root of the book repository. It prints each command before it runs it, with a plus sign and a space in front. The captures in this chapter come from the press's own three-chapter Alice example, which lives under *examples/alice-in-wonderland* in a press checkout. The Alice book itself, the full novel, lives in *~/alice* on `hatter`. The captures print the example's directory as *~/alice* too, so that their paths match the rest of the chapter. Example 7.1 shows the line for the single-file HTML.
 
 **Example 7.1. The pandoc command for the single-file HTML**
 
@@ -211,12 +211,6 @@ Pandoc then writes the LaTeX and hands it to latexmk(1), the PDF engine that Exa
 > A second trap sat in the same lists. The `pdf.yaml` defaults ask for `toc-depth: 1`, a table of contents that lists chapters only. That setting sets the TeX tocdepth counter to 0, and at that depth the List of Plates comes out empty, with no error to say so. The house TeX header now raises the depth inside the list file itself, so a shallow table of contents can no longer empty the List of Plates.
 :::
 
-The first LuaLaTeX run on a new machine spends several minutes on a font scan, and it looks like a hang. It is not one.
-
-::: {.tip}
-> **Tip:** Run `press pdf` on a new machine well before you need the PDF, and leave it alone until it finishes.
-:::
-
 The print interior follows the same road with different defaults. `press print` uses `print.yaml`, sets the page two-sided, and adds the print-safe filter to the chain. Chapter 12, *The print pack*, covers it in full. The registry treats the print interior and the cover wrap as a branch of their own, which @fig:build-graph draws in its bottom row.
 
 ## The EPUB
@@ -336,23 +330,15 @@ Table: Table 7.5. Builders, verifiers, and destinations, from docs/REFERENCE.md
 
 ### No stale artifact
 
-The prerequisite edges exist because a verifier that reads *dist/* without rebuilding it can bless an artifact that no longer matches the manuscript. Suppose `alice` fixes a sentence in her second chapter and then runs a verifier over last week's PDF. The verifier finds nothing wrong, because last week's PDF was fine. The fix never reached the file, and a green result now covers a stale book. Every verify target rebuilds the artifacts it verifies before it verifies them, and the command line offers no way around that. The one exception is `press verify-formats`, which reads an existing *dist/alice.pdf* into its cross-edition agreement check without rebuilding it.
+The prerequisite edges exist because a verifier that reads *dist/* without rebuilding it can bless an artifact that no longer matches the manuscript. Suppose `alice` fixes a sentence in her second chapter and then runs a verifier over last week's PDF. The verifier finds nothing wrong, because last week's PDF was fine. The fix never reached the file, and a green result now covers a stale book. Every verify target rebuilds the artifacts it verifies before it verifies them (one exception, Chapter 8), and the command line offers no way around that.
 
 The press records this as an *invariant*, an entry in its ledger of guarded behavior, under the name `INV-graph-no-stale` at the critical level. The ledger also states its limit: the invariant holds on the command-line path only. Code that imports a verifier module directly skips the rebuild.
-
-::: {.warning}
-> **Warning:** Do not call a verifier module from your own script to save time. Run the `press` target instead, so the rebuild happens first.
-:::
 
 ### Which target rebuilds what
 
 Each verify target names its own rebuilds, and the list is short. `press verify` builds the PDF and then runs the PDF verifier. `press verify-formats` builds the EPUB, the HTML, the Manuscript, Telegraphic, and Office editions, the reader site, and the Source edition, and then runs the format and archive verifiers. `press pages` asks the registry for the Pages bundle. The registry builds all nine prerequisites, assembles the bundle, and runs the page verifier. The press also accepts `press verify-pages` as another name for `press pages`.
 
-The print branch of the registry has targets of its own. `press verify-print` builds the print interior and runs the PDF verifier with the print profile. If *assets/cover.jpg* exists, it then builds the cover wrap and runs the cover-wrap verifier. Without a cover, it stops after the interior and says so:
-
-```text
-no assets/cover.jpg; interior verified, wrap not built
-```
+The print branch of the registry has targets of its own. `press verify-print` builds the print interior and runs the PDF verifier with the print profile. If *assets/cover.jpg* exists, it then builds the cover wrap and runs the cover-wrap verifier. Without a cover, it stops after the interior and says so.
 
 `press coverwrap` builds the print interior, then the cover wrap, and then runs the cover-wrap verifier. Chapter 8, *Verifying the artifacts*, describes what each verifier inspects.
 
@@ -364,7 +350,7 @@ Some of the files that pandoc reads are not in your manuscript. Before every pan
 2. It generates the subject index again.
 3. If the book has *config/authorities.yaml*, it writes *dist/alice-sources.md* from that ledger.
 
-The deletion comes first on purpose. In the words of the press's architecture notes, "the generated appendices are cleaned first so stale copies cannot survive." An index file left over from an earlier build cannot slip into a new edition, because no earlier copy exists when pandoc runs.
+In the words of the press's architecture notes, "the generated appendices are cleaned first so stale copies cannot survive." An index file left over from an earlier build cannot slip into a new edition, because no earlier copy exists when pandoc runs.
 
 The third step produces the sources companion, the one artifact in Table 7.4 that waits on the Manuscript edition. It is a standalone document of the claims in the book and the sources that warrant them, published beside the book. The three-chapter example has no ledger, so it gets no companion. Chapter 10 describes the ledger and what the companion contains.
 
@@ -417,7 +403,7 @@ Walk the six steps against the example:
 5. The verify step runs the page, PDF, format, and archive verifiers in that order. Each prints one `Verified` line, and the step ends with the `verify` phase line.
 6. The commerce gate runs last.
 
-The check step matters more than it looks. The known-bad fixtures run in `press check` and `press all`, and not in a bare `press pdf`. Under `press all`, a manuscript that the checker refuses never reaches pandoc.
+The known-bad fixtures run in `press check` and `press all`, and not in a bare `press pdf`. Under `press all`, a manuscript that the checker refuses never reaches pandoc.
 
 The elided lines in the verify step include a warning on any machine without epubcheck. On `hatter`, the run says that it validated the EPUB "structurally only" and that the toolchain image runs the full check in CI. Chapter 8 explains what that difference costs.
 
@@ -430,14 +416,14 @@ commerce release gate: print ordering is not enabled; no
 commerce release gate
 ```
 
-The press prints that message on one line, broken here to fit the page. A book that enables print ordering gets the gate. On an ordinary run on `hatter`, the gate is advisory. It reports what it finds, does not stop the run, and prints this line:
+A book that enables print ordering gets the gate. On an ordinary run on `hatter`, the gate is advisory. It reports what it finds, does not stop the run, and prints this line:
 
 ```text
 (commerce gate is advisory here; a release build
 (PRESS_RELEASE=1) enforces it)
 ```
 
-That message is also one line in the log. When the release build sets `PRESS_RELEASE=1`, the gate enforces its findings and the press refuses the run on a finding. Chapter 14 describes the release build that sets it.
+When the release build sets `PRESS_RELEASE=1`, the gate enforces its findings and the press refuses the run on a finding. Chapter 14 describes the release build that sets it.
 
 ### What press all leaves out
 
@@ -506,7 +492,9 @@ $ press wordcount
   6245  TOTAL
 ```
 
-The count strips fenced code blocks and inline code before it counts. It does not strip HTML comments, so the `art:` comment beside every figure counts toward the total. If you write to a fixed length, remember that your `art:` comments are in the number.
+The count strips fenced code blocks and inline code before it counts. It does not strip HTML comments, so the `art:` comment beside every figure counts toward the total.[^7-wordcount] If you write to a fixed length, remember that your `art:` comments are in the number.
+
+[^7-wordcount]: The counter matches words with the pattern `\b[\w'-]+\b`, so a hyphenated compound or a contraction counts as one word.
 
 ### Cleaning up
 

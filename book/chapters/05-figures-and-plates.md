@@ -66,7 +66,7 @@ A comment above the image, or two blank lines below it, belongs to no illustrati
 
 Suppose you run `press illustrate` with the name of a plate and no `--subject`. Press then finds the illustration whose image file stem matches the name, and it sends that illustration's `art:` directive to the image model. For Example 5.1 the name is `white-rabbit`, the stem of *white-rabbit.png*. Press refuses in three cases: no illustration in the manuscript has that stem, the illustration is a data kind, or it has no `art:` directive. The third refusal says "A caption is a label, not art direction (#225)".[^5-silly-plates] Chapter 11, *The art department*, follows the commission from the directive to the finished plate.
 
-Write the directive for an artist who does not know the book. Name the subject, the moment, and what sits around it, then the medium. If the picture must carry no lettering, say "no lettering". `press illustrate` adds a guard of its own to every commission, and it always appends this text to the prompt. The prompt receives it as one line, and the breaks here are only for the width of the page.
+Write the directive for an artist who does not know the book. Name the subject, the moment, and what sits around it, then the medium. If the picture must carry no lettering, say "no lettering". `press illustrate` adds a guard of its own to every commission, and it always appends this text to the prompt. The prompt receives it as one line.
 
 ```text
 Single ink only, no colour wash. No text, no words, no
@@ -94,7 +94,7 @@ Press reads all of this in one place, and you can see what it read. The `press f
 
 ## Numbered figures and cross-references
 
-To cite a figure, give it an identifier with `#` in its attributes and cite the identifier with `@` in the prose. Any identifier works, but the common convention starts each one with `fig:`. Example 5.2 shows a numbered chart that the Alice book might put in its own fifth chapter, "Advice from a Caterpillar", with the sentence that cites it. Pandoc lets the attributes run over several lines, and the example breaks them only to fit the width of this page.
+To cite a figure, give it an identifier with `#` in its attributes and cite the identifier with `@` in the prose. Any identifier works, but the common convention starts each one with `fig:`. Example 5.2 shows a numbered chart that the Alice book might put in its own fifth chapter, "Advice from a Caterpillar", with the sentence that cites it. Pandoc lets the attributes run over several lines.
 
 **Example 5.2. A numbered figure and its citation**
 
@@ -115,11 +115,11 @@ The `.chart` class makes this a numbered figure. It is the first figure in that 
 
 Press computes each number once, in its own Lua filter, *figure-numbering.lua*. It has no dependency on pandoc-crossref, the filter that many pandoc users install for numbered figures. Because press computes each number once, the PDF, the EPUB, and the reader site can never disagree about which figure is Figure 5.1.
 
-A citation of an identifier that press does not know stays in the text as a raw citation. If `alice` mistypes `@fig:alice-hieghts`, the proof prints the mistyped identifier, at sign and all, in the middle of the sentence. The fault is easy to see in a proof and easy to miss in a hurry.
+A citation of an identifier that press does not know stays in the text as a raw citation. If `alice` mistypes `@fig:alice-hieghts`, the proof prints the mistyped identifier, at sign and all, in the middle of the sentence.
 
 Press numbers and cites only figures. A plate has no number, so a sentence that needs to point at a plate names its caption.
 
-Press has no cross-reference mechanism for chapters or sections either, and no `@` form reaches a chapter or a section. Write those references in words: "see Chapter 6, *Checking the manuscript*", or "the section 'Placement' later in this chapter". Tables and examples in this book carry hand-typed numbers for the same reason.
+Chapters, sections, tables, and examples have no `@` form, so write those references in words (Chapter 4).
 
 ::: {.tip}
 > **Tip:** Before you send a proof to anyone, search the PDF text for `@fig:`. Every hit is a citation of an identifier that press did not recognize.
@@ -141,9 +141,7 @@ The rule catches a plate that lost its image line in an edit, and it catches a p
 > **Warning:** When you delete an image line, delete its file from *assets/woodcuts/* in the same commit. Otherwise the next `press check` refuses the book.
 :::
 
-Both lists need several passes of LuaLaTeX before their page numbers come out right. Plain LuaLaTeX under pandoc does not run enough passes for the lists to converge. Press therefore builds the PDF through latexmk, which runs LuaLaTeX until the output stops changing. A second scar sits in the same place. A shallow table of contents once emptied the List of Plates without a message. The house TeX header now prevents that, so a book with a one-level Contents still gets a full List of Plates.[^5-tocdepth]
-
-The links in the lists had a fault of their own. A reader who clicked an entry in the List of Plates once arrived at the caption, with the plate above it and off the screen. The house now anchors each entry at the top of the illustration, so a click shows the whole plate.[^5-hypcap] The PDF verifier now checks the link destinations with pypdf.
+Both lists need several passes of LuaLaTeX before their page numbers come out right. Plain LuaLaTeX under pandoc does not run enough passes for the lists to converge. Press therefore builds the PDF through latexmk, which runs LuaLaTeX until the output stops changing. A second scar in the same lists, told in Chapter 7, once emptied the List of Plates. Each entry links to the top of its illustration, and the PDF verifier checks every destination (Chapter 8).
 
 ## Placement
 
@@ -247,7 +245,7 @@ good-natured, she thought: still it had very long claws
 and a great many teeth...
 ```
 
-Example 5.4 carries no `art:` directive, and that is deliberate. A wrapped illustration cannot carry an `art:` comment without losing its wrap. A comment between the wrap and its paragraph stops the fusion, and the text no longer runs around the illustration. A comment after the paragraph is too far from the image for press to read. Commission a wrapped plate with `press illustrate <name> --subject "..."` instead, as Example 5.5 shows:
+Example 5.4 carries no `art:` directive. A wrapped illustration cannot carry an `art:` comment without losing its wrap. A comment between the wrap and its paragraph stops the fusion, and the text no longer runs around the illustration. A comment after the paragraph is too far from the image for press to read. Commission a wrapped plate with `press illustrate <name> --subject "..."` instead, as Example 5.5 shows:
 
 **Example 5.5. Commissioning a wrapped plate**
 
@@ -272,7 +270,7 @@ Press computes the number once and writes it into every rendered edition. A numb
 
 <!-- art: ARCHETYPE data-flow, top to bottom. At top, a dog-eared file box labeled "image line", holding "#fig:alice-heights .chart" in monospace. Below it a rounded box "figure-numbering.lua", its outgoing arrow labeled "Figure 5.1". Four arrows fan down to square boxes. "PDF" (20% gray fill): "caption Figure 5.1", "List of Figures entry", "link target". "EPUB / HTML": "in-flow, Figure 5.1", "link target". "reader site": "in-flow, Figure 5.1", "link target". "text / DOCX": "in-flow, Figure 5.1". At far right, a second dog-eared box "bare image" with its own arrow to a box "List of Plates", labeled "no number". The reader sees first that one line feeds every edition. -->
 
-The Manuscript edition (the stitched Markdown) is the one exception. It is the raw stitched source, and no filter runs over it. Its image lines appear as you typed them, with their attributes and their `art:` comments, so that edition publishes every directive verbatim. Write each directive as though a reader will see it.
+The Manuscript edition (the stitched Markdown) is the one exception. It is the raw stitched source, and no filter runs over it. Its image lines appear as you typed them, with their attributes and their `art:` comments, so that edition publishes every directive verbatim, for any reader to see.
 
 A plate also changes ground between editions. The house keeps each plate as an *alpha master*, ink on transparency, and each edition composites it onto its own page. The reader site serves the transparent PNG itself, so a plate reads on a light page or a dark one. The print interior flattens the master onto white at build time, as the section "Print-safe images" later in this chapter describes.
 
@@ -320,7 +318,7 @@ The cover is *assets/cover.jpg*, the logomark is *assets/press-logo.png*, the au
 
 You can copy a file into *assets/woodcuts/* by hand, but the house way is *intake*. The command `press art accept build/illustrations/white-rabbit.png --as plate:white-rabbit` converts the delivered image to house form and writes it to *assets/woodcuts/white-rabbit.png*. The plate name must match the pattern `[a-z0-9][a-z0-9-]*`. A single-ink plate becomes an alpha master: its color channels are black everywhere, and all of its tone lives in the alpha channel. Chapter 11, *The art department*, describes the luminance key that intake applies and the refusals that protect it.
 
-Plates are PNG files because of a scar. Truecolor PNG barely compresses the grain of an engraving, so the house once kept plates as JPEG files baked onto white. A JPEG master cannot carry transparency, and a plate baked onto white shows a white box on cream paper or on a dark reader page. The house now quantizes the grain to a few grays, which a PNG compresses well, and keeps the transparency. The scars list says it plainly: "Do not reintroduce a baked-white JPEG master."
+Plates are PNG files because of a scar. Truecolor PNG barely compresses the grain of an engraving, so the house once kept plates as JPEG files baked onto white. A JPEG master cannot carry transparency, and a plate baked onto white shows a white box on cream paper or on a dark reader page. The house now quantizes the grain to a few grays, which a PNG compresses well, and keeps the transparency. The scars list says: "Do not reintroduce a baked-white JPEG master."
 
 Example 5.6 shows the whole path for one plate: the commission, intake, and the finishing pass. `press illustrate` sends the directive to an image model, so it needs that service's account and key, which Chapter 11 sets up. It writes each delivery to *build/illustrations/*. Each `...` line stands for the output of a command.
 
@@ -363,22 +361,13 @@ The pass keeps a grayscale image grayscale. It writes a JPEG source as a JPEG at
 
 The pass does not copy every image. At the time of this writing it copies the logomark, the JPEG files at the top of *assets/*, and everything in *assets/woodcuts/*. An image in any other directory, such as *assets/figures/*, is missing from the print interior, and `press print` stops with "file not found". Keep every interior image under *assets/woodcuts/*.
 
-The pass came from a real preflight. Lulu flagged two problems in an early print interior: transparency, because the logomark is ink on transparency, and images over 600 PPI. A 1024-pixel logomark printed at 1.7 inches comes to about 602 PPI, just over the line.[^5-lulu] With the pass in place, the documentation reports that "a current `press verify-print` interior triggers **neither** warning".
+The pass came from a real preflight report, which Chapter 12 tells.
 
-A custom title page needs one change to stay inside the rules. If the book supplies its own *tex/title-page-print.tex*, the logomark in it must come from *build/print-assets/*, not from *assets/*. A hand-written TeX file names its own paths, and the Lua filter that redirects the manuscript's images never sees them.
-
-::: {.tip}
-> **Tip:** In *tex/title-page-print.tex*, point the logomark at its copy in *build/print-assets/*. The file in *assets/* still carries its transparency and its full resolution.
-:::
+A custom title page needs one change to stay inside the rules. If the book supplies its own *tex/title-page-print.tex* (a hand-written title page for the print interior only, which Chapter 10 describes), the logomark in it must come from *build/print-assets/*, not from *assets/*. A hand-written TeX file names its own paths, and the Lua filter that redirects the manuscript's images never sees them.
 
 The next chapter, *Checking the manuscript*, describes the checker, which applies the rules in Table 5.3 whenever it runs.
 
 [^5-silly-plates]: The rule has a history. Commissions once drew their subject from the caption, and a caption written for a reader made a poor brief for an artist. The results were what the press documentation calls "literal, silly plates". Since press issue #225, a commission with no `--subject` takes its subject from the `art:` directive alone.
 
-[^5-tocdepth]: For the reader who wants the mechanism: the pandoc setting `toc-depth: 1` sets the LaTeX counter `tocdepth` to 0, which empties the List of Plates. The house header raises the depth inside the list file itself.
-
-[^5-hypcap]: The anchor comes from the caption package's `hypcap=true` option. An earlier house header loaded the separate hypcap package for the same purpose.
-
 [^5-square]: The square shape comes from the request press makes to the image model, which asks for 1024 by 1024 pixels at high quality for every illustration.
 
-[^5-lulu]: The arithmetic is simple division: 1024 pixels over 1.7 inches is 602 pixels per inch.
