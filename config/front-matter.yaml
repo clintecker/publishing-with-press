@@ -16,8 +16,8 @@ acknowledgements: >-
 edition-note: "First edition, first printing"
 manufacture: "Printed in the United States of America"
 colophon-note: >-
-  Set in Libertinus Serif and Libertinus Mono by pandoc and LuaLaTeX
-  under the direction of press 3.0.2, the pipeline this book describes,
+  Set in Libertinus Serif and Source Code Pro by pandoc and LuaLaTeX
+  under the direction of press 3.0.2, the program this book describes,
   and proofed by the same verifiers it documents.
 rights-notice: >-
   The text of this book may be quoted and its examples reused in your own
