@@ -7,7 +7,7 @@ defined in the same sentence; afterwards it is roman.
 
 | Use this | For | Never these |
 |---|---|---|
-| press | the package and command; lowercase in prose and code | Press (except at a sentence start), the press tool, the pipeline (as a name) |
+| press | the package and command; lowercase in prose and code; capitalised as "Press" only where it opens a sentence, like any word; the command itself is always constant width `press` | the press tool, the pipeline (as a name) |
 | the press | the same thing spoken of as an institution ("the press refuses") | it/the system |
 | book repository | the directory with `config/metadata.yaml` | project, repo (in prose), book folder |
 | the manuscript | the chapters and appendices under `book/` | the source, the content, the text (for the files) |

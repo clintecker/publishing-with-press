@@ -121,3 +121,4 @@ Managing editor's record. Append only.
 - Ch 12 COMMITTED (figure files renamed by the writer: 12-01 spine math, 12-02 wrap, 12-03 graph; the illustrator's output will be renamed to match). Preface (2,401) and Appendix E (2,931) + colophon (374) drafted; desks dispatched.
 - Appendixes C and D COMMITTED.
 - Ch 14 revised (5,633) -> re-review. Ch 15 re-review APPROVED (3 shoulds -> writer). Appendix A typesetter in.
+- Ruling: 'Press' capitalised only at a sentence start (ordinary English); otherwise lowercase; the command always constant width. Appendix A copy in; fact pending.
