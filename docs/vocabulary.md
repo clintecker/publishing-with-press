@@ -60,6 +60,9 @@ defined in the same sentence; afterwards it is roman.
 | the table of authorities | the ledger `config/authorities.yaml` and the claims it holds | the authorities file, the sources ledger, the citations |
 | the sources companion | the generated `dist/<slug>-sources.md`, the Sources edition's companion document | the authorities document, the sources appendix, the bibliography |
 | the logomark | the imprint device, `assets/press-logo.png` | the logo, the imprint logo, the press mark (the pilcrow is press's own mark, a different thing) |
+| leaf | one sheet of the book, two pages (the trade sense); a cleared leaf is a page a figure has to itself | page (when the sheet is meant), column |
+| the paper column | the reader site's framed column that holds the text, styled as a sheet | the leaf, the sheet, the measure (reserved for a figure's width class) |
+| height cap | the per-profile limit on a figure's rendered height (the `figure-cap` key); 6.3 in on the house profile | figure cap (say the key name once), image cap |
 | the desk | `press desk` | the TUI, the dashboard, the UI |
 | workflow | a packaged agent procedure | pipeline, automation, playbook |
 | skill | a packaged authoring guide | prompt, guide, doc |
