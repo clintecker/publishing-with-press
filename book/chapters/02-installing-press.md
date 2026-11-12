@@ -12,7 +12,7 @@
 > - The first run
 :::
 
-Press comes in two halves, and you install them separately. The first half is a Python package that gives you the `press` command. The second half is a set of programs that press calls to do the real typesetting and checking, and press does not install those for you. This chapter installs both halves on `hatter`, the workstation where `alice` writes her book. It then shows how to confirm that the machine can make books before you ask it to make one.
+Press comes in two halves, and you install them separately. The first half is a Python package that gives you the `press` command. The second half is a set of programs that do the real typesetting and checking. Press calls them, but it does not install them for you. This chapter installs both halves on `hatter`, the workstation where `alice` writes her book. It then shows how to confirm that the machine can make books before you ask it to make one.
 
 ## What you need
 
@@ -30,7 +30,7 @@ Table 2.1 lists the parts and what each one does for you.
 
 Table: Table 2.1. What a press installation needs
 
-The Python requirement is a floor. The tested range records only what the press's own tests run. At the time of this writing, the press's continuous integration (CI) runs all five Python releases from 3.10 to 3.14 on Ubuntu, plus Python 3.12 on macOS 15. A newer Python may work, but no test proves it yet. When you run `press doctor` on one, it says so.
+The Python requirement is a floor. The tested range records only what the press's own tests run. At the time of this writing, the press's continuous integration (CI) runs all five Python releases from 3.10 to 3.14 on Ubuntu. It also runs Python 3.12 on macOS 15. A newer Python may work, but no test proves it yet. When you run `press doctor` on one, it says so.
 
 The package has three runtime dependencies, and pip installs them for you. Pillow handles images, and pypdf reads the finished PDF so the verifiers can inspect it. The third, ruamel.yaml, reads every configuration file. Press uses ruamel.yaml as its one YAML library for two reasons. First, it reads YAML 1.2, so a bare `no`, `yes`, or `on` in your metadata stays a string.[^2-yaml] Second, its round-trip mode keeps your comments when press writes a value back into one of your files.
 
@@ -84,7 +84,7 @@ The press enforces that immutability at release time, so a three-part tag cannot
 
 Sometimes you want to read the press's source, follow its main branch, or test a fix before it reaches a tag. For that, clone the repository and install it in editable mode. An *editable install* points Python at the files in your clone, so a `git pull` changes the installed press with no reinstall. From the top of the clone, the command is `pip install -e .`, as the README gives it.
 
-You can also install a clone that lives somewhere else by naming its path. The *requirements.txt* file that press writes into every new book carries a comment that recommends this form for day-to-day book work. In Example 2.2, `alice` keeps her clone of press under her home directory on `hatter` and installs it into the active environment.
+To install a clone that lives somewhere else, name its path. The *requirements.txt* file that press writes into every new book carries a comment that recommends this form for day-to-day book work. In Example 2.2, `alice` keeps her clone of press under her home directory on `hatter` and installs it into the active environment.
 
 **Example 2.2. An editable install of a press clone**
 
@@ -133,11 +133,13 @@ To take a new release on your workstation, run `pip install --upgrade "press @ g
 
 ### Installing in continuous integration
 
-A book's CI does not use any of these commands. The *composite action*, the piece of the press that the reusable workflow runs to install it, installs press from the action's own checkout, never with pip from Git. That choice keeps a private book working without a token for a second repository, and it pins the installed press to the exact ref of the action. Chapter 14, *Continuous integration and the release contract*, covers the action in detail. The press on `printshop` and the press on `hatter` arrive by different roads, but both roads can start at the same tag.
+A book's CI does not use any of these commands. To install press, the reusable workflow runs the *composite action*, a piece of the press itself. The composite action installs press from its own checkout, never with pip from Git.
+
+That choice keeps a private book working without a token for a second repository. It also pins the installed press to the exact ref of the action. Chapter 14, *Continuous integration and the release contract*, covers the action in detail. The press on `printshop` and the press on `hatter` arrive by different roads, but both roads can start at the same tag.
 
 ## The system toolchain
 
-The Python package is the smaller half of an installation. Press prepares the manuscript, decides what to build and in what order, and hands the work to older, specialized programs. It sets no type itself, and it checks no EPUB against the retail rules itself. A *target* is a press command that builds, checks, or verifies something, and most targets call at least one of these programs.
+The Python package is the smaller half of an installation. Press prepares the manuscript and decides what to build and in what order. Then it hands the work to older, specialized programs. It sets no type itself, and it checks no EPUB against the retail rules itself. A *target* is a press command that builds, checks, or verifies something, and most targets call at least one of these programs.
 
 @fig:tools-in-the-build shows where each tool sits. Pandoc reads every chapter file and runs the press's Lua filters over it. On the PDF branch, latexmk reruns LuaLaTeX until the cross-references and lists stop changing. On the other branches, pandoc's own writers produce the EPUB and the HTML. The verifiers then use epubcheck and the poppler utilities to inspect the finished artifacts.
 
@@ -168,7 +170,7 @@ Two of the entries need a word of explanation. The epubcheck program is the prog
 
 The doctor also looks for a few things outside the table. It looks for `realesrgan`, the optional upscaler behind `press art enhance`. It reports whether the `OPENAI_API_KEY` and `GEMINI_API_KEY` environment variables are set. It checks the Python version against the tested range, and it confirms that Pillow, pypdf, and ruamel.yaml import.
 
-A few more programs help press without appearing in the doctor's report. The poppler utilities include `pdfimages`, which the doctor does not check. If `pdfimages` is absent, two checks soften to notes. Inside the toolchain image, `java` runs epubcheck. If `oxipng` or `pngcrush` is present, the `art enhance` target can use it to shrink a PNG further.
+A few more programs help press, but the doctor's report does not list them. The poppler utilities include `pdfimages`, which the doctor does not check. If `pdfimages` is absent, two checks soften to notes. Inside the toolchain image, `java` runs epubcheck. If `oxipng` or `pngcrush` is present, the `art enhance` target can use it to shrink a PNG further.
 
 ### Installing on macOS
 
@@ -187,7 +189,7 @@ $ brew install epubcheck
 
 The MacTeX cask carries TeX Live, and TeX Live includes Libertinus, the typeface of the house PDF. In the install guide's words, "Fonts: TeX Live carries Libertinus for the PDF; nothing else to install."
 
-The last command is optional, and we recommend it anyway. Without a local epubcheck, the retail gate softens to a warning on your machine. The install guide puts the benefit the other way round: a local epubcheck "hardens the EPUB gate before push; CI always runs it regardless." You will learn about an EPUB fault eventually, but without a local epubcheck you learn later and somewhere else. An EPUB fault that you see on your own machine costs you a minute, and the same fault that you first see in CI costs you a round trip.
+The last command is optional, and we recommend it anyway. Without a local epubcheck, the retail gate softens to a warning on your machine. The install guide puts the benefit the other way round: a local epubcheck "hardens the EPUB gate before push; CI always runs it regardless." You will learn about an EPUB fault eventually, but without a local epubcheck you learn later and somewhere else. An EPUB fault that you see on your own machine costs you a minute. When you first see the same fault in CI, it costs you a round trip.
 
 ### Installing on Debian and Ubuntu
 
@@ -217,7 +219,7 @@ Ubuntu's `epubcheck` package has one more trap, which appears only inside a cont
 
 Press pins no version of pandoc or TeX Live by number. The press's compatibility guide states the rule: "the exact tool versions are whatever Ubuntu 24.04 shipped, frozen by the image digest". The toolchain image builds from Ubuntu 24.04, and its digest fixes the exact bytes. Ubuntu 24.04's pandoc and TeX Live are therefore the reference toolchain, and a book built in CI always uses them.
 
-Your own machine may carry newer or older releases, and Homebrew moves forward on its own schedule. If a build on `hatter` disagrees with a build on `printshop`, trust `printshop`. It runs the same toolchain image, pinned by the same digest, that the press's *release contract*, the workflow that proves each press tag, proved. Then run the same build in the toolchain image on `hatter` to see the reference result on your own machine.
+Your own machine may carry newer or older releases, and Homebrew moves forward on its own schedule. If a build on `hatter` disagrees with a build on `printshop`, trust `printshop`. It runs the same toolchain image, pinned by the same digest, that passed the press's *release contract*, the workflow that proves each press tag. Then run the same build in the toolchain image on `hatter` to see the reference result on your own machine.
 
 ## Running the doctor
 
@@ -253,7 +255,7 @@ The two `python` lines close the report. The first compares your interpreter wit
 
 The report ends with a line of its own. On a ready machine, that line reads `this machine can make books`. Otherwise, it begins `not ready:` and names the tools at fault. It then gives an install hint for macOS (`brew install pandoc mactex-no-gui poppler`) and, for Debian and Ubuntu, a pointer to the *Dockerfile*'s package list. The doctor exits with status 0 when the machine is ready and 1 otherwise.
 
-A broken tool keeps the doctor from reporting the machine ready, even when the tool is optional. @fig:doctor-report shows the case: `claude` is optional, `press all` does not need it, and the doctor still reports `not ready: claude` and exits 1. The exit status therefore says less than the report does. Read the report itself, and do not chain a build on the doctor's exit status. To clear a broken optional tool, repair it or take it off your `PATH`.
+A broken tool keeps the doctor from reporting the machine ready, even when the tool is optional. @fig:doctor-report shows the case. There, `claude` is optional and `press all` does not need it, but the doctor still reports `not ready: claude` and exits 1. The exit status therefore says less than the report does. Read the report itself, and do not chain a build on the doctor's exit status. To clear a broken optional tool, repair it or take it off your `PATH`.
 
 ::: {.warning}
 > **Warning:** Never pipe `press doctor` or any other check into `grep` before an `&&` in a commit chain. The pipeline then reports grep's exit status, and the press's scars list records the result: "a red check once shipped as green."
@@ -296,7 +298,7 @@ Neither tag is immutable, and the registry can move either one. The reusable wor
 
 ### Building a book inside the image
 
-You can run any target inside the image with Docker. Example 2.6 shows the form from the press's install guide. In it, `alice` builds her book's editions from the top of its book repository on `hatter`, which Chapter 3 creates. The command mounts the book repository at `/book`, installs press inside the container, and runs `press all`.
+You can run any target inside the image with Docker. Example 2.6 shows the form from the press's install guide. In it, `alice` builds her book's editions from the top of its book repository on `hatter`, which Chapter 3 creates. The command mounts the book repository at `/book` and installs press inside the container. Then it runs `press all`.
 
 **Example 2.6. Building the editions inside the toolchain image**
 
@@ -324,7 +326,9 @@ The example uses `:latest`, which suits an experiment on your own machine. When 
 
 People who work on the press itself have one more way to use the image. The press checkout carries *scripts/dev-render.sh*, which builds a book on the exact bytes CI builds on. It runs press against a book inside the pinned toolchain image. It reads the toolchain image from the press's *build.yml*, so it always runs the same image the release contract pins.
 
-The script mounts the press checkout read-only and runs `python -m press` straight from its *src/* directory. An edit to the press's source therefore takes effect on the next run with no reinstall. With no arguments, it builds the PDF of the press's own three-chapter Alice example. You can name other targets, such as `pdf epub web all`, and choose a book with `--book DIR`. The option `--out DIR` names the host directory for the artifacts, and the default is *build/dev-render*. After a PDF build, `--preview` rasterizes the pages to JPEG previews, and `--shell` opens a shell in the container instead of building.
+The script mounts the press checkout read-only and runs `python -m press` straight from its *src/* directory. An edit to the press's source therefore takes effect on the next run with no reinstall.
+
+With no arguments, the script builds the PDF of the press's own three-chapter Alice example. You can name other targets, such as `pdf epub web all`, and choose a book with `--book DIR`. The option `--out DIR` names the host directory for the artifacts, and the default is *build/dev-render*. After a PDF build, `--preview` rasterizes the pages to JPEG previews, and `--shell` opens a shell in the container instead of a build.
 
 The script lives in the press checkout, not in a book, and a book author never needs it. The press's own notes call it "the edit-render-look loop, not the proof", and `scripts/verify.sh --full` remains the gate before a press tag.
 
@@ -376,7 +380,7 @@ On a machine where LuaLaTeX runs for the first time, the first PDF build holds a
 
 Before `press all` finishes, the verifiers inspect each artifact as an object, the way a reader or a retailer will meet it. A green result on the first run tells you that the whole installation works together. No single `--version` can tell you that much. A red result means that a check or a verifier failed. Chapter 8, *Verifying the artifacts*, explains how to read the failure. Chapter 7, *Building the editions*, explains what `press all` builds, and the print interior and cover wrap are separate targets.
 
-If the only complaint concerns epubcheck, you have two choices. Install it with Homebrew or apt as Examples 2.4 and 2.5 show, or accept the local warning and let the toolchain image run the strict gate.
+If the only complaint concerns epubcheck, you have two choices. The first is to install it with Homebrew or apt, as Examples 2.4 and 2.5 show. The second is to accept the local warning and let the toolchain image run the strict gate.
 
 ::: {.tip}
 > **Tip:** Run `press doctor` again after every change to the toolchain, including a Homebrew upgrade. It is the quickest way to learn that an upgrade broke a tool.

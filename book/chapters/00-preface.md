@@ -23,13 +23,13 @@ The book does not teach Markdown from the beginning, and it does not compare the
 The chapters follow the order in which you make a book. Chapters 2 through 8 take a book from installation to verified artifacts, and you should read them in order the first time. Chapters 9 through 13 cover the work that follows a sound manuscript, and you can read them as your book needs them. Chapters 14 through 16 are for the person who runs the press. The appendixes are for reference.
 
 **Chapter 1, *Introduction***\
-Explains what press is, where it came from, and its four laws, then tours a build from `press new` to the finished editions and lists them.
+Explains what press is, where it came from, and its four laws. Then tours a build from `press new` to the finished editions and lists them.
 
 **Chapter 2, *Installing press***\
-Installs the Python package and the toolchain, runs `press doctor`, and shows how to build inside the toolchain image.
+Installs the Python package and the toolchain, then runs `press doctor`. Shows how to build inside the toolchain image.
 
 **Chapter 3, *The shape of a book repository***\
-Scaffolds a book with `press new`, describes each file and the metadata fields, and shows how chapters and appendixes sort.
+Scaffolds a book with `press new` and describes each file and the metadata fields. Shows how chapters and appendixes sort.
 
 **Chapter 4, *Writing the manuscript***\
 Describes the dialect the press reads, the characters you may type, and the forms a chapter can hold, from footnotes to set pieces.
@@ -56,10 +56,10 @@ Covers the front-matter file key by key, the title and copyright pages, the subj
 Describes how the press commissions covers and plates, what intake does to a delivered image, and which commands spend money.
 
 **Chapter 12, *The print pack***\
-Builds the print interior and the cover wrap, works through providers and spine math, covers the publish checklists, and ends with ordering a copy.
+Builds the print interior and the cover wrap and works through providers and spine math. Covers the publish checklists and ends with ordering a copy.
 
 **Chapter 13, *Registrations***\
-Explains ISBNs, the ISSN and LCCN, ONIX, and the retail flag, and shows where each number goes: the copyright page, the EPUB metadata, the wrap barcode, the ONIX file, and the PCN listing.
+Explains ISBNs, the ISSN and LCCN, ONIX, and the retail flag. Shows where each number goes: the copyright page, the EPUB metadata, the wrap barcode, the ONIX file, and the PCN listing.
 
 **Chapter 14, *Continuous integration and the release contract***\
 Describes a book's CI, the reusable workflow, the composite action, the toolchain image pinned by digest, and the receipts. Covers floating and immutable tags, the release contract, release builds, the Pages deploy, and moving between majors with `press migrate`.
@@ -68,7 +68,7 @@ Describes a book's CI, the reusable workflow, the composite action, the toolchai
 Shows the desk, the operator commands (`press improve`, `press research`, `press aesthetic`), and the four workflows and their skills. Explains why the editorial passes name the faults of machine prose outright.
 
 **Chapter 16, *Inside the press***\
-Maps the package, follows the data from manuscript to edition, and covers invariants, `press selftest`, and what a contributed scar must earn.
+Maps the package and follows the data from manuscript to edition. Covers invariants, `press selftest`, and what a contributed scar must earn.
 
 **Appendix A, *Command reference***\
 Lists every command and option in manual-page form, with the exit codes and environment variables.
@@ -107,7 +107,7 @@ This book uses the following typographical conventions:
 :   The shell prompt for an ordinary user. A `#` prompt means that the command must run as root. The few commands in this book that need root run through `sudo` at an ordinary `$` prompt. Inside a file, such as a YAML file or a Makefile, a leading `#` begins a comment and is not a prompt.
 
 `[ ]`, `|`, and `...`
-:   In syntax lines, square brackets enclose an optional item, a vertical bar separates alternatives of which you choose one, and three periods mark an item you may repeat. In an example, a line that holds only `...` marks output that the example leaves out. A message shown on more than one line in this book is one line in the terminal.
+:   In syntax lines, square brackets enclose an optional item, and a vertical bar separates alternatives of which you choose one. Three periods in a syntax line mark an item you may repeat. In an example, a line that holds only `...` marks output that the example leaves out. A message shown on more than one line in this book is one line in the terminal.
 
 Tip
 :   A short paragraph set off from the text that opens with the word Tip gives a suggestion or a shortcut.
@@ -140,7 +140,7 @@ We wrote the examples against press 3.0.2, the current release at the time of th
 
 ## How to contact us {-}
 
-We checked the information in this book against the fact base, which came from the press's source and its documentation, and the press checked the book against its own rules. You may still find that a feature changed after the book went to print, or that we made a mistake. Please tell us about any error you find, and about anything you would like to see in the next printing.
+We checked the information in this book against the fact base, which came from the press's source and its documentation. The press checked the book against its own rules. You may still find that a feature changed after the book went to print, or that we made a mistake. Please tell us about any error you find, and about anything you would like to see in the next printing.
 
 The book's repository has an issue tracker, and that is the place for errata, questions about the text, and suggestions:
 
@@ -150,7 +150,7 @@ The press keeps its own documentation on the Web, built from the press repositor
 
 *https://clintecker.github.io/press/*
 
-The book's *Pages site*, which the press built from this manuscript and GitHub Pages serves, carries every edition of the book:
+The press built the book's *Pages site* from this manuscript, and GitHub Pages serves it. The site carries every edition of the book:
 
 *https://clintecker.github.io/publishing-with-press*
 

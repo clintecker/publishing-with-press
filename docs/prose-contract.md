@@ -118,7 +118,12 @@ banned-patterns:
    chapter in the book's pre-commit and in the writer's loop:
    `python3 tools/ste_check.py chapters/*.md`. Findings are review material,
    not a hard gate: it is a heuristic, and quoted output and tables trip it.
-   The hard gate is `press check`.
+   The hard gate is `press check`. `tools/ste-ratchet.py` wraps the linter
+   with this contract's thresholds (30-word ceiling, the relaxed words, no
+   art comments, image lines, or quotations) and holds each file's count
+   at or below `tools/ste-baseline.json`. The `prose-ratchet` job in
+   `.github/workflows/book.yml` runs it on every push. The skill text is
+   vendored at `docs/skills/ste80-humanizer/`.
 
 3. `tests/known-bad/` gets one fixture per pattern family so press proves
    the rules fire (the press rule: every fixture must be rejected on every

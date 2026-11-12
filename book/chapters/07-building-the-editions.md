@@ -56,7 +56,9 @@ The targets are not independent, because some *artifacts*, the files and directo
 
 ## What pandoc is told
 
-Every edition except the Manuscript edition and the Source edition comes out of pandoc. The press builds a pandoc command line for each one, always in the same shape, and runs it from the root of the book repository. It prints each command before it runs it, with a plus sign and a space in front. The captures in this chapter come from the press's own three-chapter Alice example, which lives under *examples/alice-in-wonderland* in a press checkout. The Alice book itself, the full novel, lives in *\~/alice* on `hatter`. The captures print the example's directory as *\~/alice* too, so that their paths match the rest of the chapter. Example 7.1 shows the line for the single-file HTML.
+Every edition except the Manuscript edition and the Source edition comes out of pandoc. The press builds a pandoc command line for each one, always in the same shape, and runs it from the root of the book repository. It prints each command before it runs it, with a plus sign and a space in front.
+
+The captures in this chapter come from the press's own three-chapter Alice example, which lives under *examples/alice-in-wonderland* in a press checkout. The Alice book itself, the full novel, lives in *\~/alice* on `hatter`. The captures print the example's directory as *\~/alice* too, so that their paths match the rest of the chapter. Example 7.1 shows the line for the single-file HTML.
 
 **Example 7.1. The pandoc command for the single-file HTML**
 
@@ -69,7 +71,7 @@ Every edition except the Manuscript edition and the Source edition comes out of 
     --output dist/alice.html
 ```
 
-The command has four parts. The `--defaults` option names a rendered defaults file. Extra arguments of the press's own come next, and the HTML command has none. The input files follow in book order: the chapter files, then the appendix files sorted by letter, with any generated appendix, such as the subject index, sorted among them. The Alice command carries no generated file. The last part names the file that pandoc writes.
+The command has four parts. The `--defaults` option names a rendered defaults file. Extra arguments of the press's own come next, and the HTML command has none. The input files follow in book order: the chapter files, then the appendix files sorted by letter. The press sorts any generated appendix, such as the subject index, among them, and the Alice command carries no generated file. The last part names the file that pandoc writes.
 
 The echo has a practical use. If pandoc refuses the manuscript, you can copy the command from the log and run it yourself from the book root, outside the press, with the same inputs. The echo does not quote values that contain spaces, however. The EPUB command passes its rights line bare, so put quotes around that value before you paste the EPUB command into a shell.
 
@@ -77,9 +79,9 @@ When a pandoc run takes one second or more, the press prints the time on the nex
 
 ### The defaults files
 
-Pandoc reads most of its settings from a *defaults file*, a YAML file that holds the same settings you could give on the command line. The defaults files come with the press. The installed package carries one for each family of editions in its *data/defaults/* directory, which is *src/press/data/defaults/* in the press repository: `pdf.yaml`, `epub.yaml`, `html.yaml`, `chunked.yaml`, `portable.yaml`, and `print.yaml`. The Telegraphic and Office editions share `portable.yaml`.
+Pandoc reads most of its settings from a *defaults file*, a YAML file that holds the same settings you could give on the command line. The defaults files come with the press. The installed package carries one for each family of editions in its *data/defaults/* directory: `pdf.yaml`, `epub.yaml`, `html.yaml`, `chunked.yaml`, `portable.yaml`, and `print.yaml`. In the press repository, that directory is *src/press/data/defaults/*. The Telegraphic and Office editions share `portable.yaml`.
 
-A defaults file also names the Lua filters that pandoc runs over the manuscript, in order. The six files declare three different chains. The PDF, EPUB, HTML, and chunked defaults share one chain of five filters. The print defaults add a sixth filter, `print-safe-images`, in the middle of that chain, and the portable defaults keep only three of the five. @fig:filter-chain sets the three chains side by side, and Table 7.3 in the next section describes each filter.
+A defaults file also names the Lua filters that pandoc runs over the manuscript, in order. The six files declare three different chains. The PDF, EPUB, HTML, and chunked defaults share one chain of five filters. The print defaults add a sixth filter, `print-safe-images`, in the middle of that chain. The portable defaults keep only three of the five. @fig:filter-chain sets the three chains side by side, and Table 7.3 in the next section describes each filter.
 
 ![The Lua filter chain for each family of editions](assets/woodcuts/07-02-filter-chain.png){#fig:filter-chain .diagram width=full-measure fig-alt="Three vertical stacks of filter names. The first has five filters, the print stack adds print-safe-images in the middle, and the portable stack has only typographic-spacing, set-pieces, and figure-numbering."}
 
@@ -162,16 +164,16 @@ The four values in the `metadata:` block of Example 7.3 are `chapter-opening-sty
 
 ## The filter chain
 
-A Lua filter is a small program that pandoc runs over the document between reading the Markdown and writing the edition. The filter sees the document as a tree of headings, paragraphs, images, and spans, and it can change any part of the tree. Much of the press's fine typesetting happens in filters. A filter in a shared chain acts on every edition that runs that chain. Pandoc runs the filters in the order that the defaults file lists them, so a filter sees the document as the filters before it left it.
+A Lua filter is a small program that pandoc runs over the document after it reads the Markdown and before it writes the edition. The filter sees the document as a tree of headings, paragraphs, images, and spans, and it can change any part of the tree. Much of the press's fine typesetting happens in filters. A filter in a shared chain acts on every edition that runs that chain. Pandoc runs the filters in the order that the defaults file lists them, so a filter sees the document as the filters before it left it.
 
-Table 7.3 describes the filters in chain order, followed by the shared helper file. Chapter 4 covers the set pieces (the cascade, the verse, and the tail), the chapter openings, and the scene breaks from the author's side. Chapter 5, *Figures, plates, and illustrations*, covers placements and cross-references.
+Table 7.3 describes the filters in chain order and then the shared helper file. Chapter 4 covers the set pieces (the cascade, the verse, and the tail), the chapter openings, and the scene breaks from the author's side. Chapter 5, *Figures, plates, and illustrations*, covers placements and cross-references.
 
 | Filter | Meaning |
 |--------------------------------|------------------------------------------------------|
 | `typographic-spacing.lua` | This filter puts non-breaking spaces after titles, reference forms, and initials. |
 | `set-pieces.lua` | This filter sets the cascade, the verse, and the tail. |
 | `print-safe-images.lua` | In print only, this filter points every `assets/` image path at the flattened white-ground copy under *build/print-assets/assets/*. |
-| `chapter-dropcap.lua` | This filter splits a chapter's first paragraph into the lead, the initial, the rest of the first word, and the rest of the text, and sets the chapter opening in the PDF and the HTML. |
+| `chapter-dropcap.lua` | This filter splits a chapter's first paragraph into the lead, the initial, the rest of the first word, and the rest of the text. It sets the chapter opening in the PDF and the HTML. |
 | `scene-break.lua` | This filter turns a thematic break into a rule, an asterism, or the fairy-dust ornament. |
 | `figure-numbering.lua` | This filter numbers the informative figures, writes their captions, lays out wraps, leaves, and frontispieces, and resolves `@id` cross-references. |
 | `press-util.lua` | This file holds shared helpers that the other filters use. |
@@ -201,7 +203,7 @@ The reading PDF takes more preparation than the other reading editions. Before p
 
 Example 7.3 shows the results of four of these steps as entries in the rendered defaults, and step 2 as `lof: true`. Chapter 9, *The house design*, describes what the profile and aesthetic files contain. Chapter 10, *Front matter, the index, and the table of authorities*, describes the front matter. The press generates each of these files on every build. None of them is a file you edit, and none of them survives `press clean`.
 
-Pandoc then writes the LaTeX and hands it to latexmk(1), the PDF engine that Example 7.2 names. latexmk runs LuaLaTeX with the `-lualatex` option, as many times as the document needs. The sidebar explains why the press does not let pandoc run LuaLaTeX itself.
+Pandoc then writes the LaTeX and hands it to latexmk(1), the PDF engine that Example 7.2 names. The latexmk program runs LuaLaTeX with the `-lualatex` option, as many times as the document needs. The sidebar explains why the press does not let pandoc run LuaLaTeX itself.
 
 ::: {.sidebar}
 > **The lists that would not converge**
@@ -270,7 +272,7 @@ The press builds three editions for readers who need something other than a type
 
 ### The Manuscript edition
 
-`press markdown` is one of two edition targets that do not call pandoc, and the Source edition is the other. The press writes a short header and then the raw manuscript, with every chapter and appendix stitched together in book order. It removes the attribute blocks from the headings, such as `{.unnumbered}`, and changes nothing else. In the log, the step reports itself with a plus-sign line that is not a command: `+ stitched 4 files -> dist/alice.md`.
+`press markdown` is one of two edition targets that do not call pandoc, and the Source edition is the other. The press writes a short header and then the raw manuscript. It stitches every chapter and appendix together in book order. It removes the attribute blocks from the headings, such as `{.unnumbered}`, and changes nothing else. In the log, the step reports itself with a plus-sign line that is not a command: `+ stitched 4 files -> dist/alice.md`.
 
 ### The Telegraphic and Office editions
 
@@ -278,7 +280,7 @@ The press builds three editions for readers who need something other than a type
 
 ### The Source edition
 
-`press source` writes *dist/alice-source.zip* through the `package_source` module. The zip holds the files that Git tracks in the book repository, and only those. A book outside any Git repository is archived whole, and one untracked inside a parent repository archives nothing. The step prints the path of the zip and then one line of report. For the three-chapter example, that line reads `archived 12 files; excluded dirs ['.git', '__pycache__', 'build', 'dist']`.
+`press source` writes *dist/alice-source.zip* through the `package_source` module. The zip holds the files that Git tracks in the book repository, and only those. If the book sits outside any Git repository, the press archives all of it. If the book sits untracked inside a parent repository, the press archives nothing. The step prints the path of the zip and then one line of report. For the three-chapter example, that line reads `archived 12 files; excluded dirs ['.git', '__pycache__', 'build', 'dist']`.
 
 ::: {.tip}
 > **Tip:** We suggest that you add each new chapter file to Git before you build the Source edition. A file that Git does not track stays out of the zip.
@@ -286,7 +288,7 @@ The press builds three editions for readers who need something other than a type
 
 ## The registry and the order of work
 
-Every artifact that the press can build has one entry in *the registry*, the one statement of the artifact graph, which lives in *src/press/registry.py* in the press repository. The entry names the artifact's files, the artifacts it needs first, and whether the press publishes it. The press generates the artifact table in its *docs/REFERENCE.md* from the registry, so the documentation and the code state the same facts. Table 7.4 reproduces that table exactly, cell for cell.
+Every artifact that the press can build has one entry in *the registry*, the one statement of the artifact graph. The registry lives in *src/press/registry.py* in the press repository. The entry names the artifact's files, the artifacts it needs first, and whether the press publishes it. The press generates the artifact table in its *docs/REFERENCE.md* from the registry, so the documentation and the code state the same facts. Table 7.4 reproduces that table exactly, cell for cell.
 
 | artifact | outputs | prerequisites | published |
 |----------------|--------------------------|------------------------------------------------------------|---------------------------------|
@@ -307,7 +309,7 @@ Table: Table 7.4. The registry's artifact table, from docs/REFERENCE.md
 
 Read the prerequisites column against @fig:build-graph, and notice two things: the Pages bundle waits on nine artifacts, and the print branch stands apart from all of them.
 
-The registry marks both the Pages bundle and the print pack "no" in the published column, for different reasons. The Pages bundle, *dist/pages/*, becomes the Pages site, the Web site that GitHub Pages serves and that holds the downloads, so it is never a download itself. The print pack goes to the GitHub Release when you build it, as Table 7.5 shows. A GitHub Release is the set of files that GitHub keeps beside a tagged version of the book repository. Chapter 14, *Continuous integration and the release contract*, covers the Pages site and the release.
+The registry marks both the Pages bundle and the print pack "no" in the published column, for different reasons. The Pages bundle, *dist/pages/*, becomes the Pages site, the Web site that GitHub Pages serves. The Pages site holds the downloads, so the bundle is never a download itself. The print pack goes to the GitHub Release when you build it, as Table 7.5 shows. A GitHub Release is the set of files that GitHub keeps beside a tagged version of the book repository. Chapter 14, *Continuous integration and the release contract*, covers the Pages site and the release.
 
 The same reference file holds a second table, which Table 7.5 reproduces exactly. It names the code that builds each artifact, the verifier that inspects it, and where the artifact goes when the press publishes the book.
 
@@ -330,7 +332,7 @@ Table: Table 7.5. Builders, verifiers, and destinations, from docs/REFERENCE.md
 
 ### No stale artifact
 
-The prerequisite edges exist because a verifier that reads *dist/* without rebuilding it can bless an artifact that no longer matches the manuscript. Suppose `alice` fixes a sentence in her second chapter and then runs a verifier over last week's PDF. The verifier finds nothing wrong, because last week's PDF was fine. The fix never reached the file, and a green result now covers a stale book. Every verify target rebuilds the artifacts it verifies before it verifies them (one exception, Chapter 8), and the command line offers no way around that.
+The prerequisite edges exist because a verifier that reads *dist/* but does not rebuild it can bless an artifact that no longer matches the manuscript. Suppose `alice` fixes a sentence in her second chapter and then runs a verifier over last week's PDF. The verifier finds nothing wrong, because last week's PDF was fine. The fix never reached the file, and a green result now covers a stale book. Every verify target rebuilds the artifacts it verifies before it verifies them (one exception, Chapter 8), and the command line offers no way around that.
 
 The press records this as an *invariant*, an entry in its ledger of guarded behavior, under the name `INV-graph-no-stale` at the critical level. The ledger also states its limit: the invariant holds on the command-line path only. Code that imports a verifier module directly skips the rebuild.
 
@@ -344,7 +346,7 @@ The print branch of the registry has targets of its own. `press verify-print` bu
 
 ### Generated inputs
 
-Some of the files that pandoc reads are not in your manuscript. Before every pandoc build, the press generates them again by calling the same function, which does three things in order:
+Some of the files that pandoc reads are not in your manuscript. Before every pandoc build, the press calls the same function to generate them again. That function does three things in order:
 
 1. It deletes *build/generated/*.
 2. It generates the subject index again.
@@ -352,11 +354,11 @@ Some of the files that pandoc reads are not in your manuscript. Before every pan
 
 In the words of the press's architecture notes, "the generated appendices are cleaned first so stale copies cannot survive." An index file left over from an earlier build cannot slip into a new edition, because no earlier copy exists when pandoc runs.
 
-The third step produces the sources companion, the one artifact in Table 7.4 that waits on the Manuscript edition. It is a standalone document of the claims in the book and the sources that warrant them, published beside the book. The three-chapter example has no ledger, so it gets no companion. Chapter 10 describes the ledger and what the companion contains.
+The third step produces the sources companion, the one artifact in Table 7.4 that waits on the Manuscript edition. It is a standalone document of the claims in the book and the sources that warrant them. The press publishes it beside the book. The three-chapter example has no ledger, so it gets no companion. Chapter 10 describes the ledger and what the companion contains.
 
 ## What press all does, in order
 
-`press all` runs the checker, the edition targets, and the verifiers for the published artifacts, in six steps. @fig:press-all-sequence draws the sequence as a state machine, and Example 7.4 shows one real run on the three-chapter example on `hatter`, with long lines cut short.
+`press all` runs the checker, the edition targets, and the verifiers for the published artifacts, in six steps. @fig:press-all-sequence draws the sequence as a state machine. Example 7.4 shows one real run on the three-chapter example on `hatter`, with long lines cut short.
 
 ![The press all sequence](assets/woodcuts/07-04-press-all-sequence.png){#fig:press-all-sequence .diagram width=full-measure fig-alt="A row of six states from check to the commerce gate, each joined to the next by a pass arc, with a fail arc from every state down to a single stop box."}
 
@@ -477,7 +479,7 @@ Three targets produce no edition. `press render` shows you the pages, `press wor
 
 ### Rendering the pages
 
-`press render` builds the PDF and then runs pdftoppm(1) over it with the options `-png -r 160`. The result is one PNG for each page, at 160 dots per inch, in *build/rendered-book/*. The files match the pattern *page-\*.png*. Because the target builds the PDF first, the images always show the current manuscript. Use them to look over the book a page at a time, at a fixed resolution.
+`press render` builds the PDF and then runs pdftoppm(1) over it with the options `-png -r 160`. The result is one PNG for each page, at 160 dots per inch, in *build/rendered-book/*. The files match the pattern *page-\*.png*. Because the target builds the PDF first, the images always show the current manuscript. Use them to examine the book a page at a time, at a fixed resolution.
 
 ### Counting the words
 

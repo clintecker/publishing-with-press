@@ -69,7 +69,7 @@ Table: Table 12.2. The six design profiles and the providers that cut them
 
 Each profile declares its ink as `single` or `color`. An unknown id fails with `unknown print profile '<id>'; available: ...`, and the six ids take the place of the dots.
 
-Each profile also carries a *seal*: a short digest of its contents, recorded in *profile-seals.yaml* in the press's package data. The check `check_profile_seals` recomputes every digest and turns red when one disagrees, so a profile's geometry cannot change inside a release without a visible reseal. Contributors who add a profile follow *docs/PROFILE-LIFECYCLE.md* and the `profile-lifecycle` skill, which scaffold it, prove it at its trim, and seal it.
+Each profile also carries a *seal*: a short digest of its contents, recorded in *profile-seals.yaml* in the press's package data. The check `check_profile_seals` recomputes every digest and turns red when one disagrees. A profile's geometry therefore cannot change inside a release without a visible reseal. Contributors who add a profile follow *docs/PROFILE-LIFECYCLE.md* and the `profile-lifecycle` skill, which scaffold it, prove it at its trim, and seal it.
 
 ### The color profile
 
@@ -85,7 +85,7 @@ A color interior has one more requirement, and it comes from the spine. The spin
 
 A *provider* is a print shop's specification as the press records it: `house`, `kdp`, `lulu`, or `ingramspark`. The profile decides what the pages look like. The provider decides how wide the spine is, how far a hardcover's board and hinge extend, and which trims, bindings, and page counts the shop accepts. The default is `house`, a set of numbers that belongs to no shop in particular. The section "The layout" later in this chapter shows how these numbers place the bands of the cover wrap.
 
-The provider data comes from one reviewed ledger, *quality/providers.yaml*, in the press repository. The press generates its installed copy from it, and *docs/PROVIDER-DATA.md* gives the rule: "Never edit it by hand."
+The provider data comes from one reviewed ledger, *quality/providers.yaml*, in the press repository. The press generates its installed copy from it. The file *docs/PROVIDER-DATA.md* gives the rule: "Never edit it by hand."
 
 ### Four spine shapes
 
@@ -102,7 +102,7 @@ The spine is the hard number, and the providers compute it in four different way
 
 <!-- art: ARCHETYPE matrix. Thin rules, header row at 10% gray. Column heads in small sans, widths about 20, 55, and 25 percent: "spine shape", "formula or table", "allowance". Long cells wrap to two or three lines inside the cell. Row labels in small monospace, top to bottom. "house": "constant"; "pages x caliper / white 0.002252 / cream 0.0025"; "0.0". "kdp": "constant"; "pages x caliper / white 0.002252, cream 0.0025 / std-color 0.002252, prem-color 0.002347"; "0.06". "lulu paperback": "divisor"; "pages / 444"; "0.06". "lulu hardcover": "lookup"; "26 bands / 24-84 pp 0.25in ... 779-800 pp 2.0625in"; empty. "ingramspark": "ppi-table"; "pages / ppi / cream 444, white 512 / white-70 377, groundwood 400"; empty. Numbers in small monospace. The reader sees first that the four shapes differ, row by row. -->
 
-The house provider looks like KDP with the allowance set to zero.[^12-allowance] Its calipers are KDP's white and cream figures. That makes it a sound default for a book with no shop chosen yet, and it also means the house spine is no real provider's spine.
+The house provider looks like KDP with the allowance set to zero.[^12-allowance] Its calipers are KDP's white and cream figures. That makes it a sound default for a book with no shop chosen yet. That also means that the house spine is no real provider's spine.
 
 Example 12.2 gives the widths that the four shapes produce for three page counts, in inches. The columns are the house provider, KDP on cream and white (`KDP`, `KDP-w`), and a Lulu paperback (`Lulu-PB`). Then come IngramSpark on cream and white (`Ing-c`, `Ing-w`) and a Lulu hardcover (`Lulu-HC`).
 
@@ -134,7 +134,7 @@ The ledger marks Lulu's two dust-jacket figures UNCONFIRMED, and it marks Ingram
 
 ### Paper and the Lulu paperback
 
-The paper setting matters for two of the four shapes. The `constant` shape and the `ppi-table` shape both read `print.paper`, so a white book and a cream book get different spines at KDP, at IngramSpark, and on the house provider. The key takes `white` or `cream`, and the default is `cream`:
+The paper setting matters for two of the four shapes. The `constant` shape and the `ppi-table` shape both read `print.paper`. So a white book and a cream book get different spines at KDP, at IngramSpark, and on the house provider. The key takes `white` or `cream`, and the default is `cream`:
 
 ```text
 $ press config set print.paper white
@@ -150,29 +150,31 @@ The `divisor` shape does not read the paper. A Lulu paperback of 200 pages has a
 
 The print interior and the Print edition come from the same manuscript, but they are different artifacts. The Print edition, *dist/alice.pdf*, is for reading. The print interior, *dist/alice-interior.pdf*, is for a printing press. It is set two-sided, with mirrored margins. It prints in a single ink unless the profile says `color`. Its images come from the print-safe copies in *build/print-assets/*, which the section "Print-safe images" later in this chapter describes.
 
-`press print` builds the interior and nothing else. Pandoc and latexmk set it with the `print.yaml` defaults, two-sided, with the print-safe filter added to the chain. Run it when you want to look at the interior before any verifier reads it, for example after you move a figure. The target writes *dist/alice-interior.pdf*. It runs no verifier, so treat that file as a draft.
+`press print` builds the interior and nothing else. Pandoc and latexmk set it with the `print.yaml` defaults, two-sided, with the print-safe filter added to the chain. Run it when you want to examine the interior before any verifier reads it, for example after you move a figure. The target writes *dist/alice-interior.pdf*. It runs no verifier, so treat that file as a draft.
 
 The `print.yaml` defaults spell the open-chapter option the KOMA way, for the reason Chapter 9 tells.
 
-`press verify-print` is the target you upload from. It builds the interior, runs the print verifier on it, and then builds and verifies the cover wrap, because the Alice book has *assets/cover.jpg*. Without a cover, the target prints `no assets/cover.jpg; interior verified, wrap not built` and stops there. Chapter 8, *Verifying the artifacts*, gives the checks of the print verifier in full.
+`press verify-print` is the target you upload from. It builds the interior and runs the print verifier on it. Then it builds and verifies the cover wrap, because the Alice book has *assets/cover.jpg*. Without a cover, the target prints `no assets/cover.jpg; interior verified, wrap not built` and stops there. Chapter 8, *Verifying the artifacts*, gives the checks of the print verifier in full.
 
-`press all` does not build the print pack. Its own targets do, and the *commerce gate* (the last step of `press all`) builds it in a book that enables print ordering.
+`press all` does not build the print pack. Its own targets do. The *commerce gate* (the last step of `press all`) also builds it in a book that enables print ordering.
 
 ::: {.tip}
 > **Tip:** Run `press verify-print` before every upload to a print shop.
 :::
 
-The print verifier fails a single-ink interior that carries color. One source of color is code. A code block with a language tag gets syntax highlighting, and the highlighting prints in colored ink. The verifier then fails the whole interior with `print profile: colored ink on pages [N]`. Tag the block `text` instead, as Chapter 4, *Writing the manuscript*, advises. Another source is a colored cover plate in a hand-written *tex/title-page.tex*. That plate belongs on the wrap, and you can supply *tex/title-page-print.tex* without it for the print interior.
+The print verifier fails a single-ink interior that carries color. One source of color is code. A code block with a language tag gets syntax highlighting, and the highlighting prints in colored ink. The verifier then fails the whole interior with `print profile: colored ink on pages [N]`. Tag the block `text` instead, as Chapter 4, *Writing the manuscript*, advises.
+
+Another source is a colored cover plate in a hand-written *tex/title-page.tex*. That plate belongs on the wrap, and you can supply *tex/title-page-print.tex* without it for the print interior.
 
 ## The cover wrap
 
 `press coverwrap` builds the cover wrap, *dist/alice-coverwrap.pdf*. It builds the `print` target first, because the spine depends on the page count. The press reads that count from the finished interior with pypdf, so the spine always matches the pages you actually have.
 
-The wrap needs more from the book than the interior. It needs the cover art at *assets/cover.jpg*, and without it the press refuses the target with `coverwrap needs assets/cover.jpg`. It needs the title, the author, the publisher, and the place of publication from the metadata. With those in place, the press lays out the page and sets it with LuaLaTeX.
+The wrap needs more from the book than the interior. It needs the cover art at *assets/cover.jpg*. Without it, the press refuses the target with `coverwrap needs assets/cover.jpg`. It needs the title, the author, the publisher, and the place of publication from the metadata. With those in place, the press lays out the page and sets it with LuaLaTeX.
 
 ### The layout
 
-Four print terms name the edges of the wrap. The *trim* is the line where the shop cuts the cover to size. The *bleed* is the band of art that runs past the trim, so that the cut leaves no white sliver at the edge. The press fixes the bleed at `BLEED_IN = 0.125`, which the source calls "universal across print vendors", and every provider in the ledger declares the same 0.125in.
+Four print terms name the edges of the wrap. The *trim* is the line where the shop cuts the cover to size. The *bleed* is the band of art that runs past the trim, so that the cut leaves no white sliver at the edge. The press fixes the bleed at `BLEED_IN = 0.125`, which the source calls "universal across print vendors". Every provider in the ledger declares the same 0.125in.
 
 The *safety* is a line inside the trim that a shop asks you to keep type within. The ledger records 0.25in for KDP and IngramSpark and 0.5in for Lulu, and none for the house provider. The press does not draw or check a safety line, so keeping the type inside it is your job.
 
@@ -190,7 +192,9 @@ front_x = back_x + panel_w + spine
 
 The *inner offset* is the sum of the binding's own extra widths: `inner = hinge + flap + strip`. The flap folds inside the board of a dust jacket, and the strip is the narrow band that joins it to the panel. A paperback has none of the three, so its inner offset is zero. The margin of a paperback is the bleed. A casewrap takes its margin, the turn-in, from the provider.
 
-The two deltas adjust a panel from the trim to the board or jacket size, and the provider's spec sets them. For the house and KDP soft covers, both are zero. For a hardcover, they depend on the provider. The Lulu casewrap in Table 12.4 comes out 0.25in taller and 0.25in wider than its margins, hinges, trim, and spine alone give, and that difference is the two deltas. IngramSpark sets deltas of its own: 0.4375in wide and 0.25in high for its dust jacket, and -0.185in wide for its casewrap. A negative delta is why the IngramSpark casewrap comes out narrower than the same sum.
+The two deltas adjust a panel from the trim to the board or jacket size, and the provider's spec sets them. For the house and KDP soft covers, both are zero. For a hardcover, they depend on the provider.
+
+The Lulu casewrap in Table 12.4 comes out 0.25in taller and 0.25in wider than its margins, hinges, trim, and spine alone give. That difference is the two deltas. IngramSpark sets deltas of its own: 0.4375in wide and 0.25in high for its dust jacket, and -0.185in wide for its casewrap. A negative delta is why the IngramSpark casewrap comes out narrower than the same sum.
 
 @fig:cover-wrap-anatomy draws the house example: a 6 by 9 perfect-bound book of 200 pages on cream stock (`paper: cream`). The panel is the 6-inch trim. The spine is 200 pages times 0.0025in, or 0.5in. The width is 2 times 0.125, plus 2 times 6, plus 0.5, which is 12.75in. The height is 2 times 0.125 plus 9, or 9.25in.
 
@@ -214,9 +218,11 @@ Table: Table 12.4. One book's cover wrap under seven settings
 
 ### What goes on the wrap
 
-The cover art fills the front panel at the full height of the wrap, from bleed to bleed. On a soft cover it also runs out through the bleed on the outer edge, so for the house example *assets/cover.jpg* fills 6.125 by 9.25 inches. On a hardcover or a jacket, with a hinge or a flap beside the panel, the art keeps to the panel width alone. The wrap verifier looks for the art on the front panel and fails a wrap whose front panel is nearly flat.
+The cover art fills the front panel at the full height of the wrap, from bleed to bleed. On a soft cover, it also runs out through the bleed on the outer edge. For the house example, *assets/cover.jpg* fills 6.125 by 9.25 inches. On a hardcover or a jacket, with a hinge or a flap beside the panel, the art keeps to the panel width alone. The wrap verifier looks for the art on the front panel and fails a wrap whose front panel is nearly flat.
 
-The press sets its own type on the back panel, and it puts the logomark there at 1.1in wide. The barcode sits at the lower right of the same panel. Any lettering on the front, the title included, belongs in *assets/cover.jpg* itself. On a printed cover, the press lays down a cloth-colored field, RGB (201,191,191), and for a `linen` cover it drops that field, since the cloth is real. The press draws spine text only when the spine is at least 0.25in wide. Chapter 11, *The art department*, covers the making of the cover art itself.
+The press sets its own type on the back panel, and it puts the logomark there at 1.1in wide. The barcode sits at the lower right of the same panel. Any lettering on the front, the title included, belongs in *assets/cover.jpg* itself.
+
+On a printed cover, the press lays down a cloth-colored field, RGB (201,191,191). For a `linen` cover, it drops that field, since the cloth is real. The press draws spine text only when the spine is at least 0.25in wide. Chapter 11, *The art department*, tells how to make the cover art itself.
 
 The press compiles the wrap with `latexmk -lualatex` in *build/coverwrap*. When LuaLaTeX finishes, the press checks the page's mediabox against the computed layout within 0.01in.
 
@@ -243,7 +249,7 @@ check    (10 - 93 % 10) % 10 = 7
 The press then draws the bars from the fixed 95-module pattern that the EAN-13 standard defines. If the check digit does not match, the press refuses the ISBN, because "a mistyped ISBN on a cover is unrecoverable". The check digit catches most typing errors. It does not catch a valid number that belongs to some other book.
 
 ::: {.warning}
-> **Warning:** Read the ISBN on the proof against your registration record before you approve a printing. The check digit shows only that the number is well formed, and nobody can correct a cover printed with the wrong book's ISBN.
+> **Warning:** Read the ISBN on the proof against your registration record before you approve a printing. The check digit shows only that the number is well formed. Nobody can correct a cover printed with the wrong book's ISBN.
 :::
 
 ### The placeholder that says pending
@@ -297,7 +303,7 @@ The interior goes through `verify_pdf` with the print profile, which Chapter 8 d
 
 Table: Table 12.5. The `verify_coverwrap` checks, in order
 
-The size check compares the wrap with the arithmetic that built it, so the generator and the verifier cannot disagree about the spine. The transparency message names the reason for the rule: "coverwrap embeds N image(s) with transparency (a soft mask); a print preflight flags it...". If the front panel has almost no variation, the verifier says that "the cover art did not survive". An EAN-13 has 59 transitions across its bars, and the check asks for at least 25. `verify_coverwrap` reports each fault by name, so the message tells you which check to look at.
+The size check compares the wrap with the arithmetic that built it, so the generator and the verifier cannot disagree about the spine. The transparency message names the reason for the rule: "coverwrap embeds N image(s) with transparency (a soft mask); a print preflight flags it...". If the front panel has almost no variation, the verifier says that "the cover art did not survive". An EAN-13 has 59 transitions across its bars, and the check asks for at least 25. `verify_coverwrap` reports each fault by name, so the message tells you which check to examine.
 
 When every check passes, the verifier prints one line. Example 12.5 gives its form. The last clause reads one way for a wrap with an ISBN and the other way for a placeholder.
 
@@ -316,7 +322,7 @@ A verified PDF tells you that the files are right. It cannot tell you that the s
 
 ### The researched providers
 
-The ledger keeps a second list of shops, the candidates for print ordering. It is separate from the four values of `print.provider`, and you cannot set `print.provider` to a name that appears only here. The ledger gives each researched shop a *disposition*, one of `primary`, `secondary`, `hosted-candidate`, `candidate`, or `not-fit`, and it scores each one on 11 capabilities, such as `api` and `one_copy_pod`. Table 12.6 gives the dispositions.
+The ledger keeps a second list of shops, the candidates for print ordering. It is separate from the four values of `print.provider`, and you cannot set `print.provider` to a name that appears only here. The ledger gives each researched shop a *disposition*, one of `primary`, `secondary`, `hosted-candidate`, `candidate`, or `not-fit`. It also scores each one on 11 capabilities, such as `api` and `one_copy_pod`. Table 12.6 gives the dispositions.
 
 | Provider | Meaning |
 |--------------------|-------------------------------------------------------------------|
@@ -379,13 +385,15 @@ inspections:
 
 ### Edition identity
 
-An inspection holds for one exact edition, named by its `edition_id`. The press computes the id, and the commerce gate computes it again each time it builds the edition manifest. The press shows only the first twelve characters of the id. The gate prints `edition <first 12 characters> (<edition>)`, and `python3 -m press.edition verify` prints `identity` followed by the same twelve. The full value lives in the manifest file that the gate writes, and that is where you copy it from for the record. The id is a sha256 hash over the production facts only: the interior bytes, the cover bytes, the print spec, the ISBN, and the toolchain digest. The source commit, the state of the tree, the receipts, and the qualifications themselves stay out of the hash.
+An inspection holds for one exact edition, named by its `edition_id`. The press computes the id, and the commerce gate computes it again each time it builds the edition manifest. The press shows only the first twelve characters of the id. The gate prints `edition <first 12 characters> (<edition>)`, and `python3 -m press.edition verify` prints `identity` followed by the same twelve. The full value lives in the manifest file that the gate writes. You copy it from there for the record.
+
+The id is a sha256 hash over the production facts only: the interior bytes, the cover bytes, the print spec, the ISBN, and the toolchain digest. The source commit, the state of the tree, the receipts, and the qualifications themselves stay out of the hash.
 
 The choice of inputs decides when an inspection stops holding. A new commit that changes no printed byte keeps the same id, so the old inspection still applies. A change to the manuscript, the cover, or the print spec mints a new id. You then order and inspect a new copy. The manifest itself must not carry money or personal details, and the press forbids keys such as `price` and `email` anywhere in it. To check a manifest file, run `python3 -m press.edition verify <manifest.json> [<book-root>]`.
 
 ## Publish checklists
 
-KDP and IngramSpark each want the same files in their own forms, plus a set of answers that only you can give. For both shops, the press's route is `press publish`. It builds and verifies the files and writes a checklist, and you do the uploads and the account work at the shop. The synopsis is:
+KDP and IngramSpark each want the same files in their own forms, plus a set of answers that only you can give. For both shops, the press's route is `press publish`. It builds and verifies the files and writes a checklist. You do the uploads and the account work at the shop. The synopsis is:
 
 ```text
 press publish kdp|ingram [--report-only]
@@ -403,7 +411,7 @@ Table: Table 12.8. The three sections of a publish checklist
 
 | Channel | Meaning |
 |-----------|-------------------------------------------------------------------|
-| `kdp` | "KDP account with tax interview completed", Category selections (2 allowed; note 10 keyword slots)", Pricing per marketplace and royalty option (60% print)", Order a physical proof before approving publication". |
+| `kdp` | "KDP account with tax interview completed", "Category selections (2 allowed; note 10 keyword slots)", "Pricing per marketplace and royalty option (60% print)", "Order a physical proof before approving publication". |
 | `ingram` | "IngramSpark account and title setup fee", "BISAC subject codes (3 allowed)", "Wholesale discount and returns policy decisions", "Order a physical proof before enabling distribution". |
 
 Table: Table 12.9. The items only a person can do, by channel
@@ -477,7 +485,7 @@ commerce:
         your order.
 ```
 
-The `seller-of-record` value names who the reader buys from, and only you can establish it. The press's model is that the provider sells the copy, and the documentation's own sample writes `"Lulu"` in this field. The ledger, the reviewed source, records Lulu as `unsupported` for `seller_of_record`. Whether a provider is legally the seller is a question for you and the provider's own terms, so confirm it before you publish the link.
+The `seller-of-record` value names who the reader buys from, and only you can establish it. The press's model is that the provider sells the copy, and the documentation's own sample writes `"Lulu"` in this field. The ledger, the reviewed source, records Lulu as `unsupported` for `seller_of_record`. Whether a provider is legally the seller is a question for you and the provider's own terms. Confirm it before you publish the link.
 
 The landing page then shows an accessible, script-free `<aside class="print-order">` headed "Order a print copy". The link carries `rel="noopener noreferrer"`. Before the reader leaves the page, the aside names the seller. For each policy URL you leave out, the press generates a page, *support.html*, *privacy.html*, or *refunds.html*, that discloses the seller. The documentation is firm about the limit: "press never invents legal terms."
 
@@ -493,6 +501,9 @@ The landing page then shows an accessible, script-free `<aside class="print-orde
 The press stops at the link. It does not "process or store payment, calculate tax, hold provider credentials, receive a reader's name or address, or operate a store." A checkout of the press's own sits in the roadmap's Icebox, its list of deferred work.[^12-adapter] The barcode, the checklist, and the manifest all carry the ISBN from your registrations. Chapter 13, *Registrations*, covers that paperwork.
 
 [^12-allowance]: The comment beside the house allowance in the provider ledger reads "v1 value; real specs use 0.06".
+
 [^12-ingram]: The ledger notes that "Ingram is the one vendor whose casewrap and jacket TOTAL formulas are officially published".
+
 [^12-kdpdate]: At the time of this writing, the ledger records the KDP spec as verified on 2026-07-21. Provider specifications change, and the ledger date tells you how old the numbers are.
+
 [^12-adapter]: The press repository does contain a provider-neutral order contract and an adapter for Lulu's Print API, under *src/press/providers/*. The adapter defaults to Lulu's sandbox, and at the time of this writing only the tests reach it. No command uses it.

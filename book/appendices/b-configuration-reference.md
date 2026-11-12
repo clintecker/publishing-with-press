@@ -34,7 +34,7 @@ The metadata file holds the book's identity, the press facts, the verification k
 ### Identity {-}
 
 **`title`**
-: Type `str`, required. The book's title. The generated title page sets it in capitals and adds a period unless the title already ends in a period, an exclamation mark, or a question mark. See Chapter 3.
+: Type `str`, required. The book's title. The generated title page sets it in capitals. It adds a period unless the title already ends in a period, an exclamation mark, or a question mark. See Chapter 3.
 
 **`subtitle`**
 : Type `str`, default none. The subtitle. If you write it as clauses joined by "or," (for example `"OR, ...; OR, ..."`), it stacks on the title page, one clause to a line. It also stacks on the landing page. The scaffold writes `"A subtitle"`. See Chapters 3 and 10.
@@ -43,7 +43,7 @@ The metadata file holds the book's identity, the press facts, the verification k
 : Type `list[str]`, required. The byline, one name per list item. The model also accepts a single string and makes it a list of one. The scaffold writes the name given to `press new --author`, else the name in `git config user.name`, else "The Author". See Chapter 3.
 
 **`date`**
-: Type `str`, default none. Free text. The press takes the first four-digit year in it that begins with 1 or 2. It uses that year for the EPUB date and for the lowercase roman numerals on the title page. Unless you set `edition-note`, the colophon's edition line comes from the text before the first comma, lowercased. The scaffold writes `"First edition, 2026"`. See Chapters 3 and 10.
+: Type `str`, default none. The press reads this free text for the first four-digit year that begins with 1 or 2. It uses that year for the EPUB date and for the lowercase roman numerals on the title page. Unless you set `edition-note`, the colophon's edition line comes from the text before the first comma, lowercased. The scaffold writes `"First edition, 2026"`. See Chapters 3 and 10.
 
 **`copyright`**
 : Type `str`, default none. The copyright line. The press requires it once *config/front-matter.yaml* exists. The scaffold writes `"Copyright 2026."`. See Chapter 10.
@@ -108,7 +108,7 @@ The `print` keys choose the print interior and the cover wrap. The profile, the 
 : Type `str`, default `house-6x9`. The design profile, which seals the trim and the interior geometry. The six house profiles are `house-6x9`, `house-6x9-color`, `novella-5x8`, `digest-5.5x8.5`, `mass-market-4.25x6.87`, and `large-print-7x10`. The press refuses an unknown id with `unknown print profile '<id>'; available: ...`. See Chapters 9 and 12.
 
 **`print.provider`**
-: Type `str`, default `house`. The provider whose numbers decide the spine, the bleed, and the cover wrap: `house`, `kdp`, `lulu`, or `ingramspark`. The `house` numbers are KDP-like page calipers with no spine allowance, the press's v1 values. Before you design the cover, set this key to the shop that will print the book. For a Lulu paperback, set it to `lulu`. See Chapter 12.
+: Type `str`, default `house`. The provider whose numbers decide the spine, the bleed, and the cover wrap: `house`, `kdp`, `lulu`, or `ingramspark`. The `house` numbers are KDP-like page calipers with no spine allowance, the press's v1 values. Before you design the cover, set this key to the shop that will print the book, such as `lulu` for a Lulu paperback. See Chapter 12.
 
 **`print.binding`**
 : Type `str`, default `perfect-bound`. The binding style, one of `perfect-bound`, `saddle-stitch`, `coil`, `casewrap`, or `dust-jacket`. It decides the cover's shape: a spine for `perfect-bound`, no spine for `saddle-stitch` and `coil`, a printed board with turn-in and hinge for `casewrap`, and flaps for `dust-jacket`. See Chapter 12.
@@ -120,7 +120,7 @@ The `print` keys choose the print interior and the cover wrap. The profile, the 
 : Type `str`, default `cream`. The interior stock, `white` or `cream`. The `house`, `kdp`, and `ingramspark` providers read it for the spine width. Lulu computes its paperback spine from the page count alone. See Chapter 12.
 
 **`print.page-thickness`**
-: Type `float`, default none. Inches per page. When you set it, the press uses it in place of the paper's thickness, except for a Lulu hardcover, whose spine comes from Lulu's table of page-count bands. See Chapter 12.
+: Type `float`, default none. Inches per page. When you set it, the press uses it in place of the paper's thickness. The exception is a Lulu hardcover, whose spine comes from Lulu's table of page-count bands. See Chapter 12.
 
 **`print.color-grade`**
 : Type `str`, default `standard-color`. The stock grade for a color interior, `standard-color` or `premium-color`. Only the `house-6x9-color` profile reads it. That profile needs a provider with a documented color caliper, which at the time of this writing means `kdp`. See Chapter 12.
@@ -177,7 +177,7 @@ The commerce keys control direct print ordering: a link on the landing page to a
 : Type `str`, default none. The storefront the link opens. It must be an HTTPS URL. See Chapter 12.
 
 **`commerce.print-ordering.seller-of-record`**
-: Type `str`, default none. The party the reader buys from, named on the landing page before the reader leaves it. The press's model has the provider as the seller. You must confirm who the legal seller is. See Chapter 12.
+: Type `str`, default none. The party the reader buys from, which the press names on the landing page before the reader leaves it. The press's model has the provider as the seller. You must confirm who the legal seller is. See Chapter 12.
 
 **`commerce.print-ordering.support-url`**
 : Type `str`, default none. A support page, which must be an HTTPS URL. If you omit it, the press generates *support.html*, which names the seller. See Chapter 12.
@@ -199,7 +199,9 @@ The commerce keys control direct print ordering: a link on the landing page to a
 
 ## *config/front-matter.yaml* {-}
 
-The presence of this file asks the press to generate the PDF's front matter: the title page, the copyright page, and the dedication, epigraph, and acknowledgments pages. The press calls the copyright page the colophon. The identity facts come from *config/metadata.yaml*. An absent key does not print. The scaffold writes the file with every key commented out. If the file is missing, `press config set` creates it. A file at *tex/title-page.tex* overrides all of it. Chapter 10, *Front matter, the index, and the table of authorities*, explains every key.
+When this file exists, the press generates the PDF's front matter: the title page, the copyright page, and the dedication, epigraph, and acknowledgments pages. A file at *tex/title-page.tex* overrides all of it. The press calls the copyright page the colophon. The identity facts come from *config/metadata.yaml*. An absent key does not print.
+
+The scaffold writes the file with every key commented out. If the file is missing, `press config set` creates it. Chapter 10, *Front matter, the index, and the table of authorities*, explains every key.
 
 **`edition-note`**
 : Type `str`, default the date's text before its first comma, lowercased. The edition line at the top of the colophon, such as `"first edition, second printing"`. See Chapter 10.
@@ -248,9 +250,13 @@ The house rules are the book's own additions to the checker. The scaffold writes
 
 ## *config/aesthetic.yaml* {-}
 
-The aesthetic is the book's visual identity. Press merges the book's file over the house aesthetic, named "Victorian treatise". The merge works at the top level only: a section the book names, such as `cover`, replaces the whole house section. Restate a whole section when you touch it. `press aesthetic` with no argument prints the merged result. The defaults below are the house values. Chapter 9, *The house design*, explains the keys that change the design, and Chapter 11, *The art department*, explains the keys that direct the art.
+The aesthetic is the book's visual identity. Press merges the book's file over the house aesthetic, named "Victorian treatise". The merge works at the top level only: a section the book names, such as `cover`, replaces the whole house section. When you touch a section, restate the whole section.
 
-Most keys in this file are prose that the art commissions quote to an image model. The build itself reads only `scene-break`, the `typography` keys, the two palettes, and `book-colors`. Intake and `press art enhance` also read `plates.medium`. Certain craft laws hold whatever the aesthetic says. The exact title and author appear verbatim on the art, cover plates are flat, and the trim is the trim. Print interiors are single ink, except under the `house-6x9-color` profile.
+`press aesthetic` with no argument prints the merged result. The defaults below are the house values. Chapter 9, *The house design*, explains the keys that change the design, and Chapter 11, *The art department*, explains the keys that direct the art.
+
+Most keys in this file are prose that the art commissions quote to an image model. The build itself reads only `scene-break`, the `typography` keys, the two palettes, and `book-colors`. Intake and `press art enhance` also read `plates.medium`.
+
+Certain craft laws hold whatever the aesthetic says: the exact title and author appear verbatim on the art, cover plates are flat, and the trim is the trim. Print interiors are single ink, except under the `house-6x9-color` profile.
 
 ### Direction for the art {-}
 
@@ -314,7 +320,7 @@ Most keys in this file are prose that the art commissions quote to an image mode
 : Type `mapping`, default the house light palette. Each entry maps a token to a `#hex` color. Press writes the palette into the light theme of the reader stylesheet. The tokens are `paper`, `paper-warm`, `ink`, `ink-soft`, `cloth`, `cloth-deep`, `foil`, `foil-bright`, `foil-deep`, `hairline`, `link`, and `ornament`. The cover prompts also read `paper` and `accent`. The house palette defines no `accent`, so the cover prompt uses `#7a2325` unless the book sets one. See Chapters 9 and 11.
 
 **`web-palette-dark`**
-: Type `mapping`, default the house dark palette, which sets `cloth`, `paper`, `paper-warm`, `ink`, and `ink-soft`. Token to `#hex` for the dark theme, written into the reader stylesheet after its dark-mode media query. See Chapter 9.
+: Type `mapping`, default the house dark palette, which sets `cloth`, `paper`, `paper-warm`, `ink`, and `ink-soft`. Each entry maps a token to a `#hex` color for the dark theme. Press writes the palette into the reader stylesheet after its dark-mode media query. See Chapter 9.
 
 **`book-colors.ink`**
 : Type `str`, default `171717`. The PDF's ink color, as six hex digits without a `#`. Press writes each book color as a `\definecolor` line in *build/aesthetic.tex*. When the book sets no override, press removes that file. See Chapter 9.
@@ -332,7 +338,7 @@ To draft the file, run `press aesthetic "<brief>"`, which runs the `aesthetic-br
 
 ## *config/index-terms.yaml* {-}
 
-This file holds the curated terms of the subject index. In `press config list` it is the structured field `index-terms`. The press's help text names an "index workflow", but at the time of this writing none ships, so edit the file by hand. With no file, the book has no index. Chapter 10 explains the index.
+This file holds the curated terms of the subject index. In `press config list` it is the structured field `index-terms`. The press's help text names an "index workflow", but at the time of this writing none ships. Edit the file by hand. With no file, the book has no index. Chapter 10 explains the index.
 
 The file is a list, not a mapping, and each entry has two keys. Example B.2 shows two entries.
 
@@ -358,7 +364,7 @@ A term that matches nothing fails the build with `gen_index: curated terms match
 This file is the table of authorities: a list of claims of fact in the manuscript and the sources that warrant them. In `press config list` it is the structured field `authorities`, which the `authorities-research` workflow populates. Every build checks every entry, and the press renders the ledger as the sources companion, `dist/<slug>-sources.md`, beside the book. Chapter 10 explains the ledger and its refusals.
 
 **`claim`**
-: Type `str`, required. An exact fragment of the manuscript's prose. The press matches it as a case-sensitive substring after it normalizes whitespace. Rewording the sentence in the chapter fails the build until you update the claim. See Chapter 10.
+: Type `str`, required. An exact fragment of the manuscript's prose. The press matches it as a case-sensitive substring after it normalizes whitespace. If you reword the sentence in the chapter, the build fails until you update the claim. See Chapter 10.
 
 **`authority`**
 : Type `str`, required. The source that warrants the claim. See Chapter 10.
@@ -422,7 +428,7 @@ The illustration styles are the prompt templates for `press illustrate`. A book'
 : Type `str`. A one-line description, printed by `press illustrate --list`. See Chapter 11.
 
 **`styles.<id>.source`**
-: Type `str`, optional. With `required`, the style needs an image to redraw, given with `--from`. The house style `figure-from-photo` is the one that requires it. Without `--from`, the press refuses such a style with `the <style> style needs source material: --from <image>`. See Chapter 11.
+: Type `str`, optional. With `required`, the style needs an image to redraw, which you give with `--from`. The house style `figure-from-photo` is the one that requires it. Without `--from`, the press refuses such a style with `the <style> style needs source material: --from <image>`. See Chapter 11.
 
 **`styles.<id>.prompt`**
 : Type `str`. The prompt template. It can use `{subject}`, `{ink}`, and `{paper}`. The `{ink}` field reads `book-colors.ink`, then `web-palette.ink`, then `#1b1b1b`. The house `book-colors.ink` is `171717` with no `#`, so a house prompt reads "in 171717 ink". The `{paper}` field reads `web-palette.paper`, then `#f4f1e6`. Press always appends its own guard: a single ink, and no words, caption, border, watermark, or signature. See Chapter 11.

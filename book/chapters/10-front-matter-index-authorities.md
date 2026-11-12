@@ -36,7 +36,9 @@ Table: Table 10.1. Book parts the press does not generate
 
 The scaffold writes *config/front-matter.yaml* into every new book, with every key commented out. The file matters even while it is empty, so a new book gets generated front matter from its first build.
 
-The file opens with a comment of eight lines. It says that the file's presence asks the press "to generate the PDF's title page, colophon, and surrounding pages from config", and that you opt out if you delete the file or supply *tex/title-page.tex*. It adds that "absent sections simply do not render", and that the identity facts "come from metadata.yaml and are never restated here." Example 10.1 shows the keys that follow the comment. The excerpt leaves out that opening comment, a three-line comment on the colophon keys, the sample text under the three folded keys, and the sample `motto` line.
+The file opens with a comment of eight lines. It says that the file's presence asks the press "to generate the PDF's title page, colophon, and surrounding pages from config". It also says that you opt out if you delete the file or supply *tex/title-page.tex*. The comment adds that "absent sections simply do not render". It says that the identity facts "come from metadata.yaml and are never restated here."
+
+Example 10.1 shows the keys that follow the comment. The excerpt leaves out that opening comment, a three-line comment on the colophon keys, the sample text under the three folded keys, and the sample `motto` line.
 
 **Example 10.1. The keys of the scaffolded config/front-matter.yaml**
 
@@ -82,7 +84,7 @@ The press escapes every value before TeX sees it. A backslash, an ampersand, a p
 
 ### Setting the keys from the command line
 
-You can edit the file by hand, but `press config` is the shorter path. Example 10.2 shows user `alice` replacing the scaffold's placeholder identity facts and filling in the Alice front matter in one sitting. The `date` command in it repeats the value that the scaffold wrote.
+You can edit the file by hand, but `press config` is the shorter path. In Example 10.2, user `alice` replaces the scaffold's placeholder identity facts and fills in the Alice front matter in one sitting. The `date` command in it repeats the value that the scaffold wrote.
 
 **Example 10.2. Setting the Alice front matter**
 
@@ -159,7 +161,7 @@ The title page then shows "a tale for children" in small capitals, then "or," on
 
 ## The copyright page
 
-The press calls the page after the title page the *colophon*, although most readers know it as the copyright page.[^10-colophon] It holds the legal and production facts, and every line comes from the book's own files. Table 10.4 lists the lines in the order the press sets them.
+The press calls the page after the title page the *colophon*,[^10-colophon] although most readers know it as the copyright page. It holds the legal and production facts, and every line comes from the book's own files. Table 10.4 lists the lines in the order the press sets them.
 
 | Line | Meaning |
 |-------------------|----------------------------------------------------------------|
@@ -179,7 +181,7 @@ Table: Table 10.4. The lines of the copyright page, in order
 
 The Alice settings from Example 10.2 produce a short page. The edition line reads "First edition", because the `edition-note` overrides the line from the date. Without that note, the date "First edition, 2026" would give "first edition" in lowercase. The copyright line, "Published by Wonderland Press", and "Oxford" follow. The Alice book declares no rights notice, manufacture line, registrations, contact, or colophon note, so none of those lines appears. It has no logomark either, so "Made slowly." is the last line on the page.
 
-The registration lines come from the `registrations` block in *config/metadata.yaml*. A number you do not hold yet can stand as `pending`, and the press prints it as "[pending]" on the page. The same numbers flow into the EPUB identifier and the barcode on the cover wrap. The copyright page therefore cannot show an ISBN that the EPUB does not carry. Chapter 13, *Registrations*, covers the numbers themselves and the `retail` switch, under which a missing or pending ISBN, or a declared LCCN or ISSN still pending, fails the build.
+The registration lines come from the `registrations` block in *config/metadata.yaml*. A number you do not hold yet can stand as `pending`, and the press prints it as "[pending]" on the page. The same numbers flow into the EPUB identifier and the barcode on the cover wrap. The copyright page therefore cannot show an ISBN that the EPUB does not carry. Chapter 13, *Registrations*, covers the numbers themselves and the `retail` switch. Under that switch, a missing or pending ISBN fails the build, and so does a declared LCCN or ISSN still pending.
 
 The print interior gets a flattened copy of every image, the logomark included, as Chapter 12, *The print pack*, describes.
 
@@ -187,11 +189,11 @@ The print interior gets a flattened copy of every image, the logomark included, 
 
 Three pages follow the copyright page, each only when you set its key. The dedication sits 2.1 inches down the page, in an italic column 3.1 inches wide. The epigraph starts 1.7 inches down, with the quote large and italic and the attribution in a muted color. The acknowledgments start 1.2 inches down, in a column 3.6 inches wide. For each optional page, the press either keeps the page whole or drops it whole, and a dropped page leaves no trace.
 
-The generated front matter ends with the acknowledgments. The Contents follows, and pandoc's table of contents produces it. The List of Plates and the List of Figures come next, and the house TeX header sets each one only when the book has plates or numbered figures. Neither configuration file feeds those three pages.
+The generated front matter ends with the acknowledgments. The Contents follows, and pandoc's table of contents produces it. The List of Plates and the List of Figures come next. The house TeX header sets each one only when the book has plates or numbered figures. Neither configuration file feeds those three pages.
 
 ## Overriding the front matter
 
-The generated front matter depends on three conditions, and the press tests them in a fixed order. Table 10.5 gives the decision the press makes on each build of the reading PDF.
+The generated front matter depends on three conditions, and the press tests them in a fixed order. Table 10.5 shows what the press decides on each build of the reading PDF.
 
 | Condition | Meaning |
 |-------------------------------|-------------------------------------------------------|
@@ -272,7 +274,7 @@ The match itself ignores case. A match must also stand alone: the character on e
 
 ### The zero-hit rule
 
-A term that matches nothing anywhere in the manuscript is a fault, and the press refuses the build. A revision that cuts the last mention of a term leaves it in this state, and the zero-hit rule turns the cut into a refusal you see at your desk.[^10-silence] The message names every such term at once, as Example 10.4 shows.
+A term that matches nothing anywhere in the manuscript is a fault, and the press refuses the build. A revision that cuts the last mention of a term leaves it in this state. The zero-hit rule turns the cut into a refusal you see at your desk.[^10-silence] The message names every such term at once, as Example 10.4 shows.
 
 **Example 10.4. A term that matches nothing**
 
@@ -291,7 +293,7 @@ The fix is one of the two the message names. Either the pattern is wrong, and yo
 
 The press writes the index to *build/generated/*, under a filename made from the first free appendix letter and the words *index-of-subjects*. It looks for that letter from `a` to `y`. A book with no `a-` appendix gets *a-index-of-subjects.md*, headed "Appendix A: Index of subjects". The heading carries pandoc's `{-}` mark, so the index appendix takes no section number. Because `press add appendix` hands out letters from `z-` downward, the index usually sorts before the appendixes you write.
 
-The appendix opens with a fixed explanatory paragraph and then lists the entries in alphabetical order. Each entry is the term in bold, a separator, and its locators, with commas between them. A *locator* is the place a reader goes to find the term. The press uses chapter and appendix labels as locators, not page numbers. A hit in the preface reads "Preface", a hit in a chapter reads the chapter's number, and a hit in an appendix reads its letter. An entry for the Mock Turtle in the Alice book reads its two chapter numbers, 9 and 10, if the creature appears in only those two chapters.
+The appendix opens with a fixed explanatory paragraph and then lists the entries in alphabetical order. Each entry is the term in bold, a separator, and its locators, with commas between them. A *locator* is the place a reader goes to find the term. The press uses chapter and appendix labels as locators, not page numbers. A hit in the preface reads "Preface", a hit in a chapter reads the chapter's number, and a hit in an appendix reads its letter. If the Mock Turtle appears only in chapters 9 and 10 of the Alice book, its entry reads those two chapter numbers.
 
 The press states its reason in its own code: "Numbers are chapters and letters are appendices; both stay put across editions, which page numbers do not."
 

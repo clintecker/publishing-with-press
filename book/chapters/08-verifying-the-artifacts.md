@@ -14,7 +14,7 @@
 > - Reading a failure
 :::
 
-Press opens every artifact it makes, renders or unpacks it, and compares it with the manuscript before it calls the build good. This chapter describes the programs that do that work, the checks each one runs, and the exact message each one prints when a check fails. The examples come from the Alice book, the full novel that user `alice` builds on the workstation `hatter` and that CI builds on the host `printshop`. The real runs in Examples 8.1 and 8.2 come from the press's own three-chapter Alice example.
+Press opens every artifact it makes, renders or unpacks it, and compares it with the manuscript before it calls the build good. This chapter describes the programs that do that work, the checks each one runs, and the exact message each one prints when a check fails. The examples come from the Alice book, user `alice`'s full novel. She builds it on the workstation `hatter`, and CI builds it on the host `printshop`. The real runs in Examples 8.1 and 8.2 come from the press's own three-chapter Alice example.
 
 ## Artifacts as objects
 
@@ -22,7 +22,9 @@ The press works under four laws, which its *docs/ARCHITECTURE.md* states and Cha
 
 The press learned this law from the cover that passed at 11.5 percent coverage (Chapter 1), and drew a rule from it: "A producer is only proven by a verifier that rejects a broken artifact." The cover check later in this chapter is that rule at work.
 
-A *verifier* is a `verify_*` module in the press, together with the check it runs on a finished artifact. This chapter follows five verifier runs. `verify_pdf` reads the Print edition (the reading PDF). `verify_formats` reads the Circulating edition (EPUB), the Single-leaf edition (the self-contained HTML), and the Manuscript edition (the stitched Markdown). It also reads the Telegraphic edition (plain text), the Office edition (DOCX), and the Chapter edition (the reader site and its zip). `verify_archives` reads the zip files, among them the Source edition (the source zip), and `verify_pages` crawls the Pages bundle. The fifth run is `verify_pdf` again, with its print profile, on the print interior.
+A *verifier* is a `verify_*` module in the press, together with the check it runs on a finished artifact. This chapter follows five verifier runs.
+
+`verify_pdf` reads the Print edition (the reading PDF). `verify_formats` reads the Circulating edition (EPUB), the Single-leaf edition (the self-contained HTML), and the Manuscript edition (the stitched Markdown). It also reads the Telegraphic edition (plain text), the Office edition (DOCX), and the Chapter edition (the reader site and its zip). `verify_archives` reads the zip files, among them the Source edition (the source zip), and `verify_pages` crawls the Pages bundle. The fifth run is `verify_pdf` again, with its print profile, on the print interior.
 
 ![The witness that could say no, inspecting a finished sheet](assets/woodcuts/the-witness-that-could-say-no.png)
 
@@ -60,16 +62,16 @@ The `press verify` target builds *dist/alice.pdf* and then runs `verify_pdf` on 
 
 | Check | Meaning |
 |----------------------|-------------------------------------------------------------|
-| Sentinel count and page floor | Under `PRESS_RELEASE`, the book must declare at least two sentinels and a *page floor* of at least 24. The page floor is the fewest pages the PDF may have, set by `verify-min-pages`. |
+| Sentinel count and page floor | Under `PRESS_RELEASE`, the book must declare at least two sentinels and a *page floor* of at least 24. The page floor is the fewest pages the PDF may have, and `verify-min-pages` sets it. |
 | Trim | The verifier takes the expected page size from the design profile and allows 1.0pt either way. |
 | File exists | The verifier stops when the PDF is absent. |
 | Detector self-test | The verifier tests its own blank-page detector on two synthetic images before it trusts it. |
-| pdfinfo | The tool must run, its output must parse, the trim must match, and the page count must reach the floor. |
+| pdfinfo | The tool must run, and its output must parse. The trim must match, and the page count must reach the floor. |
 | Text | Every sentinel and the title must appear in the text that `pdftotext` extracts. |
 | Fonts | `pdffonts` must find fonts, and every font must be embedded. |
 | List links | Every link in the List of Plates and the List of Figures must lead to a page with an image on it. |
 | Render | The verifier renders every page, and the rendered count must equal the count `pdfinfo` reports. |
-| Ink | Every rendered page must carry ink, no ink may touch the page edge, and every page must have the same size. |
+| Ink | Every rendered page must carry ink, and no ink may touch the page edge. Every page must have the same size. |
 | Print profile | The print interior must have mirrored margins and, unless the profile allows color, black ink only. |
 | Cover on page 1 | The reading PDF must show the cover image on page 1 when the book supplies one. |
 
@@ -79,7 +81,9 @@ The print interior goes through the same verifier with the option `--profile pri
 
 ### Before the verifier opens the file
 
-The first check runs only under `PRESS_RELEASE=1`, the variable that marks a release build. It refuses a book whose sentinels and page floor are too weak to prove anything. Chapter 3, *The shape of a book repository*, shows the refusal in Example 3.3, which opens `this is a release build (PRESS_RELEASE=1) and its witnesses are vacuous:`. The second check reads the trim from the design profile. The Alice book uses the house 6 by 9 profile, so the verifier expects a page 6 inches wide and 9 inches tall, within 1.0pt in each direction. The third check is the plain one: if the file is absent, the verifier prints `PDF not found:` and the path.
+The first check runs only under `PRESS_RELEASE=1`, the variable that marks a release build. It refuses a book whose sentinels and page floor are too weak to prove anything. Chapter 3, *The shape of a book repository*, shows the refusal in Example 3.3, which opens `this is a release build (PRESS_RELEASE=1) and its witnesses are vacuous:`.
+
+The second check reads the trim from the design profile. The Alice book uses the house 6 by 9 profile. The verifier therefore expects a page 6 inches wide and 9 inches tall, within 1.0pt in each direction. The third check is the plain one: if the file is absent, the verifier prints `PDF not found:` and the path.
 
 The fourth check tests the verifier itself. Later on, the verifier must decide for every rendered page whether it is blank. A detector that called every page inked would pass a book of empty pages, and nobody would know. So `verify_pdf` first shows its detector two synthetic images. One is blank, and the other carries the words "KNOWN INK".[^8-detector] If the detector gets either wrong, the verifier stops with one of these messages:
 
@@ -125,21 +129,21 @@ The PDF carries two lists of illustrations, the List of Plates and the List of F
 <label> present but contains no links
 ```
 
-The first means that a link points at nothing. The second means that the links point at pages, but the pages hold no image, so the reader arrives on the wrong page. The third means that the list printed, but LuaLaTeX made no links in it. If the pypdf library will not import, the verifier prints `pypdf unavailable; illustration-list destinations not verified` and goes on. It does not fail the build for a missing library, and it does not pretend it checked the links either.
+The first means that a link points at nothing. The second means that the links point at pages that hold no image. The reader then arrives on the wrong page. The third means that the list printed, but LuaLaTeX made no links in it. If the pypdf library will not import, the verifier prints `pypdf unavailable; illustration-list destinations not verified` and goes on. It does not fail the build for a missing library, and it does not pretend it checked the links either.
 
 ::: {.sidebar}
 > **Links that overshoot**
 >
 > The link check exists because the links in the PDF once went to the wrong place. LaTeX treats a figure as a *float*, a block it is free to move to a better spot on the page. Its link package, hyperref, set the anchor of each float at its caption. A plate's caption sits under the image, so a link from the List of Plates opened the page scrolled to the caption, with the plate itself above the reader's view.
 >
-> The first fix loaded the `hypcap` package, which moves the anchor to the top of the float. A later version of the house design dropped that package and set `hypcap=true` in the package that sets captions, which does the same job from one place. The press's CLAUDE.md kept the scar as an instruction: "When touching PDF links, verify destinations with pypdf".
+> The first fix loaded the `hypcap` package, which moves the anchor to the top of the float. A later version of the house design dropped that package. It set `hypcap=true` in the package that sets captions, which does the same job from one place. The press's CLAUDE.md kept the scar as an instruction: "When touching PDF links, verify destinations with pypdf".
 :::
 
 ### Rendering and ink
 
-The verifier renders every page to a PNG image with `pdftoppm -png -r 120`, at 120 dots per inch, unless a helper renderer is present.[^8-fallback] It then counts the images. If the count differs from the page count, it prints `rendered N pages, pdfinfo reports M`.
+Unless a helper renderer is present, the verifier renders every page to a PNG image at 120 dots per inch with `pdftoppm -png -r 120`.[^8-fallback] It then counts the images. If the count differs from the page count, it prints `rendered N pages, pdfinfo reports M`.
 
-With the images in hand, the verifier looks at the ink on each page. Three messages can result:
+With the images in hand, the verifier examines the ink on each page. Three messages can result:
 
 ```text
 apparently blank rendered pages: [...]
@@ -147,7 +151,7 @@ ink touches rendered page edge: [...]
 inconsistent rendered page dimensions: [...]
 ```
 
-A blank page in the reading PDF is a defect, and the first message lists the page numbers. The edge check looks at a border two pixels wide around each page. It fails any page where any pixel in that border is darker than 245. Ink at the edge means that a figure or a line of type ran off the page, and a reader would see it cut. The third message means that the pages differ in size, which a single book never should.
+A blank page in the reading PDF is a defect, and the first message lists the page numbers. The edge check examines a border two pixels wide around each page. It fails any page where any pixel in that border is darker than 245. Ink at the edge means that a figure or a line of type ran off the page, and a reader would see it cut. The third message means that the pages differ in size, which a single book never should.
 
 ::: {.warning}
 > **Warning:** Do not treat a blank-page failure as cosmetic. The house design caps every image at a height that depends on the profile (6.3in on the house 6 by 9). The cap exists because a taller figure once made LuaLaTeX emit empty pages forever. Find the cause of a blank page before you go on.
@@ -166,7 +170,7 @@ print profile: margins do not mirror (recto left edge Xpx,
 verso Ypx); the gutter is missing
 ```
 
-The second check concerns color. A page fails when more than 200 of its pixels have an RGB channel spread of 48 or more, which means that a reader sees color in them. The verifier skips the check when the profile declares `ink: color`. The message names a likely cause:
+The second check concerns color. A page fails when more than 200 of its pixels have an RGB channel spread of 48 or more. A spread that wide means that a reader sees color in those pixels. The verifier skips the check when the profile declares `ink: color`. The message names a likely cause:
 
 ```text
 print profile: colored ink on pages [...] (a colored cover
@@ -178,14 +182,14 @@ After the interior passes, `press verify-print` looks for *assets/cover.jpg*. If
 
 ### The cover on page 1
 
-The reading profile has one check of its own, the one that the 11.5 percent story produced. It applies when *assets/cover.jpg* exists and the book has no *tex/title-page.tex* of its own. In that case the press generates the front matter, and the cover plate belongs on page 1 of the reading PDF. The verifier looks at page 1 twice. If the page renders blank, it prints:
+The reading profile has one check of its own, the one that the 11.5 percent story produced. It applies when *assets/cover.jpg* exists and the book has no *tex/title-page.tex* of its own. In that case the press generates the front matter, and the cover plate belongs on page 1 of the reading PDF. The verifier examines page 1 twice. If the page renders blank, it prints:
 
 ```text
 assets/cover.jpg exists but page 1 of the reading PDF renders
 blank -- the cover plate was clipped off the page
 ```
 
-If page 1 has ink but no image, the message ends `carries no cover image -- the generated front matter dropped it`. The second test needs the `pdfimages` tool. Without it, the verifier prints `note: pdfimages absent; cover-on-page-1 identity unverified` and does not fail. The press's own notes record that a missing `pdfimages` softens two checks to notes in this way, and `press doctor` does not check for the tool.
+If page 1 has ink but no image, the message ends `carries no cover image -- the generated front matter dropped it`. The second test needs the `pdfimages` tool. Without it, the verifier prints `note: pdfimages absent; cover-on-page-1 identity unverified` and does not fail. The press's own notes record that a missing `pdfimages` softens two checks to notes in this way. They also record that `press doctor` does not check for the tool.
 
 ::: {.tip}
 > **Tip:** Install `pdfimages` on your workstation and confirm it runs. Without it, two checks soften to notes, `press doctor` does not warn you, and a note is easy to miss in a long run.
@@ -203,7 +207,7 @@ Verified alice.pdf: 23 pages, 6 x 9 trim, embedded fonts,
 page contains ink, no edge clipping, cover on page 1
 ```
 
-That example sets its page floor at 1, which suits a gallery excerpt, and a release build would refuse it. The Alice book itself, the full novel, sets its floor at 24 once its twelve chapters exist.
+That example sets its page floor at 1, which suits a gallery excerpt. A release build would refuse it. The Alice book itself, the full novel, sets its floor at 24 once its twelve chapters exist.
 
 ## What the formats verifier checks
 
@@ -240,7 +244,7 @@ Beyond the three witnesses, each edition has checks of its own. Table 8.3 lists 
 | Edition | Meaning |
 |--------------|-------------------------------------------------------------|
 | Single-leaf (HTML) | The file must have an `html` element and every sentinel. The count of numbered figure labels must equal the count the manuscript declares. |
-| Circulating (EPUB) | The package must have a valid mimetype, a `container.xml`, a non-empty `dc:date`, and the registered ISBN, in the form `urn:isbn:` and the number, when the book has one. The sentinels, the witnesses, and the figure labels must all survive. |
+| Circulating (EPUB) | The package must have a valid mimetype, a `container.xml`, and a non-empty `dc:date`. When the book has a registered ISBN, the package must also carry it in the form `urn:isbn:` and the number. The sentinels, the witnesses, and the figure labels must all survive. |
 | Manuscript and Telegraphic | The files must carry the sentinels and the witnesses. |
 | Office (DOCX) | The verifier joins the text across the `w:t` runs of the document before it searches, and counts the embedded images against the plates. |
 | Chapter (reader site) | The site must have an *index.html*, a *reader.css*, enough chapter pages, each chapter on exactly one page, and every plate. |
@@ -259,7 +263,7 @@ EPUB metadata is missing the registered ISBN <isbn>
 
 The date check has a history. Pandoc writes an empty `dc:date` element, and epubcheck rejects it with the code RSC-005. The press therefore extracts a year from the prose date in *config/metadata.yaml* and writes it into *build/epub-metadata.xml* for pandoc to use. A date line with no four-digit year in it would bring the message back.
 
-The DOCX check joins text across runs because Word splits a paragraph into runs wherever the formatting changes, so a sentinel can span two runs. The image count fails with `docx embeds N images; expected at least M plates`.
+The DOCX check joins text across runs because a sentinel can span two of them. Word splits a paragraph into runs wherever the formatting changes. The image count fails with `docx embeds N images; expected at least M plates`.
 
 The reader site has the most checks. Three messages concern its structure:
 
@@ -269,7 +273,7 @@ site missing reader.css
 site has N chapter pages; expected at least M
 ```
 
-The verifier then checks each chapter by its chapter witness. A *chapter witness* follows the same rule as the manuscript witness, applied to one chapter file: it is the longest markup-free line of 40 or more characters in that file. Each chapter's witness must appear on exactly one page of the site. A chapter missing from every page fails with `reader site is missing <chapter>:` and the details. A chapter on two pages fails with `reader site duplicates <chapter>:` and the details. The last message, `site carries N plates; expected M`, counts the plates.
+The verifier then checks each chapter by its chapter witness. A *chapter witness* is the longest markup-free line of 40 or more characters in one chapter file, by the same rule as the manuscript witness. Each chapter's witness must appear on exactly one page of the site. A chapter missing from every page fails with `reader site is missing <chapter>:` and the details. A chapter on two pages fails with `reader site duplicates <chapter>:` and the details. The last message, `site carries N plates; expected M`, counts the plates.
 
 When every edition passes, the verifier checks agreement across editions, as the section "Witnesses and cross-edition agreement" later in this chapter describes. It then prints one line. Example 8.2 shows a real run on the three-chapter example, with the slug changed to `alice`. The run also shows the source zip's report and the `verify_archives` line.
 
@@ -291,7 +295,7 @@ as witnesses); 7 editions agree on all 4 chapter witnesses
 Verified archives: alice-site.zip, alice-source.zip
 ```
 
-The message prints the manuscript witness in lower case and cuts it at 40 characters, so it is a pointer to the line and not a quotation of it. The seven editions are the six that the `Verified` line names plus the Print edition, which takes part because `pdftotext` was present on the machine that ran the example.
+The message prints the manuscript witness in lower case and cuts it at 40 characters. The text is therefore a pointer to the line and not a quotation of it. The seven editions are the six that the `Verified` line names plus the Print edition. The Print edition takes part because `pdftotext` was present on the machine that ran the example.
 
 ## epubcheck
 
@@ -314,7 +318,7 @@ epubcheck missing from the press toolchain image; the
 retail-format gate cannot be skipped where releases are cut
 ```
 
-The press decides which case applies by looking at `PRESS_TOOLCHAIN`. It does not look at `CI`. The press's source gives the reason: keying on `CI` would fail "because `CI=false` would read as truthy".[^8-ci-false] The toolchain image sets `PRESS_TOOLCHAIN`, and an ordinary workstation does not.
+The press reads `PRESS_TOOLCHAIN` to decide which case applies. It does not read `CI`. The press's source gives the reason: a decision based on `CI` would fail, since "`CI=false` would read truthy".[^8-ci-false] The toolchain image sets `PRESS_TOOLCHAIN`, and an ordinary workstation does not.
 
 ::: {.tip}
 > **Tip:** Install epubcheck on your workstation if you can, with the command the warning names. A local run without it validates the EPUB structurally only, and the first full check then happens in CI, an e-mail later.
@@ -334,7 +338,7 @@ The reader zip, *dist/alice-site.zip*, is the reader site packed for download. T
 
 The source zip, *dist/alice-source.zip*, is the book's own source, published so that anyone can rebuild it. The verifier recomputes the member list from the same policy, `publication_members()`, and compares it with the zip the builder wrote. It also checks that every member uses DEFLATE compression. The ledger names this invariant `INV-archive-source-policy` and marks it critical. The policy has six rules:
 
-- Members are files that Git tracks, and only those. A book outside any Git repository is archived whole, and one untracked inside a parent repository archives nothing. A file that you never added to Git is not a member.
+- Members are files that Git tracks, and only those. For a book outside any Git repository, the press archives the whole book. For a book untracked inside a parent repository, it archives nothing. A file that you never added to Git is not a member.
 - Every member sits under an `alice/` prefix, so the zip unpacks into one directory.
 - Every member carries the fixed timestamp 2026-07-16 12:00, a mode of 0o755 or 0o644, and DEFLATE level 9.
 - The press excludes the directories `build`, `dist`, `.git`, and `__pycache__`.
@@ -413,7 +417,7 @@ The checker also looks for the sentinels in the manuscript, as Chapter 6, *Check
 
 ### Agreement across the editions
 
-The last check in `verify_formats` compares every edition with the manuscript, chapter by chapter. Every chapter's witness must appear in every edition. The PDF takes part too, when `pdftotext` is available to extract its text. The check catches a chapter that one edition dropped and the others kept, which no single sentinel would find unless it happened to sit in that chapter.
+The last check in `verify_formats` compares every edition with the manuscript, chapter by chapter. Every chapter's witness must appear in every edition. The PDF takes part too, when `pdftotext` is available to extract its text. The check catches a chapter that one edition dropped and the others kept. No single sentinel would find that loss unless the sentinel happened to sit in that chapter.
 
 The match tolerates the ways an edition changes text. The PDF adds running heads in the middle of a paragraph, and text extraction sometimes glues two words together at a line end. So the check does not demand the whole witness line in one piece. It cuts the line into windows of eight consecutive words, with a new window every four words. The chapter passes when any one window appears in the edition.[^8-window]
 
@@ -480,13 +484,15 @@ press doctor
 
 The `absent` state marks an optional tool that is missing. A required tool that is missing shows `MISSING`, and a tool that is present but fails to run shows `BROKEN`. A `BROKEN` tool keeps the report from calling the machine ready, even when the tool is optional. When every tool is ready, the report ends with `this machine can make books`, and the command exits 0.
 
-When the fault lies in the book, the message tells you what went missing, and your job is to find out why. The most common case is a missing sentinel. @fig:verify-run shows the run `alice` sees on `hatter` after a revision of the chapter that held her first sentinel.
+When the fault lies in the book, the message tells you what went missing, and your job is to find the cause. The most common case is a missing sentinel. @fig:verify-run shows the run `alice` sees on `hatter` after a revision of the chapter that held her first sentinel.
 
 ![A press verify run that fails on a missing sentinel](assets/woodcuts/08-03-verify-run.png){#fig:verify-run .diagram width=full-measure fig-alt="A terminal window titled alice@hatter shows the command press verify, an elided line, and the message that the sentinel Twinkle, twinkle, little bat is missing from the PDF."}
 
 <!-- art: ARCHETYPE terminal. A plain light terminal window with a thin 0.5 pt frame and a title bar reading "alice@hatter". Inside, in monospace, three lines, top to bottom: "$ press verify", then a line holding only "...", then "missing text sentinel in PDF: Twinkle, twinkle, little bat". No color, no bold. Draw the last line at full black and the first two in 40% gray. The reader sees the sentinel message first. -->
 
-A missing sentinel has four usual causes. The first is a revision that reworded the phrase. Search the manuscript for it. If the checker also fails on it, the manuscript is the culprit. The second is a phrase at the start of a chapter, where the chapter opening splits the first word and small-caps the rest, as Chapter 4, *Writing the manuscript*, explains. The third is an edition that lost the chapter, so run `press verify-formats` too, because its agreement check counts the chapters that each edition lacks. The fourth is a word in the phrase that LuaLaTeX hyphenated at a line end. Choose shorter words or another phrase.
+A missing sentinel has four usual causes. The first is a revision that reworded the phrase. Search the manuscript for it. If the checker also fails on it, the manuscript is the culprit. The second is a phrase at the start of a chapter. The chapter opening splits the first word and small-caps the rest, as Chapter 4, *Writing the manuscript*, explains.
+
+The third is an edition that lost the chapter. Run `press verify-formats` too, because its agreement check counts the chapters that each edition lacks. The fourth is a word in the phrase that LuaLaTeX hyphenated at a line end. Choose shorter words or another phrase.
 
 Table 8.7 lists failures that point at the book and where to look first. The next chapter, *The house design*, describes the typography and layout these verifiers inspect.
 
@@ -504,6 +510,6 @@ Table: Table 8.7. Verifier failures and where to look first
 
 [^8-fallback]: The press's CLAUDE.md lists the `pdftoppm` fallback among its scars. Its instruction reads "Keep that fallback working." Without it, a machine that lacked the other renderer could not verify a PDF at all.
 
-[^8-ci-false]: In most shells and most CI systems, an environment variable holds a string, and a check for its presence treats the string `false` as present.
+[^8-ci-false]: In most shells and most CI systems, an environment variable holds a string. A check for its presence treats the string `false` as present.
 
 [^8-window]: Because the windows overlap by four words, one break in the line, such as a running head, spoils at most two of them.

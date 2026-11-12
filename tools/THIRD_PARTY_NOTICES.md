@@ -23,3 +23,8 @@ tools/ste_check.py is from Dodaios/ste80-humanizer (MIT), reproduced with its li
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
+
+docs/skills/ste80-humanizer/ is the same project's skill text (SKILL.md and
+references/), reproduced under the same licence, which sits beside it as
+docs/skills/ste80-humanizer/LICENSE. tools/ste-ratchet.py is this book's own
+wrapper around tools/ste_check.py.

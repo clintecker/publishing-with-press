@@ -14,7 +14,9 @@
 > - Order of operations
 :::
 
-A book for sale carries numbers that other people issue. Each edition needs an ISBN. Many books also carry an LCCN from the Library of Congress, and a serial carries an ISSN. The press cannot buy any of these numbers. It checks the numbers you give it, writes them into every artifact that needs them, and assembles the fields that each agency's form asks for. The Alice book has no registrations yet, so user `alice` works through each flow on `hatter` with the press's own examples and the placeholder `pending`.
+A book for sale carries numbers that other people issue. Each edition needs an ISBN. Many books also carry an LCCN from the Library of Congress, and a serial carries an ISSN.
+
+The press cannot buy any of these numbers. It checks the numbers you give it and writes them into every artifact that needs them. It also assembles the fields that each agency's form asks for. The Alice book has no registrations yet, so user `alice` works through each flow on `hatter` with the press's own examples and the placeholder `pending`.
 
 ## The governing rule
 
@@ -89,7 +91,9 @@ size: 100)
 
 With a block in place, the same target prints one line in the form `ISBN block {prefix} (size N): X assigned, Y free`. Run it before every assignment, so that you know how much of the block you have left.
 
-The target `press isbn assign` takes the edition, `print` or `epub`. It mints the lowest unused publication number and computes the check digit, the EAN-13 digit that Chapter 12, *The print pack*, works through by hand. Then it joins the parts with hyphens, as `{prefix}-{publication}-{check}`. The target writes the result through the validated path of `press config`, the same check that any `press config set` passes. A print number goes to the key `registrations.isbn.print`, and the EPUB number goes to the key `registrations.isbn.epub` beside it. The press knows only the two ISBNs in this repository. A press with several titles on one block keeps its own register and sets `registrations.isbn.print` by hand from it in every book but the first.
+The target `press isbn assign` takes the edition, `print` or `epub`. It mints the lowest unused publication number and computes the check digit, the EAN-13 digit that Chapter 12, *The print pack*, works through by hand. Then it joins the parts with hyphens, as `{prefix}-{publication}-{check}`. The target writes the result through the validated path of `press config`, the same check that any `press config set` passes. A print number goes to the key `registrations.isbn.print`, and the EPUB number goes to the key `registrations.isbn.epub` beside it.
+
+The press knows only the two ISBNs in this repository. A press with several titles on one block keeps its own register and sets `registrations.isbn.print` by hand from it in every book but the first.
 
 Two cases stop the assignment. If the edition already holds a number other than `pending`, the press refuses and tells you to "unset it first to reassign". If the block has no free numbers left, the press refuses with "Buy another prefix from your agency".
 
@@ -99,7 +103,7 @@ Two cases stop the assignment. If the edition already holds a number other than 
 
 ## ISSN and LCCN
 
-An ISSN identifies a serial, such as a journal or a numbered series. A book that has one stores it in `registrations.issn`, with a command such as `press config set registrations.issn <number>`. The press tests an ISSN with a mod-11 check, and Example 13.4 works the number that the press's selftest uses as its valid case, 0378-5955.
+An ISSN identifies a serial, such as a journal or a numbered series. A book that has one stores it in `registrations.issn`, with a command such as `press config set registrations.issn <number>`. The press tests an ISSN with a mod-11 check. Example 13.4 works the number that the press's selftest uses as its valid case, 0378-5955.
 
 **Example 13.4. The mod-11 check for ISSN 0378-5955**
 
@@ -162,7 +166,7 @@ $ press all
 
 The target `press pcn` assembles the field values for the PrePub Book Link form. It reads them from the book's metadata and prints them as a list. You copy the values into the form yourself, because the press never contacts the Library of Congress.
 
-Example 13.5 shows the target in a fresh scaffold made with `press new alice --author "Lewis Carroll"`. The scaffold predates the changes of Chapters 3 and 10, and you have set no registration yet. The values come from the book's metadata, and the labels and the layout are the press's. The author and the publisher are both Lewis Carroll, because the scaffold uses the author as the publisher by default. Example 13.5 omits the closing advice, which the next paragraph quotes.
+Example 13.5 shows the target in a fresh scaffold made with `press new alice --author "Lewis Carroll"`. The scaffold predates the changes of Chapters 3 and 10, and it holds no registration yet. The values come from the book's metadata, and the labels and the layout are the press's. The author and the publisher are both Lewis Carroll, because the scaffold uses the author as the publisher by default. Example 13.5 omits the closing advice, which the next paragraph quotes.
 
 **Example 13.5. The PCN field values for a fresh Alice scaffold**
 
@@ -189,7 +193,9 @@ https://www.loc.gov/publish/pcn/
 
 The two omitted lines matter. The first tells you what to do after you submit: "No LCCN recorded yet. Submit the fields above through PrePub Book Link; when the LCCN comes back, store it with `press config set registrations.lccn <number>`." The second states the obligations: "a self-publisher is eligible for a PCN (not CIP), and a copy of the published book must be deposited with the Library of Congress within three months of publication."
 
-A field with no value in the metadata prints as `(needed on the form)`. You see the gap in the listing before the Library sees it on the form. The fresh scaffold shows a different gap. Its title is the slug, its subtitle reads "A subtitle", and its place of publication is "Earth", the scaffold's default.[^13-earth] All three are placeholders. Chapters 3 and 10 replace them in the Alice book with its full title, its double subtitle, the publisher Wonderland Press, and the place Oxford. The target also writes the listing to *dist/alice-pcn.txt*, so you can keep it with your records.
+A field with no value in the metadata prints as `(needed on the form)`. You see the gap in the listing before the Library sees it on the form.
+
+The fresh scaffold shows a different gap. Its title is the slug, its subtitle reads "A subtitle", and its place of publication is "Earth", the scaffold's default.[^13-earth] All three are placeholders. Chapters 3 and 10 replace them in the Alice book with its full title, its double subtitle, the publisher Wonderland Press, and the place Oxford. The target also writes the listing to *dist/alice-pcn.txt*, so you can keep it with your records.
 
 ::: {.tip}
 > **Tip:** Run `press isbn assign print` before `press pcn`. The form asks for the print ISBN, and the listing shows a reminder in its place until the number exists.
@@ -275,7 +281,9 @@ The EPUB ISBN becomes the identifier of the Circulating edition. The press write
 
 <!-- art: ARCHETYPE data-flow, drawn left to right. Left: one dog-eared file icon, "config/metadata.yaml", with a boxed excerpt below it headed "registrations:" listing in small monospace, top to bottom, "isbn.print", "isbn.epub", "lccn", "issn". Right: five boxes in a vertical stack, top to bottom: "copyright page" (a small page outline), "EPUB metadata" (file icon "content.opf"), "wrap barcode" (small EAN-13 bars), "ONIX file" (file icon "dist/alice.onix.xml"), "PCN listing" (file icon "dist/alice-pcn.txt"). Arrows, labels in small monospace: to copyright page "isbn.print, isbn.epub, lccn". To EPUB metadata "isbn.epub as urn:isbn:". To wrap barcode "isbn.print as EAN-13". To ONIX file "isbn.print, isbn.epub as ProductIDType 15". To PCN listing "isbn.print". Give "registrations:" a 20% gray fill. The reader should see first that one block feeds all five. -->
 
-The copyright page carries one line for each ISBN the book declares and one for the LCCN. The ISSN does not print there. Chapter 10, *Front matter, the index, and the table of authorities*, shows those lines. A pending number prints there as `[pending]`. The barcode carries only the print ISBN, and the EPUB identifier carries only the EPUB ISBN. Every route starts at the same block, so the copyright page cannot show a print ISBN that differs from the barcode's. It cannot show an EPUB ISBN that differs from the EPUB identifier either.
+The copyright page carries one line for each ISBN the book declares and one for the LCCN. The ISSN does not print there. Chapter 10, *Front matter, the index, and the table of authorities*, shows those lines. A pending number prints there as `[pending]`.
+
+The barcode carries only the print ISBN, and the EPUB identifier carries only the EPUB ISBN. Every route starts at the same block, so the copyright page cannot show a print ISBN that differs from the barcode's. It cannot show an EPUB ISBN that differs from the EPUB identifier either.
 
 ## Order of operations
 
@@ -317,7 +325,7 @@ To register the Alice book, `alice` takes the steps in the order that the regist
    $ press all
    ```
 
-The ISBN comes before the PCN form because the form asks for it. The retail flag comes last. Once it is set, the checker refuses the book while either ISBN is absent or pending, or while a declared LCCN or ISSN is still pending. The skill's order names no step for an ISSN.
+The ISBN comes before the PCN form because the form asks for it. The retail flag comes last. Once you set it, the checker refuses the book while either ISBN is absent or pending. With the flag set, the checker also refuses the book while a declared LCCN or ISSN is still pending. The skill's order names no step for an ISSN.
 
 A publisher with CIP data from the Library prints it as a block on the copyright page. The press does not generate that block. If your book has one, it goes in a hand-authored *tex/title-page.tex*, which replaces the generated front matter as Chapter 10 describes.
 

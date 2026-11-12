@@ -51,7 +51,7 @@ The first pass is `check_source`. It reads the manuscript as a set of files and 
 
 For each chapter file, the source checks look for four faults. A file the book lists and the disk lacks is a missing source file. A file whose body runs under 80 characters is suspiciously short. Press refuses a file with no level-one heading, because it has no chapter title. Press also refuses a file that still holds one of three unfinished markers, and quotes the marker.
 
-Two of the markers are placeholders: the common abbreviations for "to do" and "to be determined", each in capitals and followed by a colon, a space, and the verb "write". The third is the scrambled Latin that typesetters use for dummy copy, in its usual two-word opening. The source checks read fenced code for the markers too, so not even an example in a chapter can hold one.
+Two of the markers are placeholders: the common abbreviations for "to do" and "to be determined". Each is in capitals and followed by a colon, a space, and the verb "write". The third is the scrambled Latin that typesetters use for dummy copy, in its usual two-word opening. The source checks read fenced code for the markers too, so not even an example in a chapter can hold one.
 
 The source checks then read *config/metadata.yaml*. The checker requires four keys: `title`, `author`, `description`, and `slug`. If one is absent, press refuses the book with `metadata missing <key>:` and the key's name. The `description` requirement surprises people, because a one-sentence blurb looks optional. The Alice book set its description with `press config set` on its first day, so it passes.
 
@@ -59,7 +59,7 @@ The rest of the first pass covers the book's other configuration. Table 6.2 list
 
 | Check | Meaning |
 |------------------|------------------------------------------------------------|
-| Registrations and commerce | Press validates any ISBN, LCCN, or ISSN the book declares, and it refuses a retail book whose ISBN is missing or pending, or whose declared LCCN or ISSN is still pending. Chapter 13, *Registrations*, describes the numbers. |
+| Registrations and commerce | Press validates any ISBN, LCCN, or ISSN the book declares. It refuses a retail book whose ISBN is missing or pending, or whose declared LCCN or ISSN is still pending. Chapter 13, *Registrations*, describes the numbers. |
 | Sentinels | Press confirms that each phrase in `verify-sentinels` appears in the manuscript. The section "Sentinels and the page floor" later in this chapter describes them. |
 | Orphan plates | Press refuses a plate image that no chapter references. Chapter 5, *Figures, plates, and illustrations*, describes plates. |
 | Figure placement | Press refuses a figure whose placement is not valid. Chapter 5 describes the placements. |
@@ -72,7 +72,7 @@ When every source check passes, press prints one line, `Source checks passed: N 
 
 ## Checking the checkers
 
-Press calls the second pass, `check_the_checkers`, the *checker self-test*. It proves on every check that each rule can refuse something, and the press gives the reason: "A rule that cannot fail is not a rule." It runs the style audit and the jargon lint over a set of files that the rules must refuse. If any of them gets through, the check fails.
+Press calls the second pass, `check_the_checkers`, the *checker self-test*. It proves on every check that each rule can refuse something. The press gives the reason: "A rule that cannot fail is not a rule." It runs the style audit and the jargon lint over a set of files that the rules must refuse. If any of them gets through, the check fails.
 
 A *known-bad fixture* is a Markdown file that the checker must reject. The press package carries 19 of them, and the checker also reads every Markdown file in your book's *tests/known-bad/* directory. Each fixture targets one rule, and every packaged fixture declares which rule must catch it.
 
@@ -95,7 +95,7 @@ The press package also holds one *known-good fixture*, a file named *clean.md* t
 
 ### What the checker self-test prints
 
-@fig:fixture-round-trip follows one fixture through the checker self-test. The checker reads the fixture, collects every diagnostic it draws, and looks for the declared rule among them.
+@fig:fixture-round-trip follows one fixture through the checker self-test. The checker reads the fixture and collects every diagnostic it draws. Then it looks for the declared rule among them.
 
 ![A known-bad fixture's round trip through the checker self-test](assets/woodcuts/06-02-fixture-round-trip.png){#fig:fixture-round-trip .diagram width=full-measure fig-alt="A flowchart. A fixture file with an expect comment goes through the style audit and the jargon lint, then reaches a question about whether its rule fired. Yes leads to a pass, and no leads to a failure message."}
 
@@ -115,7 +115,7 @@ The checker self-test has three ways to fail, and Example 6.2 gives the message 
 
 The first message is the common one. It names up to three diagnostics the fixture did draw, which usually shows you what went wrong. If your fixture expects "very unique" and draws only a curly-quote complaint, the fixture has a typing fault. Your rule never had a chance to fire. If the parenthesis says "no diagnostics at all", the rule does not work, or it is absent from *config/house-rules.yaml*.
 
-When every fixture behaves, press prints one line that counts them, beginning `Checker self-test passed: 19 known-bad fixtures`. The count is 19 for a book with no fixtures of its own, and it rises by one for each file in *tests/known-bad/*.
+When every fixture behaves, press prints one line that counts them. The line begins `Checker self-test passed: 19 known-bad fixtures`. The count is 19 for a book with no fixtures of its own, and it rises by one for each file in *tests/known-bad/*.
 
 ### Writing a fixture
 
@@ -128,7 +128,7 @@ To add a fixture for a banned pattern:
 2. In your editor, write the fixture as *tests/known-bad/very-unique.md*, with one expect comment and one sentence that breaks the rule, as in Example 6.1.
 3. Run the checker before you add the pattern:
    `$ press check`
-   The checker self-test fails with `expected rule 'very unique' did not fire (no diagnostics at all)`. That failure shows that the fixture is read.
+   The checker self-test fails with `expected rule 'very unique' did not fire (no diagnostics at all)`. That failure shows that press reads the fixture.
 4. Add the pattern to `banned-patterns` in *config/house-rules.yaml*, as the section "House rules" later in this chapter describes.
 5. Run the checker again. The checker self-test line now counts 20 fixtures.
 
@@ -146,7 +146,7 @@ The fixtures run in `press check` and in `press all`, and a bare `press pdf` doe
 
 The third pass is `style_audit`. It reads every audited file line by line and refuses the characters, phrases, headings, and paragraphs that the house does not print. The audited files are the manuscript under *book/* and the audit directories.
 
-The *audit directories* are the directories a book names under `audit-dirs` in *config/house-rules.yaml*, outside the manuscript, that the style audit reads with a lighter battery. Files there meet the universal battery described next. They do not meet the curly-quote rule, the glyph law, or the book's banned patterns. A heading fault or a long paragraph in an audit directory prints as a warning, where the same fault in a chapter is an error. The audit lists the warnings under `Editorial warnings:` and does not fail the check over them.
+The *audit directories* are the directories outside the manuscript that a book names under `audit-dirs` in *config/house-rules.yaml*. The style audit reads them with a lighter battery. Files there meet the universal battery described next. They do not meet the curly-quote rule, the glyph law, or the book's banned patterns. A heading fault or a long paragraph in an audit directory prints as a warning, where the same fault in a chapter is an error. The audit lists the warnings under `Editorial warnings:` and does not fail the check over them.
 
 ### The universal battery
 
@@ -189,7 +189,7 @@ The universal battery skips fenced code for every rule except trailing whitespac
 
 ### Rules for book prose
 
-The manuscript meets three more rules that the audit directories do not. The first refuses curly quotes. Pandoc's smart typography curls your straight quotes in every rendered edition except the Manuscript edition (the stitched Markdown), which keeps your characters as you typed them. A curly quote in a chapter file is usually a paste from a word processor.
+The manuscript meets three more rules that the audit directories do not. The first refuses curly quotes. Pandoc's smart typography curls your straight quotes in every rendered edition except the Manuscript edition (the stitched Markdown). That edition keeps your characters as you typed them. A curly quote in a chapter file is usually a paste from a word processor.
 
 The second is the *glyph law*, which limits book prose to ASCII and the accented Latin letters. Its diagnostic is `glyph U+XXXX is outside the print-font set`, with the code point in place of XXXX. Chapter 4 gives the permitted ranges and the characters that surprise authors, the copyright sign first among them.
 
@@ -215,7 +215,7 @@ A clean audit prints `Editorial checks passed: N Markdown files`.
 
 ## The jargon lint and the watchlist
 
-The fourth pass runs the *jargon lint*, a separate program that reads the chapter files against a list of overused engineering terms.[^6-twocopies] Press runs it with the command in Example 6.4 and writes its full report to *build/jargon-report.txt*.
+The fourth pass runs the *jargon lint*,[^6-twocopies] a separate program that reads the chapter files against a list of overused engineering terms. Press runs it with the command in Example 6.4 and writes its full report to *build/jargon-report.txt*.
 
 **Example 6.4. The command the fourth pass runs**
 
@@ -224,11 +224,11 @@ python -m press.jargon_lint --fail-on rewrite [--allow T]... \
     <chapter files>
 ```
 
-The jargon lint reads only the manuscript files. The style audit reads the audit directories. It skips fenced code, inline code, URLs, and blockquotes, so a term inside a quotation from another writer does not count against you. The `--include-quotes` option makes it read blockquotes as well.
+The jargon lint reads only the manuscript files. The style audit reads the audit directories. The lint skips fenced code, inline code, URLs, and blockquotes, so a term inside a quotation from another writer does not count against you. The `--include-quotes` option makes it read blockquotes as well.
 
 ### The watchlist
 
-*The watchlist* is the jargon term list. It lives in the overused-jargon skill, as *references/watchlist.csv* in the skill's directory, and `press skills` prints each installed skill with its path. At the time of this writing it holds 53 terms. Each row gives the term, how it matches, its status, a category, a question, the uses it allows, and notes.
+*The watchlist* is the jargon term list. It lives in the overused-jargon skill, as *references/watchlist.csv* in the skill's directory. The `press skills` command prints each installed skill with its path. At the time of this writing it holds 53 terms. Each row gives the term, how it matches, its status, a category, a question, the uses it allows, and notes.
 
 The status decides what the lint does with a sighting. Table 6.3 lists the four statuses and the level of each.
 
@@ -241,7 +241,7 @@ The status decides what the lint does with a sighting. Table 6.3 lists the four 
 
 Table: Table 6.3. Watchlist statuses
 
-The packaged watchlist has 39 `inspect` terms and 14 `rewrite` terms. The `--fail-on` option sets the threshold, and it takes `none`, `inspect`, `rewrite`, or `ban`. The default is `rewrite`, and `press check` uses it, so an inspect term appears in the report and does not fail the check. The lint skips fenced code, so Example 6.5 can list the 14 rewrite terms where a paragraph cannot.
+The packaged watchlist has 39 `inspect` terms and 14 `rewrite` terms. The `--fail-on` option sets the threshold, and it takes `none`, `inspect`, `rewrite`, or `ban`. `press check` uses the default, `rewrite`, so an inspect term appears in the report and does not fail the check. The lint skips fenced code, so Example 6.5 can list the 14 rewrite terms where a paragraph cannot.
 
 **Example 6.5. The rewrite terms in the packaged watchlist**
 
@@ -255,7 +255,7 @@ authoritative       genuinely
 
 The inspect terms are more ordinary words that engineers overuse: spine, gate, scaffold, wiring, drift, surface, canonical, fallback, stale, churn, and others. Several of them are also the literal names of things in press. The watchlist therefore asks a question about each sighting and leaves the answer to you.
 
-Example 6.6 shows three rows of the watchlist. In the file, each row is one line. The `question` column is the useful one, because it asks what the term stands for, and the answer is usually the sentence to write instead.
+Example 6.6 shows three rows of the watchlist. In the file, each row is one line. The `question` column is the useful one, because it asks what the term stands for. The answer is usually the sentence to write instead.
 
 **Example 6.6. Three rows of the watchlist**
 
@@ -290,7 +290,7 @@ The lint matches whole terms only. Its word boundaries allow no match next to a 
 
 Read the report after a long revision anyway, because the inspect sightings are in it. Take each one in turn and answer its question. If the answer names a real thing in your subject, the term is literal, and it can stay. If the answer is a sentence the term stood in for, write that sentence. A rewrite term that is literal in your book belongs in `jargon-allow`, which the section "House rules" describes.
 
-You can also run the lint by hand. The `--json` option prints the findings for another program, `--max-findings` caps them at a number (500 by default), and `--allow` takes one term and can repeat. If the watchlist itself is malformed, the lint exits with status 2.
+You can also run the lint by hand. The `--json` option prints the findings for another program. The `--max-findings` option caps them at a number (500 by default), and `--allow` takes one term and can repeat. If the watchlist itself is malformed, the lint exits with status 2.
 
 ::: {.warning}
 > **Warning:** Do not edit the watchlist inside the installed press package to silence a term. The next install overwrites your edit. Add the term to `jargon-allow` in your book's house rules instead.
@@ -362,7 +362,7 @@ A *sentinel* is a phrase in `verify-sentinels`, a fragment of your own prose tha
 
 The checker's part is the cheap one: it catches a sentinel that a revision removed, before you spend a build on it. The other three places are the verifiers' work. They catch the harder fault, a phrase that the manuscript holds and an edition lost on the way to the reader.
 
-Matching is exact, including case. Press treats curly and straight quotes as equal, so a sentinel with a straight apostrophe matches the curled one that pandoc prints. Example 6.10 shows the sentinels of the Alice book, two fragments from the middles of Carroll's seventh and eleventh chapters.
+Press matches each sentinel exactly, and case counts. Press treats curly and straight quotes as equal, so a sentinel with a straight apostrophe matches the curled one that pandoc prints. Example 6.10 shows the sentinels of the Alice book, two fragments from the middles of Carroll's seventh and eleventh chapters.
 
 **Example 6.10. Sentinels in config/metadata.yaml**
 
@@ -385,7 +385,7 @@ The house profile sets no drop cap, so the warning applies only once a book choo
 
 `verify-min-pages` is the Print edition's *page floor*, the fewest pages the PDF verifier accepts. A Print edition shorter than the floor fails verification, so the floor catches a build that ran to the end and set only part of the book.
 
-The value has two defaults, and the difference matters. The book model's default is 40, while the scaffold's template writes 1, so a new book builds and verifies before it has a second page. The Alice book set its floor to 24 once its chapters existed.
+The value has two defaults, and the difference matters. The book model's default is 40, while the scaffold's template writes 1. A new book therefore builds and verifies before it has a second page. The Alice book set its floor to 24 once its chapters existed.
 
 ### Draft settings and release builds
 
@@ -472,7 +472,7 @@ When all four passes succeed, `press check` exits with status 0. When any pass f
 
 Each verify target rebuilds what it verifies before it inspects it, with one exception that Chapter 8 explains.
 
-A continuous-integration build reads the same status. The reusable workflow runs `press all`, so a failed check fails the CI job before any edition is built. Chapter 14, *Continuous integration and the release contract*, describes the workflow.
+A continuous-integration build reads the same status. The reusable workflow runs `press all`, so a failed check fails the CI job before press builds any edition. Chapter 14, *Continuous integration and the release contract*, describes the workflow.
 
 A shell reads the exit status too. In a chain joined with `&&`, each command runs only if the one before it exited with status 0. The chain in Example 6.14 commits only a manuscript that passes the check.
 

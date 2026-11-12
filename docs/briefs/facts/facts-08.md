@@ -64,7 +64,7 @@ The checks below come from `src/press/verify_formats.py`.
   - Missing locally is only a warning: `WARNING: epubcheck not installed; EPUB validated structurally only. The press toolchain runs the full check in CI. (brew install epubcheck)`.
   - Present but unrunnable (the binfmt scar) reads `epubcheck is present but cannot run (<exc>); the toolchain image is broken`.
   - A nonzero exit reads `epubcheck failed on <path> (exit N):` followed by its output. A pass prints `epubcheck passed: <name>`.
-  - Strictness keys on `PRESS_TOOLCHAIN`, not `CI`, "because `CI=false` would read as truthy".
+  - Strictness keys on `PRESS_TOOLCHAIN`, not `CI`. The source comment reads, verbatim: "CI=false would read truthy" (verify_formats.py, the epubcheck branch).
 - **Markdown and TXT** get sentinels and witnesses.
 - **DOCX** text is joined across `w:t` runs. The check fails with `docx embeds N images; expected at least M plates`.
 - **Reader site.**

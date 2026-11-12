@@ -1,6 +1,6 @@
 # Appendix A: Command reference {.unnumbered}
 
-This appendix describes every command in press's catalog in alphabetical order, as press 3.0.2 has them at the time of this writing. Each entry has the shape of a Unix manpage. It gives a synopsis, a description, the options, a short session on the Alice book (the book's sample, slug `alice`), and the chapter that explains the command in full. In a synopsis, `[ ]` marks an optional part, `|` separates alternatives, and `...` marks a part you may repeat. A word in angle brackets is a value you supply.
+This appendix describes every command in press's catalog in alphabetical order, as press 3.0.2 has them at the time of this writing. Each entry has the shape of a Unix manpage. It gives a synopsis, a description, the options, a short session on the Alice book, and the chapter that explains the command in full. The Alice book is the book's sample, slug `alice`. In a synopsis, `[ ]` marks an optional part, `|` separates alternatives, and `...` marks a part you may repeat. A word in angle brackets is a value you supply.
 
 Every command also takes `--help` (or `-h`), which prints the command's synopsis and one-line summary from the catalog and then exits. The three global forms are these:
 
@@ -12,7 +12,7 @@ press --version
 
 `press --version` prints `press 3.0.2`. A bare `press` prints the usage and exits with status 2. A command name press does not know does the same, and then press names the nearest command it knows, when there is one. A few options exist in the code but not in the grammar that `--help` prints. Their entries list them and say "not listed by `--help`".
 
-The sessions run in *~/alice* on `hatter`, and a line of only `...` stands for output we cut. A line that starts with `+` echoes a program press runs. We shorten the long ones, and where a line of output is wider than the page we break it and indent the rest by two spaces. The module command lines for contributors, such as `python3 -m press.receipts`, are not `press` commands. This appendix leaves them out.
+The sessions run in *~/alice* on `hatter`, and a line of only `...` stands for output we cut. A line that starts with `+` echoes a program press runs. We shorten the long ones. Where a line of output is wider than the page, we break it and indent the rest by two spaces. The module command lines for contributors, such as `python3 -m press.receipts`, are not `press` commands. This appendix leaves them out.
 
 ## press add {-}
 
@@ -22,7 +22,7 @@ The sessions run in *~/alice* on `hatter`, and a line of only `...` stands for o
 press add chapter|appendix <name> [--front]
 ```
 
-**Description.** Creates a chapter file in *book/chapters/* or an appendix file in *book/appendices/*, with a heading and a placeholder paragraph. A chapter takes the number after the highest one in use, padded to at least two digits, and an appendix counts down from `z-`. Press refuses to overwrite a file that exists, with exit status 1.
+**Description.** Creates a chapter file in *book/chapters/* or an appendix file in *book/appendices/*, with a heading and a placeholder paragraph. A chapter takes the number after the highest one in use, padded to at least two digits. An appendix counts down from `z-`. Press refuses to overwrite a file that exists, with exit status 1.
 
 **Options.** Table A.1 lists the one option.
 
@@ -51,7 +51,7 @@ created book/appendices/z-about-the-author.md
 press aesthetic ["<brief>"] [--overwrite]
 ```
 
-**Description.** With no argument, this prints the effective aesthetic: a comment naming its source, then the house aesthetic merged with *config/aesthetic.yaml*. The merge is shallow, so a top-level section in the book's file replaces the house section of the same name. With a brief in quotes, press runs the `aesthetic-brief` workflow through the `claude` command to draft *config/aesthetic.yaml*. It then prints `review it: press aesthetic`.
+**Description.** With no argument, this prints the effective aesthetic: a comment that names its source, then the house aesthetic merged with *config/aesthetic.yaml*. The merge is shallow, so a top-level section in the book's file replaces the house section of the same name. With a brief in quotes, press runs the `aesthetic-brief` workflow through the `claude` command to draft *config/aesthetic.yaml*. It then prints `review it: press aesthetic`.
 
 **Options.** Table A.2 lists the one option.
 
@@ -109,13 +109,13 @@ press art accept <file>
                  --as cover|plate:<name>|logomark|portrait
 ```
 
-**Description.** Takes a finished image into the book through *intake*: press converts the file to the house form, puts it in place, and records the acceptance in *art/commissions.md*. The art target after `--as` decides where the image goes. Press refuses an opaque single-ink plate on a gradient or textured ground, because the luminance key would leave a ghost on the page.
+**Description.** Takes a finished image into the book through *intake*. During intake, press converts the file to the house form, puts it in place, and records the acceptance in *art/commissions.md*. The art target after `--as` decides where the image goes. Press refuses an opaque single-ink plate on a gradient or textured ground, because the luminance key would leave a ghost on the page.
 
 **Options.** Table A.3 lists the four forms of the one option, which you must give.
 
 | Option | Meaning |
 |------------------------|----------------------------------------------------------------|
-| `--as cover` | The image becomes *assets/cover.jpg*. At the time of this writing, its aspect ratio must be within 3 percent of the ratio of the legacy `trim` field (6 by 9 unless set), not the profile's. Press flattens any transparency onto white. |
+| `--as cover` | The image becomes *assets/cover.jpg*. At the time of this writing, its aspect ratio must be within 3 percent of the ratio of the legacy `trim` field, not the profile's. That field is 6 by 9 unless set. Press flattens any transparency onto white. |
 | `--as plate:<name>` | The image becomes the alpha master `assets/woodcuts/<name>.png`, ink on transparency. The name must match `[a-z0-9][a-z0-9-]*`. |
 | `--as logomark` | The image becomes *assets/press-logo.png*. Press extracts the ink of an opaque delivery onto transparency. |
 | `--as portrait` | The image becomes *assets/author.jpg*, and press flattens it onto white. |
@@ -393,7 +393,7 @@ $ press config unset subtitle --dry-run
 press config validate [--json]
 ```
 
-**Description.** Checks every config file against the book model and reports each file on its own line, the absent optional files included, as `ok` or with its problems. Any failure makes the command exit with status 4.
+**Description.** Checks every config file against the book model. It reports each file on its own line, as `ok` or with its problems. The absent optional files get a line too. Any failure makes the command exit with status 4.
 
 **Options.** Table A.10 lists the one option.
 
@@ -506,7 +506,7 @@ $ echo $?
 press doctor
 ```
 
-**Description.** Checks every program and key the press can use, and prints one line per capability with its state: `ok`, `absent`, `MISSING`, `BROKEN`, `warn`, or `unset`. A tool is `BROKEN` when it is present but fails both `--version` and `-v` within 15 seconds. The command exits with status 0 when the machine is ready and 1 when it is not.
+**Description.** Checks every program and key the press can use. It prints one line per capability with its state: `ok`, `absent`, `MISSING`, `BROKEN`, `warn`, or `unset`. A tool is `BROKEN` when it is present but fails both `--version` and `-v` within 15 seconds. The command exits with status 0 when the machine is ready and 1 when it is not.
 
 **Options.** None.
 
@@ -1009,7 +1009,7 @@ press research [--max-claims-per-file N]
 
 | Option | Meaning |
 |------------------------|----------------------------------------------------------------|
-| `--max-claims-per-file N` | This caps the claims taken from each file. The default, 0, means every claim. A positive cap takes a sample of the claims, and the workflow's accounting reports the claims it left out. Not listed by `--help`. |
+| `--max-claims-per-file N` | This caps the claims taken from each file. The default, 0, means every claim. With a positive cap, the workflow samples the claims, and its accounting reports the claims it left out. Not listed by `--help`. |
 
 Table: Table A.17. press research options
 
@@ -1326,7 +1326,7 @@ Every target exits with status 0 on success and 1 when a check or a verifier fai
 
 Table: Table A.19. Exit codes beyond 0 and 1
 
-Test the exit status, not the output, in a script. A chain such as `press check && git commit` stops on a failure. A pipe into `grep` before the `&&` hides the failure behind `grep`'s own status.
+In a script, test the exit status, not the output. A chain such as `press check && git commit` stops on a failure. A pipe into `grep` before the `&&` hides the failure behind `grep`'s own status.
 
 ## Environment variables {-}
 

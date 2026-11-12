@@ -15,7 +15,9 @@
 > - Print-safe images
 :::
 
-A book of prose can carry two kinds of picture, and press holds each kind to its own law. The laws are short, but a slip against them costs real work. The checker refuses an image line, a citation prints as a raw `@fig:` in the proof, or a plate changes sides when a chapter grows by a page. This chapter shows how to type an illustration, how press numbers and lists it, where it sits on the printed page, and what each edition does with it. It ends with the image files and the pass that makes them safe for a printer. The examples use the Alice book, the full novel that user `alice` keeps on the workstation `hatter`, and none of them comes from the press's own three-chapter Alice example.
+A book of prose can carry two kinds of picture, and press holds each kind to its own law. The laws are short, but a slip against them costs real work. The checker refuses an image line, or a citation prints as a raw `@fig:` in the proof. A plate can also change sides when a chapter grows by a page.
+
+This chapter shows how to type an illustration and how press numbers and lists it. It then shows where an illustration sits on the printed page and what each edition does with it. It ends with the image files and the pass that makes them safe for a printer. The examples use the Alice book, the full novel that user `alice` keeps on the workstation `hatter`. None of them comes from the press's own three-chapter Alice example.
 
 ## Two kinds of picture
 
@@ -56,7 +58,9 @@ Every illustration begins as one Markdown image: an exclamation point, a caption
 
 An illustration has four fields, each with its own reader. The *caption*, the text in the square brackets, is a label for the person who reads the book. The *directive*, the comment after the image, is art direction for the illustrator or the image model. The `fig-alt` attribute is the accessible alt text, a description for the reader who cannot see the picture. A credit line is the fourth, and press has no field for it: if an illustration needs a credit, write it into the caption. Press keeps the other three apart, and it never takes art direction from the caption.
 
-The comment's keyword may be `art:`, `data:`, or `source:`. Press looks for the comment only after the image. The rule for its place is exact: image line, one blank line, then the comment. Press reads a comment on the very next line too, but that comment joins the image's paragraph, and pandoc then makes no figure of the image. The illustration loses its caption, its number, its entry in the list, and its cross-reference target. The `press figures` report still shows the directive, so nothing warns you.
+The comment's keyword may be `art:`, `data:`, or `source:`. Press looks for the comment only after the image. The rule for its place is exact: image line, one blank line, then the comment.
+
+Press reads a comment on the very next line too. But that comment joins the image's paragraph, and pandoc then makes no figure of the image. The illustration loses its caption, its number, its entry in the list, and its cross-reference target. The `press figures` report still shows the directive, so nothing warns you.
 
 ::: {.warning}
 > **Warning:** Always leave one blank line between the image line and its comment. A comment on the very next line breaks the figure without a message.
@@ -74,7 +78,7 @@ lettering, no caption, no page border, no watermark, no
 signature.
 ```
 
-The image line can also name a style for the commission. Press takes the style from the `--style` option first, then from the illustration's own `style=` attribute, then from `plates.style` in the *aesthetic*, the book's visual identity in *config/aesthetic.yaml*. Last comes the house style `wood-engraving`. A book can therefore set one style for all its plates and still ask for an engraved map in one chapter.
+The image line can also name a style for the commission. Press takes the style from the `--style` option first, then from the illustration's own `style=` attribute. Third comes `plates.style` in the *aesthetic*, the book's visual identity in *config/aesthetic.yaml*. Last comes the house style `wood-engraving`. A book can therefore set one style for all its plates and still ask for an engraved map in one chapter.
 
 The `fig-alt` text belongs on every illustration that carries information. Write it for a listener: one or two sentences that say what the picture shows. Never copy the caption into it. A screen reader reads the caption already, and a second reading of the same words tells the listener nothing new.
 
@@ -111,7 +115,7 @@ for long.
      chapter, from three inches upward -->
 ```
 
-The `.chart` class makes this a numbered figure. It is the first figure in that chapter, so press numbers it Figure 5.1, and the citation prints as "Figure 5.1" with a link to the figure. In the PDF, press keeps the word and the number together on one line, so a line break never separates "Figure" from "5.1". In the other rendered editions the citation is an ordinary link whose text is "Figure 5.1" and whose target is the figure's identifier.
+The `.chart` class makes this a numbered figure. It is the first figure in that chapter, so press numbers it Figure 5.1. The citation prints as "Figure 5.1" with a link to the figure. In the PDF, press keeps the word and the number together on one line, so a line break never separates "Figure" from "5.1". In the other rendered editions the citation is an ordinary link whose text is "Figure 5.1" and whose target is the figure's identifier.
 
 Press computes each number once, in its own Lua filter, *figure-numbering.lua*. It has no dependency on pandoc-crossref, the filter that many pandoc users install for numbered figures. Because press computes each number once, the PDF, the EPUB, and the reader site can never disagree about which figure is Figure 5.1.
 
@@ -146,7 +150,7 @@ Both lists need several passes of LuaLaTeX before their page numbers come out ri
 
 ## Placement
 
-The `place` attribute says where an illustration sits on the printed page. It takes one of seven values, and Table 5.2 lists them with what each one does in the PDF. Each of the seven values names a *placement*. Two terms in the table come from the trade. A *leaf* is one sheet of the book, two pages back to back, and a *cleared leaf* is a fresh page that holds nothing but the illustration.
+The `place` attribute says where an illustration sits on the printed page. It takes one of seven values, and Table 5.2 lists them with what each one does in the PDF. Each of the seven values names a *placement*. Two terms in the table come from the trade. A *leaf* is one sheet of the book, two pages back to back. A *cleared leaf* is a fresh page that holds nothing but the illustration.
 
 | Placement | Meaning |
 |----------------|-------------------------------------------------------------|
@@ -168,7 +172,7 @@ Table: Table 5.2. The seven placements
 
 The word *plate* now does two jobs, and they are independent. The class `.plate`, or no class at all, makes an illustration a plate: unnumbered and in the List of Plates. The placement `place=plate` says only where it sits. A plate needs no `place=plate`, and a numbered figure can take `place=plate`. Type the placement for an illustration that must print at its own size. The checker will then refuse any measure that someone adds to it later.
 
-The two wraps name a side of the page by its relation to the spine, because the spine changes sides from page to page. A printed book has two kinds of page: a *recto* is a right-hand page with an odd number, and its spine edge is on the left. A *verso* is a left-hand page with an even number, and its spine edge is on the right. An illustration at the left of the page sits by the spine on a recto and at the fore-edge on a verso. When a chapter grows by one page, every illustration after that page changes sides.
+The two wraps name a side of the page by its relation to the spine, because the spine changes sides from page to page. A printed book has two kinds of page. A *recto* is a right-hand page with an odd number, and its spine edge is on the left. A *verso* is a left-hand page with an even number, and its spine edge is on the right. An illustration at the left of the page sits by the spine on a recto and at the fore-edge on a verso. When a chapter grows by one page, every illustration after that page changes sides.
 
 A `wrap-inner` illustration stays by the spine on every page, whatever the parity, and a `wrap-outer` illustration stays by the fore-edge. Press calls such a placement *parity-aware*. The checker refuses the values `left`, `right`, `wrap-left`, and `wrap-right`, and it refuses the bare `inner` and `outer` too. It refuses a value that press does not know at all as an unknown placement.
 
@@ -198,7 +202,9 @@ The image has no class, so it is a plate, and it goes into the List of Plates. A
 
 ## Measures and the runaround
 
-The `width` attribute takes a *measure*, a width stated against the line of text. Press knows three, `full-measure`, `half-measure`, and `third-measure`, and a measure applies only to an in-flow placement, one that sits among the lines of text: `inline`, `wrap-inner`, `wrap-outer`, and `margin`. The checker refuses a measure on the other three placements, `plate`, `full-bleed`, and `frontispiece`. Table 5.3 lists that rule with the others the checker applies to an image line. Each row names a value that you might type and gives the reason the checker refuses it.
+The `width` attribute takes a *measure*, a width stated against the line of text. Press knows three: `full-measure`, `half-measure`, and `third-measure`. A measure applies only to an in-flow placement, one that sits among the lines of text: `inline`, `wrap-inner`, `wrap-outer`, and `margin`.
+
+The checker refuses a measure on the other three placements, `plate`, `full-bleed`, and `frontispiece`. Table 5.3 lists that rule with the others the checker applies to an image line. Each row names a value that you might type and gives the reason the checker refuses it.
 
 | What you type | Meaning |
 |------------------------------------|-----------------------------------------------------|
@@ -212,7 +218,7 @@ The `width` attribute takes a *measure*, a width stated against the line of text
 
 Table: Table 5.3. What the checker refuses on an image line
 
-A measure is relative for a reason. Each *design profile* is a sealed page geometry, a trim with its own margins and line, and the line is a different length in each profile. A figure set at half the measure stays at half the measure when the book moves to another profile. An absolute width ties the figure to one page design and says nothing about its relation to the text beside it. Chapter 9, *The house design*, describes the profiles.
+A measure is relative for a reason. Each *design profile* is a sealed page geometry, a trim with its own margins and line. The line is a different length in each profile. A figure set at half the measure stays at half the measure when the book moves to another profile. An absolute width ties the figure to one page design and says nothing about its relation to the text beside it. Chapter 9, *The house design*, describes the profiles.
 
 A *wrap* is an illustration with text running around it, set with `wrap-inner`, `wrap-outer`, or `margin`. The *outset* is the gap between a wrap and the text beside it. The book trade calls the whole arrangement the *runaround*, and press uses the trade's term for the gap. The `outset` attribute takes a length in ems, and its default is `1em`. An em is the size of the type, so the gap grows and shrinks with the type and keeps its proportion in a large-print profile. The checker refuses any other unit.
 
@@ -265,13 +271,19 @@ A full-measure wrap is legal, but it fills the line and leaves no text beside it
 
 Placement is print-only: the PDF honors every placement in Table 5.2. A reflowable edition has no fixed page, no verso and recto, and no leaf to clear. Press therefore ignores the placement in five editions. They are the Circulating edition (EPUB), the Single-leaf edition (the self-contained HTML), the Chapter edition (the reader site and its zip), the Telegraphic edition (plain text), and the Office edition (DOCX). In each of them a placed illustration becomes an ordinary figure: the image and its caption in the run of the text.
 
-Press computes the number once and writes it into every rendered edition. A numbered figure's caption carries its "Figure 5.1" label in the PDF and in the Circulating, Single-leaf, Chapter, Telegraphic, and Office editions. The link changes form from one edition to the next: in the PDF, the citation links to the figure, and the figure has an entry in the List of Figures. The Circulating, Single-leaf, and Chapter editions get an ordinary link to the figure's identifier. A plate gets no number anywhere, and in the PDF its entry goes into the List of Plates. @fig:where-a-figure-lands traces the image line of Example 5.2 into each rendered edition.
+Press computes the number once and writes it into every rendered edition. A numbered figure's caption carries its "Figure 5.1" label in the PDF and in the Circulating, Single-leaf, Chapter, Telegraphic, and Office editions.
+
+The link changes form from one edition to the next. In the PDF, the citation links to the figure, and the figure has an entry in the List of Figures. The Circulating, Single-leaf, and Chapter editions get an ordinary link to the figure's identifier.
+
+A plate gets no number anywhere. In the PDF its entry goes into the List of Plates.
+
+@fig:where-a-figure-lands traces the image line of Example 5.2 into each rendered edition.
 
 ![Where an image line goes in each rendered edition](assets/woodcuts/05-03-where-a-figure-lands.png){#fig:where-a-figure-lands .diagram width=full-measure fig-alt="One image line branches to six editions in four groups. The PDF gets a numbered caption, a List of Figures entry, and a link target. The EPUB, HTML, and reader site get an in-flow figure with its number and a link target. The plain-text and DOCX editions get an in-flow figure with its number. A bare image goes to the List of Plates."}
 
 <!-- art: ARCHETYPE data-flow, top to bottom. At top, a dog-eared file box labeled "image line", holding "#fig:alice-heights .chart" in monospace. Below it a rounded box "figure-numbering.lua", its outgoing arrow labeled "Figure 5.1". Four arrows fan down to square boxes. "PDF" (20% gray fill): "caption Figure 5.1", "List of Figures entry", "link target". "EPUB / HTML": "in-flow, Figure 5.1", "link target". "reader site": "in-flow, Figure 5.1", "link target". "text / DOCX": "in-flow, Figure 5.1". At far right, a second dog-eared box "bare image" with its own arrow to a box "List of Plates", labeled "no number". The reader sees first that one line feeds every edition. -->
 
-The Manuscript edition (the stitched Markdown) is the one exception. It is the raw stitched source, and no filter runs over it. Its image lines appear as you typed them, with their attributes and their `art:` comments, so that edition publishes every directive verbatim, for any reader to see.
+The Manuscript edition (the stitched Markdown) is the one exception. It is the raw stitched source, and no filter runs over it. Its image lines appear as you typed them, with their attributes and their `art:` comments. That edition therefore publishes every directive verbatim, for any reader to see.
 
 A plate also changes ground between editions. The house keeps each plate as an *alpha master*, ink on transparency, and each edition composites it onto its own page. The reader site serves the alpha master itself, so a plate reads on a light page or a dark one. The print interior flattens the master onto white at build time, as the section "Print-safe images" later in this chapter describes.
 
@@ -285,7 +297,7 @@ Write the prose so that it holds in every rendered edition. A sentence such as "
 
 Press scales every image to fit two limits. The height must fit the *height cap*, a maximum height that each design profile sets in its `figure-cap` key, 6.3 inches on the house profile. The width must fit the line. Press only ever scales down, so a small image prints at its own size and never grows to fill the line. The house header applies the two limits to every image that pandoc writes, whatever its kind or placement.
 
-The two limits act together, and the limit that binds first sets the size. A wide, shallow image meets the line before it meets the cap, so it prints at the full width of the line and well under the cap. A tall, narrow image meets the cap first and prints narrower than the line. On most pages a square plate meets the line first. The same file can therefore print at different sizes in different profiles, and you change nothing in the manuscript to make that happen.
+The two limits act together, and the limit that binds first sets the size. A wide, shallow image meets the line before it meets the cap. It prints at the full width of the line and well under the cap. A tall, narrow image meets the cap first and prints narrower than the line. On most pages a square plate meets the line first. The same file can therefore print at different sizes in different profiles, and you change nothing in the manuscript to make that happen.
 
 Each design profile sets its own cap. Table 5.5 lists the cap in five profiles, the ones whose caps differ from one another. The house 6 by 9 profile sets 6.3 inches, and that is the number you will most often see quoted. The cover-design and plates skills give 7.1 inches, but the cap that the PDF applies is the profile's value in Table 5.5.
 
@@ -315,7 +327,7 @@ The cap exists because of a failure that looked like nothing at all.
 
 ## Files, formats, and resolution
 
-The cover is *assets/cover.jpg*, the logomark is *assets/press-logo.png*, the author portrait is *assets/author.jpg*, and the plates are PNG files under *assets/woodcuts/*. This book keeps its numbered figures in *assets/woodcuts/* as well, and you should do the same with every interior image, for a reason the section "Print-safe images" gives. The path in the image line is relative to the book repository, as every example in this chapter shows.
+The cover is *assets/cover.jpg*, the logomark is *assets/press-logo.png*, the author portrait is *assets/author.jpg*, and the plates are PNG files under *assets/woodcuts/*. This book keeps its numbered figures in *assets/woodcuts/* as well. You should do the same with every interior image, for a reason the section "Print-safe images" gives. The path in the image line is relative to the book repository, as every example in this chapter shows.
 
 You can copy a file into *assets/woodcuts/* by hand, but the house way is *intake*. The command `press art accept build/illustrations/white-rabbit.png --as plate:white-rabbit` converts the delivered image to house form and writes it to *assets/woodcuts/white-rabbit.png*. The plate name must match the pattern `[a-z0-9][a-z0-9-]*`. A single-ink plate becomes an alpha master: its color channels are black everywhere, and all of its tone lives in the alpha channel. Chapter 11, *The art department*, describes the luminance key that intake applies and the refusals that protect it.
 
@@ -341,7 +353,9 @@ Intake does not check resolution. It checks no minimum pixel count and no resolu
 
 A printer wants about 300 pixels per inch, abbreviated *PPI*, at the size the image prints. A plate at the full 6.3-inch cap of the house profile needs 6.3 times 300, or 1890 pixels, on its tall side. The 2400-pixel default of `press art enhance` covers a full-page plate on a 6 by 9 interior at 300 PPI, with room to spare. A delivery from `press illustrate` is always a 1024-pixel square, which is why the finishing pass upscales before it resamples.[^5-square]
 
-The toolchain image carries Real-ESRGAN and its models on amd64 only. The arm64 image has no upstream binary, so it resamples and quantizes without the upscale, and resampling only ever goes down. On Apple Silicon inside the toolchain image, a 1024-pixel delivery therefore stays at 1024 pixels, about 162 PPI at the 6.3-inch cap. Outside the image, `press art enhance` uses an upscaler installed on the host if it finds one. It looks for `realesrgan-ncnn-vulkan` or `upscayl-bin` on the PATH, then in */usr/local/bin/*, then inside */Applications/Upscayl.app*. With none, it says so and goes on without the upscale.
+The toolchain image carries Real-ESRGAN and its models on amd64 only. The arm64 image has no upstream binary, so it resamples and quantizes without the upscale. Resampling only ever goes down. On Apple Silicon inside the toolchain image, a 1024-pixel delivery therefore stays at 1024 pixels, about 162 PPI at the 6.3-inch cap.
+
+Outside the image, `press art enhance` uses an upscaler installed on the host if it finds one. It looks for `realesrgan-ncnn-vulkan` or `upscayl-bin` on the PATH, then in */usr/local/bin/*, then inside */Applications/Upscayl.app*. With none, it says so and goes on without the upscale.
 
 ::: {.tip}
 > **Tip:** On an Apple Silicon Mac, install Upscayl or Real-ESRGAN and run `press art enhance` on the host, outside the toolchain image. Then multiply each plate's printed height by 300 and check that the file has at least that many pixels on that side.
@@ -364,7 +378,7 @@ The pass does not copy every image. At the time of this writing it copies the lo
 
 The pass came from a real preflight report, which Chapter 12 tells.
 
-A custom title page needs one change to stay inside the rules. If the book supplies its own *tex/title-page-print.tex* (a hand-written title page for the print interior only, which Chapter 10 describes), the logomark in it must come from *build/print-assets/*, not from *assets/*. A hand-written TeX file names its own paths, and the Lua filter that redirects the manuscript's images never sees them.
+A custom title page needs one change to stay inside the rules. A book can supply its own *tex/title-page-print.tex*, a hand-written title page for the print interior only, which Chapter 10 describes. If it does, the logomark in that file must come from *build/print-assets/*, not from *assets/*. A hand-written TeX file names its own paths, and the Lua filter that redirects the manuscript's images never sees them.
 
 The next chapter, *Checking the manuscript*, describes the checker, which applies the rules in Table 5.3 whenever it runs.
 

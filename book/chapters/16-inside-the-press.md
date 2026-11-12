@@ -59,7 +59,7 @@ Every command enters through `__main__.py`. Both `press pdf` and `python -m pres
 
 ## The data flow, end to end
 
-A full build moves through the package in one direction. It starts with the files in the book repository and ends with verified artifacts in *dist/* and, in CI, a published release. @fig:end-to-end-data-flow draws the whole path for the Alice book.
+A full build moves through the package in one direction. It starts with the files in the book repository and ends with verified artifacts in *dist/* and, in CI, a published release. For the Alice book, @fig:end-to-end-data-flow draws the whole path.
 
 ![The data flow from book repository to release](assets/woodcuts/16-02-end-to-end-data-flow.png){#fig:end-to-end-data-flow .diagram width=full-measure fig-alt="A top-to-bottom flow. Config files, chapter files, and design fragments merge into one input box, pass through rendered defaults and pandoc with its filters, fan out to six writers, collect in dist with two editions that bypass pandoc, and pass through three verifiers, page assembly, and CI."}
 
@@ -71,15 +71,15 @@ Two generators run at this point. `gen_index` writes the subject index into *bui
 
 Next, `render_defaults` turns each defaults template in the package into a concrete file, such as *build/defaults/pdf.yaml*. The templates name their paths with the prefixes `@press/` and `@book/` and the suffix `?optional`, as Chapter 7, *Building the editions*, describes. `render_defaults` resolves each prefix against the installed press or the book repository. It drops an optional file that the book does not have.
 
-Pandoc reads each rendered file, runs its Lua filters over the manuscript, and hands the result to a writer. For the Print edition (the PDF) and the print interior, pandoc writes LaTeX and latexmk runs LuaLaTeX with `-lualatex`. The EPUB, HTML, chunked HTML, plain, and DOCX writers make the other five rendered editions. The stitched Markdown and the source zip go to *dist/* without pandoc.
+Pandoc reads each rendered file and runs its Lua filters over the manuscript. Then it hands the result to a writer. For the Print edition (the PDF) and the print interior, pandoc writes LaTeX and latexmk runs LuaLaTeX with `-lualatex`. The EPUB, HTML, chunked HTML, plain, and DOCX writers make the other five rendered editions. The Manuscript edition (the stitched Markdown) and the Source edition (the source zip) go to *dist/* without pandoc.
 
-The press writes every edition into *dist/* under the slug, as *alice.pdf*, *alice.epub*, and the rest. Three verifiers then open them. `verify_pdf` inspects the PDF, and `verify_formats` inspects the other editions and runs epubcheck on the EPUB. `verify_archives` opens the two zips and, when *config/authorities.yaml* exists, the sources companion. Then `verify_pages` crawls the assembled *dist/pages/*.
+The press writes every edition into *dist/* under the slug, as *alice.pdf*, *alice.epub*, and the rest. Three verifiers then open them. `verify_pdf` inspects the PDF. `verify_formats` inspects the other editions and runs epubcheck on the EPUB. `verify_archives` opens the two zips and, when *config/authorities.yaml* exists, the sources companion. Then `verify_pages` crawls the assembled *dist/pages/*.
 
-The third law governs the bottom of the figure: "Verifying without rebuilding is forbidden by construction." The command line enforces it through the dependency edges in the registry, so a verify target rebuilds the artifacts it verifies, with the one exception Chapter 8 names. The invariant ledger, which the section "Invariants" describes, records the rule as `INV-graph-no-stale`.
+The third law governs the bottom of the figure: "Verifying without rebuilding is forbidden by construction." The command line enforces it through the dependency edges in the registry. A verify target rebuilds the artifacts it verifies, with the one exception that Chapter 8 names. The invariant ledger, which the section "Invariants" describes, records the rule as `INV-graph-no-stale`.
 
 On `printshop`, CI keeps the artifacts as the upload bundle when the build finishes. A push of a tag also creates a GitHub Release, with notes taken from the CHANGELOG. A push to `main` deploys the Pages site from the Pages bundle. Chapter 14, *Continuous integration and the release contract*, covers that half of the path.
 
-The print pack takes a side branch that the figure leaves out. `print_safe` prepares the images, the build writes the print interior, and `verify_pdf --profile print` inspects it. Then `gen_coverwrap` draws the cover wrap in TikZ through latexmk, and `verify_coverwrap` inspects the wrap. The `publish` checklist, the edition manifest, and qualification follow. The commerce gate at the end of `press all` builds this branch only for a book that enables print ordering.
+The print pack takes a side branch that the figure leaves out. `print_safe` prepares the images, and the build writes the print interior. `verify_pdf --profile print` inspects the interior. Next, `gen_coverwrap` draws the cover wrap in TikZ through latexmk, and `verify_coverwrap` inspects the wrap. The `publish` checklist, the edition manifest, and qualification follow. The commerce gate at the end of `press all` builds this branch only for a book that enables print ordering.
 
 Two fixed dates keep the artifacts reproducible: `SOURCE_DATE_EPOCH` (Chapter 7) and the source zip's member timestamp (Chapter 8).
 
@@ -107,9 +107,11 @@ Chapter 3, *The shape of a book repository*, introduced the *book model*, the ty
 
 Two modules hold the model. *booklib.py* finds the book root, which is `BOOK_ROOT` or the current directory, and reads the metadata. It also finds the chapter files. It holds the *release witnesses*, the floor of two sentinels and 24 pages that a release build requires. A release build is one with `PRESS_RELEASE` set, which CI does for a tag, as Chapter 14 describes. *bookmodel.py* reads the config into a frozen, typed `Book`.
 
-Frozen means that no code can change the `Book` after the model builds it. Every later module reads the same values, and no module can quietly adjust a field for the modules after it. If you add a config field to the press, declare it in the model, with its type and its default, and in the CLI registry in *config_schema.py*. Then read it from the `Book` everywhere. Never read the raw YAML a second time. The model collects every problem before it reports, so one run lists them all.
+Frozen means that no code can change the `Book` after the model builds it. Every later module reads the same values, and no module can quietly adjust a field for the modules after it. The model collects every problem before it reports, so one run lists them all.
 
-Writes go through the same model. `press config set` runs the new value through the typed model before it touches a byte on disk. *config_store.py* then writes a temporary file beside the original and moves it into place with `os.replace`, so a crash leaves either the old file or the new one. The round trip keeps your comments. A value that YAML could read as another type, such as `"3"` or `"true"`, goes back to the file in double quotes.[^16-quotes]
+If you add a config field to the press, declare it in the model with its type and its default. Declare it also in the CLI registry in *config_schema.py*. Then read it from the `Book` everywhere. Never read the raw YAML a second time.
+
+Writes pass through the same model. `press config set` runs the new value through the typed model before it touches a byte on disk. Then *config_store.py* writes a temporary file beside the original. It moves the file into place with `os.replace`, so a crash leaves either the old file or the new one. The round trip keeps your comments. A value that YAML could read as another type, such as `"3"` or `"true"`, goes back to the file in double quotes.[^16-quotes]
 
 `press config` also refuses any value that looks like a secret, from words such as "secret", "token", and "password" to the prefixes of real keys. The rule is broad. The press refuses a dedication that contains the word "secret", with exit status 4. `alice` must find another word for hers.
 
@@ -221,9 +223,11 @@ The gate's philosophy, in *CONTRIBUTING.md*, reads: "Coverage measures that a li
 
 A *producer* in that rule is code that writes an artifact, such as the title-page generator. The *producer ledger*, *.celebrimbor/producers.yaml*, records the producers, and its pending entries carry `review_by` dates. The gate also holds *surfaces.yaml*, beside the ledger in *.celebrimbor/*, and a file named *known-bad.expected.yaml*.
 
-The Lua filters of Chapter 7 have tests of their own under *tests/* in the press clone. *tests/lua/* holds *test_press_util.lua* and *coverage-hook.lua*, and *tests/lua_coverage.py* drives them. Four pytest files, such as *tests/test_lua_compiles.py*, are the entry points, so the Lua tests run inside `python3 -m pytest`. Without pandoc they skip. `PRESS_REQUIRE_LUA=1` turns a missing pandoc into a failure, and CI sets it. Before it did, the tests skipped in CI without a word.
+The Lua filters of Chapter 7 have tests of their own under *tests/* in the press clone. The directory *tests/lua/* holds *test_press_util.lua* and *coverage-hook.lua*, and *tests/lua_coverage.py* drives them. Four pytest files, such as *tests/test_lua_compiles.py*, are the entry points, so the Lua tests run inside `python3 -m pytest`. Without pandoc they skip. `PRESS_REQUIRE_LUA=1` turns a missing pandoc into a failure, and CI sets it. Before it did, the tests skipped in CI without a word.
 
-The 3.0.2 coverage backfill for the filters found a test that proved nothing. A test of the tie after `Mr.` passed with no filter at all, because pandoc writes that tie itself. To see the filters' coverage on `hatter`, set `PRESS_LUA_COV_DIR` to an empty directory and run the Lua tests. Then run *scripts/lua_coverage_ratchet.py* `report --cov-dir` with that directory.
+The 3.0.2 coverage backfill for the filters found a test that proved nothing. A test of the tie after `Mr.` passed with no filter at all, because pandoc writes that tie itself.
+
+To see the filters' coverage on `hatter`, set `PRESS_LUA_COV_DIR` to an empty directory and run the Lua tests. Then run *scripts/lua_coverage_ratchet.py* `report --cov-dir` with that directory.
 
 ::: {.warning}
 > **Warning:** Never pass `--update-baselines` locally, and do not run `scripts/coverage_ratchet.py --update`, which re-measures on your machine. Never update the Lua floor from a macOS measurement. Feed it CI's report with `update --from-report`.
@@ -236,7 +240,7 @@ The gate is one part of the press's own CI. Table 16.5 lists the main workflows 
 | *selftest.yml* | Job `quality` runs lint, the quality gate, Lua coverage, the site build, and a receipt. Job `selftest` runs `press selftest`, pytest, and a scaffolded book's `press check` on Ubuntu with Python 3.10 to 3.14 and on macOS 15 with Python 3.12. Job `desk` requires a bare wheel to refuse the desk and runs the desk headless from the `tui` wheel. |
 | *integration.yml* | Job `consumer` runs *scripts/gauntlet-steps.sh* in the pinned toolchain image. |
 | *toolchain.yml* | It builds and publishes the toolchain image as a multi-architecture image. |
-| *docs-site.yml* | It builds the example PDFs in the pinned image, builds the press's Web site with the headless Chrome layout check required, and deploys it. |
+| *docs-site.yml* | It builds the example PDFs in the pinned image and builds the press's Web site with the headless Chrome layout check required. Then it deploys the site. |
 | *ledger-review.yml* | It opens an issue every Monday for pending producer entries within 30 days of their `review_by` date. |
 
 Table: Table 16.5. The main workflows of the press repository
@@ -288,17 +292,19 @@ capabilities:
 publication: internal
 ```
 
-`name` is the extension's own id, and it must not collide with an existing name. `kind` names the surface it registers into, and `contract-major` the contract its author targeted. `provides` lists the exact names it claims on that surface. `requires` lists the names it depends on, from the core or from itself. `invariants` lists the invariants it takes on, `proofs` names a proof for each, and `capabilities` lists what it asserts. `publication` is `published` or `internal`, for artifacts it adds.
+`name` is the extension's own id, and it must not collide with an existing name. `kind` names the surface it registers into, and `contract-major` the contract its author targeted. `provides` lists the exact names it claims on that surface. `requires` lists the names it depends on, from the core or from itself.
+
+`invariants` lists the invariants it takes on, and `proofs` names a proof for each. `capabilities` lists what it asserts. `publication` is `published` or `internal`, for artifacts it adds.
 
 The press seals five capabilities: `core-verification`, `path-containment`, `artifact-graph`, `config-validation`, and `release-gate`. An extension can depend on a sealed capability but must never claim one.
 
-The contract defines five stages in the life of an extension. The press discovers manifests in sorted order, never in import order. It parses each with `load_manifest`, checks its conformance, and registers it. The extension then builds and verifies under the same laws as the core. The conformance gate refuses six faults, each with a located reason: a collision, an unsupported contract, an unknown dependency, a sealed claim, an unproven obligation, and a malformed manifest.
+The contract defines five stages in the life of an extension. The press discovers manifests in sorted order, never in import order. It parses each with `load_manifest`, checks its conformance, and registers it. The extension then builds and verifies under the same laws as the core.
 
-The selftest's `extension_conformance` check feeds the gate five hostile fixtures, and the gate must refuse each one. *hostile/collision.yaml* claims `pdf`, *version.yaml* targets major 99, and *sealed.yaml* claims `core-verification`. *unproven.yaml* has `proofs: []`, and *malformed.yaml* gives `contract-major` as the string `"two"`. Two critical invariants, `INV-extension-conformance` and `INV-extension-seal`, cover the gate.
+The conformance gate refuses six faults, each with a located reason: a collision, an unsupported contract, an unknown dependency, a sealed claim, an unproven obligation, and a malformed manifest. The selftest's `extension_conformance` check feeds the gate five hostile fixtures, and the gate must refuse each one. Of the five, *hostile/collision.yaml* claims `pdf`, *version.yaml* targets major 99, and *sealed.yaml* claims `core-verification`. The fixture *unproven.yaml* has `proofs: []`, and *malformed.yaml* gives `contract-major` as the string `"two"`. Two critical invariants, `INV-extension-conformance` and `INV-extension-seal`, cover the gate.
 
-At the time of this writing, the press supports one contract major, `SUPPORTED_CONTRACT_MAJORS = (2,)`. No runtime loads extensions. The gate exists and the selftest runs it, but nothing yet reads a third party's manifest during a build. The contract says: "A future runtime that *loads* extensions will reuse exactly this gate."
+At the time of this writing, the press supports one contract major, `SUPPORTED_CONTRACT_MAJORS = (2,)`. No runtime loads extensions. The gate exists, and the selftest runs it. But nothing yet reads a third party's manifest during a build. The contract says: "A future runtime that *loads* extensions will reuse exactly this gate."
 
-A book can still extend the press today through files that need no manifest. *config/cover-styles.yaml* and *config/illustration-styles.yaml* add art styles, and *config/aesthetic.yaml* sets the visual identity, all in Chapter 11. Stylesheets in *assets/web/* change the reader site. A *tex/title-page.tex* replaces the generated front matter, and *tests/known-bad/* adds fixtures for the book's own house rules, as Chapter 6 describes.
+A book can still extend the press today through files that need no manifest. The files *config/cover-styles.yaml* and *config/illustration-styles.yaml* add art styles, and *config/aesthetic.yaml* sets the visual identity, all in Chapter 11. Stylesheets in *assets/web/* change the reader site. A *tex/title-page.tex* replaces the generated front matter, and *tests/known-bad/* adds fixtures for the book's own house rules, as Chapter 6 describes.
 
 ## Contributing a scar
 
@@ -306,11 +312,11 @@ The fourth law states the policy: "Every production failure earns a mechanical g
 
 The second law ranks the guards. It reads: "Prefer machinery that produces the right thing to machinery that detects the wrong thing, and either to a sentence in a document asking people to behave." If a generator can make the failure impossible, write the generator. If it cannot, write a check for the checker or a verifier that refuses the broken result.
 
-`INV-graph-no-stale`, met earlier in this chapter, shows a finished scar. The guard is structural, in the registry's dependency edges. The ledger entry names the enforcement, names its proof, and states its limit, the command-line path only. *CLAUDE.md* carries the scar in its list, beginning "Verifying `dist/` without rebuilding blesses stale artifacts".
+`INV-graph-no-stale`, met earlier in this chapter, shows a finished scar. The guard is structural, in the registry's dependency edges. The ledger entry names the enforcement, names its proof, and states its limit, the command-line path only. The scar's entry in the scars list of *CLAUDE.md* begins "Verifying `dist/` without rebuilding blesses stale artifacts".
 
 ### Setting up to work on the press
 
-*CONTRIBUTING.md* asks for one setup and one rule: "Prove changes against a real book." Example 16.3 shows the whole loop for `alice`. She clones the press, installs the clone in editable mode with its `dev` extra into the environment that her book already uses, and installs the pre-commit hooks. She then runs `press doctor` and `press selftest`, builds the whole book, and runs the local proof.
+*CONTRIBUTING.md* asks for one setup and one rule: "Prove changes against a real book." Example 16.3 shows the whole loop for `alice`. She clones the press and installs the clone in editable mode, with its `dev` extra, into the environment that her book already uses. Then she installs the pre-commit hooks. Next she runs `press doctor` and `press selftest`. Last, she builds the whole book and runs the local proof.
 
 **Example 16.3. A working setup on hatter**
 
@@ -337,7 +343,7 @@ $ scripts/verify.sh
 
 The editable install points `press` in *\~/alice* at the files in *\~/press*, so an edit takes effect at the next run. After `pre-commit install`, every commit runs ruff, mypy, shellcheck, yamllint, pymarkdown, the TOML and JSON checks, and the selftest. CI runs the same battery with `pre-commit run --all-files`. *CONTRIBUTING.md* puts the point of `press all`: "A green `pip install` is not a working pipeline."
 
-*scripts/verify.sh* runs lint, types, the selftest, and pytest first, and then the coverage and mutation ratchets and the site build. With `--quick`, it stops after the fast layer. With `--full`, it also runs CI's container gauntlet in the pinned toolchain image, which needs Docker. Run `--full` before you push. To look at rendered output while you tune a template or a filter, *scripts/dev-render.sh* builds one book in the pinned image from the checkout, with no reinstall.
+*scripts/verify.sh* runs lint, types, the selftest, and pytest first, and then the coverage and mutation ratchets and the site build. With `--quick`, it stops after the fast layer. With `--full`, it also runs CI's container gauntlet in the pinned toolchain image, which needs Docker. Run `--full` before you push. To examine rendered output while you tune a template or a filter, *scripts/dev-render.sh* builds one book in the pinned image from the checkout, with no reinstall.
 
 ### Submitting a change
 
@@ -357,8 +363,10 @@ To contribute a scar of your own:
 > **Tip:** Draft the ledger entry's "does not cover" line before you write the guard, and revise it once the proof runs.
 :::
 
-The template asks for three things: "a test that fails before and passes after, regenerated projections, and the compatibility impact." A change to the rendered output of a valid book is a breaking change. It waits for a new major, and the pull request says so. CI runs the selftest and the integration gate on every pull request. Defects and proposals go through the repository's issue forms. A security report goes privately, as *SECURITY.md* describes, never as a public issue.
+The template asks for three things: "a test that fails before and passes after, regenerated projections, and the compatibility impact." A change to the rendered output of a valid book is a breaking change. It waits for a new major, and the pull request says so. CI runs the selftest and the integration gate on every pull request.
 
-The press has one maintainer, and the maintainer pushes to `main` directly by design.[^16-main] The checks stop a change at the release boundary instead. The release script pushes the immutable tag, and then the release contract waits for the `quality`, `consumer`, and `desk` checks on that commit. A change that broke any of them fails the release contract, and the floating major does not move.
+Defects and proposals use the repository's issue forms. A security report goes privately, as *SECURITY.md* describes, never as a public issue.
+
+The press has one maintainer, and the maintainer pushes to `main` directly by design.[^16-main] The checks stop a change at the release boundary instead. The release script pushes the immutable tag, and then the release contract waits for the `quality`, `consumer`, and `desk` checks on that commit. A change that broke any of them fails the release contract, and the floating tag does not move.
 
 [^16-main]: The press's *SECURITY.md* records the decision under issue 153. The press enforces trust at the tag, so `main` stays open and every immutable tag stays fixed.

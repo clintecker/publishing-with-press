@@ -56,12 +56,14 @@ BUS = 236
 # fail from built: down, left, down into stopped
 c.path([(XS[2], Y1 + R), (XS[2], 112), (34, 112), (34, st.y)])
 c.text(176, 109, "fail", italic=True, size=7, align="center", va="bottom")
-# fail from verified and contract proved via the right edge, then the bus
+# fail from verified via the right edge, then the bus; contract proved's
+# fail joins that edge with its own arrowhead
 c.path([(XS[3] + R, Y1), (318, Y1), (318, BUS), (st.x + st.w, BUS)])
-c.rule(XS[3] + R, Y2, 318, Y2, weight=look.ARROW_PT)
+c.arrow(XS[3] + R, Y2, 316, Y2)
 c.text(315, 130, "fail", italic=True, size=7, align="right", va="center")
+c.text(316, Y2 + 17, "fail", italic=True, size=7, align="right", va="top")
 # fail from release published: straight down to the bus
-c.rule(XS[1], Y2 + R, XS[1], BUS, weight=look.ARROW_PT)
+c.arrow(XS[1], Y2 + R, XS[1], BUS - 2)
 c.text(XS[1] + 4, 214, "fail", italic=True, size=7, align="left", va="center")
 # rerun: dashed, up the left edge, over, into tagged from below
 c.path([(st.x, 238), (8, 238), (8, 96), (XS[1], 96), (XS[1], Y1 + R)], dashed=True)

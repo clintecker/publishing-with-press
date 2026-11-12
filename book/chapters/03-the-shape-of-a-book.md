@@ -14,7 +14,7 @@
 > - Where things go: build and dist
 :::
 
-Every book that press builds lives in a *book repository*, a directory with *config/metadata.yaml* at its top and the manuscript under *book/*. The press creates that directory for you and names every file in it. It refuses to build in a directory that has no *config/metadata.yaml*. You will spend most of your working hours inside this one directory, so it pays to know what each file does and which program reads it. The running sample is the Alice book, slug `alice`, which the user `alice` writes on the workstation `hatter`.
+Every book that press builds lives in a *book repository*, a directory with *config/metadata.yaml* at its top and the manuscript under *book/*. The press creates that directory for you and names every file in it. It refuses to build in a directory that has no *config/metadata.yaml*. You will spend most of your working hours inside this one directory. It pays to know what each file does and which program reads it. The running sample is the Alice book, slug `alice`, which the user `alice` writes on the workstation `hatter`.
 
 ## Scaffolding a book
 
@@ -29,7 +29,7 @@ Table 3.1 lists the options and the value each one takes when you leave it out.
 
 | Option | Meaning |
 |----------------------|------------------------------------------------------|
-| `--author` | This option sets the byline. Without it, press reads `git config user.name`, and if Git has no name either, it writes "The Author". |
+| `--author` | This option sets the byline. Without it, press reads `git config user.name`. If Git has no name either, press writes "The Author". |
 | `--publisher` | This option sets the imprint. It defaults to the author, which suits a book you publish yourself. |
 | `--place` | This option sets the place of the imprint. It defaults to "Earth". |
 | `--owner` | This option names the GitHub account that will own the repository. With it, press writes live `repository` and `site-url` lines into the metadata file. Without it, those two lines stay commented out, with the word `OWNER` where the account belongs. |
@@ -37,10 +37,10 @@ Table 3.1 lists the options and the value each one takes when you leave it out.
 Table: Table 3.1. press new options
 
 ::: {.tip}
-> **Tip:** `press <command> --help` prints the argument grammar only. The options in this table, and most options in this book, are accepted but not listed. Appendix A marks each one.
+> **Tip:** `press <command> --help` prints the argument grammar only. The press accepts the options in this table, and most options in this book, but does not list them. Appendix A marks each one.
 :::
 
-The Alice book belongs to the GitHub account `wonderland-press`, and its author is Lewis Carroll, so `alice` gives both on the command line. Example 3.1 shows the whole session. The first line of output ends with the absolute path of the new directory, which we shorten here. We also cut the end of the second line, which goes on to tell you to run `press all`.
+The Alice book belongs to the GitHub account `wonderland-press`, and its author is Lewis Carroll. The user `alice` therefore gives both on the command line. Example 3.1 shows the whole session. The first line of output ends with the absolute path of the new directory, which we shorten here. We also cut the end of the second line, which goes on to tell you to run `press all`.
 
 **Example 3.1. Scaffolding the Alice book**
 
@@ -65,7 +65,7 @@ Behind those two lines of output, press does six things in a fixed order:
 
 Because press checks the name before it copies anything, a refused name leaves no half-built directory behind for you to delete.
 
-The directory name becomes the book's *slug*, the basename of every artifact the press produces. A slug must match the pattern `[a-z0-9][a-z0-9-]*`: lowercase letters, digits, and hyphens, starting with a letter or a digit. The Alice PDF is therefore *alice.pdf*, its EPUB is *alice.epub*, and so on through every edition. Neither `Alice` nor `my book` passes the slug test, and press refuses both.
+The directory name becomes the book's *slug*, the basename of every artifact the press produces. A slug must match the pattern `[a-z0-9][a-z0-9-]*`. It can hold only lowercase letters, digits, and hyphens, and it must start with a letter or a digit. The Alice PDF is therefore *alice.pdf*, its EPUB is *alice.epub*, and so on through every edition. Neither `Alice` nor `my book` passes the slug test, and press refuses both.
 
 ::: {.tip}
 > **Tip:** Choose the slug as if it were permanent. It names every file a reader downloads, and the scaffold writes it into the repository and Pages addresses as well.
@@ -85,7 +85,7 @@ Table 3.2 gives each file in the tree and what it does, in the order the tree li
 
 | Path | Meaning |
 |--------------------------------------------|------------------------------------------------|
-| *.claude/workflows/* | It holds four agent workflows. *aesthetic-brief.js* drafts *config/aesthetic.yaml* from a one-line brief, *art-direction.js* writes *art/commissions.md*, *authorities-research.js* builds *config/authorities.yaml*, and *editorial-passes.js* runs the iterative editorial machine. |
+| *.claude/workflows/* | It holds four agent workflows. *aesthetic-brief.js* drafts *config/aesthetic.yaml* from a one-line brief, and *art-direction.js* writes *art/commissions.md*. *authorities-research.js* builds *config/authorities.yaml*, and *editorial-passes.js* runs the iterative editorial machine. |
 | *.github/workflows/book.yml* | It is the whole CI for the book. It calls the reusable workflow of the press at the floating tag `v3`. |
 | *.gitignore* | It keeps `build/`, `dist/`, `__pycache__/`, and `.DS_Store` out of Git. |
 | *book/chapters/00-preface.md* | It is a one-paragraph preface. It exists so that an empty book builds and verifies. |
@@ -111,7 +111,7 @@ The paragraph tells you to replace it, and you should. Keep the heading line. Th
 
 ### How press finds the book
 
-Every press target starts by finding the *book root*. The press takes the directory named in the environment variable `BOOK_ROOT`, or else the current directory. That directory must contain *config/metadata.yaml*, and if it does not, press refuses with the message that the directory "is not a book". The press does not search upward through parent directories the way Git does. If `alice` runs `press check` from inside *book/chapters/*, the press refuses, because that directory holds no metadata file.
+Every press target first finds the *book root*. The press takes the directory named in the environment variable `BOOK_ROOT`, or else the current directory. That directory must contain *config/metadata.yaml*. If it does not, press refuses with the message that the directory "is not a book". The press does not search upward through parent directories the way Git does. If `alice` runs `press check` from inside *book/chapters/*, the press refuses, because that directory holds no metadata file.
 
 ::: {.tip}
 > **Tip:** If a script must run a press target from outside the book repository, set `BOOK_ROOT` to the book's directory first.
@@ -119,17 +119,19 @@ Every press target starts by finding the *book root*. The press takes the direct
 
 ### Files you add later
 
-The scaffold writes only the files that every book needs. A book grows other files as its author asks more of the press, and each of them is optional. Three more config files hold the subject index terms, the table of authorities, and the book's visual identity: *config/index-terms.yaml*, *config/authorities.yaml*, and *config/aesthetic.yaml*. Chapter 10, *Front matter, the index, and the table of authorities*, and Chapter 9, *The house design*, cover them.
+The scaffold writes only the files that every book needs. A book grows other files as its author asks more of the press. Each of them is optional. Three more config files hold the subject index terms, the table of authorities, and the book's visual identity: *config/index-terms.yaml*, *config/authorities.yaml*, and *config/aesthetic.yaml*. Chapter 10, *Front matter, the index, and the table of authorities*, and Chapter 9, *The house design*, cover them.
 
 A hand-written *tex/title-page.tex* replaces the generated front matter, which Chapter 10 also covers. The directory *assets/* takes the cover, the logomark, the plates, and any Web stylesheet you add. The directory *art/* holds the commissions and the candidate images of Chapter 11, *The art department*. The directory *tests/known-bad/* holds the book's own known-bad fixtures, which Chapter 6, *Checking the manuscript*, describes.
 
 ## The metadata file
 
-The file *config/metadata.yaml* is the one file that makes a directory a book. It holds the book's identity, the facts the press needs to name and publish the artifacts, and the knobs that tell the verifiers how hard to look.
+The file *config/metadata.yaml* is the one file that makes a directory a book. It holds the book's identity and the facts the press needs to name and publish the artifacts. It also holds the knobs that tell the verifiers how hard to look.
 
-The press reads the file through its *book model*, the typed set of rules it holds for every field. For each field, the model records the kind of value, whether the field must be present, and its default. Every build checks the file against the model, and Chapter 16, *Inside the press*, shows how the model works. Pandoc reads the raw file as well. Every pandoc defaults file names the metadata file as its `metadata-file`, so a standard pandoc key that you add here passes through to every edition.
+The press reads the file through its *book model*, the typed set of rules it holds for every field. For each field, the model records the kind of value, whether the field must be present, and its default. Every build checks the file against the model. Chapter 16, *Inside the press*, shows how the model works.
 
-Example 3.2 shows the start of the file as `press new alice` writes it, after the scaffold fills the placeholders. We cut two comment lines above `slug`. After `site-url`, the real file goes on with the verification knobs, which the section "Verification knobs" later in this chapter shows, and with commented lines for print and registrations. It ends with a commented block for direct print ordering, the last part of Example 3.2. We cut the ends of four long lines.
+Pandoc reads the raw file as well. Every pandoc defaults file names the metadata file as its `metadata-file`. As a result, a standard pandoc key that you add here passes through to every edition.
+
+Example 3.2 shows the start of the file as `press new alice` writes it, after the scaffold fills the placeholders. We cut two comment lines above `slug`. After `site-url`, the real file goes on with the verification knobs and with commented lines for print and registrations. The section "Verification knobs" later in this chapter shows the knobs. The file ends with a commented block for direct print ordering, the last part of Example 3.2. We cut the ends of four long lines.
 
 **Example 3.2. The scaffolded config/metadata.yaml, in part**
 
@@ -188,18 +190,18 @@ The first block of the file names the book. Table 3.3 gives each field, its defa
 | `title` | none, required | It is a string that holds the book's title. |
 | `subtitle` | none | It is a string. If it joins clauses with "or," the title page and the landing page stack them on separate lines. |
 | `author` | none, required | It is the byline, one name per list item. A single string becomes a one-item list. |
-| `date` | none | It is free text. The press takes the first year in it (a four-digit number beginning 1 or 2) for the EPUB date and for the lowercase roman numerals on the title page. |
+| `date` | none | It is free text. The press takes the first year in it (a four-digit number that begins with 1 or 2) for the EPUB date and for the lowercase roman numerals on the title page. |
 | `lang` | none | It is a BCP-47 language tag, which press passes through to pandoc. The template sets `en-US`. |
 | `copyright` | none | It is the copyright line. Once *config/front-matter.yaml* exists, the model needs it. |
 | `publisher` | none | It is the imprint. The model needs it with front matter. The press also exports it to TeX as the environment variable `BOOK_PUBLISHER`. |
 | `publisher-place` | none | It is the place of the imprint. The model needs it with front matter. |
 | `description` | none | It is a one-sentence blurb for the landing page and the stores. The `press check` target refuses a book without one. |
 | `keywords` | none | It is a list of subject keywords, which press passes to the editions. |
-| `rights` | none | It is a rights statement, which press passes through to pandoc, except in the EPUB, where the press sets its own `--metadata rights=` value. |
+| `rights` | none | It is a rights statement, which press passes through to pandoc. In the EPUB, the press sets its own `--metadata rights=` value instead. |
 
 Table: Table 3.3. Identity fields in metadata.yaml
 
-The date field explains a small mystery in the EPUB. Pandoc writes an empty date into the EPUB, and epubcheck rejects an empty date. The press therefore pulls the year out of your free-text date and writes it into the EPUB metadata itself.[^3-epubdate] A date such as "First edition, 2026" gives the EPUB the year 2026 and gives the title page its roman numerals, so you never type the year twice.
+The date field explains a small mystery in the EPUB. Pandoc writes an empty date into the EPUB, and epubcheck rejects an empty date. The press therefore extracts the year from your free-text date and writes it into the EPUB metadata itself.[^3-epubdate] A date such as "First edition, 2026" gives the EPUB the year 2026. The same date gives the title page its roman numerals, so you never type the year twice.
 
 Because the scaffold writes *config/front-matter.yaml*, a new book has front matter switched on from the first build. The scaffold fills `copyright`, `publisher`, and `publisher-place`, which the model needs once front matter is on. If you delete any of the three while the front-matter file exists, the model refuses the metadata.
 
@@ -223,7 +225,7 @@ The rule for `site-url` follows from the first law of the press: "Facts are stat
 
 A *sentinel* is a phrase from your manuscript that the verifiers must find, character for character, in the manuscript and in every artifact. If the PDF, the EPUB, or the Telegraphic edition (the plain text) loses a chapter on the way out, a sentinel from that chapter goes missing. The verifier then fails. Matching uses exact case, and the verifiers treat curly and straight quotes as equal.
 
-The template's own advice for choosing them is good: "pick 2-4 phrases from your actual manuscript, each distinctive enough to appear exactly once (a whole memorable clause, not a common word)", and take them from the middle of a chapter, never its first words (Chapter 6 says why). Prefer short words: a word LuaLaTeX hyphenates at a line end breaks the match. For Alice we will use two lines of verse from the middle of their chapters, "Twinkle, twinkle, little bat" and "she made some tarts".
+The template's own advice for choosing them is good: "pick 2-4 phrases from your actual manuscript, each distinctive enough to appear exactly once (a whole memorable clause, not a common word)". Take them from the middle of a chapter, never its first words (Chapter 6 says why). Prefer short words: a word LuaLaTeX hyphenates at a line end breaks the match. For Alice we will use two lines of verse from the middle of their chapters, "Twinkle, twinkle, little bat" and "she made some tarts".
 
 The *page floor*, the fewest pages the PDF may have, is the second knob. The PDF verifier fails a PDF with fewer pages than `verify-min-pages`. The model's default of 40 suits a finished book. The template writes 1 so that a new book with nothing but its preface stub passes on the first day.
 
@@ -357,7 +359,7 @@ The `press config list` target prints every field with its type and a one-line d
 
 ### Validating after a hand edit
 
-If you edit the YAML by hand, run `press config validate` afterward. It prints one line for every config file the press knows, including the optional ones the book does not have yet. It reports an absent file as `ok`. Example 3.6 shows the run on a fresh scaffold. Three of the six files do not exist yet: Chapters 9 and 10 add the aesthetic, the index terms, and the table of authorities.
+If you edit the YAML by hand, run `press config validate` afterward. It prints one line for every config file the press knows, among them the optional files the book does not have yet. It reports an absent file as `ok`. Example 3.6 shows the run on a fresh scaffold. Three of the six files do not exist yet: Chapters 9 and 10 add the aesthetic, the index terms, and the table of authorities.
 
 **Example 3.6. press config validate**
 
@@ -371,7 +373,7 @@ config/index-terms.yaml: ok
 config/authorities.yaml: ok
 ```
 
-For the aesthetic file, `ok` means only that it parsed as YAML. No key is checked.
+For the aesthetic file, `ok` means only that it parsed as YAML. The press does not check any key.
 
 The desk offers a third way in. Run `press desk` and type `w` for the setup wizard, which asks for the title, the subtitle, the author, and the description. For any other field, use `press config` or an editor.
 
@@ -379,7 +381,7 @@ The desk offers a third way in. Run `press desk` and type `w` for the setup wiza
 
 The press finds the manuscript by filename, and it never reads a table of contents. A *chapter file* is a file in *book/chapters/* whose name matches `[0-9]*.md`: it starts with a digit and ends in `.md`. An *appendix file* is a file in *book/appendices/* whose name matches `[a-z]-*.md`: a single lowercase letter, a hyphen, and anything ending in `.md`.
 
-The press sorts each group by filename. It merges the chapters first, then the appendixes in the order of their letters, and the generated subject index takes its place among the appendixes by its own letter.
+The press sorts each group by filename. It merges the chapters first, then the appendixes in the order of their letters. The generated subject index takes its place among the appendixes by its own letter.
 
 ::: {.warning}
 > **Warning:** Start every chapter filename with a digit and every appendix filename with a letter and a hyphen. The press skips any other Markdown file in those two directories without a message, so a chapter saved as *chapter-two.md* never reaches the book.
@@ -391,7 +393,7 @@ If neither directory yields a single file, the press refuses with `FileNotFoundE
 
 The sort compares filenames character by character, and it knows nothing about numbers. @fig:how-files-sort shows the consequence. A chapter named *10-the-lobster-quadrille.md* sorts before *2-the-pool-of-tears.md*, because the character `1` comes before `2`. With zero padding the problem disappears: *02-* sorts before *10-*, and the book reads in order. The appendix row of the figure shows the second rule, the letters.
 
-The `press add appendix` target takes the next free letter, counting down from `z`. In the Alice book, *about-the-author* becomes *z-about-the-author.md*, and *glossary* becomes *y-glossary.md*. The generated subject index takes the first free letter counting up from `a`, and the press never assigns it `z`. The index file is therefore usually *a-index-of-subjects.md*, and by its letter it sorts first among the appendixes in the merged book. If you add the same back matter with `press add appendix --front`, the letters count up from `a` instead: *a-about-the-author.md*, then *b-glossary.md*, and the index takes `c`.
+The `press add appendix` target takes the next free letter and counts down from `z`. In the Alice book, *about-the-author* becomes *z-about-the-author.md*, and *glossary* becomes *y-glossary.md*. The generated subject index counts up from `a` and takes the first free letter. The press never assigns it `z`. The index file is therefore usually *a-index-of-subjects.md*, and by its letter it sorts first among the appendixes in the merged book. If you add the same back matter with `press add appendix --front`, the letters count up from `a` instead: *a-about-the-author.md*, then *b-glossary.md*, and the index takes `c`.
 
 ![How press sorts chapter and appendix files](assets/woodcuts/03-02-how-files-sort.png){#fig:how-files-sort .diagram width=full-measure fig-alt="Four directory listings. Unpadded chapters sort 1, 10, 2 and padded ones 01, 02, 10. Appendixes added from z leave the index at a, ahead of them. Appendixes added with front take a and b and leave the index at c."}
 
@@ -417,7 +419,7 @@ press add chapter|appendix <name> [--front]
 
 The `press add` target turns the name into a filename. It lowercases the name and replaces each run of characters that are not letters or digits with one hyphen. For the heading, it keeps a human title exactly as you typed it. A chapter gets the number one past the highest existing chapter, zero-padded to at least two digits, so the first chapter is `01`.
 
-Example 3.7 shows `alice` adding the first chapter and two pieces of back matter, then listing the two directories and the new chapter file. Each `press add` prints `created` and the path of the new file. We cut the end of the last line.
+In Example 3.7, `alice` adds the first chapter and two pieces of back matter. Then `alice` lists the two directories and the new chapter file. Each `press add` prints `created` and the path of the new file. We cut the end of the last line.
 
 **Example 3.7. Adding a chapter and two appendixes to the Alice book**
 
@@ -452,7 +454,7 @@ The `--front` option changes where the new file goes. With `chapter`, it creates
 
 ## The Makefile and local builds
 
-Some authors type `make` before they think. The scaffold respects that habit with a *Makefile* that does nothing on its own. Example 3.8 shows the file in part. The real file lists all 16 targets on both of its long lines, and we cut the end of the comment.
+Some authors type `make` before they think. The scaffold respects that habit with a *Makefile* that does nothing on its own. Example 3.8 shows the file in part. The real file lists all 16 targets on both of its long lines. We cut the end of the comment.
 
 **Example 3.8. The scaffolded Makefile, in part**
 
@@ -468,7 +470,7 @@ all check pdf epub html ...:
 
 The 16 targets are `all`, `check`, `pdf`, `epub`, `html`, `markdown`, `site`, `txt`, `docx`, `pages`, `source`, `verify`, `verify-formats`, `render`, `wordcount`, and `clean`. Every one of them runs the same recipe. The automatic variable `$@` holds the name of the target, so `make pdf` runs `python3 -m press pdf` and `make all` runs `python3 -m press all`. The press does all the work, and the dependencies between targets live in the press, not in the Makefile. That is why the file declares every target `.PHONY`: make(1) has no files to compare, and it must always hand the request on.
 
-The `?=` assignment lets you replace the command. If `press` is on your path as a program, `make pdf PRESS=press` uses it directly. The press has more targets than the Makefile names, such as `print` and `coverwrap` for the print pack, and for those you run `press` itself.
+The `?=` assignment lets you replace the command. If `press` is on your path as a program, `make pdf PRESS=press` uses it directly. The press has more targets than the Makefile names, such as `print` and `coverwrap` for the print pack. For those, you run `press` itself.
 
 ### The requirements file
 
@@ -534,7 +536,7 @@ site
 
 The run follows a fixed order. First come the four passes of the checker: the source checks, the checker self-test, the style audit, and the jargon lint. The four files are its three chapters and its appendix. Next, pandoc builds each edition, and the press prints every pandoc command line with a leading `+`. The press then stitches the Manuscript edition (the raw Markdown), packs the Source edition, and assembles the Pages bundle. The verifiers run last, and the commerce release gate only reports, because print ordering is off.
 
-The self-test line says that every known-bad fixture that comes with the press still trips the rule it declares. That line proves the checker works on known-bad input. The press runs those fixtures in `press check` and in `press all`, and not in a bare `press pdf`. Chapter 6 takes the four passes apart, and Chapter 8, *Verifying the artifacts*, covers the verifiers. On a machine without epubcheck, the run also prints a warning that it validated the EPUB structurally only, and the toolchain image runs the full check in CI.
+The self-test line says that every known-bad fixture that comes with the press still trips the rule it declares. That line proves the checker works on known-bad input. The press runs those fixtures in `press check` and in `press all`, and not in a bare `press pdf`. Chapter 6 takes the four passes apart, and Chapter 8, *Verifying the artifacts*, covers the verifiers. On a machine without epubcheck, the run also prints a warning that it validated the EPUB structurally only. The toolchain image runs the full check in CI.
 
 The other refusals a first build is likely to meet are short and plain. The message `pandoc is required` means the toolchain is missing. A failure in the style audit or the jargon lint names the file and the rule. The checker prints `sentinel not found in the manuscript:` when a sentinel is missing from the manuscript. A verifier that cannot find a sentinel in an artifact prints its own form, such as `missing text sentinel in PDF:` or `<label> missing sentinel:`.
 
@@ -555,7 +557,9 @@ $ git init && git add -A && git commit -m "First book" && \
 
 ### What Git gives the press
 
-The reason to do this early is the Source edition. The artifact *alice-source.zip* contains the files Git tracks and nothing else. A file you created but never added is missing from the zip, even though every other edition includes it. Before `git init`, `press all` still builds and verifies *alice-source.zip*. A book outside any repository is archived whole, less *build/*, *dist/*, and caches, but a book that sits untracked inside another repository archives nothing until Git tracks its files. The `.gitignore` the scaffold writes keeps *build/* and *dist/* out of Git. A Source edition therefore cannot contain old artifacts.
+The reason to do this early is the Source edition. The artifact *alice-source.zip* contains the files Git tracks and nothing else. A file you created but never added is missing from the zip, even though every other edition includes it. The `.gitignore` the scaffold writes keeps *build/* and *dist/* out of Git. A Source edition therefore cannot contain old artifacts.
+
+Before `git init`, `press all` still builds and verifies *alice-source.zip*. For a book outside any repository, the press archives the whole book, less *build/*, *dist/*, and caches. For a book that sits untracked inside another repository, the press archives nothing until Git tracks its files.
 
 ### The CI file
 
@@ -584,7 +588,7 @@ jobs:
     uses: clintecker/press/.github/workflows/build.yml@v3
 ```
 
-With this file, CI builds the book on a push to any branch, on a tag that starts with `v`, on a pull request, or on demand. The file grants the job four permissions, and it hands all the work to one line: the reusable workflow at `v3`. The reusable workflow pins the composite action and the toolchain image, so the book never names either one.
+With this file, CI builds the book on a push to any branch, on a tag that starts with `v`, on a pull request, or on demand. The file grants the job four permissions. It hands all the work to one line: the reusable workflow at `v3`. The reusable workflow pins the composite action and the toolchain image, so the book never names either one.
 
 On the CI host, which in our examples is `printshop`, the job runs inside the toolchain image. The reusable workflow pins that image by digest to the bytes the release contract proved.
 
@@ -604,7 +608,7 @@ A full build writes into two directories at the top of the book repository. The 
 
 ### The editions in dist
 
-The first eight files are the editions, named as Table 1.2 names them, and the figure's annotations give each name. A book with *config/authorities.yaml* also gets *alice-sources.md*, the sources companion, which the press publishes as a separate file in *dist/*.
+The first eight files are the editions, named as Table 1.2 names them. The figure's annotations give each name. A book with *config/authorities.yaml* also gets *alice-sources.md*, the sources companion, which the press publishes as a separate file in *dist/*.
 
 The two directories are for the Web. The directory *site/* holds the per-chapter reader: an index page, the reader stylesheet, one page per chapter, and its assets.
 
@@ -618,7 +622,7 @@ The print pack builds only when you ask for it. Between them, the `press print`,
 
 The directory *build/* is the press's workbench. You rarely need to open it, but when a build goes wrong, the evidence is here. If pandoc does something you did not expect, read the defaults file it used under *build/defaults/*, such as *pdf.yaml*. If the front matter or the page geometry looks wrong, read the TeX the press generated from your config. It lives in *build/front-matter.tex*, *build/aesthetic.tex*, *build/profile-geometry.tex*, and *build/profile-dropcap.tex*.
 
-After a jargon failure, *build/jargon-report.txt* holds the full audit. To look at the PDF page by page, run `press render`, which writes page images at 160 dpi into *build/rendered-book/*. The generated subject index lives under *build/generated/*, with its letter in its name, and the flattened, print-safe copies of your images live under *build/print-assets/*. The EPUB date comes from *build/epub-metadata.xml*.
+After a jargon failure, *build/jargon-report.txt* holds the full audit. To examine the PDF page by page, run `press render`, which writes page images at 160 dpi into *build/rendered-book/*. The generated subject index lives under *build/generated/*, with its letter in its name. The flattened, print-safe copies of your images live under *build/print-assets/*. The EPUB date comes from *build/epub-metadata.xml*.
 
 Two more places hold generated state outside *build/*. The `press migrate` target writes *.press/migration-receipt.json*, and `press art commission` writes candidate images under *art/candidates/*. Neither is an artifact.
 

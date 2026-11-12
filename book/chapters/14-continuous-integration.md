@@ -27,7 +27,7 @@ A book's CI does almost none of its own work. Its workflow file names one reusab
 
 The book's own *CLAUDE.md* says that this file "is the whole file and should stay that way". The file decides two things: when CI runs, and what CI may touch. It runs on a push to any branch, on a tag that starts with `v`, on a pull request, and on demand through `workflow_dispatch`. It grants four permissions: `contents: write`, `packages: read`, `pages: write`, and `id-token: write`. Everything else belongs to the press.
 
-The file is short for a reason. The first law of the press is that the press states each fact once. The way to build a book is a fact about the press, so it lives in the press, and the book refers to it by tag. A book that copied the build steps into its own workflow would hold a second copy of them, and that copy would go stale at the next release. The press's *CLAUDE.md*, which this book calls the maintainer's guide from here on, puts the rule: "if a book needs machinery, the machinery belongs here".
+The file is short because of the first law of the press: the press states each fact once. The way to build a book is a fact about the press, so it lives in the press. The book refers to it by tag. A book that copied the build steps into its own workflow would hold a second copy of them. That copy would go stale at the next release. The press's *CLAUDE.md*, which this book calls the maintainer's guide from here on, states the rule that "if a book needs machinery, the machinery belongs here".
 
 @fig:ci-topology shows the machines that take part in one run. `alice` pushes from `hatter` to the repository. GitHub starts a run on `printshop`, which reads *book.yml* and follows it to the press's reusable workflow at `v3`. The runner pulls the toolchain image by its digest from the container registry, *ghcr.io*, and builds inside it. After a push to the default branch, `main`, the run deploys the Pages site. After a tag, it publishes a GitHub Release.
 
@@ -71,11 +71,11 @@ In step 4, the setting `if-no-files-found: error` turns an upload with nothing t
 
 ### Actions pinned by commit
 
-The workflow pins the checkout action and every other outside action to a commit SHA of 40 hexadecimal digits. GitHub has no ruleset that enforces this kind of pin, so the press enforces it with a test, `tests/test_ci_posture.py::test_every_action_is_pinned_by_full_commit_sha`. The composite action is the exception. The workflow pins it to the press's own immutable tag, and the release contract proves that pin, as the section "The release contract" later in this chapter describes.
+The workflow pins the checkout action and every other outside action to a commit SHA of 40 hexadecimal digits. GitHub has no ruleset that enforces this kind of pin, so the press enforces it with a test, `tests/test_ci_posture.py::test_every_action_is_pinned_by_full_commit_sha`. The composite action is the exception. The workflow pins it to the press's own immutable tag. The release contract proves that pin, as the section "The release contract" later in this chapter describes.
 
 ## The composite action
 
-The *composite action* is *action.yml* at the top of the press repository. This one is built from two shell steps. The reusable workflow runs it in its second step, so a book never names it.
+The *composite action* is *action.yml* at the top of the press repository. This one has two shell steps. The reusable workflow runs it in its second step, so a book never names it.
 
 Example 14.1 shows the head of the action and its install step. It replaces the long description, the input's description, and a comment with `...`. It also breaks the two long `pip install` commands with a backslash, which the shell reads as the same command. Every other line is verbatim.
 
@@ -141,7 +141,7 @@ Example 14.2 shows the second step of the action, which runs the target. It elid
         python3 -m press "${argv[@]}"
 ```
 
-The input `command` names the target, and its default is `all`. The elided comment says why the input travels as the variable `PRESS_COMMAND`: "The input reaches the script as an environment value, never interpolated into shell text, so metacharacters are data." The elided block refuses any value that is not a lowercase target name followed by plain path and flag arguments, and it exits with status 2. For the input `all && rm -rf dist`, the refusal would read:
+The input `command` names the target, and its default is `all`. The elided comment says why the input travels as the variable `PRESS_COMMAND`: "The input reaches the script as an environment value, never interpolated into shell text, so metacharacters are data." The elided block refuses any value that is not a lowercase target name followed by plain path and flag arguments. It exits with status 2. For the input `all && rm -rf dist`, the refusal would read:
 
 ```text
 press action: refusing command input: all && rm -rf dist
@@ -202,7 +202,7 @@ $ docker run --rm -v "$PWD":/book \
 ...
 ```
 
-The substitution of the image is the whole of the documented recipe. Chapter 2 also pairs the digest with the three-part press tag that the book pins, `v3.0.2` here in place of `v3`. A local build installs press from Git, because only CI uses the self-checkout. The Python dependencies can therefore still differ from CI's, because pip resolves them fresh here.
+The documented recipe replaces the image and nothing else. Chapter 2 also pairs the digest with the three-part press tag that the book pins, `v3.0.2` here in place of `v3`. A local build installs press from Git, because only CI uses the self-checkout. The Python dependencies can therefore still differ from CI's, because pip resolves them fresh here.
 
 ::: {.tip}
 > **Tip:** Read the digest from *build.yml* at the exact three-part tag you install. No release contract ever proved the image of one tag with the press of another.
@@ -278,7 +278,7 @@ The release contract is *.github/workflows/release-contract.yml* in the press re
 
 1. The tag's *build.yml* must contain `uses: clintecker/press@${tag}`, and its image must match `press-toolchain:sha-...@sha256:` followed by 64 hexadecimal digits.
 2. `docker manifest inspect` must succeed on that image.
-3. The `quality`, `consumer`, and `desk` check runs on the tag's commit must succeed. The workflow waits for them up to 60 times 30 seconds, half an hour, and the newest run of each name decides.
+3. The `quality`, `consumer`, and `desk` check runs on the tag's commit must succeed. The workflow waits for them up to 60 times 30 seconds, half an hour. The newest run of each name decides.
 4. The workflow builds the wheel, downloads the upload bundles `receipt-quality` and `receipt-integration`, and runs `python3 -m press.receipts assemble`.
 5. The workflow uploads the release receipt as the upload bundle `release-receipt`.
 
@@ -293,7 +293,7 @@ The press cuts a release with *scripts/release.sh*. The maintainer's guide calls
 | Step | Meaning |
 |------------------|------------------------------------------------------|
 | Preflight | The script requires a clean tree and a CHANGELOG section for the version. If the tag already exists on the remote, the script resumes it only when that tag's *build.yml* pins itself. |
-| 1. Release commit | The script waits for the `consumer` check on HEAD. It rewrites `uses: clintecker/press@vX` in *build.yml* and `version = "..."` in *pyproject.toml*, runs `press selftest`, commits "Release vX", and pushes `main`. |
+| 1. Release commit | The script waits for the `consumer` check on HEAD. It rewrites `uses: clintecker/press@vX` in *build.yml* and `version = "..."` in *pyproject.toml*. Then it runs `press selftest`, commits "Release vX", and pushes `main`. |
 | 2. Immutable tag | The script pushes the three-part tag. |
 | 3. Release contract | The script waits for the `contract` check. If the check fails, the script stops, and the floating tag stays where it was. |
 | 4. Float the major | The script moves the floating tag with `git push -f origin vN`. |
@@ -316,7 +316,7 @@ $ scripts/release.sh --check-tag v3.0.3
 $ scripts/release.sh v3.0.3
 ```
 
-The script does not repin the toolchain digest. A new image reaches the press through a separate change to *build.yml*. For a new major, the maintainer also moves the requirements pin in the book template, so that a book scaffolded after the release names the new major.
+The script does not repin the toolchain digest. A new image reaches the press through a separate change to *build.yml*. For a new major, the maintainer also moves the requirements pin in the book template. That way, a book scaffolded after the release names the new major.
 
 ::: {.sidebar}
 > **The release script that rewrote mypy**
@@ -373,10 +373,10 @@ The release job runs only on a tag, and it holds `contents: write`. It does four
 
 The CHANGELOG in step 2 is the book's own, never the press's. If the section is missing, the job stops. Its message begins `no CHANGELOG section for` and the tag's version, and it ends `roll [Unreleased] before tagging`.
 
-For the Alice book, the release title is *Alice's Adventures in Wonderland v1.0.0*, from the `title` output of the build job's identity step and the tag's name. The links in step 3 come from the same identity step, through its `site_url` output.
+For the Alice book, the release title is *Alice's Adventures in Wonderland v1.0.0*. The title comes from the `title` output of the build job's identity step and from the tag's name. The links in step 3 come from the same identity step, through its `site_url` output.
 
 ::: {.warning}
-> **Warning:** Do not tag a commit on a branch other than `main`. The build job runs and passes, and then the release job refuses the tag, so the release never appears.
+> **Warning:** Do not tag a commit on a branch other than `main`. The build job runs and passes. Then the release job refuses the tag, so the release never appears.
 :::
 
 ## Pages

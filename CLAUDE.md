@@ -16,7 +16,9 @@ seems to need machinery, the machinery belongs in the press, not here.
 - `assets/` and `tex/title-page.tex` are optional art and front matter;
   every build degrades gracefully when they are absent.
 - CI calls the reusable press workflow; `.github/workflows/book.yml` is
-  the whole file and should stay that way.
+  that call plus one book-side job, `prose-ratchet`, which runs
+  `tools/ste-ratchet.py` (the structural prose gate from
+  `docs/prose-contract.md`) until press ships an equivalent lint.
 
 ## Commands
 

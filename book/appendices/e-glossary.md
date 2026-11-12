@@ -9,7 +9,7 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 : The book's visual identity in *config/aesthetic.yaml*, which press merges over the house aesthetic. It cannot repeal a *craft law* (Chapters 5, 9, and 11).
 
 **Alice book**
-: The book's running sample, *Alice's Adventures in Wonderland* with slug `alice`, kept by the user `alice` on the workstation `hatter`. See also *three-chapter example* (Preface).
+: The book's running sample, *Alice's Adventures in Wonderland* with slug `alice`, which the user `alice` keeps on the workstation `hatter`. See also *three-chapter example* (Preface).
 
 **allowance**
 : A fixed amount that two of the *spine shapes* add on top of the thickness of the pages (Chapter 12).
@@ -18,7 +18,7 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 : A plate kept as ink on transparency: black color channels, with all the tone in the alpha channel. Press composites it onto the ground of each edition (Chapters 5 and 11).
 
 **appendix file**
-: A file in *book/appendices/* whose name is one lowercase letter, a hyphen, and the rest, ending in `.md` (Chapter 3).
+: A file in *book/appendices/* whose name starts with one lowercase letter and a hyphen and ends in `.md` (Chapter 3).
 
 **art department**
 : The commands that commission, accept, and finish the book's art, from `press aesthetic` to `press art enhance`. You make the art once on your own machine and commit it. CI never generates art (Chapter 11).
@@ -150,7 +150,7 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 : The `drop-cap` style of *chapter opening*. It splits the first word, so a *sentinel* there fails exact matching in the Print edition (the PDF) (Chapter 4).
 
 **EAN-13**
-: The barcode symbology for an ISBN-13, drawn by press on the *cover wrap* (Chapters 12 and 13).
+: The barcode symbology for an ISBN-13, which press draws on the *cover wrap* (Chapters 12 and 13).
 
 **editable install**
 : An install that points Python at a clone's files, so a `git pull` changes the installed press (Chapter 2).
@@ -165,10 +165,10 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 : The rules `press check` enforces. See *checker* (Chapter 6).
 
 **editorial passes**
-: The `editorial-passes` workflow, which reads the book through the four *prose skills*. Each round runs four phases: scout, suggest, synthesize, and law. Suggest sends one agent to each chapter file and three through the whole book, one per lens (cadence, repetition, and arc), and law runs `press check` until it passes. See also *maxim quota* (Chapter 15).
+: The `editorial-passes` workflow, which reads the book through the four *prose skills*. Each round runs four phases: scout, suggest, synthesize, and law. Suggest sends one agent to each chapter file and three through the whole book, one per lens (cadence, repetition, and arc). Law runs `press check` until it passes. See also *maxim quota* (Chapter 15).
 
 **evidence state**
-: The desk's glyph for an artifact, derived from content digests and never from a timestamp. The live desk shows `-`, `o`, and `/` (Chapter 15).
+: The desk's glyph for an artifact. The desk derives it from content digests and never from a timestamp. The live desk shows `-`, `o`, and `/` (Chapter 15).
 
 **expect comment**
 : The line `<!-- expect: <rule> -->` that names the rule a *known-bad fixture* must draw (Chapter 6).
@@ -207,10 +207,10 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 : The page number, set in the center of the foot, on plain pages too (Chapter 9).
 
 **front matter**
-: The pages from the cover plate through the acknowledgments, generated from *config/metadata.yaml* and *config/front-matter.yaml* (Chapter 10).
+: The pages from the cover plate through the acknowledgments, which press generates from *config/metadata.yaml* and *config/front-matter.yaml* (Chapter 10).
 
 **frontispiece**
-: The *placement* that gives an illustration a cleared leaf (see *leaf*) on an even page, facing the chapter that follows (Chapter 5).
+: The *placement* that gives an illustration a cleared leaf (see *leaf*) on an even page, so it faces the chapter that follows (Chapter 5).
 
 **generatable kind**
 : A class `press illustrate` can commission: `.plate`, `.figure`, `.map`, or `.photo`. `press illustrate` refuses the *data kinds*, `.chart` and `.diagram` (Chapter 5).
@@ -234,7 +234,7 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 : The tallest an image may be, set per *design profile*: 6.3 inches on the house 6 by 9 (Chapter 5).
 
 **house**
-: Press's default design and law. A book changes it through its own config, never by editing press (Chapters 1 and 9).
+: Press's default design and law. A book changes it through its own config, never through an edit to press (Chapters 1 and 9).
 
 **house rules**
 : The optional *config/house-rules.yaml*: `banned-patterns`, `jargon-allow`, and `audit-dirs` (Chapter 6).
@@ -318,13 +318,13 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 : A width stated against the line: `full-measure`, `half-measure`, or `third-measure` (Chapter 5).
 
 **migration**
-: The move of a book to the next major with `press migrate`, which rewrites only the press pins. It first writes an exact backup and afterward a receipt under *.press/*, and it leaves the manuscript, the config, and the art alone (Chapter 14).
+: The move of a book to the next major with `press migrate`, which rewrites only the press pins. It first writes an exact backup and afterward a receipt under *.press/*. It leaves the manuscript, the config, and the art alone (Chapter 14).
 
 **module**
 : The narrowest bar or space of an *EAN-13*, 0.0130 inch wide. The barcode has 95 of them (Chapter 12).
 
 **ONIX 3.0**
-: The book trade's XML format for product records, written by `press onix` (Chapter 13).
+: The book trade's XML format for product records, which `press onix` writes (Chapter 13).
 
 **operator**
 : The commands `press improve`, `press research`, and `press aesthetic`, which hand work to an agent through `claude`. They are not *targets* (Chapters 2 and 15).
@@ -372,7 +372,7 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 : The pip-installable Python package and its command, `press <target>` or `python -m press`, lowercase by convention (Chapter 1).
 
 **print interior**
-: The PDF that goes inside the covers, built by `press print` (Chapters 5 and 12).
+: The PDF that goes inside the covers, which `press print` builds (Chapters 5 and 12).
 
 **print ordering**
 : The optional ordering of printed copies from the book's *Pages site* (Chapters 8 and 12).
@@ -435,7 +435,7 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 : The trade's name for a *wrap* (Chapter 5).
 
 **runt**
-: A paragraph's last line of one short word, prevented by a finite `\parfillskip` (Chapter 9).
+: A paragraph's last line of one short word, which a finite `\parfillskip` prevents (Chapter 9).
 
 **safety**
 : A line inside the *trim* that a shop asks you to keep type within. The press does not draw or check it (Chapter 12).
@@ -471,13 +471,13 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 : The checker's first pass: files, headings, required metadata, and configuration (Chapter 6).
 
 **sources companion**
-: The file `dist/<slug>-sources.md`, written from the *table of authorities* and published beside the book (Chapters 1 and 10).
+: The file `dist/<slug>-sources.md`, which press writes from the *table of authorities* and publishes beside the book (Chapters 1 and 10).
 
 **spine shape**
 : One of four ways a provider computes the spine: `constant`, `divisor`, `ppi-table`, or `lookup` (Chapter 12).
 
 **stale artifact**
-: An artifact not rebuilt in this run. The registry's edges make every verify target rebuild what it reads. The one exception is `press verify-formats`, which reads an existing PDF into its agreement check without rebuilding it (Chapters 8 and 16).
+: An artifact not rebuilt in this run. The registry's edges make every verify target rebuild what it reads. The one exception is `press verify-formats`, which reads an existing PDF into its agreement check and does not rebuild it (Chapters 8 and 16).
 
 **structured field**
 : A config field too rich for one command line, such as the index terms. The other kinds are the *writable field*, the *immutable field*, and the *file field* (Chapter 3).

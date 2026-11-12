@@ -1,6 +1,6 @@
 # Appendix D: The toolchain, platform by platform {.unnumbered}
 
-Press is a Python package, and it does little by itself. The work of making a book falls to *the toolchain*, the outside programs press runs: pandoc, LuaLaTeX, latexmk, the fonts, epubcheck with the Java that runs it, and poppler. This appendix gives the toolchain for each platform the press supports, then *the toolchain image* that carries all of it, then what the press does not test. Chapter 2, *Installing press*, walks through the same ground as a first installation.
+Press is a Python package, and it does little by itself. The work of making a book falls to *the toolchain*, the outside programs press runs: pandoc, LuaLaTeX, latexmk, the fonts, epubcheck with the Java that runs it, and poppler. This appendix gives the toolchain for each platform the press supports. It then describes *the toolchain image* that carries all of it, and what the press does not test. Chapter 2, *Installing press*, covers the same ground as a first installation.
 
 The press's install guide names its platforms: "Supported platforms are Linux (the container's Ubuntu 24.04 is the reference) and macOS." In this appendix, Linux means Debian and Ubuntu with the package list below, or the toolchain image on either of its two architectures.
 
@@ -27,9 +27,9 @@ Table D.1 lists the external tools that `press doctor` looks for, with the docto
 
 Table: Table D.1. The tools press doctor checks
 
-The doctor also reports `realesrgan`, which `press art enhance` uses to upscale plates. It reports if `OPENAI_API_KEY` and `GEMINI_API_KEY` are set. It reports the Python version against the tested range, and it reports if Pillow, pypdf, and ruamel.yaml import.
+The doctor also reports `realesrgan`, which `press art enhance` uses to upscale plates. It reports whether `OPENAI_API_KEY` and `GEMINI_API_KEY` are set. It reports the Python version against the tested range, and it reports whether Pillow, pypdf, and ruamel.yaml import.
 
-A few programs escape the doctor. `pdfimages` comes with poppler, and its absence silently softens two checks to notes, so install poppler in full. The toolchain image's epubcheck wrapper needs `java`. When `oxipng` or `pngcrush` is present, `press art enhance` uses it. The press's own documentation Web site drives a headless Chrome for its layout check. No book needs Chrome.
+A few programs escape the doctor. `pdfimages` comes with poppler. If `pdfimages` is absent, two checks silently soften to notes, so install poppler in full. The toolchain image's epubcheck wrapper needs `java`. When `oxipng` or `pngcrush` is present, `press art enhance` uses it. The press's own documentation Web site drives a headless Chrome for its layout check, but no book needs Chrome.
 
 ::: {.tip}
 > **Tip:** Run `press doctor` after any change to the toolchain. When the machine is ready, it prints `this machine can make books` and exits with status 0. Otherwise it exits with status 1.
@@ -58,9 +58,9 @@ Each of two packages in the list carries a *scar*, the press's word for a produc
 
 The first is the font. The house PDF face is Libertinus, which TeX Live carries. Ubuntu has no `fonts-libertinus` package. Also, `--no-install-recommends` drops the Libertine keyboard face. The *Dockerfile* therefore names `fonts-linuxlibertine` explicitly. If you copy the flag, keep that package in your own list.
 
-The second is epubcheck: Ubuntu's launcher runs the jar through binfmt_misc, which containers do not register, so it dies with "Exec format error" only when it runs (Chapter 2).
+The second is epubcheck. Ubuntu's launcher runs the jar through binfmt_misc, which containers do not register. The launcher therefore dies with "Exec format error" only when it runs (Chapter 2).
 
-The press repairs this in two parts: the image's wrapper (Example D.4) replaces the launcher, and the verifier reports a present-but-unrunnable epubcheck as a fault in the toolchain, not in your EPUB.
+The press repairs this in two parts. First, the image's wrapper (Example D.4) replaces the launcher. Second, the verifier reports a present-but-unrunnable epubcheck as a fault in the toolchain, not in your EPUB.
 
 ::: {.warning}
 > **Warning:** If you build your own container from Ubuntu, replace the packaged `epubcheck` launcher with a wrapper that runs `java -jar /usr/share/java/epubcheck.jar` with the original arguments.
@@ -164,13 +164,13 @@ $ docker run --rm -v "$PWD":/book \
 ...
 ```
 
-Inside the image, `pip install` needs `--break-system-packages`, `--rm` removes the container afterward, and the artifacts stay in the mounted *dist/* (Chapter 2).
+Inside the image, `pip install` needs `--break-system-packages`. The `--rm` flag removes the container afterward, and the artifacts stay in the mounted *dist/* (Chapter 2).
 
-For a build that matches CI, replace `:latest` with the digest on the `image:` line of the press's *build.yml* at your book's tag, and install press at that tag (Chapters 2 and 14).
+For a build that matches CI, replace `:latest` with the digest on the `image:` line of the press's *build.yml* at your book's tag. Install press at that tag as well (Chapters 2 and 14).
 
 ### The developer's render loop {-}
 
-People who work on the press itself have *scripts/dev-render.sh*, which runs the checkout inside the pinned toolchain image (Chapter 2) and on macOS with Colima can mount a book only under `$HOME`.[^d-colima]
+People who work on the press itself have *scripts/dev-render.sh*. It runs the checkout inside the pinned toolchain image (Chapter 2). On macOS with Colima, the script can mount a book only under `$HOME`.[^d-colima]
 
 [^d-colima]: This limit is press issue #276. The script's default `--out` directory also lies inside the press checkout.
 

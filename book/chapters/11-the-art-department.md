@@ -15,11 +15,13 @@
 > - Keys, models, and what spends money
 :::
 
-A book needs pictures as well as words: a cover, the plates inside it, the *logomark* (the printer's mark of the imprint), and sometimes a portrait of the author. Press commissions each of these from an image model, takes the result into the book repository in a fixed house format, and refuses a delivery that would print badly. The path runs from an `art:` directive in a chapter file to a committed image under *assets/*. Some of the commands send work to a paid image service, and Table 11.7, in the last section, names them with the keys they read. The examples use the Alice book, which the user `alice` keeps on the workstation `hatter`.
+A book needs pictures as well as words: a cover, the plates inside it, the *logomark* (the printer's mark of the imprint), and sometimes a portrait of the author. Press commissions each of these from an image model and takes the result into the book repository in a fixed house format. It refuses a delivery that would print badly. The path runs from an `art:` directive in a chapter file to a committed image under *assets/*. Some of the commands send work to a paid image service, and Table 11.7, in the last section, names them with the keys they read. The examples use the Alice book, which the user `alice` keeps on the workstation `hatter`.
 
 ## What the art department is
 
-The *art department* is the set of press commands that commission, accept, and finish the book's art. Each picture starts as a *commission*, a prompt for an image model that the book keeps in *art/commissions.md*, and press runs a commission only when you ask it to, and the build never does. You generate each image on your own machine, with your own API keys, and you commit the result to the book repository as an asset. The CI build never generates art. The toolchain image holds no keys, and the press never stores them, so a build on `printshop` can only use the files that `alice` committed from `hatter`.
+The *art department* is the set of press commands that commission, accept, and finish the book's art. Each picture starts as a *commission*, a prompt for an image model that the book keeps in *art/commissions.md*. Press runs a commission only when you ask it to, and the build never does.
+
+You generate each image on your own machine, with your own API keys, and you commit the result to the book repository as an asset. The CI build never generates art. The toolchain image holds no keys, and the press never stores them. A build on `printshop` can therefore use only the files that `alice` committed from `hatter`.
 
 This arrangement keeps the build deterministic. A cover that an image model drew last Tuesday stays the same cover in every later build. The build reads the committed file and never asks the model again. It also keeps the cost in your hands. Every request to an image model costs money, and only a command that you run on your own machine can make one.
 
@@ -66,7 +68,7 @@ The house aesthetic writes its art direction in plain sentences, one key at a ti
 
 To see the aesthetic that a book actually gets, run `press aesthetic` with no arguments. It prints one comment line, `# effective aesthetic (<source path>)`, and then the merged YAML. The merge is shallow: a section the book names replaces the whole house section (Chapter 9), so Example 11.1 restates every key.
 
-Example 11.1 adds a `plates:` section to the Alice book's *config/aesthetic.yaml*, the file of Chapter 9's Example 9.1, and spells out each of the section's keys.
+Example 11.1 adds a `plates:` section to the Alice book's *config/aesthetic.yaml*, the file of Chapter 9's Example 9.1, and states each of the section's keys.
 
 **Example 11.1. The plates section of the Alice book's config/aesthetic.yaml**
 
@@ -109,7 +111,7 @@ press cover --list
 ```
 
 ::: {.tip}
-> **Tip:** `press <command> --help` prints the argument grammar only. Most options in this book are accepted but not listed. Appendix A marks each one.
+> **Tip:** `press <command> --help` prints the argument grammar only. The `--help` output does not list most options in this book, but the commands accept them. Appendix A marks each one.
 :::
 
 A *cover style* is a named prompt template for a whole genre of cover. The press carries ten of them in *src/press/data/cover-styles.yaml*, and `press cover --list` prints each with a one-line note. The command picks the style from `--style`, then from `cover.style` in the aesthetic, and then falls back to `penguin-tri-band`. Table 11.2 describes the ten styles.
@@ -129,7 +131,7 @@ A *cover style* is a named prompt template for a whole genre of cover. The press
 
 Table: Table 11.2. The ten cover styles
 
-The default style follows the Penguin paperback grid.[^11-penguin] It prints a single color on cream in three horizontal bands, with the title, the author, and a woodcut of the subject in the wide cream band. Ovals in the accent bands above and below hold the imprint and the publisher's initials.
+The default style follows the Penguin paperback grid.[^11-penguin] It prints a single color on cream in three horizontal bands. The wide cream band holds the title, the author, and a woodcut of the subject. Ovals in the accent bands above and below hold the imprint and the publisher's initials.
 
 Each template has fields that the command fills from the book, and Table 11.3 lists them.
 
@@ -219,7 +221,11 @@ Table: Table 11.4. The seven illustration styles
 
 The command picks the style from `--style`, then from the illustration's own `style=` attribute, then from `plates.style` in the aesthetic, and falls back to `wood-engraving`.
 
-Without `--subject`, the command finds the subject in the manuscript. It looks for the illustration whose image file stem equals the name, and it takes the `art:` directive that follows its image line. Chapter 5, *Figures, plates, and illustrations*, shows how to write the directive, and its Example 5.1 declares the Alice plate `white-rabbit` that this section commissions. The command refuses in three cases: when no image line in the manuscript declares the illustration, when the illustration is a data kind (`.chart` or `.diagram`), and when it has no `art:` directive.
+Without `--subject`, the command finds the subject in the manuscript. It looks for the illustration whose image file stem equals the name, and it takes the `art:` directive that follows its image line. Chapter 5, *Figures, plates, and illustrations*, shows how to write the directive, and its Example 5.1 declares the Alice plate `white-rabbit` that this section commissions. The command refuses in three cases:
+
+- No image line in the manuscript declares the illustration.
+- The illustration is a data kind (`.chart` or `.diagram`).
+- The illustration has no `art:` directive.
 
 The last refusal carries a reason with an issue number: "A caption is a label, not art direction (#225)." Commissions once drew from captions, which produced what the press documentation calls "literal, silly plates". A directive describes the picture an engraver would cut.
 
@@ -251,7 +257,7 @@ To commission and accept one plate for the Alice book:
 
 ## Intake: what acceptance enforces
 
-*Intake* is what `press art accept` does to a delivered image: it converts the file to house format, checks what it can, places the result under *assets/*, and records the acceptance. Its synopsis is:
+*Intake* is what `press art accept` does to a delivered image. It converts the file to house format, checks what it can, places the result under *assets/*, and records the acceptance. Its synopsis is:
 
 ```text
 press art accept <file>
@@ -271,7 +277,9 @@ Table: Table 11.5. The art targets
 
 The only geometry check at intake is the cover's aspect ratio. The ratio of height to width must fall within 3 percent of the trim's ratio. Intake refuses a cover outside that tolerance with "crop the source, do not stretch it".
 
-Intake reads the trim from `trim` in *config/metadata.yaml* and takes it as 6 by 9 when the key is absent. It does not read the design profile. A book made by a current press has no `trim` key, because the press refuses a direct write to it (Chapter 3, *The shape of a book repository*). A 5 by 8 book therefore has its cover checked against 6 by 9. A hand-written `trim` mapping that agrees with the profile corrects the check. Intake checks no minimum pixel count and no DPI. The TeX header enforces the height cap when LuaLaTeX sets the book, and intake leaves that work to it.
+Intake reads the trim from `trim` in *config/metadata.yaml* and takes it as 6 by 9 when the key is absent. It does not read the design profile. A book made by a current press has no `trim` key, because the press refuses a direct write to it (Chapter 3, *The shape of a book repository*). A 5 by 8 book therefore has its cover checked against 6 by 9. A hand-written `trim` mapping that agrees with the profile corrects the check.
+
+Intake checks no minimum pixel count and no DPI. The TeX header enforces the height cap when LuaLaTeX sets the book, and intake leaves that work to it.
 
 ::: {.warning}
 > **Warning:** Do not stretch a cover to make it pass the aspect check. Crop the source to the trim's proportions, as the refusal says, or commission it again in the right shape.
@@ -289,7 +297,7 @@ A plate goes through the most work. Intake treats a plate as single ink when two
 
 A delivery that already has transparency keeps its mask, and intake grays it to the single ink. Intake counts a delivery as opaque when its minimum alpha is 250 or more. A file with an alpha channel but no real transparency therefore takes the opaque path.
 
-An opaque delivery first meets the *flat-ground test*. Intake measures a band around the border of the image, one twenty-fifth of the shorter side wide and never under 3 pixels.[^11-band] At least 82 percent of the border pixels must have a luminance of 200 or more. The mean luminance of the top edge and the bottom edge may differ by at most 45, and the same limit holds for the left and right edges.
+An opaque delivery first meets the *flat-ground test*. Intake measures a band around the border of the image, one twenty-fifth of the shorter side wide and never under 3 pixels.[^11-band] At least 82 percent of the border pixels must have a luminance of 200 or more. The mean luminance of the top edge and that of the bottom edge may differ by at most 45. The same limit holds for the left and right edges.
 
 A gradient or a textured ground fails that test with "the luminance key would leave a ghost on the page". The refusal offers two remedies: commission the plate again on a plain near-white ground, or move to a color interior, which keeps the plate's exact pixels. The test arrived in press 3.0.0. Before that release, intake keyed every opaque plate. The key read every dark pixel of a gradient as ink, so the gradient survived as a smudge on the page.
 
@@ -340,7 +348,7 @@ Without a file argument, the command finishes every *.jpg* and *.png* file in *a
 3. It quantizes the plate to a few gray levels.
 4. It compresses the PNG.
 
-For the upscale, the command looks for `realesrgan-ncnn-vulkan` or `upscayl-bin` on the `PATH`, then for */usr/local/bin/realesrgan-ncnn-vulkan*, and then for the binary inside *Upscayl.app* in */Applications*.[^11-upscayl] It looks for the models in */usr/local/share/realesrgan/models*, then in Upscayl's models directory, and then in a *models* directory beside the binary. It runs the upscaler at a scale of 4, with a timeout of 600 seconds. The medium in `plates.medium` chooses the model and the default number of colors, by substring, as Table 11.6 shows.
+For the upscale, the command first looks for `realesrgan-ncnn-vulkan` or `upscayl-bin` on the `PATH`. Then it looks for */usr/local/bin/realesrgan-ncnn-vulkan*, and then for the binary inside *Upscayl.app* in */Applications*.[^11-upscayl] It looks for the models in */usr/local/share/realesrgan/models*, then in Upscayl's models directory, and then in a *models* directory beside the binary. It runs the upscaler at a scale of 4, with a timeout of 600 seconds. The medium in `plates.medium` chooses the model and the default number of colors, by substring, as Table 11.6 shows.
 
 | Medium contains | Model and colors | Meaning |
 |------------------------------|----------------------|----------------------------------------|
@@ -351,7 +359,7 @@ For the upscale, the command looks for `realesrgan-ncnn-vulkan` or `upscayl-bin`
 
 Table: Table 11.6. How the plate medium chooses the upscaler model
 
-If the chosen model is missing, the command tries remacri-4x, ultrasharp-4x, realesrgan-x4plus, and upscayl-standard-4x, in that order. If it finds no upscaler at all, it prints a note that it will quantize and compress without an AI upscale, and it carries on.
+If the chosen model is missing, the command tries remacri-4x, ultrasharp-4x, realesrgan-x4plus, and upscayl-standard-4x, in that order. If it finds no upscaler at all, it prints a note that it will quantize and compress without an AI upscale, and it continues.
 
 The resample uses a Lanczos filter and only ever shrinks the image. The default long edge is 2400 pixels, which the code comment explains: it "covers a full-page plate on a 6x9 interior at 300 DPI". The `--max-edge` option changes it.
 
@@ -503,11 +511,11 @@ To commission the whole set of art for the Alice book from OpenAI alone:
 2. Read *art/commissions.md* and confirm that every plate prompt names its composition.
 3. Name every art target except `logomark`, because of press issue #277. Run `press art commission cover portrait plate:white-rabbit --model openai`, with one `plate:` for each plate.
 4. Commission the logomark from Gemini. Export `GEMINI_API_KEY`, then run `press art commission logomark --model gemini`.
-5. Look at each candidate under *art/candidates/* and choose one per art target.
+5. Examine each candidate under *art/candidates/* and choose one per art target.
 6. Accept each choice with `press art accept` *`file`* `--as` *`art-target`*.
 7. Run `press art enhance`, then commit *assets/* and *art/commissions.md* together.
 
-The press uses four models, which its code fixes as constants: `gpt-image-2` as the OpenAI flagship, `gpt-image-1` for transparency, `gemini-3-pro-image` as the Gemini flagship, and `gemini-3.1-flash-image` as the Gemini workhorse. A comment in the code calls the choice "print-driven, researched 2026-07".
+The press uses four models, which its code fixes as constants. For OpenAI, `gpt-image-2` is the flagship, and `gpt-image-1` is the model for transparency. For Gemini, `gemini-3-pro-image` is the flagship, and `gemini-3.1-flash-image` is the workhorse. A comment in the code calls the choice "print-driven, researched 2026-07".
 
 A 6 by 9 cover at 300 DPI needs about 1800 by 2700 pixels. `gpt-image-2` takes sizes in multiples of 16, with a maximum edge of 3840 pixels and a maximum area of about 8.3 megapixels. On Gemini, the pro model draws covers because it renders text best, and the flash model draws plates and portraits. Table 11.8 gives the shape that `press art commission` asks for, by art target.
 
@@ -522,6 +530,6 @@ A 6 by 9 cover at 300 DPI needs about 1800 by 2700 pixels. `gpt-image-2` takes s
 
 Table: Table 11.8. The shapes that press art commission requests
 
-Each request goes from your machine straight to OpenAI or Google, and Gemini takes one request per image.[^11-imagen] The cover size in Table 11.8 differs from the size that `press cover` requests, which is 1024 by 1536. Both have the 2:3 shape, and intake checks only the shape. When Gemini refuses a prompt, the press prints the `finishReason` and up to 300 characters of the model's explanation.
+Each request goes from your machine straight to OpenAI or Google.[^11-imagen] Gemini takes one request per image. The cover size in Table 11.8 differs from the size that `press cover` requests, which is 1024 by 1536. Both have the 2:3 shape, and intake checks only the shape. When Gemini refuses a prompt, the press prints the `finishReason` and up to 300 characters of the model's explanation.
 
 [^11-imagen]: OpenAI requests go to *https://api.openai.com/v1/images/generations*, or to *https://api.openai.com/v1/images/edits* as a multipart form when they carry reference images. A transparent request adds `background: "transparent"`. Gemini requests go to the `generateContent` endpoint of *https://generativelanguage.googleapis.com/v1beta/*, with the key in the `x-goog-api-key` header. A comment in the code explains that the Imagen predict endpoint "is closed to new API users".

@@ -16,3 +16,9 @@ permissions:
 jobs:
   book:
     uses: clintecker/press/.github/workflows/build.yml@v3
+  prose-ratchet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Structural prose gate (tools/ste-ratchet.py)
+        run: python3 tools/ste-ratchet.py

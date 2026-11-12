@@ -1,6 +1,8 @@
 # Appendix C: Messages and refusals {.unnumbered}
 
-When press stops, it prints a message and exits with a nonzero status. This appendix lists the messages by the command that prints them, so you can look one up before you read the code. Each entry quotes the message as press prints it, then gives its cause and its remedy. Words in angle brackets, such as `<path>`, stand for a value press fills in. A letter such as `N` or `M` stands for a number, and `[...]` stands for a list of page numbers or names. Elsewhere in a message, `...` stands for text that press prints there and this appendix leaves out, such as the diagnostics after a colon.
+When press stops, it prints a message and exits with a nonzero status. This appendix lists the messages by the command that prints them, so you can look one up before you read the code. Each entry quotes the message as press prints it, then gives its cause and its remedy.
+
+Words in angle brackets, such as `<path>`, stand for a value press fills in. A letter such as `N` or `M` stands for a number, and `[...]` stands for a list of page numbers or names. Elsewhere in a message, `...` stands for text that press prints there and this appendix leaves out, such as the diagnostics after a colon.
 
 A long message appears under a short entry that gives its first words. The message itself follows in a block, broken at a space to fit the page. Press prints it as one line, and an indented line in the block continues the line above it.
 
@@ -167,7 +169,7 @@ The third pass reads every audited file: the manuscript and the files in any aud
     **Remedy.** Delete the whitespace, and set your editor to strip it on save.
 
 `glyph U+2014 is outside the print-font set`
-:   **Cause.** Book prose holds a character outside the set the glyph law allows: tab, line feed, carriage return, U+0020 to U+007E, and U+00C0 to U+017F. Press names the code point. The glyph law skips fenced code.
+:   **Cause.** Book prose holds a character outside the set that the glyph law allows. The set is tab, line feed, carriage return, U+0020 to U+007E, and U+00C0 to U+017F. Press names the code point. The glyph law skips fenced code.
 
     **Remedy.** Replace the character with its ASCII spelling, such as three periods for an ellipsis.
 
@@ -188,7 +190,7 @@ The third pass reads every audited file: the manuscript and the files in any aud
 
 The curly-quote rule refuses a curly quotation mark in book prose. Its diagnostic contains the word `curly`, which the packaged fixture *curly-quotes.md* declares. Type straight quotes, and pandoc curls them in the editions.
 
-When a line matches one of the book's banned patterns, press prints the label from *config/house-rules.yaml* in place of a packaged diagnostic, in the form `<file>:<line>: <label>`. The label is the book's own message, and its remedy is the rule the book wrote.
+When a line matches one of the book's banned patterns, press prints the label from *config/house-rules.yaml* in place of a packaged diagnostic. The form is `<file>:<line>: <label>`. The label is the book's own message, and its remedy is the rule the book wrote.
 
 ### The jargon lint {-}
 

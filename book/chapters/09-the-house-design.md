@@ -14,7 +14,7 @@
 > - Why a design change is a new major
 :::
 
-Every book that press builds wears the same design unless its author asks for another one. The press calls that design *the house*: the page, the type, the running heads, and the Web sheets that come with the package. This chapter gives the house in numbers, shows what the six *design profiles* (sealed page geometries) change, and follows the design onto the reader site and the landing page. It then shows how a book changes its own appearance, and it ends with the reason a design change waits for a new major version.
+Every book that press builds wears the same design unless its author asks for another one. The press calls that design *the house*: the page, the type, the running heads, and the Web sheets that come with the package. This chapter gives the house in numbers and shows what the six *design profiles* (sealed page geometries) change. Then it follows the design onto the reader site and the landing page. It shows how a book changes its own appearance, and it ends with the reason a design change waits for a new major version.
 
 ## The page in numbers
 
@@ -42,7 +42,7 @@ Table 9.1 gives every measurement the house TeX header sets on that page. The in
 
 Table: Table 9.1. The house 6 by 9 page
 
-The last row is the height cap from Chapter 5, *Figures, plates, and illustrations*, and each profile sets its own value with the key `figure-cap`. Every figure prints where the manuscript puts it, because the header places figures with the option `[H]`.
+The last row is the height cap from Chapter 5, *Figures, plates, and illustrations*. Each profile sets its own value with the key `figure-cap`. Every figure prints where the manuscript puts it, because the header places figures with the option `[H]`.
 
 ### The print interior
 
@@ -73,11 +73,11 @@ The house sets its body text in Libertinus at 10 points. Table 9.2 lists the set
 
 Table: Table 9.2. The house type
 
-A book can choose another body face in its *aesthetic*, the visual identity in *config/aesthetic.yaml*, through the key `typography.pdf-family`. When that key is empty, the header uses the packaged Libertinus. When it names a family, the header writes `\setmainfont{<family>}[Numbers=OldStyle]` instead, so the chosen face sets its numerals in the old style, with descenders like lowercase letters.
+A book can choose another body face in its *aesthetic*, the visual identity in *config/aesthetic.yaml*, through the key `typography.pdf-family`. When that key is empty, the header uses the packaged Libertinus. When it names a family, the header writes `\setmainfont{<family>}[Numbers=OldStyle]` instead. That option makes the chosen face set its numerals in the old style, with descenders like lowercase letters.
 
 ### Line breaking
 
-Version 3.0.0 of press added rules for how the lines break. The `microtype` package runs with `protrusion=true,expansion=true,final=true`. Protrusion lets punctuation hang slightly past the margin, so the edge of the text looks straight to the eye. Expansion lets the face widen or narrow a little on a line, which gives the paragraph builder more ways to avoid a loose line. The `selnolig` package stops a ligature across the seam of a compound word, so "shelfful" keeps its two letters f apart at `shelf|ful`.
+Version 3.0.0 of press added rules for how the lines break. The `microtype` package runs with `protrusion=true,expansion=true,final=true`. Protrusion lets punctuation hang slightly past the margin, so the edge of the text looks straight to the eye. Expansion lets the face widen or narrow a little on a line. That gives the paragraph builder more ways to avoid a loose line. The `selnolig` package stops a ligature across the seam of a compound word, so "shelfful" keeps its two letters f apart at `shelf|ful`.
 
 The header also sets six values to 10000. They are `\clubpenalty`, `\widowpenalty`, `\displaywidowpenalty`, `\brokenpenalty`, `\finalhyphendemerits`, and `\doublehyphendemerits`. For the four penalties, 10000 is the value TeX treats as infinite. A paragraph therefore never leaves its first line alone at the foot of a page or its last line alone at the head of the next. No page ends on a hyphenated line. The two demerits make TeX avoid a hyphen at the end of the next-to-last line and hyphens on two lines in a row.
 
@@ -87,13 +87,13 @@ Four more values control the shape of the paragraph. The value `\parfillskip=0pt
 
 The header sets every heading in bold, in the ink color, and ragged on the right. A chapter title has 1.25 lines of space after it. A section heading has 1.6 lines before it and 0.55 after it, and a subsection heading has 1.2 before and 0.35 after. Each heading also reserves room for the text that follows it: five lines for a section and four for a subsection. A heading therefore never sits alone at the foot of a page.
 
-The contents page goes one level deep: it lists the chapters. The plates and the figures have separate lists, the List of Plates and the List of Figures (a scar Chapter 7 tells kept the List of Plates full at that depth).
+The contents page goes one level deep: it lists the chapters. The plates and the figures have separate lists, the List of Plates and the List of Figures. Chapter 7 tells the scar that kept the List of Plates full at that depth.
 
 One package sets every caption. The header gives the `caption` package the options `font={small,it}`, `labelformat=empty`, `justification=centering`, and `hypcap=true`. Captions are therefore small, italic, and centered. The last option sends a link in the List of Plates to the top of the plate instead of to its caption.
 
 ### Color and links
 
-The house PDF names six colors, and the aesthetic can override four of them through `book-colors`. Table 9.3 lists the defaults. The interior is single ink in every profile except `house-6x9-color`. That rule is a *craft law*, a law of the house that no configuration can change, and Chapter 11, *The art department*, names the others.
+The house PDF names six colors, and the aesthetic can override four of them through `book-colors`. Table 9.3 lists the defaults. The interior is single ink in every profile except `house-6x9-color`. That rule is a *craft law*, a law of the house that no configuration can change. Chapter 11, *The art department*, names the others.
 
 | Name | Value | Meaning |
 |-------------|-------------|--------------------------------------------------------|
@@ -101,16 +101,18 @@ The house PDF names six colors, and the aesthetic can override four of them thro
 | `muted` | `#5C5C5C` | It sets the book title in the running head. `book-colors.muted` overrides it. |
 | `rulegray` | `#C8C8C8` | The header defines it, and no setting in the aesthetic touches it. |
 | `papergray` | `#F4F4F1` | It fills the box behind a blockquote. |
-| `accent` | `#4B3E8A` | It is defined by the header and used nowhere. `book-colors.accent` overrides it. |
+| `accent` | `#4B3E8A` | The header defines it and uses it nowhere. `book-colors.accent` overrides it. |
 | `linkgreen` | `#46621F` | It colors a URL in the reading PDF. `book-colors.link` overrides it. |
 
 Table: Table 9.3. The house PDF colors
 
-Links are live, with `colorlinks: true`. An internal link stays black through `linkcolor: black`, and a URL takes `linkgreen` in the reading PDF and black in print. A book with no front matter still gets a plain fallback title page. Chapter 10, *Front matter, the index, and the table of authorities*, describes the generated front matter that usually takes its place.
+Links are live, with `colorlinks: true`. An internal link stays black through `linkcolor: black`, and a URL takes `linkgreen` in the reading PDF and black in print.
+
+A book with no front matter still gets a plain fallback title page. Chapter 10, *Front matter, the index, and the table of authorities*, describes the generated front matter that usually takes its place.
 
 ### Chapter openings
 
-No shipped profile sets a drop cap. A book asks for one, as Chapter 4, *Writing the manuscript*, shows. In the PDF the `drop-cap` style becomes a call to the LaTeX package `lettrine`, wrapped in the house macro `\PressDropCap`. The drop cap is three lines deep, with `findent=2pt` between the letter and the text. The rest of the first word follows in small caps, and the macro reserves four lines first, so the drop cap never starts at the foot of a page.
+No shipped profile sets a drop cap. A book asks for one, as Chapter 4, *Writing the manuscript*, shows. In the PDF the `drop-cap` style becomes a call to the LaTeX package `lettrine`, wrapped in the house macro `\PressDropCap`. The drop cap is three lines deep, with `findent=2pt` between the letter and the text. The rest of the first word follows in small caps. The macro reserves four lines first, so the drop cap never starts at the foot of a page.
 
 A chapter that opens with speech puts a quotation mark before the drop cap. Since version 3.0.0 the house sets that mark at body size and hangs it into the left margin. The drop cap keeps its place at the left edge of the text. This is Bringhurst's rule for hanging punctuation. On the reader site the same mark takes a margin of minus 0.52 em.
 
@@ -139,7 +141,7 @@ $ press config set print.profile novella-5x8
 
 The command checks the value, writes it, and prints a diff of the change, as Chapter 3, *The shape of a book repository*, shows. The trim follows the profile. You never set it directly, and Chapter 3 gives the message press prints if you try.
 
-@fig:profiles-compared sets the six side by side. The intended uses come from the press's own profile descriptions, which Table 12.2 in Chapter 12 also gives. The figure takes the house text width as stated and derives the other four from Table 9.4: the trim width less the inner and outer margins. The figure leaves out the body size, because it is 10 points in every profile.
+@fig:profiles-compared sets the six side by side. The intended uses come from the press's own profile descriptions, which Table 12.2 in Chapter 12 also gives. The figure takes the house text width as stated. It derives the other four from Table 9.4: the trim width less the inner and outer margins. The figure leaves out the body size, because it is 10 points in every profile.
 
 ![The six design profiles compared](assets/woodcuts/09-02-profiles-compared.png){#fig:profiles-compared .diagram width=full-measure fig-alt="A grid with six profiles down the side and four columns across: trim, text width, height cap, and intended use. Every cell is filled, and the height cap falls and rises with the trim."}
 
@@ -158,19 +160,19 @@ Table 9.4 gives the rest of each profile: its margins, its indent and leading, a
 
 Table: Table 9.4. Margins and column widths by profile
 
-The PDF body stays at 10 points in every profile, and the indent and the leading change with the page. The large-print profile earns its name through its page and its spacing. It has a 7 by 10 trim, the widest margins, the tallest height cap, and a leading of 1.2, and on the Web it sets 1.4 rem type. The mass-market profile is the smallest page, with the tightest margins and the narrowest paper column.
+The PDF body stays at 10 points in every profile, and the indent and the leading change with the page. The large-print profile earns its name through its page and its spacing. It has a 7 by 10 trim, the widest margins, the tallest height cap, and a leading of 1.2. On the Web it sets 1.4 rem type. The mass-market profile is the smallest page, with the tightest margins and the narrowest paper column.
 
 The color profile is the one exception to the single-ink law. A book that needs color plates or figures inside chooses `house-6x9-color`. It accepts a cost, and Chapter 12 explains why some providers refuse a color interior.
 
 Another trim, a color interior, or large print is a new profile. A new engine is outside the press (Chapter 1).
 
 ::: {.tip}
-> **Tip:** Choose the profile before you commission art. The height cap and the text width set the largest size a plate can print at, and a plate drawn for one page may look cramped on a smaller one.
+> **Tip:** Choose the profile before you commission art. The height cap and the text width set the largest size a plate can print at. A plate drawn for one page may look cramped on a smaller one.
 :::
 
 ## The reader site
 
-In a browser, a reader opens the Chapter edition, the reader site: one chapter to a page, with links between them. Press builds it into *dist/site* from the house files in its own package data. One stylesheet, *reader.css*, sets its appearance, and one template, *chunked-template.html*, sets its structure. To look at a change, run `press site` and open *dist/site/index.html* in your browser.
+In a browser, a reader opens the Chapter edition, the reader site: one chapter to a page, with links between them. Press builds it into *dist/site* from the house files in its own package data. One stylesheet, *reader.css*, sets its appearance, and one template, *chunked-template.html*, sets its structure. To see a change, run `press site` and open *dist/site/index.html* in your browser.
 
 The sheet works from named colors, which CSS calls custom properties and the press calls *tokens*. Table 9.5 gives each token's values and what it paints. A token marked "dark unchanged" keeps its light value in the dark theme.
 
@@ -197,13 +199,13 @@ An `h1` sits in the center, with a small-caps line "Chapter N" and a diamond rul
 
 ### The chapter page
 
-@fig:reader-site shows a chapter page from the press's own three-chapter Alice example as a reader sees it. Each chapter page opens with a masthead that carries the book title. Below it sits a contents drawer, built from the HTML `<details>` element. The drawer starts closed, and when the reader opens it, it lists the chapters with the current one expanded.
+@fig:reader-site shows a chapter page from the press's own three-chapter Alice example as a reader sees it. Each chapter page opens with a masthead that carries the book title. Below it sits a contents drawer, built from the HTML `<details>` element. The drawer starts closed. When the reader opens it, it lists the chapters with the current one expanded.
 
 ![A chapter page of the three-chapter example on the reader site](assets/woodcuts/09-03-reader-site.png){#fig:reader-site .photo width=full-measure fig-alt="A browser window shows a paper column on a cloth background. The column holds a masthead, a closed contents drawer, and a centered chapter heading over a diamond rule. Below them are a paragraph with a drop cap and, after a gap, links to the previous and next chapters."}
 
 <!-- art: ARCHETYPE screenshot. Capture from a real reader-site build of the three-chapter example, light theme, desktop width (wide enough that the cloth frame shows), with the drop-cap chapter opening set. Page: a chapter that opens with a plate. Crop tight to the browser content area, no browser chrome, grayscale, 0.5pt box. Visible top to bottom: the cloth background at both sides; the masthead with the book title; the contents drawer in its starting state, closed; the small-caps "Chapter N" line, the centered chapter heading, and the diamond rule; the first paragraph with its drop cap and small-caps first line; one plate on its mat with a foil border and caption; the previous and next pager cards at the foot. The reader sees first the paper column on its cloth. -->
 
-The page works from the keyboard. The left and right arrow keys turn the pages. The page ignores them when a modifier key is down or the cursor sits in a form field. Access keys reach the masthead (`u`), the previous page (`p`), and the next page (`n`), and the template also gives a "Skip to chapter" link.
+The page works from the keyboard. The left and right arrow keys turn the pages. When a modifier key is down or the cursor sits in a form field, the page ignores them. Access keys reach the masthead (`u`), the previous page (`p`), and the next page (`n`). The template also gives a "Skip to chapter" link.
 
 The index page of the reader site holds the title block and the cover, if the book has one. Below them are a lede that begins "This is the reading edition" and a "Start reading" button with the access key `s`.
 
@@ -227,7 +229,7 @@ The Circulating edition (EPUB) uses *epub.css*. That sheet sets a serif face on 
 
 ## The landing page
 
-On the Web, the front door of the book is the landing page, *dist/pages/index.html*. It shares the tokens of the reader sheet, but it sets a narrower paper column, at most 44 rem wide, and it has no dark theme. The template is *index-template.html*, and it lays the page out in four parts.
+On the Web, the front door of the book is the landing page, *dist/pages/index.html*. It shares the tokens of the reader sheet, but it sets a narrower paper column, at most 44 rem wide. It has no dark theme. The template is *index-template.html*, and it lays the page out in four parts.
 
 The first part is a "Read the Book" invitation that leads to the reader site, with the line "one chapter to a page, as is proper". The second part is a "Table of Editions" that lists every edition the book offers. The third part is "How This Book Was Built". A footer closes the page with the line "Printed on paper, electrons, or both."
 
@@ -268,7 +270,7 @@ A book keeps its visual identity in *config/aesthetic.yaml*, and press merges th
 
 Table: Table 9.7. The aesthetic keys that touch the design
 
-The tokens a palette can name are `paper`, `paper-warm`, `ink`, `ink-soft`, `cloth`, `cloth-deep`, `foil`, `foil-bright`, `foil-deep`, `hairline`, `link`, `ornament`, and `accent`, which only the cover prompt reads. Press rewrites the light palette into the sheet before the dark-mode seam and the dark palette after it, so the two themes stay separate.
+The tokens a palette can name are `paper`, `paper-warm`, `ink`, `ink-soft`, `cloth`, `cloth-deep`, `foil`, `foil-bright`, `foil-deep`, `hairline`, `link`, `ornament`, and `accent`. Only the cover prompt reads `accent`. Press rewrites the light palette into the sheet before the dark-mode seam and the dark palette after it, so the two themes stay separate.
 
 Suppose `alice` wants a red cloth in the manner of a Victorian gift book. She writes the file in Example 9.1. It keeps the house foil, paper, and ink tones, and it changes the two cloth tokens. In the PDF it sets the links to the deep cloth red and restates the accent in the cloth red. The header uses the accent nowhere. It also asks for the fairy-dust scene break.
 
@@ -307,7 +309,7 @@ A Web palette value is a CSS color, so it keeps its `#`. A `book-colors` value g
 > **Warning:** Do not put a `#` before a `book-colors` value. Those values go into TeX, which wants the six hex digits alone.
 :::
 
-The merge works at the top level, and that surprises authors once. When the book's file names a section, such as `web-palette` or `book-colors`, the whole section replaces the house section of the same name. Nothing from the house section survives inside it. The house documentation's rule is "restate a whole section when you touch it." Example 9.1 follows it. It writes nine tokens of the light palette and all four book colors, including the values it keeps.
+The merge works at the top level, and that surprises authors once. When the book's file names a section, such as `web-palette` or `book-colors`, the whole section replaces the house section of the same name. Nothing from the house section survives inside it. The house documentation's rule is "restate a whole section when you touch it." Example 9.1 follows it. It writes nine tokens of the light palette and all four book colors, and the values it keeps are among them.
 
 ::: {.tip}
 > **Tip:** When you change one field of an aesthetic section, copy the whole section into your file first and edit the copy. The merge replaces the section as a whole.
@@ -372,21 +374,21 @@ Press makes a promise about design, and *ARCHITECTURE.md* states it:
 
 The press repository states the same rule from the other side: "design and template changes require a new major." The promise follows from how books use press. A book pins a release tag, as Chapter 14, *Continuous integration and the release contract*, describes. An author on the floating tag takes every fix in the major without reading the release notes. If a fix moved a line break, that author would find a different book after a routine rebuild.
 
-A change of design moves more than one line. A different hyphenation penalty breaks a paragraph in a new place, and the paragraph may then gain or lose a line. One extra line can push a heading to the next page. Across a whole book the page count changes, and the page count sets the width of the spine on the cover wrap (Chapter 12 shows the arithmetic). An author proofs those exact pages.
+A change of design moves more than one line. A different hyphenation penalty breaks a paragraph in a new place, and the paragraph may then gain or lose a line. One extra line can push a heading to the next page. Across a whole book the page count changes. The page count sets the width of the spine on the cover wrap (Chapter 12 shows the arithmetic). An author proofs those exact pages.
 
 ### Version 3.0.0 as an example
 
-The changes in 3.0.0, a design major, show what the rule covers. That release added the line-breaking rules from the section "Type" earlier in this chapter, and it hung the quotation mark of a chapter that opens with speech into the margin. A book that was valid under version 2 rebuilds under version 3 with different line breaks, and some of its pages change.
+The changes in 3.0.0, a design major, show what the rule covers. That release added the line-breaking rules from the section "Type" earlier in this chapter. It also hung the quotation mark of a chapter that opens with speech into the margin. A book that was valid under version 2 rebuilds under version 3 with different line breaks, and some of its pages change.
 
 None of those changes corrects broken output. A widow is legal TeX, and a page that begins with one is a valid page. The changes make the book better and also different, so they waited for a new major. A book pinned to `v2` kept its old pages until its author chose to move.
 
-The move itself left one more scar. The `press migrate` command once told an author moving from version 2 to version 3 that the geometry would stay byte for byte the same. That promise held for the move from version 1 to version 2, and it did not hold for this one. Release 3.0.1 corrected the message.[^9-migrate]
+The move itself left one more scar. The `press migrate` command once told an author who moved from version 2 to version 3 that the geometry would stay byte for byte the same. That promise held for the move from version 1 to version 2, and it did not hold for this one. Release 3.0.1 corrected the message.[^9-migrate]
 
 [^9-migrate]: The correction was number 262 in the press's tracker. It came in the first patch after the major.
 
 ### The machinery behind the promise
 
-Each profile carries a `design-major`, and the file *profile-seals.yaml* in the press's package data seals each profile with a digest of its contents. A check named `check_profile_seals` turns red when a profile no longer matches its seal.
+Each profile carries a `design-major`. The file *profile-seals.yaml* in the press's package data seals each profile with a digest of its contents. A check named `check_profile_seals` turns red when a profile no longer matches its seal.
 
 The press also keeps visual regression baselines, rendered pages that its tests compare against. The rule for the baselines matches the rule for the design. A maintainer may record new baselines only "with a reason", and only in a new major. A patch that changes a page therefore fails the press's own tests.
 

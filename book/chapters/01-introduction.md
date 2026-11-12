@@ -28,7 +28,7 @@ Its next sentence lists what a single command produces:
 
 > One `press all` produces a verified 6 x 9 PDF, EPUB, single-file HTML, per-chapter reader site, stitched Markdown, plain text, DOCX, a GitHub Pages site with public downloads, and gated GitHub releases ...
 
-The program is a Python package, and it installs a command of the same name.[^1-name] You run that command from inside a *book repository*, a directory that holds a *config/metadata.yaml* file and *the manuscript*. The manuscript is the chapter files and appendix files under *book/*. The 6 x 9 in the README is the default trim. It belongs to one of six *design profiles*, each a trim with its own interior geometry, and Chapter 9, *The house design*, compares them.
+The program is a Python package, and it installs a command of the same name.[^1-name] You run that command from inside a *book repository*, a directory that holds a *config/metadata.yaml* file and *the manuscript*. The manuscript is the chapter files and appendix files under *book/*. The 6 x 9 in the README is the default trim. It belongs to one of six *design profiles*, each a trim with its own interior geometry. Chapter 9, *The house design*, compares them.
 
 The package docstring names the work in three verbs: "A small press: the build, check, and verify pipeline for books." The press calls each command that does one of those jobs a *target*. You will meet `press check`, `press pdf`, `press all`, and the other targets one at a time in later chapters. @fig:pipeline-overview shows the whole path, from the manuscript at the left to the dist directory, *dist/*, at the right.
 
@@ -40,9 +40,9 @@ The package docstring names the work in three verbs: "A small press: the build, 
 
 The building falls to pandoc, a program that converts documents from one markup language to another. It reads your Markdown once and passes the document through a chain of Lua filters that the press supplies. A *Lua filter* is a small script, written in the Lua language, that pandoc runs over the document between reading it and writing it out. Apart from the PDF, pandoc's own writers produce the EPUB, the single HTML file, the chunked reader site, the plain text, and the DOCX. One edition skips pandoc altogether: the *Manuscript edition* is the chapters stitched into one Markdown file.
 
-The PDF takes two more programs. Pandoc writes the book out as LaTeX, and LuaLaTeX, the TeX engine that sets the type, turns that LaTeX into pages. Then latexmk, a program that reruns LaTeX until the page references and the lists stop changing, drives it through as many passes as the book needs. You never see the LaTeX unless you go looking for it.
+The PDF takes two more programs. Pandoc writes the book out as LaTeX, and LuaLaTeX, the TeX engine that sets the type, turns that LaTeX into pages. Then latexmk drives LuaLaTeX through as many passes as the book needs. Latexmk is a program that reruns LaTeX until the page references and the lists stop changing. You never see the LaTeX unless you go looking for it.
 
-Verifying is the part a homemade build script usually leaves out. Each *verifier* opens a finished *artifact*, a file or directory in *dist/* that the press names and tracks, and inspects it as an object. The PDF verifier renders pages and checks the cover on page 1. The EPUB goes through epubcheck, the validator that retail channels run. The press does not call a book built until every verifier passes.
+Verifying is the part a homemade build script usually omits. Each *verifier* opens a finished *artifact*, a file or directory in *dist/* that the press names and tracks, and inspects it as an object. The PDF verifier renders pages and checks the cover on page 1. The press runs epubcheck, the validator that retail channels run, over the EPUB. The press does not call a book built until every verifier passes.
 
 Under the press sits *the toolchain*, the programs it calls to do the work. They are pandoc, LuaLaTeX, latexmk, the Libertinus fonts,[^1-libertine] epubcheck with a Java to run it, and poppler. Poppler is a set of PDF tools, and its `pdftoppm` renders a page as an image for the verifier. The press itself needs Python 3.10 or later. @fig:the-stack shows how the layers rest on one another, with your book at the top and the operating system at the bottom.
 
@@ -62,11 +62,11 @@ The work moved quickly after that. Version 2.0.0 followed on 2026-07-21 as the "
 
 A second book put the docstring's claim to the test. *Make Ready* was "taken end to end through the built-in facilities". It had a commissioned clothbound cover, fourteen engraved plates finished by `press art enhance`, a subject index, registered ISBNs, and a table of authorities. The press repository holds only the machinery, and each book keeps its own repository.
 
-One maintainer, Clint Ecker of LGTM Systems, LLC, looks after the press. Books from that shop appear under the LGTM Publishing imprint. The license is MIT, "code and bundled content alike". The README says of ownership: "A book you make with the press is yours entirely." The ROADMAP records the repository `clintecker/press` as public since 2026-07-19, and the documentation site is at *https://clintecker.github.io/press/*.
+One maintainer, Clint Ecker of LGTM Systems, LLC, looks after the press. Books from that shop appear under the LGTM Publishing imprint. The license is MIT, "code and bundled content alike". The README says of ownership: "A book you make with the press is yours entirely." The ROADMAP records the repository `clintecker/press` as public since 2026-07-19. The documentation site is at *https://clintecker.github.io/press/*.
 
 ## The four laws
 
-The press repository sets out four laws in *docs/ARCHITECTURE.md*. They account for most of the decisions you will meet in later chapters, including several that look strange the first time a refusal stops your build.
+The press repository sets out four laws in *docs/ARCHITECTURE.md*. They account for most of the decisions you will meet in later chapters. Several of those decisions look strange the first time a refusal stops your build.
 
 ### Facts are stated once
 
@@ -74,7 +74,7 @@ The first law reads "Facts are stated once." *ARCHITECTURE.md* then gives each k
 
 The Alice book shows the law at small scale. `press new alice` writes the slug `alice` once, into *config/metadata.yaml*. The registry derives every filename from it, so the PDF becomes *alice.pdf* and the EPUB becomes *alice.epub*. Nobody types either name. The ROADMAP states the same law as a product rule: facts are stated once and projected mechanically.
 
-The law also runs in the other direction. The press repository contains no book. Its *CLAUDE.md* says: "Every book-specific fact (title, slug, sentinels, banned vocabulary, front matter, art) lives in the book repository that consumes this package." The same file adds "if a book needs machinery, the machinery belongs here". A book repository therefore holds book facts only, and a capability that one book needs goes into the press, where every other book can use it.
+The law also runs in the other direction. The press repository contains no book. Its *CLAUDE.md* says: "Every book-specific fact (title, slug, sentinels, banned vocabulary, front matter, art) lives in the book repository that consumes this package." The same file adds "if a book needs machinery, the machinery belongs here". A book repository therefore holds book facts only. A capability that one book needs goes into the press, where every other book can use it.
 
 ### Generators over checkers over conventions
 
@@ -82,7 +82,7 @@ The second law ranks three kinds of guard: "Prefer machinery that produces the r
 
 The tallest scar in the press shows the order at work. "A figure taller than the text block makes LuaLaTeX ship empty pages forever, silently, at 100% CPU." One answer is a warning in the documentation. The press chose a generator instead: the TeX header caps the height of every included image, so no Markdown figure can reach the fault. The cap varies by design profile, and on the house 6 by 9 it is 6.3 inches.
 
-`press check` refusing an em dash is a checker. The style guide for this book is a convention, and the second law ranks it last. Most of that guide now also exists as regular expressions in this book's *config/house-rules.yaml*, where `press check` enforces them on every run. The guide remains in force for the rules that no regular expression can express.
+`press check`, which refuses an em dash, is a checker. The style guide for this book is a convention, and the second law ranks it last. Most of that guide now also exists as regular expressions in this book's *config/house-rules.yaml*, where `press check` enforces them on every run. The guide remains in force for the rules that no regular expression can express.
 
 ### Artifacts are verified as objects
 
@@ -110,11 +110,11 @@ The epubcheck scar shows what that means. Ubuntu's `epubcheck` launcher runs the
 
 "Press is a prose engine," says *docs/NON-GOALS.md*. The rest of that file lists what follows from it. The press is not a page-layout or design application, and it does not replace InDesign, Affinity, Scribus, or Quark. It does not design fixed-layout picture books, comics, or magazines. It does not build interactive or rich-media e-books either.
 
-The same file gives a test for new requests. Another trim, a color interior, or large print is a new profile of the prose engine, and *NON-GOALS.md* calls that core press work. A new engine falls outside it. For books with designed interiors, the plan is the *finisher*, a supplied-interior source mode in which the book names a finished PDF with `interior: path/to/interior.pdf`. At the time of this writing, the finisher sits on the Book breadth milestone as planned work, and press 3.0.2 does not include it.
+The same file gives a test for new requests. Another trim, a color interior, or large print is a new profile of the prose engine, and *NON-GOALS.md* calls that core press work. A new engine falls outside it. For books with designed interiors, the plan is the *finisher*, a supplied-interior source mode. In that mode the book names a finished PDF with `interior: path/to/interior.pdf`. At the time of this writing, the finisher sits on the Book breadth milestone as planned work, and press 3.0.2 does not include it.
 
 Some smaller limits follow from the same choice. The press has no book-level `\part` divisions. Its cross-references point at figures and nothing else, so it does not number a reference to a chapter or a section for you. It does not generate a glossary or an "also by" page, although both appear in the plans. Non-Latin and right-to-left scripts sit in the icebox, at the stated price of "a major per script family". Nobody tests the press on Windows.
 
-The press also has no plugin loader. *ARCHITECTURE.md* gives the reason: "Behavior cannot come from the accident of which package imported first." Extensions go through a declared extension contract, which Chapter 16, *Inside the press*, describes.
+The press also has no plugin loader. *ARCHITECTURE.md* gives the reason: "Behavior cannot come from the accident of which package imported first." Extensions use a declared extension contract, which Chapter 16, *Inside the press*, describes.
 
 The QUICKSTART draws the boundary from the author's side. The title, the author, the words, and the visual identity are "yours to decide". The build order, the verification pipeline, the filenames, and the editions belong to the press. If you want to rename *alice.pdf* or skip epubcheck, you ask for something the press does not offer.
 
@@ -124,7 +124,7 @@ The quickest way to understand the press is to watch it make a book. The sample 
 
 ### Scaffolding the book
 
-`press new` creates a book repository from the house template, and it takes the slug from the directory name. The `--owner` option names the GitHub account, so the scaffold also fills in the `repository` and `site-url` lines of the metadata. Example 1.1 creates the Alice book, sets its title, author, and description, and puts the scaffold under Git.
+`press new` creates a book repository from the house template, and it takes the slug from the directory name. The `--owner` option names the GitHub account, so the scaffold also writes the `repository` and `site-url` lines of the metadata. Example 1.1 creates the Alice book, sets its title, author, and description, and puts the scaffold under Git.
 
 **Example 1.1. Scaffolding the Alice book**
 
@@ -139,7 +139,9 @@ $ git init && git add -A && git commit -m "First book"
 ...
 ```
 
-The new directory holds a *config/metadata.yaml* with `slug: "alice"`, a *book/chapters/* directory with a one-paragraph preface, and the rest of the scaffold. Chapter 3, *The shape of a book repository*, walks through it file by file. Each `press config set` writes one field, and the `--json` option reads the value as JSON, which is how a list of authors goes in. The checker refuses a book without a description, so the tour sets one now. `press new` does not run `git init`, so the tour commits the scaffold first, which is the habit the Source edition rewards once the book lives in a repository.[^1-make]
+The new directory holds a *config/metadata.yaml* with `slug: "alice"`, a *book/chapters/* directory with a one-paragraph preface, and the rest of the scaffold. Chapter 3, *The shape of a book repository*, examines it file by file.
+
+Each `press config set` writes one field. The `--json` option reads the value as JSON, which is how a list of authors goes in. The checker refuses a book without a description, so the tour sets one now. `press new` does not run `git init`, so the tour commits the scaffold first. The Source edition rewards that habit once the book lives in a repository.[^1-make]
 
 ### Checking the new book
 
@@ -159,11 +161,11 @@ The self-test is the unusual pass. A *known-bad fixture* is a file that every ch
 
 ### Building everything
 
-With the check passing, run `press all`. It runs the checker again, builds every edition, packs the source archive, and assembles the Pages bundle. Then it runs the verifiers, and it finishes with an advisory commerce gate that applies only when a book enables print ordering. Example 1.2 shows the summary lines from a run on the press's own three-chapter Alice example, which also has an appendix, and elides the rest.
-
 ::: {.warning}
 > **Warning:** Leave the first LuaLaTeX run on a fresh machine alone. Its font scan takes several minutes and looks like a hang. It is not a hang, although it gives a very convincing imitation of one.
 :::
+
+With the check passing, run `press all`. It runs the checker again, builds every edition, packs the source archive, and assembles the Pages bundle. Then it runs the verifiers, and it finishes with an advisory commerce gate that applies only when a book enables print ordering. Example 1.2 shows the summary lines from a run on the press's own three-chapter Alice example and elides the rest. That example also has an appendix.
 
 **Example 1.2. The summary lines of press all**
 
@@ -197,7 +199,7 @@ Table 1.1 explains each line that Example 1.2 shows, by the words that identify 
 
 Table: Table 1.1. The summary lines of a press all run
 
-The elided verifier lines carry the detail. For the three-chapter example, the PDF line reports "23 pages, 6 x 9 trim, embedded fonts" and goes on to "every rendered page contains ink, no edge clipping, cover on page 1". That last check is the one the sidebar earlier in this chapter explains. On a machine without epubcheck, the run warns that it validated the EPUB "structurally only", and it notes that the toolchain image runs the full check in CI.
+The elided verifier lines carry the detail. For the three-chapter example, the PDF line reports "23 pages, 6 x 9 trim, embedded fonts" and continues with "every rendered page contains ink, no edge clipping, cover on page 1". That last check is the one the sidebar earlier in this chapter explains. On a machine without epubcheck, the run warns that it validated the EPUB "structurally only". It also notes that the toolchain image runs the full check in CI.
 
 When the run finishes, *dist/* holds the artifacts in Example 1.3.
 
@@ -225,7 +227,7 @@ Each entry in Example 1.3 is an edition or holds one, and the section "The editi
 
 ### Publishing the book
 
-The last step puts the book on the Web. The scaffold already carries *.github/workflows/book.yml*, a short workflow that calls the press's reusable workflow, *build.yml*, so a push is all that CI needs. Add the remote for the `wonderland-press` account and push:
+The last step puts the book on the Web. The scaffold already carries *.github/workflows/book.yml*, a short workflow that calls the press's reusable workflow, *build.yml*. As a result, a push is all that CI needs. Add the remote for the `wonderland-press` account and push:
 
 ```text
 $ git remote add origin \
@@ -267,15 +269,17 @@ The Pages bundle, *dist/pages/*, gathers the editions for readers. It holds the 
 
 A book with a *config/authorities.yaml*, its table of authorities, gets one more file. The press generates *alice-sources.md*, *the sources companion*, a document published beside the book. Chapter 10, *Front matter, the index, and the table of authorities*, covers it. The three-chapter example has no authorities file and so no sources companion.
 
-*The print pack* is the set of artifacts a printer needs. It holds a print-profile interior, a *cover wrap* (the whole cover, back to front, as one PDF) with a computed spine and an EAN-13 barcode, and the retail channel checklists. Its own targets build it. Chapter 12, *The print pack*, covers it in full.
+*The print pack* is the set of artifacts a printer needs. It holds a print-profile interior, a *cover wrap*, and the retail channel checklists. The cover wrap is the whole cover, back to front, as one PDF, with a computed spine and an EAN-13 barcode. Its own targets build it. Chapter 12, *The print pack*, covers it in full.
 
-Everything the press makes on the way to *dist/* stays in the build directory, *build/*. That directory holds the rendered pandoc defaults, the generated subject index, the front matter as TeX, the jargon report, and the page images that `press render` draws at 160 dpi. `press clean` deletes both *build/* and *dist/*.
+Everything the press makes on the way to *dist/* stays in the build directory, *build/*. That directory holds the rendered pandoc defaults, the generated subject index, the front matter as TeX, and the jargon report. It also holds the page images that `press render` draws at 160 dpi. `press clean` deletes both *build/* and *dist/*.
 
-A *sentinel* is a phrase from the manuscript, listed under `verify-sentinels` in *config/metadata.yaml*, that the verifiers must find in the manuscript and in every artifact. If a sentinel leaves the manuscript, the checker refuses with `sentinel not found in the manuscript:`. If an edition lacks one, the verifier for that edition fails and names it. A second setting, `verify-min-pages`, sets the fewest pages the PDF may have. The scaffold writes 1, which suits a book that is one preface long. If you delete that line, the default of 40 applies, and a short book then fails. A release build refuses both draft values: it needs at least 2 sentinels and a floor of at least 24 pages.
+A *sentinel* is a phrase from the manuscript, listed under `verify-sentinels` in *config/metadata.yaml*, that the verifiers must find in the manuscript and in every artifact. If a sentinel leaves the manuscript, the checker refuses with `sentinel not found in the manuscript:`. If an edition lacks one, the verifier for that edition fails and names it.
+
+A second setting, `verify-min-pages`, sets the fewest pages the PDF may have. The scaffold writes 1, which suits a book that is one preface long. If you delete that line, the default of 40 applies, and a short book then fails. A release build refuses both draft values: it needs at least 2 sentinels and a floor of at least 24 pages.
 
 ## Versions and the pinned contract
 
-At the time of this writing, the current release is press 3.0.2, dated 2026-11-11. A *floating tag* such as `v3` moves forward within its major as new releases come out, and an *immutable tag* such as `v3.0.2` names one release forever. Chapter 14 explains the release contract that proves each tag, and Chapter 9 explains why a design change needs a new major.
+At the time of this writing, the current release is press 3.0.2, dated 2026-11-11. A *floating tag* such as `v3` moves forward within its major as new releases appear. An *immutable tag* such as `v3.0.2` names one release forever. Chapter 14 explains the release contract that proves each tag, and Chapter 9 explains why a design change needs a new major.
 
 ::: {.tip}
 > **Tip:** Pin `v3` to receive fixes as they come. When a book must rebuild from the same press and toolchain years from now, pin a three-part tag such as `v3.0.2` and move that pin on purpose. Chapter 14 takes the mechanism apart.

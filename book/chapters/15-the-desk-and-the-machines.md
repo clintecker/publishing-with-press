@@ -15,11 +15,15 @@
 > - Why the diseases are hard-coded
 :::
 
-You can drive press in two ways: by hand, one target at a time, or by agent, through a workflow that reads and writes the book for you. Every earlier chapter drove it by hand from a shell prompt. The *desk* is a full-screen console that does the same work by hand from a list, with the book's state in view. The workflows are the agent route, and they read *skills*, the packaged authoring guides that come with press, which an agent reads before it writes. The examples use the Alice book, which `alice` keeps on `hatter` in the book repository at *~/alice*.
+You can drive press in two ways: by hand, one target at a time, or by agent, through a workflow. A workflow reads and writes the book for you. Every earlier chapter drove press by hand from a shell prompt. The *desk* is a full-screen console that does the same work by hand from a list, with the book's state in view.
+
+The workflows are the agent route. They read *skills*, the packaged authoring guides that come with press, which an agent reads before it writes. The examples use the Alice book, which `alice` keeps on `hatter` in the book repository at *~/alice*.
 
 ## Two ways to drive the press
 
-The first way is by hand. Every action press takes on a book starts as a `press` command. You can type the command at the shell prompt or pick it from a list on the desk. Both routes reach the same code. The desk builds the argument list you would type and runs `press` as a child process. The press's documentation puts it: "Every action it runs is a `press <target>` you can type yourself; the RUN view even prints the exact command it launched." The RUN view is the desk's screen for a target while it runs.
+The first way is by hand. Every action press takes on a book starts as a `press` command. You can type the command at the shell prompt or pick it from a list on the desk. Both routes reach the same code.
+
+The desk builds the argument list you would type and runs `press` as a child process. The press's documentation puts it: "Every action it runs is a `press <target>` you can type yourself; the RUN view even prints the exact command it launched." The RUN view is the desk's screen for a target while it runs.
 
 The command line suits scripts, CI, and anyone who already knows the target names. The desk suits a working session at the keyboard. It keeps the book's state in view while you work: which artifacts exist, which tools the machine lacks, and what the last run printed. Every action the desk runs is a command you can type yourself. What it adds is the view and the setup wizard.
 
@@ -40,7 +44,9 @@ $ press desk
 
 The desk needs a terminal. Without a TTY, it points you to the command line instead.[^15-pipe] A cron job or a CI step should call the targets directly.
 
-The desk opens on its home screen, which the code calls DESK. The home screen draws the desk's *read model*, the facts the desk gathers about the book and the machine. @fig:the-desk shows it on `hatter`. The top of the screen gives the book's identity: its title, its authors, its trim, and its slug. The trim prints in inches, as `6 x 9 in` for the house profile. Under the identity sits the artifact table, with one row for each artifact in the registry whose condition holds for this book. Each row has three columns: the artifact, its state, and its published flag.
+The desk opens on its home screen, which the code calls DESK. The home screen draws the desk's *read model*, the facts the desk gathers about the book and the machine. @fig:the-desk shows it on `hatter`.
+
+The top of the screen gives the book's identity: its title, its authors, its trim, and its slug. The trim prints in inches, as `6 x 9 in` for the house profile. Under the identity sits the artifact table, with one row for each artifact in the registry whose condition holds for this book. Each row has three columns: the artifact, its state, and its published flag.
 
 ![The desk on hatter, with the target picker open](assets/woodcuts/15-01-the-desk.png){#fig:the-desk .photo width=full-measure fig-alt="A terminal screen showing the book's title, authors, trim, and slug at the top, a table of artifacts with a one-character state for each, a line about the toolchain, and a table of the machine's tools, with a list of press targets beside them."}
 
@@ -80,11 +86,13 @@ The `p` key opens the target picker. The desk builds the list from the *catalog*
 
 ### The RUN view
 
-When you start a target, the desk switches to the RUN view. The first line shows the exact command, such as `$ press pdf`. Under it the desk prints a stage line, then the log as the child writes it. The stage line shows a check mark, the phases the log names so far (check, typeset, verify), and a count that the desk prints as `N steps`. Chapter 7, *Building the editions*, describes the three markers that the desk parses from the log. They are the phase lines that start with a pilcrow, the plus-sign lines that report each command, and time lines such as `pandoc took 26.7s`. The desk builds the stage line from those markers only, "so it can never claim progress the build did not print".
+When you start a target, the desk switches to the RUN view. The first line shows the exact command, such as `$ press pdf`. Under it the desk prints a stage line, then the log as the child writes it. The stage line shows a check mark, the phases the log names so far (check, typeset, verify), and a count that the desk prints as `N steps`.
+
+Chapter 7, *Building the editions*, describes the three markers that the desk parses from the log. They are the phase lines that start with a pilcrow, the plus-sign lines that report each command, and time lines such as `pandoc took 26.7s`. The desk builds the stage line from those markers only, "so it can never claim progress the build did not print".
 
 The run ends with one of three result lines: `done`, `failed (exit N)`, or `cancelled (exit N)`. Each line adds that the child's exit code decides the result.
 
-The desk runs exactly one child at a time. A second launch while one runs raises an error. The desk passes the arguments to the child as a list, never as a shell string, so nothing you type in the argument box reaches a shell.[^15-popen]
+The desk runs exactly one child at a time. A second launch while one runs raises an error. The desk passes the arguments to the child as a list, never as a shell string. As a result, nothing you type in the argument box reaches a shell.[^15-popen]
 
 ::: {.tip}
 > **Tip:** Read the first line of the RUN view before you report a problem. It is the exact command the desk launched, and you can paste it at a shell prompt to reproduce the run without the desk.
@@ -145,7 +153,7 @@ Table: Table 15.4. The four workflows
 
 `press new` lays a copy of each workflow into the book repository at *.claude/workflows/*. Chapter 3, *The shape of a book repository*, showed the stamp in each copy: `// scaffolded by press 3.0.2; source of truth: press data/workflows`. The copy happens only at `press new`. No later command refreshes it, so a book scaffolded under an older press keeps the older workflows until you replace them.
 
-The `press workflows` command reports each workflow's arguments, compares the book's copy with the installed package, and prints the line you would paste to run it. Example 15.1 shows the last entry on `hatter`. The capture shortens each path to three periods and the last part of the path. This page breaks its long lines to fit and indents each continuation four more spaces.
+The `press workflows` command reports each workflow's arguments and compares the book's copy with the installed package. It also prints the line you would paste to run it. Example 15.1 shows the last entry on `hatter`. The capture shortens each path to three periods and the last part of the path. This page breaks its long lines to fit and indents each continuation four more spaces.
 
 **Example 15.1. One entry of press workflows**
 
@@ -199,9 +207,9 @@ At the end of Chapter 2, `alice` repaired `claude` on `hatter`, and the doctor's
 
 ## The editorial passes
 
-The `editorial-passes` workflow is the editorial machine. It reads the book through the four prose skills (`humanizer`, `onwritingwell`, `elems_of_style`, and `hemingway`), collects suggestions, applies the ones that survive judgment, and holds the result to the checker. It takes four arguments.
+The `editorial-passes` workflow is the editorial machine. It reads the book through the four prose skills (`humanizer`, `onwritingwell`, `elems_of_style`, and `hemingway`) and collects suggestions. It applies the ones that survive judgment and holds the result to the checker. It takes four arguments.
 
-The workflow requires the `root` argument. The `rounds` argument sets the largest number of rounds it runs, two by default. The `maxims` argument sets the *maxim quota*, the number of coined maxims a chapter may keep, also two by default. A coined maxim is a short invented saying that closes a paragraph, and the section "Why the diseases are hard-coded" later in this chapter explains why the workflow rations them. The `report` argument forces one round and applies nothing.
+The workflow requires the `root` argument. The `rounds` argument sets the largest number of rounds it runs, two by default. The `maxims` argument sets the *maxim quota*, the number of coined maxims a chapter may keep, also two by default. A coined maxim is a short invented saying that closes a paragraph. The section "Why the diseases are hard-coded" later in this chapter explains why the workflow rations them. The `report` argument forces one round and applies nothing.
 
 Each round runs four phases, which @fig:editorial-passes-machine traces.
 
@@ -213,7 +221,9 @@ Each round runs four phases, which @fig:editorial-passes-machine traces.
 
 The *scout* phase lists the manuscript and finds the four prose skills through `press skills`. It records the book's sentinels, the labels of its banned patterns, and its `jargon-allow` list, so that later agents know what they must not disturb.
 
-The *suggest* phase runs in parallel. One agent for each chapter file reads all four prose skills "in full" and returns at most 12 suggestions, each with the current text, the proposed text, and a reason. The prompt adds that "an empty list is an acceptable answer". Three more agents read the whole book through one lens each: *cadence*, *repetition*, and *arc*. Each of the three returns at most 15 suggestions. These lenses look for the patterns that no single chapter shows, such as the same paragraph shape in every chapter.
+The *suggest* phase runs in parallel. One agent for each chapter file reads all four prose skills "in full" and returns at most 12 suggestions. Each suggestion carries the current text, the proposed text, and a reason. The prompt adds that "an empty list is an acceptable answer".
+
+Three more agents read the whole book through one lens each: *cadence*, *repetition*, and *arc*. Each of the three returns at most 15 suggestions. These lenses look for the patterns that no single chapter shows, such as the same paragraph shape in every chapter.
 
 The *synthesize* phase runs one synthesizer for each file. The synthesizer applies the suggestions with judgment and follows one instruction above the rest: "Preserve the author's voice; do not add length." It rejects what it will not apply and appends each rejection to *build/editorial-rejections.md*.
 
@@ -294,7 +304,7 @@ Table 15.5 lists the eleven skills in the order `press skills` prints them.
 
 Table: Table 15.5. The skills that come with press
 
-To read a skill yourself, open the path that `press skills` prints for it, or tell your Claude Code session to read that file before it writes. Before `alice` drafts a cover brief for Chapter 11's commissions, for example, `alice` opens the `cover-design` skill.
+To read a skill yourself, open the path that `press skills` prints for it. You can also tell your Claude Code session to read that file before it writes. Before `alice` drafts a cover brief for Chapter 11's commissions, for example, `alice` opens the `cover-design` skill.
 
 The editorial passes require all four prose skills. Three skills are design skills: `cover-design`, `plates-and-woodcuts`, and `press-logomark`. The `art-direction` workflow reads those three. The press's instructions to its own maintainers give the same advice to any agent that writes for a book: "Read the relevant ones before composing prose or art direction for any book."
 
@@ -310,13 +320,13 @@ Some skills carry more than one file. The `overused-jargon` skill is a directory
 
 ## Running a workflow headless
 
-Three operator commands run a workflow without a Claude Code session of your own. Each one starts the `claude` command non-interactively in the book repository and asks it to run one workflow. Table 15.6 lists them. Three of the flags in the table exist in the code but do not appear in the grammar that `--help` prints, and the table says so.
+Three operator commands run a workflow without a Claude Code session of your own. Each one starts the `claude` command non-interactively in the book repository and asks it to run one workflow. Table 15.6 lists them. Three of the flags in the table exist in the code but do not appear in the grammar that `--help` prints. The table says so.
 
 | Command | Workflow | Meaning |
 |------------------|------------------------|--------------------------------------|
-| `press improve` | `editorial-passes` | It takes `--apply` to edit the manuscript, and `--rounds N` to set the round limit. The `--rounds` flag is not listed by `--help`. |
-| `press research` | `authorities-research` | It takes `--max-claims-per-file N` to sample claims instead of reading every one. The flag is not listed by `--help`. |
-| `press aesthetic "<brief>"` | `aesthetic-brief` | It takes `--overwrite` to replace an existing *config/aesthetic.yaml*. The flag is not listed by `--help`. |
+| `press improve` | `editorial-passes` | It takes `--apply` to edit the manuscript, and `--rounds N` to set the round limit. The grammar that `--help` prints does not list the `--rounds` flag. |
+| `press research` | `authorities-research` | It takes `--max-claims-per-file N` to sample claims instead of reading every one. The grammar that `--help` prints does not list the flag. |
+| `press aesthetic "<brief>"` | `aesthetic-brief` | It takes `--overwrite` to replace an existing *config/aesthetic.yaml*. The grammar that `--help` prints does not list the flag. |
 
 Table: Table 15.6. The operator commands
 
