@@ -344,7 +344,7 @@ Design rationales that work as sidebars:
 
 ## S1. What `registrations.retail: true` requires (from `src/press/registrations.py:340-362`, confirmed)
 
-`_retail_failures` runs only when `retail` is true. It requires an ISBN for both editions, `print` and `epub`: a missing one reports `isbn print missing` or `isbn epub missing`, and a `pending` one reports `isbn print` / `isbn epub` as pending. The refusal reads `retail edition declared while registrations are absent or pending: <list>`. The LCCN and ISSN are not part of the retail check; they are validated separately when present (`_issn_lccn_failures`). So a retail edition needs two real ISBNs and nothing else from this file.
+`_retail_failures` runs only when `retail` is true. It requires an ISBN for both editions, `print` and `epub`: a missing one reports `isbn print missing` or `isbn epub missing`, and a `pending` one reports `isbn print` / `isbn epub` as pending. The refusal reads `retail edition declared while registrations are absent or pending: <list>`. An LCCN or ISSN joins the pending list only if it is present and still `pending` (the same function checks `issn` and `lccn` for the placeholder); a missing LCCN or ISSN is not a retail fault. So a retail edition needs two real ISBNs, and any LCCN or ISSN it declares must be real rather than `pending`. (Corrected 2026-11-11 against lines 350-355 of the source; an earlier wording here said the two were not part of the check.)
 
 ## S2. The sample book's identity for captures
 
