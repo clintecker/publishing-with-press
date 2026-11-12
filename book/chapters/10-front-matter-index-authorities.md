@@ -82,7 +82,7 @@ The press escapes every value before TeX sees it. A backslash, an ampersand, a p
 
 ### Setting the keys from the command line
 
-You can edit the file by hand, but `press config` is the shorter path. Example 10.2 shows user `alice` replacing the scaffold's placeholder identity facts and filling in the Alice front matter in one sitting.
+You can edit the file by hand, but `press config` is the shorter path. Example 10.2 shows user `alice` replacing the scaffold's placeholder identity facts and filling in the Alice front matter in one sitting. The `date` command in it repeats the value that the scaffold wrote.
 
 **Example 10.2. Setting the Alice front matter**
 
@@ -100,7 +100,7 @@ $ press config set edition-note "First edition" && \
   press config set motto "Made slowly."
 ```
 
-The four commands on the first line write to *config/metadata.yaml*, and the rest write to *config/front-matter.yaml*. The `press config` command knows which file owns each key, so you name the key and never the file. The `date` command repeats the value the scaffold wrote. The epigraph takes two commands because its value is a mapping, and the dotted names reach into it. If the front-matter file does not exist, the first front-matter key you set creates it.
+The four commands on the first line write to *config/metadata.yaml*, and the rest write to *config/front-matter.yaml*. The `press config` command knows which file owns each key, so you name the key and never the file. The epigraph takes two commands because its value is a mapping, and the dotted names reach into it. If the front-matter file does not exist, the first front-matter key you set creates it.
 
 ### What the metadata must hold
 
@@ -272,7 +272,7 @@ The match itself ignores case. A match must also stand alone: the character on e
 
 ### The zero-hit rule
 
-A term that matches nothing anywhere in the manuscript is a fault, and the press refuses the build. The message names every such term at once, as Example 10.4 shows.
+A term that matches nothing anywhere in the manuscript is a fault, and the press refuses the build. A revision that cuts the last mention of a term leaves it in this state, and the zero-hit rule turns the cut into a refusal you see at your desk.[^10-silence] The message names every such term at once, as Example 10.4 shows.
 
 **Example 10.4. A term that matches nothing**
 
@@ -283,7 +283,7 @@ gen_index: curated terms match nothing in the text: Jabberwock
 (fix the patterns or remove the terms; silence is not allowed)
 ```
 
-The rule exists because an index term with no locators is a promise the book does not keep. A reader who looks up "Jabberwock" and finds nothing after the word learns only that the index is wrong. A revision that cuts the last mention of a term would leave such an entry. The zero-hit rule turns the cut into a refusal you see at your desk.[^10-silence]
+The rule exists because an index term with no locators is a promise the book does not keep. A reader who looks up "Jabberwock" and finds nothing after the word learns only that the index is wrong.
 
 The fix is one of the two the message names. Either the pattern is wrong, and you correct the `match` list, or the subject no longer appears in the book, and you remove the entry.
 

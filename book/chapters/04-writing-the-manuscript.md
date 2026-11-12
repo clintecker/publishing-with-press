@@ -160,7 +160,7 @@ Press forbids trailing whitespace everywhere: in prose, in headings, and inside 
 > **Tip:** Set your editor to strip trailing whitespace when it saves a file.
 :::
 
-### Footnotes
+### Footnote markup
 
 Footnotes use pandoc's standard syntax: you put a label in square brackets with a caret at the point of reference. The note itself goes on a line of its own that starts with the same label and a colon. The PDF sets each note at the foot of its page, and the EPUB and the reader site collect the notes as linked notes. Press has no separate setting for endnotes. Because the PDF prints every note at the foot of its page, a long note pushes text onto the next page. Keep notes for asides and history, and put anything the reader needs to follow the argument into the body.
 

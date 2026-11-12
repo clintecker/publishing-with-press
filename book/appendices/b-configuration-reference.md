@@ -2,7 +2,7 @@
 
 This appendix lists every configuration key a book repository can hold, file by file. The files live in *config/*, and the press requires only *config/metadata.yaml*. What `press config list` prints decides each key's type and purpose. Where the press documentation and the code disagree, the entry follows the code and says so.
 
-Each entry gives the key, its type, its default, what it does, and the chapter that explains it. Dots join a nested key, so `print.profile` is the `profile` key inside the `print:` mapping. The types are the ones `press config list` prints: `str`, `int`, `float`, `bool`, `list[str]`, and `mapping`. The default is the value the press uses when the key is absent. Where `press new` writes a different value, the entry gives both.
+Each entry gives the key, its type, its default, what it does, and the chapter that explains it. Dots join a nested key, so `print.profile` is the `profile` key inside the `print:` mapping. The types are the ones `press config list` prints: `str`, `int`, `float`, `bool`, `list[str]`, and `mapping`. The default applies when the key is absent. Where `press new` writes a different value, the entry gives both.
 
 You can read and write most keys with `press config get`, `set`, `unset`, `list`, and `validate`, as Chapter 3, *The shape of a book repository*, describes. A list or a mapping needs the `--json` option. A boolean accepts `true`, `yes`, `on`, or `1`, and `false`, `no`, `off`, or `0`. The `--dry-run` option prints the diff and then `(dry run: nothing written)`. Neither option appears in `--help`.
 

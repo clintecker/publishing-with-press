@@ -66,7 +66,7 @@ The house aesthetic writes its art direction in plain sentences, one key at a ti
 
 To see the aesthetic that a book actually gets, run `press aesthetic` with no arguments. It prints one comment line, `# effective aesthetic (<source path>)`, and then the merged YAML. The merge is shallow: a section the book names replaces the whole house section (Chapter 9), so Example 11.1 restates every key.
 
-Example 11.1 adds a `plates:` section to the Alice book's *config/aesthetic.yaml*, the file of Chapter 9's Example 9.1, and restates every key in it.
+Example 11.1 adds a `plates:` section to the Alice book's *config/aesthetic.yaml*, the file of Chapter 9's Example 9.1, and spells out each of the section's keys.
 
 **Example 11.1. The plates section of the Alice book's config/aesthetic.yaml**
 
@@ -223,7 +223,7 @@ Without `--subject`, the command finds the subject in the manuscript. It looks f
 
 The last refusal carries a reason with an issue number: "A caption is a label, not art direction (#225)." Commissions once drew from captions, which produced what the press documentation calls "literal, silly plates". A directive describes the picture an engraver would cut.
 
-The `--from` option sends a source image along with the prompt, through OpenAI's image-edit endpoint. The `figure-from-photo` style requires it. Without a source, that style refuses with "the figure-from-photo style needs source material: --from <image>". Use `--from` with `engraved-map` too, when you have a real map for the engraver to redraw.
+The `--from` option sends a source image along with the prompt, through OpenAI's image-edit endpoint. The `figure-from-photo` style requires it. Without a source, that style refuses with `the figure-from-photo style needs source material: --from <image>`. Use `--from` with `engraved-map` too, when you have a real map for the engraver to redraw.
 
 The templates take three fields. `{subject}` is the directive or the `--subject` text. `{ink}` comes from `book-colors.ink`, then `web-palette.ink`, then `#1b1b1b`. `{paper}` comes from `web-palette.paper`, then `#f4f1e6`. The house `book-colors.ink` is `171717`, without a hash sign, so a house prompt asks for its plate "in 171717 ink".[^11-ink] The command always appends a guard:
 
@@ -263,7 +263,7 @@ The art target after `--as` decides where the image goes and what happens to it.
 | Art target | Destination | Meaning |
 |----------------|--------------------------|----------------------------------------------|
 | `cover` | *assets/cover.jpg* | Intake checks the aspect against the trim, flattens any alpha onto white (never onto black), and writes an optimized JPEG at quality 88. |
-| `plate:<name>` | *assets/woodcuts/<name>.png* | Intake writes an alpha master, which the next subsection defines. The name must match `[a-z0-9][a-z0-9-]*`. |
+| `plate:<name>` | `assets/woodcuts/<name>.png` | Intake writes an alpha master, which the next subsection defines. The name must match `[a-z0-9][a-z0-9-]*`. |
 | `logomark` | *assets/press-logo.png* | Intake keeps the logomark as ink on transparency. |
 | `portrait` | *assets/author.jpg* | Intake flattens the image onto white and writes a JPEG at quality 88. |
 

@@ -251,8 +251,16 @@ The doctor checks the toolchain on the machine and prints one line per tool. On 
 
     **Remedy.** Run the tool by hand to see its own error, and reinstall it.
 
-`X.Y is outside the tested range 3.10 to 3.14 (see docs/COMPATIBILITY.md)`
-:   **Cause.** The Python that runs press is older or newer than the tested releases.
+`X.Y is outside the tested range`
+
+:   Press prints:
+
+    ```text
+    X.Y is outside the tested range 3.10 to 3.14
+      (see docs/COMPATIBILITY.md)
+    ```
+
+    **Cause.** The Python that runs press is older or newer than the tested releases.
 
     **Remedy.** Install press under a Python from 3.10 to 3.14.
 
@@ -485,8 +493,16 @@ The doctor checks the toolchain on the machine and prints one line per tool. On 
 
     **Remedy.** Install epubcheck, or let CI run it.
 
-`epubcheck is present but cannot run (<exc>); the toolchain image is broken`
-:   **Cause.** The command exists but fails to start. This is the binfmt scar that Appendix D describes.
+`epubcheck is present but cannot run`
+
+:   Press prints:
+
+    ```text
+    epubcheck is present but cannot run (<exc>); the toolchain
+      image is broken
+    ```
+
+    **Cause.** The command exists but fails to start. This is the binfmt scar that Appendix D describes.
 
     **Remedy.** Run the jar through `java -jar`.
 

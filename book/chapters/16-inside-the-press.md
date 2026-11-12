@@ -16,7 +16,7 @@
 > - Contributing a scar
 :::
 
-The earlier chapters treated press as a machine that takes a manuscript in and hands editions back. This chapter opens the case for the developer who keeps the builds running or wants to change the press itself. It names modules and files freely. In the examples, `alice` keeps a clone of the press repository in *~/press* on `hatter`, beside the book in *~/alice*.
+The earlier chapters treated press as a machine that takes a manuscript in and hands editions back. This chapter opens the case for the developer who keeps the builds running or wants to change the press itself. It names modules and files freely. In the examples, `alice` keeps a clone of the press repository in *\~/press* on `hatter`, beside the book in *\~/alice*.
 
 ## A map of the package
 
@@ -335,7 +335,7 @@ $ scripts/verify.sh
 ...
 ```
 
-The editable install points `press` in *~/alice* at the files in *~/press*, so an edit takes effect at the next run. After `pre-commit install`, every commit runs ruff, mypy, shellcheck, yamllint, pymarkdown, the TOML and JSON checks, and the selftest. CI runs the same battery with `pre-commit run --all-files`. *CONTRIBUTING.md* puts the point of `press all`: "A green `pip install` is not a working pipeline."
+The editable install points `press` in *\~/alice* at the files in *\~/press*, so an edit takes effect at the next run. After `pre-commit install`, every commit runs ruff, mypy, shellcheck, yamllint, pymarkdown, the TOML and JSON checks, and the selftest. CI runs the same battery with `pre-commit run --all-files`. *CONTRIBUTING.md* puts the point of `press all`: "A green `pip install` is not a working pipeline."
 
 *scripts/verify.sh* runs lint, types, the selftest, and pytest first, and then the coverage and mutation ratchets and the site build. With `--quick`, it stops after the fast layer. With `--full`, it also runs CI's container gauntlet in the pinned toolchain image, which needs Docker. Run `--full` before you push. To look at rendered output while you tune a template or a filter, *scripts/dev-render.sh* builds one book in the pinned image from the checkout, with no reinstall.
 
@@ -350,7 +350,7 @@ To contribute a scar of your own:
 5. Add the scar to the scars list in *CLAUDE.md*.
 6. Copy the same change into *AGENTS.md*, below the heading.
 7. Run `press selftest --write-docs`, and put the regenerated documents in the same commit as the code.
-8. Run *scripts/verify.sh --full* from your clone.
+8. Run `scripts/verify.sh --full` from your clone.
 9. Open a pull request that follows the template.
 
 ::: {.tip}

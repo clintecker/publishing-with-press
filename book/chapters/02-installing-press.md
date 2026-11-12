@@ -70,7 +70,7 @@ $ press --version
 ...
 ```
 
-The quotation marks matter. The requirement contains spaces, so the shell would otherwise split it into pieces that pip cannot read. Once the environment is active, `pip` and `press` both mean the copies inside *~/.press-venv*. In a new terminal, run the activation line again, or call the commands by their full paths, such as *~/.press-venv/bin/press*.
+The quotation marks matter. The requirement contains spaces, so the shell would otherwise split it into pieces that pip cannot read. Once the environment is active, `pip` and `press` both mean the copies inside *\~/.press-venv*. In a new terminal, run the activation line again, or call the commands by their full paths, such as *\~/.press-venv/bin/press*.
 
 The part after the last `@` is a tag, and press uses two kinds. A *floating tag* such as `v3` names a major version and moves forward to the newest compatible release within it. An *immutable tag* has three parts, such as `v3.0.2`, and names exactly one release forever.
 

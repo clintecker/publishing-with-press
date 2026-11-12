@@ -141,7 +141,7 @@ $ git init && git add -A && git commit -m "First book"
 
 The new directory holds a *config/metadata.yaml* with `slug: "alice"`, a *book/chapters/* directory with a one-paragraph preface, and the rest of the scaffold. Chapter 3, *The shape of a book repository*, walks through it file by file. Each `press config set` writes one field, and the `--json` option reads the value as JSON, which is how a list of authors goes in. The checker refuses a book without a description, so the tour sets one now. `press new` does not run `git init`, so the tour commits the scaffold first, which is the habit the Source edition rewards once the book lives in a repository.[^1-make]
 
-### Checking the manuscript
+### Checking the new book
 
 Next, run the checker. On a fresh scaffold it succeeds, and its output names its four passes in order:
 
@@ -221,7 +221,7 @@ Each entry in Example 1.3 is an edition or holds one, and the section "The editi
 
 ![Three moments of the tour: scaffold, check, and the finished dist/](assets/woodcuts/01-03-ten-minute-tour.png){#fig:ten-minute-tour .diagram width=full-measure fig-alt="Three terminal windows stacked one above another. The first creates the alice book, the second shows press check passing, and the third lists the artifacts in the dist directory."}
 
-<!-- art: ARCHETYPE filmstrip, stacked vertically. Three boxed terminal panels, one above another, each 72 columns wide, black monospace on white, numbered 1, 2, 3 at the left of each frame. Panel 1, three lines: "$ press new alice --owner wonderland-press"; "$ cd alice"; "$". Panel 2, five lines exactly: "$ press check"; "Source checks passed: 1 ordered Markdown files"; "..."; "Editorial checks passed: 1 Markdown files"; "...". Panel 3, eleven lines exactly: "$ ls dist/"; "alice-site.zip"; "alice-source.zip"; "alice.docx"; "alice.epub"; "alice.html"; "alice.md"; "alice.pdf"; "alice.txt"; "pages"; "site". Each panel is only as tall as its lines. The reader should see first the progression down the page, from an empty book to a full dist/. -->
+<!-- art: ARCHETYPE filmstrip, stacked vertically. Three boxed terminal panels, one above another, each 72 columns wide, black monospace on white, numbered 1, 2, 3 at the left of each frame. Panel 1, three lines: "$ press new alice", then the owner flag (two hyphens, then "owner"), then " wonderland-press", all on one line; "$ cd alice"; "$". Panel 2, five lines exactly: "$ press check"; "Source checks passed: 1 ordered Markdown files"; "..."; "Editorial checks passed: 1 Markdown files"; "...". Panel 3, eleven lines exactly: "$ ls dist/"; "alice-site.zip"; "alice-source.zip"; "alice.docx"; "alice.epub"; "alice.html"; "alice.md"; "alice.pdf"; "alice.txt"; "pages"; "site". Each panel is only as tall as its lines. The reader should see first the progression down the page, from an empty book to a full dist/. -->
 
 ### Publishing the book
 

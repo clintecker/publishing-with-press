@@ -28,7 +28,7 @@ press add chapter|appendix <name> [--front]
 
 | Option | Meaning |
 |------------------------|----------------------------------------------------------------|
-| `--front` | With `chapter`, this makes *book/chapters/00-<name>.md*, an unnumbered chapter before the numbered ones. With `appendix`, it counts up from `a-` instead of down from `z-`. |
+| `--front` | With `chapter`, this makes `book/chapters/00-<name>.md`, an unnumbered chapter before the numbered ones. With `appendix`, it counts up from `a-` instead of down from `z-`. |
 
 Table: Table A.1. press add options
 
@@ -116,7 +116,7 @@ press art accept <file>
 | Option | Meaning |
 |------------------------|----------------------------------------------------------------|
 | `--as cover` | The image becomes *assets/cover.jpg*. At the time of this writing, its aspect ratio must be within 3 percent of the ratio of the legacy `trim` field (6 by 9 unless set), not the profile's. Press flattens any transparency onto white. |
-| `--as plate:<name>` | The image becomes the alpha master *assets/woodcuts/<name>.png*, ink on transparency. The name must match `[a-z0-9][a-z0-9-]*`. |
+| `--as plate:<name>` | The image becomes the alpha master `assets/woodcuts/<name>.png`, ink on transparency. The name must match `[a-z0-9][a-z0-9-]*`. |
 | `--as logomark` | The image becomes *assets/press-logo.png*. Press extracts the ink of an opaque delivery onto transparency. |
 | `--as portrait` | The image becomes *assets/author.jpg*, and press flattens it onto white. |
 
@@ -142,7 +142,7 @@ press art commission [<target>...] [--model openai|gemini]...
                      [--count N] [--photo PATH]
 ```
 
-**Description.** Sends the prompts in *art/commissions.md* to the image models and writes each result to *art/candidates/*, in a directory per art target, as *<model>-<n>.png*. The candidates number upward and never overwrite one another. The art targets are `cover`, `plate:<name>`, `logomark`, and `portrait`, and the default is all of them. Without *art/commissions.md*, the command refuses with `no commissions.md; run the art-direction workflow first`.
+**Description.** Sends the prompts in *art/commissions.md* to the image models and writes each result to *art/candidates/*, in a directory per art target, as `<model>-<n>.png`. The candidates number upward and never overwrite one another. The art targets are `cover`, `plate:<name>`, `logomark`, and `portrait`, and the default is all of them. Without *art/commissions.md*, the command refuses with `no commissions.md; run the art-direction workflow first`.
 
 **Options.** Table A.4 lists the options.
 
@@ -176,7 +176,7 @@ $ press art commission plate:white-rabbit --model openai \
 press art enhance [<file>] [--colors N] [--max-edge PX]
 ```
 
-**Description.** Finishes a plate. The subcommand is not listed by `--help`. Press upscales the image with Real-ESRGAN when it finds an upscaler. It then resamples the image down to the long edge, quantizes it to a few grays, and compresses it into *<stem>.png*. Without a file, it finishes every JPEG and PNG in *assets/woodcuts/*.
+**Description.** Finishes a plate. The subcommand is not listed by `--help`. Press upscales the image with Real-ESRGAN when it finds an upscaler. It then resamples the image down to the long edge, quantizes it to a few grays, and compresses it into `<stem>.png`. Without a file, it finishes every JPEG and PNG in *assets/woodcuts/*.
 
 **Options.** Table A.5 lists the options.
 
@@ -627,7 +627,7 @@ press illustrate <name> [--style <id>] [--subject <text>]
                  [--from <image>] [--print] | --list
 ```
 
-**Description.** Commissions one square plate or illustration from OpenAI's `gpt-image-2`, writes *build/illustrations/<name>.png*, and prints the `press art accept` line for it. Without `--subject`, press uses the `art:` comment of the figure whose image file has the stem `<name>`. It refuses a figure the manuscript does not declare, a `.chart` or `.diagram` figure, and a figure with no `art:` description.
+**Description.** Commissions one square plate or illustration from OpenAI's `gpt-image-2`, writes `build/illustrations/<name>.png`, and prints the `press art accept` line for it. Without `--subject`, press uses the `art:` comment of the figure whose image file has the stem `<name>`. It refuses a figure the manuscript does not declare, a `.chart` or `.diagram` figure, and a figure with no `art:` description.
 
 **Options.** Table A.12 lists the options.
 

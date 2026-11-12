@@ -56,7 +56,7 @@ The targets are not independent, because some *artifacts*, the files and directo
 
 ## What pandoc is told
 
-Every edition except the Manuscript edition and the Source edition comes out of pandoc. The press builds a pandoc command line for each one, always in the same shape, and runs it from the root of the book repository. It prints each command before it runs it, with a plus sign and a space in front. The captures in this chapter come from the press's own three-chapter Alice example, which lives under *examples/alice-in-wonderland* in a press checkout. The Alice book itself, the full novel, lives in *~/alice* on `hatter`. The captures print the example's directory as *~/alice* too, so that their paths match the rest of the chapter. Example 7.1 shows the line for the single-file HTML.
+Every edition except the Manuscript edition and the Source edition comes out of pandoc. The press builds a pandoc command line for each one, always in the same shape, and runs it from the root of the book repository. It prints each command before it runs it, with a plus sign and a space in front. The captures in this chapter come from the press's own three-chapter Alice example, which lives under *examples/alice-in-wonderland* in a press checkout. The Alice book itself, the full novel, lives in *\~/alice* on `hatter`. The captures print the example's directory as *\~/alice* too, so that their paths match the rest of the chapter. Example 7.1 shows the line for the single-file HTML.
 
 **Example 7.1. The pandoc command for the single-file HTML**
 
@@ -79,7 +79,7 @@ When a pandoc run takes one second or more, the press prints the time on the nex
 
 Pandoc reads most of its settings from a *defaults file*, a YAML file that holds the same settings you could give on the command line. The defaults files come with the press. The installed package carries one for each family of editions in its *data/defaults/* directory, which is *src/press/data/defaults/* in the press repository: `pdf.yaml`, `epub.yaml`, `html.yaml`, `chunked.yaml`, `portable.yaml`, and `print.yaml`. The Telegraphic and Office editions share `portable.yaml`.
 
-A defaults file also names the Lua filters that pandoc runs over the manuscript, in order. The six files declare three different chains. The PDF, EPUB, HTML, and chunked defaults share one chain of five filters. The print defaults add a sixth filter in the middle of that chain, and the portable defaults keep only three of the five. @fig:filter-chain sets the three chains side by side, and Table 7.3 in the next section describes each filter.
+A defaults file also names the Lua filters that pandoc runs over the manuscript, in order. The six files declare three different chains. The PDF, EPUB, HTML, and chunked defaults share one chain of five filters. The print defaults add a sixth filter, `print-safe-images`, in the middle of that chain, and the portable defaults keep only three of the five. @fig:filter-chain sets the three chains side by side, and Table 7.3 in the next section describes each filter.
 
 ![The Lua filter chain for each family of editions](assets/woodcuts/07-02-filter-chain.png){#fig:filter-chain .diagram width=full-measure fig-alt="Three vertical stacks of filter names. The first has five filters, the print stack adds print-safe-images in the middle, and the portable stack has only typographic-spacing, set-pieces, and figure-numbering."}
 

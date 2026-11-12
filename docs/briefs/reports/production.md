@@ -229,3 +229,61 @@ epubcheck results are in B3. Three chapters' XHTML were read: 2, 8, and 15.
 Then commit and re-run the image build with all four targets. Expect the page
 count to stay at 385/384. Re-read pp. 175–193 and 323–353 after the edits move
 lines.
+
+## Fixes applied
+
+Typesetter, 2026-11-11, on top of `2277c76` (the cutting pass), uncommitted.
+Manuscript only. The three sentinel phrases are untouched. Proof:
+`press check` passes natively. In the toolchain image, `press verify`,
+`press verify-print`, and `press verify-formats` all exit 0 (epubcheck passed,
+witnesses found, no edge clipping, mirrored margins checked). The reading PDF
+is still 385 pages and the interior 384. The native `dist/*.html` and the
+unzipped EPUB XHTML hold no literal `<image>`, `<name>`, `<slug>`, `<model>`,
+`<stem>`, or `<n>`, no comment containing `--`, no `<sub>`, and one
+`id="footnotes"` per file.
+
+| Finding | File | Before | After |
+|---|---|---|---|
+| B1 | `02-installing-press.md` | `*~/.press-venv*` and `*~/.press-venv/bin/press*` | `*\~/.press-venv*` and `*\~/.press-venv/bin/press*` |
+| S8 | `07-building-the-editions.md` | `*~/alice*` (twice on one line) | `*\~/alice*` |
+| S8 | `16-inside-the-press.md` | `*~/press*`, `*~/alice*` (two lines) | `*\~/press*`, `*\~/alice*` |
+| B2 | `03-the-shape-of-a-book.md` | (already reworded by the cutting pass: the line now says "the figure's annotations" and holds no `@fig:`) | no change needed |
+| B2 (same defect, new witnesses after the cut) | `07-building-the-editions.md` | Chapter 7's witness held `@fig:filter-chain`: "The print defaults add a sixth filter in the middle of that chain" | "The print defaults add a sixth filter, `print-safe-images`, in the middle of that chain" (the code span stops the line being the witness) |
+| B2 (same) | `12-the-print-pack.md` | Chapter 12's witness opened `@fig:cover-wrap-anatomy`: "200 pages on cream stock." | "200 pages on cream stock (`paper: cream`)." |
+| B3 comment | `01-introduction.md` art comment | `"$ press new alice --owner wonderland-press";` | `"$ press new alice", then the owner flag (two hyphens, then "owner"), then " wonderland-press", all on one line;` |
+| B3 comment | `03-the-shape-of-a-book.md` art comment | `(d) italic label "press add appendix --front":` | `(d) italic label "press add appendix" followed by the front flag (two hyphens, then "front"):` |
+| B3 comment | `12-the-print-pack.md` art comment | `rounded box "verify_pdf --profile print".` | `rounded box "verify_pdf", then the profile flag (two hyphens, then "profile"), then " print", all on one line.` |
+| B3/B5 | `11-the-art-department.md` | `"the figure-from-photo style needs source material: --from <image>"` | `` `the figure-from-photo style needs source material: --from <image>` `` |
+| B3/B5 | `a-command-reference.md` | `*book/chapters/00-<name>.md*` | `` `book/chapters/00-<name>.md` `` |
+| B3/B5 | `e-glossary.md` | `*dist/<slug>-sources.md*` | `` `dist/<slug>-sources.md` `` |
+| B3/B5 (same class, found by a sweep) | `a-command-reference.md` | `*assets/woodcuts/<name>.png*`, `*<model>-<n>.png*`, `*<stem>.png*`, `*build/illustrations/<name>.png*` | each as a code span |
+| B3/B5 (same class) | `11-the-art-department.md` | `*assets/woodcuts/<name>.png*` (Table 11 row) | `` `assets/woodcuts/<name>.png` `` |
+| B5 (same class: `--` became an en dash) | `16-inside-the-press.md` | `*scripts/verify.sh --full*` | `` `scripts/verify.sh --full` `` |
+| B3 duplicate id | `04-writing-the-manuscript.md` | `### Footnotes` | `### Footnote markup` (renamed rather than given an attribute, since markup.md allows no heading attributes) |
+| B4a | `c-messages.md` | term `` `X.Y is outside the tested range 3.10 to 3.14 (see docs/COMPATIBILITY.md)` `` | term `` `X.Y is outside the tested range` ``, then "Press prints:" and a `text` fence with the message broken at a space |
+| B4b | `c-messages.md` | term `` `epubcheck is present but cannot run (<exc>); the toolchain image is broken` `` | term `` `epubcheck is present but cannot run` ``, then "Press prints:" and a `text` fence broken at a space |
+| S2 (Example 10.2) | `10-front-matter-index-authorities.md` | "The `date` command repeats the value the scaffold wrote." sat after the example | moved into the lead-in as "The `date` command in it repeats the value that the scaffold wrote." Caption and code now share f. 175 |
+| S2 (Example 10.4) | `10-front-matter-index-authorities.md` | "A revision that cuts the last mention of a term would leave such an entry. The zero-hit rule turns the cut into a refusal you see at your desk.[^10-silence]" sat after the example | moved into the lead-in: "A revision that cuts the last mention of a term leaves it in this state, and the zero-hit rule turns the cut into a refusal you see at your desk.[^10-silence]" Caption and code now share f. 183 |
+| S3 (Figure 13.1) | `13-registrations.md` | image and `art:` comment directly after the "Facts are stated once" paragraph | moved two paragraphs later, after "The EPUB ISBN becomes the identifier..." (still after its `@fig:` reference). Moving it *earlier*, as the report says, would put it before its reference; moving it later fills f. 237 |
+| S3 (index sidebar, f. 226) | none | | already clear after the cutting pass: the sidebar sits on f. 183 and f. 226 is full |
+| S5 (Table B.1) | `b-configuration-reference.md` | "The default is the value the press uses when the key is absent." | "The default applies when the key is absent." The stranded row is back on f. 324 |
+| S6 | `01-introduction.md` | `### Checking the manuscript` | `### Checking the new book` (renamed for the same reason as B3). The reader page is `6-checking-the-manuscript.html` again |
+| Ch. 11 repeat | `11-the-art-department.md` | "...the file of Chapter 9's Example 9.1, and restates every key in it." | "...the file of Chapter 9's Example 9.1, and spells out each of the section's keys." |
+
+Declined:
+- **S4.** The reported instance (`[ BROKEN]` Press prints:) now sits with its
+  block on f. 344. After the B4 entries grew, three other lead-ins in
+  Appendix C end their pages: `not ready:` (f. 343),
+  `assets/cover.jpg exists but page 1` (f. 346), and
+  `print profile: margins do not mirror` (f. 350). A cut above a lead-in cannot
+  pull a multi-line verbatim block up, and padding each page is whack-a-mole
+  that any later edit undoes. The cure belongs in press: keep a definition
+  lead-in with the fenced block that follows it (`\needspace` or similar).
+- **S7.** The overflow is a press defect, not a manuscript one.
+  `webmeta.label_table_cells` stamps `data-label` only on `<tr>`, but the
+  image's pandoc emits `<tr class="odd">`, so in the image the phone stacking
+  never applies. A native build with the newer pandoc stacks every table, and
+  Chapter 3 and Appendix A measure 390 px wide at 390 px. Fix the regex to
+  `<tr\b[^>]*>` in press. The fallback, `table{display:block;overflow-x:auto}`
+  in `assets/web/extra.css`, is outside the manuscript-only scope.
+- **S1** (running heads on the appendixes) is a press defect, as reported.

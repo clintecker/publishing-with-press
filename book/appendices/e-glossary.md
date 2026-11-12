@@ -471,7 +471,7 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 : The checker's first pass: files, headings, required metadata, and configuration (Chapter 6).
 
 **sources companion**
-: The file *dist/<slug>-sources.md*, written from the *table of authorities* and published beside the book (Chapters 1 and 10).
+: The file `dist/<slug>-sources.md`, written from the *table of authorities* and published beside the book (Chapters 1 and 10).
 
 **spine shape**
 : One of four ways a provider computes the spine: `constant`, `divisor`, `ppi-table`, or `lookup` (Chapter 12).
