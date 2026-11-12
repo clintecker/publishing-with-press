@@ -109,3 +109,4 @@ Managing editor's record. Append only.
 - Ch 5 COMMITTED with figures.
 - Figures 8.1-8.3 committed. Appendix B and C+D drafted; desks dispatching (fact-b, fact-c running).
 - Ch 12 Revision 2 DONE -> continuity. facts-14 S1/S2 added for the ch 14 revision.
+- Figures 7.1-7.4 and 10.1-10.2 committed. Appendix E + colophon writer dispatched; remaining appendix desks dispatched.
