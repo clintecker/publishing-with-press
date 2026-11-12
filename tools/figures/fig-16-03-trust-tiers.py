@@ -1,6 +1,5 @@
 """Figure 16.3: the trust receipt chain (archetype 4, layered stack)."""
 import look
-from matplotlib.patches import Ellipse
 
 c = look.Canvas(300)
 names = ["collection", "unit", "property", "component", "damage", "graph",
@@ -11,13 +10,9 @@ n = len(names)
 for i, name in enumerate(names):          # i = 0 is the bottom band
     y = Y0 + (n - 1 - i) * (BH + GAP)
     c.box(BX, y, BW, BH, name, kind="plain", fill=10 if i % 2 == 0 else 20)
-    if i < n - 1:                          # link joining this band to the one above
-        gy = y - GAP
+    if i < n - 1:                          # one unbroken stroke joins each band to the next
         cx = BX + BW / 2
-        for off in (0.0, 3.2):
-            c.ax.add_patch(Ellipse((cx, gy + 2.6 + off), 3.8, 5.4, fill=False,
-                                   edgecolor="black", linewidth=look.BOX_PT,
-                                   zorder=c._zo()))
+        c.rule(cx, y - GAP, cx, y, weight=look.ARROW_PT)
 c.text(BX, Y0 + n * (BH + GAP) - GAP + 8, "a gap anywhere breaks the chain",
        italic=True, size=8, align="left", va="top")
 # right column

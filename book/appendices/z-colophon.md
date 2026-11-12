@@ -1,4 +1,4 @@
-# Colophon {.unnumbered}
+# Colophon {.unnumbered .unlisted}
 
 ![Common cuttlefish, *Sepia officinalis*](assets/woodcuts/the-cuttlefish-at-its-inkwell.png)
 
