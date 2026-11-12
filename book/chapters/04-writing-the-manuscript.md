@@ -341,7 +341,7 @@ You type the same `* * *` in every case. If the aesthetic changes later, every s
 
 Some passages need a shape of their own: an address that steps down the page, a poem on its own measure, a poem shaped like its subject. Press calls these the *set pieces*, and it has three: `cascade`, `verse`, and `tail`. Each one is a fenced div, a block between two lines of three colons, with the set piece's name after the first fence. Inside it you normally put a line block, and the *set-pieces.lua* filter lays out the form. If the div holds plain paragraphs instead of a line block, the filter counts each paragraph as one line.
 
-@fig:set-pieces shows what each of the three does to the same four lines. They are the address Alice imagines writing to her own right foot, when she grows too tall to reach it.
+@fig:set-pieces shows what each of the three does to the same four lines: the address Alice imagines writing to her own right foot.
 
 ![What cascade, verse, and tail do to the same four lines](assets/woodcuts/04-03-set-pieces.png){#fig:set-pieces .diagram width=full-measure fig-alt="Three small frames side by side, each holding the same four-line address. In the first the lines step to the right one indent at a time, in the second they share one indented left edge, and in the third they swing in a curve and shrink line by line."}
 
@@ -349,7 +349,7 @@ Some passages need a shape of their own: an address that steps down the page, a 
 
 ### Cascade
 
-A cascade suits an address or an inscription. It indents each line by 2.4em times one less than its line number. The first line sits at the left edge, the second at 2.4em, the third at 4.8em, and so on down. The three-chapter example uses a cascade for the address in Carroll's second chapter, as Example 4.7 shows.
+A cascade suits an address or an inscription. It indents each line by 2.4em times one less than its line number, so the first line sits at the left edge. Example 4.7 shows the address in Carroll's second chapter as a cascade.
 
 **Example 4.7. A cascade in the three-chapter example**
 
@@ -364,7 +364,7 @@ A cascade suits an address or an inscription. It indents each line by 2.4em time
 
 ### Verse
 
-A verse block suits a poem or a song, and it sets its lines to the house stanza measure. A blank line between groups of lines gives a stanza gap. Example 4.8 shows a verse block holding the start of the crocodile poem from Carroll's second chapter.
+A verse block suits a poem or a song, and it sets its lines to the house stanza measure. Example 4.8 holds the start of the crocodile poem in Carroll's second chapter.
 
 **Example 4.8. A verse block**
 
@@ -377,7 +377,7 @@ A verse block suits a poem or a song, and it sets its lines to the house stanza 
 :::
 ```
 
-Every line starts 3em in from the left, with no paragraph indent, and the block has 0.7em of space above and below it. An opening quotation mark at the start of a line hangs into the margin, so the letters of every line align. On the reader site, the block carries the class `.verse`, with a left margin of 2.4em.
+Every line starts 3em in from the left, with no paragraph indent, and the block has 0.7em of space above and below it. An opening quotation mark at the start of a line hangs into the margin, so the letters of every line align. A blank line between groups of lines gives a stanza gap. On the reader site, the block carries the class `.verse`, with a left margin of 2.4em.
 
 ### Tail
 

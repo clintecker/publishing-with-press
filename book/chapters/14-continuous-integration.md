@@ -404,7 +404,13 @@ Table: Table 14.4. The press migrate subcommands
 
 ### What migrate rewrites
 
-The target changes only the pin, and only in two places: *requirements.txt* and the workflow files in *.github/workflows/* whose names end in *.yml* or *.yaml*. It finds a pin with the pattern `(clintecker/press(?:/[\w./-]*?)?@v)(\d+)(\.\d+\.\d+)?`, which matches both `clintecker/press@v3` and the longer workflow path. The target refuses a pin that it finds anywhere else, and it leaves that pin as it is. It also refuses a book whose pins name two different majors, with the instruction "reconcile them before migrating".
+The target changes only the pin, and only in two places: *requirements.txt* and the workflow files in *.github/workflows/* whose names end in *.yml* or *.yaml*. It finds a pin with the pattern:
+
+```text
+(clintecker/press(?:/[\w./-]*?)?@v)(\d+)(\.\d+\.\d+)?
+```
+
+The pattern matches both `clintecker/press@v3` and the longer workflow path. The target refuses a pin that it finds anywhere else, and it leaves that pin as it is. It also refuses a book whose pins name two different majors, with the instruction "reconcile them before migrating".
 
 The new pin is always the current major plus one. An immutable pin such as `@v1.20.0` becomes the floating tag of the new major, `@v2`. If you want an immutable pin on the new major, set it by hand after `apply`, in both files.
 

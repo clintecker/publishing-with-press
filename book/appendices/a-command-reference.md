@@ -581,7 +581,7 @@ press figures
 
 **Options.** None.
 
-**Example.** Example A.6 shows the start of the entry for one plate. The White Rabbit has no class, so the report calls it a `figure`. The numbering treats it as a plate (Chapter 5).
+**Example.** Example A.6 shows the start of the entry for one plate. The White Rabbit has no class, so the report calls it a `figure`. The numbering treats it as a plate (Chapter 5). The `...` line stands for the eleven keys after `kind`: `style`, `directive`, `description`, `generatable`, `identifier`, `width`, `place`, `outset`, `alt`, `decorative`, and `numbered`.
 
 **Example A.6. press figures**
 

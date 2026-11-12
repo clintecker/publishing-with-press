@@ -323,4 +323,4 @@ A publisher with CIP data from the Library prints it as a block on the copyright
 
 [^13-earth]: The scaffold's default for the place is accurate, as far as it goes.
 
-[^13-agent]: The string ends with `(+https://github.com/clintecker/press)`, after `press-registrations-lookup` and a space.
+[^13-agent]: The string is `press-registrations-lookup`, then a space, then `(+https://github.com/` and `clintecker/press)` run together with no space between them.

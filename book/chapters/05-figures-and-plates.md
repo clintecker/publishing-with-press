@@ -273,7 +273,7 @@ Press computes the number once and writes it into every rendered edition. A numb
 
 The Manuscript edition (the stitched Markdown) is the one exception. It is the raw stitched source, and no filter runs over it. Its image lines appear as you typed them, with their attributes and their `art:` comments, so that edition publishes every directive verbatim, for any reader to see.
 
-A plate also changes ground between editions. The house keeps each plate as an *alpha master*, ink on transparency, and each edition composites it onto its own page. The reader site serves the transparent PNG itself, so a plate reads on a light page or a dark one. The print interior flattens the master onto white at build time, as the section "Print-safe images" later in this chapter describes.
+A plate also changes ground between editions. The house keeps each plate as an *alpha master*, ink on transparency, and each edition composites it onto its own page. The reader site serves the alpha master itself, so a plate reads on a light page or a dark one. The print interior flattens the master onto white at build time, as the section "Print-safe images" later in this chapter describes.
 
 Write the prose so that it holds in every rendered edition. A sentence such as "the cat at the right of this page" is true on one page of one PDF. The EPUB has no right of the page, and the next revision of the PDF may have a different page. Cite a figure by its identifier and a plate by its caption, and describe what the picture shows instead of where it sits.
 

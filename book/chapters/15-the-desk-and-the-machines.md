@@ -31,7 +31,7 @@ A target and an operator command differ in one respect. A target runs fixed code
 
 ## The desk
 
-The desk lives in the optional `tui` extra, which Chapter 2, *Installing press*, installs. Without the extra, `press desk` prints an install hint and exits with status 2. The hint reads "press desk needs the optional interface: pip install 'press[tui]'". With the extra installed, run the desk from the top of the book repository:
+The desk lives in the optional `tui` extra, which Chapter 2, *Installing press*, installs. Without the extra, `press desk` prints an install hint and exits with status 2. The hint reads `press desk needs the optional interface: pip install 'press[tui]'`. With the extra installed, run the desk from the top of the book repository:
 
 ```text
 $ cd ~/alice

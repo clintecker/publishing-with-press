@@ -327,8 +327,6 @@ Table: Table 6.4. The keys of config/house-rules.yaml
 
 A banned pattern is a regular expression, and press applies it exactly as written, case and all. The pattern in Example 6.8 catches "very unique" and misses "Very unique" at the start of a sentence. If you want both, write the pattern to match both, as in `\\b[Vv]ery unique\\b`. Double each backslash in the YAML file, because YAML reads the string first. The `\\b` in the file reaches the regular expression as `\b`, a word boundary.
 
-A match prints as `<file>:<line>: <label>`. The label is your message to the author, so write it as advice. "very unique (unique does not grade)" tells the author what to fix and why. A bare "banned" tells the author only that something is wrong.
-
 Press refuses a pattern that does not compile. Example 6.9 shows the message. The text in angle brackets holds the pattern and the error the regular-expression engine reported.
 
 **Example 6.9. The refusal of a malformed pattern**
@@ -337,6 +335,8 @@ Press refuses a pattern that does not compile. Example 6.9 shows the message. Th
 config/house-rules.yaml: banned pattern '<p>' is not a valid
     regex (<exc>)
 ```
+
+A match prints as `<file>:<line>: <label>`. The label is your message to the author, so write it as advice. "very unique (unique does not grade)" tells the author what to fix and why. A bare "banned" tells the author only that something is wrong.
 
 Banned patterns are where a book enforces its own voice: the stock phrases its editors will not print, the book's spelling of a recurring name, a word the author overuses.
 

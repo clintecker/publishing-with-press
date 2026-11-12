@@ -462,7 +462,7 @@ Where a message names the artifact, such as `PDF`, `EPUB`, `HTML`, `site`, or an
 
 Next, decide whether the fault lies in the book or in the machine. Some messages point at the machine: `required verification tool missing:`, both blank-page detector messages, and `epubcheck is present but cannot run`. The message `could not parse pdfinfo output` can point at a broken tool, though it can also mean a damaged PDF.
 
-For a machine fault, run `press doctor`, which checks the tools the verifiers need, except `pdfimages`. Chapter 2, *Installing press*, describes the command. Example 8.3 shows part of its report from a macOS workstation, with the epubcheck row cut short.
+For a machine fault, run `press doctor`, which checks the tools the verifiers need, except `pdfimages`. Chapter 2, *Installing press*, describes the command. Example 8.3 shows part of its report from a Mac, with the epubcheck row cut short.
 
 **Example 8.3. Part of a press doctor report**
 
@@ -473,9 +473,6 @@ press doctor
   [     ok] lualatex   PDF and print builds
 ...
   [     ok] pdftoppm   PDF verification renders
-  [     ok] pdffonts   font-embedding verification
-  [     ok] pdfinfo    PDF structure verification
-  [     ok] pdftotext  PDF text verification
 ...
   [ absent] epubcheck  the retail EPUB gate ...
 ...
@@ -489,13 +486,9 @@ When the fault lies in the book, the message tells you what went missing, and yo
 
 <!-- art: ARCHETYPE terminal. A plain light terminal window with a thin 0.5 pt frame and a title bar reading "alice@hatter". Inside, in monospace, three lines, top to bottom: "$ press verify", then a line holding only "...", then "missing text sentinel in PDF: Twinkle, twinkle, little bat". No color, no bold. Draw the last line at full black and the first two in 40% gray. The reader sees the sentinel message first. -->
 
-A missing sentinel has four usual causes. The first is a revision that reworded the phrase. Search the manuscript for it. If the checker also fails on it, the manuscript is the culprit. The second is a phrase at the start of a chapter, where the chapter opening splits the first word and small-caps the rest, as Chapter 4, *Writing the manuscript*, explains. The third is an edition that lost the chapter, and the agreement check in `press verify-formats` counts the chapters that an edition lacks. The fourth is a word in the phrase that LuaLaTeX hyphenated at a line end. Choose shorter words or another phrase.
+A missing sentinel has four usual causes. The first is a revision that reworded the phrase. Search the manuscript for it. If the checker also fails on it, the manuscript is the culprit. The second is a phrase at the start of a chapter, where the chapter opening splits the first word and small-caps the rest, as Chapter 4, *Writing the manuscript*, explains. The third is an edition that lost the chapter, so run `press verify-formats` too, because its agreement check counts the chapters that each edition lacks. The fourth is a word in the phrase that LuaLaTeX hyphenated at a line end. Choose shorter words or another phrase.
 
-::: {.tip}
-> **Tip:** When a sentinel fails in the PDF, run `press verify-formats` too. Its agreement check counts the chapters that each edition is missing, which tells you if the PDF lost a whole chapter.
-:::
-
-Table 8.7 lists several failures that point at the book, with the first place to look for each.
+Table 8.7 lists failures that point at the book and where to look first. The next chapter, *The house design*, describes the typography and layout these verifiers inspect.
 
 | Message begins | Meaning |
 |------------------------------------|---------------------------------------------------------|
@@ -506,8 +499,6 @@ Table 8.7 lists several failures that point at the book, with the first place to
 | `<label> disagrees with the manuscript` | One edition lacks content from the chapters the message counts. Open that edition at those chapters. |
 
 Table: Table 8.7. Verifier failures and where to look first
-
-The next chapter, *The house design*, describes the typography and layout that these verifiers inspect.
 
 [^8-detector]: Each synthetic image is 300 by 450 pixels. The detector calls a page blank when its pixels have a standard deviation under 1.2. It also calls a page blank when its darkest pixel is lighter than 249 and its mean is above 252.5.
 

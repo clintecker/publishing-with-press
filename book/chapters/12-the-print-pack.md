@@ -403,8 +403,8 @@ Table: Table 12.8. The three sections of a publish checklist
 
 | Channel | Meaning |
 |-----------|-------------------------------------------------------------------|
-| `kdp` | "KDP account with tax interview completed"; "Category selections (2 allowed; note 10 keyword slots)"; "Pricing per marketplace and royalty option (60% print)"; "Order a physical proof before approving publication". |
-| `ingram` | "IngramSpark account and title setup fee"; "BISAC subject codes (3 allowed)"; "Wholesale discount and returns policy decisions"; "Order a physical proof before enabling distribution". |
+| `kdp` | "KDP account with tax interview completed", Category selections (2 allowed; note 10 keyword slots)", Pricing per marketplace and royalty option (60% print)", Order a physical proof before approving publication". |
+| `ingram` | "IngramSpark account and title setup fee", "BISAC subject codes (3 allowed)", "Wholesale discount and returns policy decisions", "Order a physical proof before enabling distribution". |
 
 Table: Table 12.9. The items only a person can do, by channel
 

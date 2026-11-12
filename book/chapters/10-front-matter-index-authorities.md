@@ -377,15 +377,15 @@ The `file` key changes how strict the count is. Without it, the claim must appea
 
 ### What the ledger is not
 
-The press says what the ledger does not do: "It verifies a sources ledger; it is not a BibTeX or CSL citation engine." The ledger prints no superscripts, numbers no notes, and formats no bibliography. For a citation the reader should see in the text, write a footnote.
+The press states the limit: "It verifies a sources ledger; it is not a BibTeX or CSL citation engine." The ledger prints no superscripts, numbers no notes, and formats no bibliography. For a citation the reader should see, write a footnote.
 
-You need not build the ledger by hand. The `authorities-research` workflow populates it, and so does `press research`. Chapter 15, *The operator's desk and the editorial machines*, describes both.
+The `authorities-research` workflow and `press research` populate the ledger for you, as Chapter 15, *The operator's desk and the editorial machines*, describes.
 
 ## The sources companion
 
-The ledger produces one *artifact*, a file in *dist/* that the registry names. That artifact is the *sources companion*, a standalone Markdown file that the press publishes beside the book and never inside it. For the Alice book with the ledger from Example 10.5, it is *dist/alice-sources.md*.
+The ledger produces one *artifact*, a file in *dist/* that the registry names. It is the *sources companion*, a Markdown file that the press publishes beside the book and never inside it. For the Alice book, it is *dist/alice-sources.md*.
 
-The companion opens with a heading made from the title. A line in italic follows with the title, the authors, and then the publisher and the date when the book has them. The entries come next, grouped by where each claim sits in the book. The groups read "In the preface", "In chapter N", and "In appendix X". Example 10.7 shows the shape of the file, with each field the press fills in angle brackets.
+The companion opens with a heading made from the title. An italic line follows with the title, the authors, and the publisher and date when the book has them. Entries follow, grouped by where each claim sits: "In the preface", "In chapter N", and "In appendix X". Example 10.7 shows the file, with each field the press fills in angle brackets.
 
 **Example 10.7. The shape of a sources companion**
 
@@ -401,15 +401,13 @@ The companion opens with a heading made from the title. A line in italic follows
 
 The Alice companion has one group, "In the preface", with two entries, and the Tenniel entry ends with its note about the withdrawn printing.
 
-Before it writes a field, the press rewrites a few characters. It turns each dash into a comma and a space, straightens curly quotes, and writes an ellipsis as three periods. It also turns a non-breaking space or a backslash into a plain space. The substitutions keep the companion plain, wherever you copied the ledger's sources from.
+Before it writes a field, the press rewrites a few characters to keep the companion plain. It turns each dash into a comma and a space, straightens curly quotes, and writes an ellipsis as three periods. It also turns a non-breaking space or a backslash into a plain space.
 
 ### Publication and proof
 
 The press publishes the companion as a download, with the label "Table of authorities". Chapter 7, *Building the editions*, places it in the registry beside the editions.
 
-A *verifier* is one of the press's `verify_*` checks, which inspect an artifact after the build. The archive verifier, `verify_archives`, requires the companion to name the book, to run to at least 200 characters, and to contain an entry marker. A companion that came out empty, or that belongs to some other title, fails the run. Chapter 8, *Verifying the artifacts*, describes the archive verifier and its other checks.
-
-The next chapter turns from words to pictures and the art department that commissions them.
+A *verifier* is a `verify_*` check that inspects an artifact after the build. The archive verifier, `verify_archives`, requires the companion to name the book, to run to at least 200 characters, and to hold an entry marker. An empty companion, or one for another title, fails the run. Chapter 8, *Verifying the artifacts*, describes it. The next chapter turns to pictures and the art department that commissions them.
 
 [^10-devil]: The sample epigraph is a printer's joke. A *printer's devil* was the apprentice in a print shop, and every misprint was his fault.
 

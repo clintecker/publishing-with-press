@@ -32,7 +32,7 @@
   match:
   - Apple Silicon
   - arm64
-- term: appendices
+- term: appendixes
   match:
   - appendix file
   - appendix files
@@ -102,7 +102,7 @@
 - term: celebrimbor
   match:
   - celebrimbor
-- term: chapter edition
+- term: Chapter edition
   match:
   - Chapter edition
 - term: chapter witness
@@ -434,7 +434,7 @@
 - term: Makefile
   match:
   - Makefile
-- term: manuscript edition
+- term: Manuscript edition
   match:
   - Manuscript edition
 - term: manuscript witness
@@ -542,7 +542,7 @@
 - term: press config
   match:
   - press config
-- term: print edition
+- term: Print edition
   match:
   - Print edition
 - term: print interior
