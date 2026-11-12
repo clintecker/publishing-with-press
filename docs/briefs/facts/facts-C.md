@@ -523,3 +523,21 @@ Design rationales that work as sidebars:
 - **The finisher (supplied-interior PDF).** Planned on the Book breadth milestone, not shipped.
 - **The custom merchant-of-record commerce stack.** Icebox.
 - **Non-Latin and right-to-left scripts.** Icebox, "a major per script family".
+---
+
+# Supplement added by the managing editor (2026-11-11)
+
+## S1. Exact forms of the source-check messages (from `src/press/check_source.py`, confirmed)
+
+```text
+suspiciously short source: <path>
+no level-1 heading: <path>
+unfinished marker '<phrase>': <path>
+duplicate source file: <path>
+missing source file: <path>
+metadata missing <field>:
+sentinel not found in the manuscript: <sentinel>
+plate never referenced by the manuscript: assets/woodcuts/<name>
+```
+
+Each prints after a two-space `- ` bullet under the pass's failure header. The colon is part of the message. Ruling: the ellipsis character in the fact base's `note: <fixture> also drew: ...` lines is the fact base's own shortening, not a character press prints; the appendix says so in its conventions line, and its footnote does not attribute the ellipsis to press. An audit directory softens only heading and paragraph faults to warnings; the universal battery still fails.
