@@ -10,10 +10,13 @@
 > - A ten-minute tour
 > - The editions
 > - Versions and the pinned contract
-> - How to read this book
 :::
 
 The press is a program that does the work of an old print shop, from compositor to proofreader, for a book written in plain Markdown. You give it a directory of chapters, and it gives back every *edition* of the book. An edition is one published form, such as a print-ready PDF, an EPUB, or a Web site. You never write a line of TeX, the typesetting language behind the print PDF, or type a pandoc command to get them. Before the press calls the book finished, it opens each file it built and checks what is inside.
+
+![The shop at morning: a small press at the start of a build](assets/woodcuts/the-shop-at-morning.png){place=frontispiece}
+
+<!-- art: a small nineteenth-century print shop at the start of the working day, seen from the doorway at eye level with correct one-point perspective and a level floor: a row of type cases on the left, a compact brass hand press with a lever and a platen in the centre, a long proofing table on the right under a tall window, morning light in parallel hatched rays, one apprentice in an apron carrying a chase of locked type toward the press, a second figure at the far table reading a sheet, shelves of bound volumes along the back wall; landscape composition; wood engraving with dense hatching and crosshatching, single black ink, no gray washes, no lettering anywhere -->
 
 ## What press is
 
