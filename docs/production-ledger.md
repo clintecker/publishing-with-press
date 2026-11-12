@@ -116,3 +116,4 @@ Managing editor's record. Append only.
 - Appendix A drafted (5,551). Ruling: a writer's own capture from press 3.0.2 on a scratch book is admissible as fact (the fact base is the same kind of capture); the fact checker verifies it by rerunning where cheap. Desks dispatched for A.
 - Rulings (ch 9 continuity): 'leaf' keeps the trade sense; the reader site's column is 'the paper column'; 'height cap' is the term, 'figure-cap' the key; Figure 9.2's blank cells may be filled from facts the fact base states elsewhere (facts-12 profile uses; widths derived from Table 9.4's trims and margins) and left blank otherwise. Ch 14 and Appendix D desks complete -> writers.
 - Ch 9 COMMITTED. Ch 13 Revision 2 DONE -> re-review. Ch 12 continuity: 1 block (Ch 5 title), logomark naming, figure order -> writer.
+- Figures 11.1-11.3 committed (alt text aligned). Appendix B COMMITTED. Ch 15 revised (5,146) -> re-review.
