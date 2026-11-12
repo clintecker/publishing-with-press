@@ -310,7 +310,7 @@ $ docker run --rm -v "$PWD":/book \
 ...
 ```
 
-Two details in this command matter. Inside the image, `pip install` needs `--break-system-packages`, because Debian manages the image's Python and it refuses a bare install. The `--rm` flag removes the container when the build ends. The artifacts stay behind in the *dist/* directory of your book repository, because that directory lives on the mounted volume.
+Two details in this command matter. Inside the image, `pip install` needs `--break-system-packages`, because Ubuntu manages the image's Python and it refuses a bare install. The `--rm` flag removes the container when the build ends. The artifacts stay behind in the *dist/* directory of your book repository, because that directory lives on the mounted volume.
 
 The example uses `:latest`, which suits an experiment on your own machine. When a local build must match CI exactly, replace `:latest` with the digest that the reusable workflow names. Then install the same three-part press tag that the book pins. Chapter 14 shows where to find the digest.
 
