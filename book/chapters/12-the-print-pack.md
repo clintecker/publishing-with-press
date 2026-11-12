@@ -416,7 +416,7 @@ A press book meets two kinds of order. You order one golden copy for yourself, t
 
 ### Printing at Lulu
 
-*docs/LULU.md* gives the procedure for a Lulu paperback. It is the route to the golden copy. Set `print.provider` to `lulu` first, as the tip in "Paper and the Lulu paperback" advises. For a hardcover, also set `print.binding` to `casewrap` or `dust-jacket`.
+*docs/LULU.md* gives the Lulu paperback procedure. It is the route to the golden copy. Set `print.provider` to `lulu` first, as the tip in "Paper and the Lulu paperback" advises. For a hardcover, set `print.binding` to `casewrap` or `dust-jacket`.
 
 ::: {.warning}
 > **Warning:** Do not let Lulu add its own barcode to a cover that already carries one. The press draws the EAN-13 from `registrations.isbn.print`, and a second barcode on the back panel is a defect on every copy.
@@ -425,7 +425,7 @@ A press book meets two kinds of order. You order one golden copy for yourself, t
 To print the Alice book at Lulu:
 
 1. Build and verify the print pack with `press verify-print`. The target writes *dist/alice-interior.pdf* and, from *assets/cover.jpg*, *dist/alice-coverwrap.pdf* with 0.125in bleed.
-2. At Lulu, choose **Print Your Book**, then the product **Paperback, Perfect Bound**.
+2. At Lulu, choose **Print Your Book**, then **Paperback, Perfect Bound**.
 3. Match Lulu's settings to the book's, as Table 12.10 gives them.
 4. Upload the interior, then the one-piece cover PDF.
 5. If you set `registrations.isbn.print`, leave Lulu's own barcode off.
@@ -445,7 +445,7 @@ Table: Table 12.10. Lulu's settings for a press book
 Lulu may report that "a white bleed margin was added". You can ignore that note. Table 12.11 gives the other problems the guide lists, with their fixes.
 
 | Problem | Meaning |
-|------------------------|-------------------------------------------------------|
+|----------------|-----------------------------------------------|
 | Cover is the wrong size | The Lulu product does not match your `print.binding`. Match the binding, or set `print.binding`, and rebuild. |
 | Transparency detected | The upload is an old one, from before the print-safe pass flattened images. Rebuild with `press verify-print` and upload again. |
 | Images over 600 PPI | The upload is an old one, from before the print-safe pass capped resolution. Rebuild with `press verify-print` and upload again. |

@@ -204,11 +204,11 @@ A field with no value in the metadata prints as `(needed on the form)`. You see 
 Distributors and retailers take book metadata in ONIX, the trade's XML format for product records. For the Alice book, the target `press onix` writes an ONIX 3.0 record to *dist/alice.onix.xml*. With the option `--forthcoming`, the record describes a forthcoming book, announced and not yet on sale. Table 13.3 lists the main elements that the press writes and where their values come from.
 
 | Element | Value | Meaning |
-|--------------------------------|------------------|----------------------------------------------|
+|-------------------|---------------------|--------------------|
 | `ONIXMessage` | `release="3.0"` | The message uses the ONIX 3.0 reference namespace, *http://ns.editeur.org/onix/3.0/reference*. |
 | `Sender/SenderName` | the publisher | The press writes the book's publisher, or the word "press" when the book names none. |
 | `SentDateTime` | `YYYYMMDDTHHMM` | The element holds a date and time, to the minute. |
-| `RecordReference` | `{base}/{slug}-{label}` | The base is the book's `site-url`. Without one, the press uses the `repository`, and without that, `press:` and the slug. |
+| `RecordReference` | `{base}/` `{slug}-{label}` | The base is the book's `site-url`. Without one, the press uses the `repository`, and without that, `press:` and the slug. |
 | `ProductIdentifier` | `ProductIDType 15` | The element holds the product's ISBN-13. |
 | `ProductComposition` | `00` | The press writes the same value for every product. |
 | `ProductForm` | `BB`, `BC`, `EA` | `BB` is a hardback, for a casewrap or dust-jacket binding. `BC` is a paperback, for any other binding. `EA` is the Circulating edition (EPUB). |
@@ -235,7 +235,12 @@ The target `press lookup` asks a public catalog about an LCCN or an ISSN. Its sy
 press lookup lccn|issn [<number>]
 ```
 
-The documentation describes it as "the one command that reaches the network; ordinary builds never do. It is never an issuance path." It is the one such command among the registration targets, and the art and operator commands reach their own services. With a number on the command line, the target looks up that number. Without one, it looks up the number in `registrations.lccn` or `registrations.issn`. An LCCN goes to *https://lccn.loc.gov/{lccn}/mods*, which returns a MODS XML record. An ISSN goes to *https://portal.issn.org/resource/ISSN/{issn}*, which returns JSON-LD.
+The documentation describes it as "the one command that reaches the network; ordinary builds never do. It is never an issuance path." It is the one such command among the registration targets, and the art and operator commands reach their own services. With a number on the command line, the target looks up that number. Without one, it looks up the number in `registrations.lccn` or `registrations.issn`. An LCCN goes to the first of the two URLs that follow, which returns a MODS XML record. An ISSN goes to the second, which returns JSON-LD.
+
+```text
+https://lccn.loc.gov/{lccn}/mods
+https://portal.issn.org/resource/ISSN/{issn}
+```
 
 The lookup talks to servers that the press does not control, so it holds every request to fixed limits. Table 13.4 lists them.
 
@@ -318,4 +323,4 @@ A publisher with CIP data from the Library prints it as a block on the copyright
 
 [^13-earth]: The scaffold's default for the place is accurate, as far as it goes.
 
-[^13-agent]: The string is `press-registrations-lookup (+https://github.com/clintecker/press)`.
+[^13-agent]: The string ends with `(+https://github.com/clintecker/press)`, after `press-registrations-lookup` and a space.

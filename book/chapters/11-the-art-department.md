@@ -233,6 +233,10 @@ lettering, no caption, no page border, no watermark, no
 signature.
 ```
 
+![The engraver's bench, a plate half cut](assets/woodcuts/the-engravers-bench.png)
+
+<!-- art: an engraver's bench by a north window, seen from slightly above and in front: a boxwood block held on a leather sandbag, a graver in the engraver's right hand, a spray of burins and scorpers in a rack, a magnifying glass on a stand, a proof pulled from the half-cut block pinned to the wall showing a cuttlefish, a small brass press for proofing at the bench's end, shavings on the bench; landscape composition; wood engraving with dense hatching and crosshatching, single black ink, no gray washes, no lettering anywhere -->
+
 At the time of this writing, `press illustrate` sends one request to `gpt-image-2` at 1024 by 1024 pixels. Its plate is therefore square whatever the prompt says about composition (press issue #278). It writes `build/illustrations/<name>.png` and prints the next step, `press art accept build/illustrations/<name>.png --as plate:<name>`. The command suits a single plate that you want to try again. For a full set of plates, in the shape the aesthetic asks for, use `press art commission`, which the section "The commission record" later in this chapter describes.
 
 To commission and accept one plate for the Alice book:
@@ -244,10 +248,6 @@ To commission and accept one plate for the Alice book:
 5. Finish the plate. Run `press art enhance assets/woodcuts/white-rabbit.png`.
 
 [^11-ink]: The `book-colors` keys take hex without the hash sign because they become `\definecolor` values for LuaLaTeX. The illustration template reads the same key and passes it on unchanged.
-
-![The engraver's bench, a plate half cut](assets/woodcuts/the-engravers-bench.png)
-
-<!-- art: an engraver's bench by a north window, seen from slightly above and in front: a boxwood block held on a leather sandbag, a graver in the engraver's right hand, a spray of burins and scorpers in a rack, a magnifying glass on a stand, a proof pulled from the half-cut block pinned to the wall showing a cuttlefish, a small brass press for proofing at the bench's end, shavings on the bench; landscape composition; wood engraving with dense hatching and crosshatching, single black ink, no gray washes, no lettering anywhere -->
 
 ## Intake: what acceptance enforces
 

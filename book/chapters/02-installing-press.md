@@ -147,7 +147,7 @@ The Python package is the smaller half of an installation. Press prepares the ma
 
 ### The tools press requires
 
-Press keeps an exact list of the programs it expects, with a purpose for each. Table 2.3 gives that list, with each purpose exactly as `press doctor` prints it. Press requires the first eight tools. The last two are optional, and press builds books without them.
+Press keeps an exact list of the programs it expects, with a purpose for each. Table 2.3 gives that list, with each purpose exactly as `press doctor` prints it. Press requires the first eight tools and builds books without the last two.
 
 | Tool | What the doctor prints |
 |------------------------|--------------------------------------------------------|
@@ -209,7 +209,7 @@ $ sudo apt-get install --no-install-recommends \
 
 Most of these names explain themselves. The package `poppler-utils` holds the four poppler programs from Table 2.3. The package `texlive-latex-extra` holds lettrine, the LaTeX package that sets the large first letter of each chapter opening. The package `texlive-fonts-extra` holds the `yinit` foliate initials that the `ornate` chapter-opening style uses.
 
-The package `fonts-linuxlibertine` is a scar. Ubuntu has no `fonts-libertinus` package, so the obvious name does not exist. The `--no-install-recommends` flag also drops the Libertine keyboard face. The press records both facts in its scars list, and the *Dockerfile* now names `fonts-linuxlibertine` explicitly.
+The package `fonts-linuxlibertine` is a scar. Ubuntu has no `fonts-libertinus` package, the obvious name. The `--no-install-recommends` flag also drops the Libertine keyboard face. The press records both facts in its scars list, and the *Dockerfile* now names `fonts-linuxlibertine` explicitly.
 
 Ubuntu's `epubcheck` package has one more trap, which appears only inside a container. The section "The toolchain image" later in this chapter explains it.
 
@@ -221,9 +221,7 @@ Your own machine may carry newer or older releases, and Homebrew moves forward o
 
 ## Running the doctor
 
-Once both halves are in place, ask press whether the machine is ready. The `press doctor` command checks every tool in Table 2.3, the extra items listed after it, and the Python environment. It prints one line for each check.
-
-@fig:doctor-report shows the report from `hatter`. Most lines read `ok`. The `epubcheck` line reads `absent`, because `alice` did not install it. The `claude` line reads `BROKEN`, because on that run the command was present but could not run. The final line names the tool that keeps this machine from being ready.
+Once both halves are in place, ask press whether the machine is ready. The `press doctor` command checks every tool in Table 2.3, the extra items listed after it, and the Python environment. It prints one line for each check. @fig:doctor-report shows the report from `hatter`. Most lines read `ok`, and the `epubcheck` line reads `absent` because `alice` did not install it. The `claude` line reads `BROKEN`, because on that run the command was present but could not run. The final line names the tool that keeps this machine from being ready.
 
 ![The press doctor report on hatter](assets/woodcuts/02-02-doctor-report.png){#fig:doctor-report .diagram width=full-measure fig-alt="A terminal window on hatter showing press doctor output: fifteen lines with a bracketed state at the left, mostly ok, with epubcheck absent and claude broken, and a final line that reads not ready: claude."}
 

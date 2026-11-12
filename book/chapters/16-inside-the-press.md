@@ -55,7 +55,7 @@ Table: Table 16.1. The module areas of src/press
 
 <!-- art: ARCHETYPE stack, alternating 10 and 20 percent gray bands, labels centered in small sans, module names in small monospace beneath each. Top band, full width: "entry and CLI" (__main__.py, catalog.py). Band 2: "desk", "operator and instruments". Band 3: "build", "generators", "editorial law", "verifiers". Band 4: "print and commerce", "registrations", "art", "scaffolding". Band 5, full width: "registry" (registry.py). Bottom band: "book model" (bookmodel.py, booklib.py), "config". Right side, one tall box spanning bands 1 to 6: "trust" (selftest, invariants, receipts). Around everything, a heavy ruled frame labeled at its top edge "adapters/" in monospace. Three short arrows cross the frame outward on the right, labeled "subprocess", "os.environ", "urllib". The reader should see the frame first. -->
 
-Every command enters through *__main__.py*. Both `press pdf` and `python -m press pdf` arrive there. The route table then finds the target in the catalog. For an unknown target, the press prints `unknown target: X` with a suggestion and exits with status 2. The suggestion comes from difflib, which compares what you typed against the catalog.
+Every command enters through `__main__.py`. Both `press pdf` and `python -m press pdf` arrive there. The route table then finds the target in the catalog. For an unknown target, the press prints `unknown target: X` with a suggestion and exits with status 2. The suggestion comes from difflib, which compares what you typed against the catalog.
 
 ## The data flow, end to end
 
@@ -267,7 +267,7 @@ An extension adds an entry to one of five data tables, and the press selects the
 
 Table: Table 16.6. The extensible surfaces
 
-An extension declares itself in a manifest. Example 16.2 shows the reference manifest, *src/press/data/extensions/reference.yaml*, with its comments removed.
+An extension declares itself in a manifest. Example 16.2 shows the reference manifest, which press keeps as *reference.yaml* in *src/press/data/extensions/*, with its comments removed.
 
 **Example 16.2. The reference extension manifest**
 

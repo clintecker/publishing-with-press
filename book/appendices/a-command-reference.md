@@ -424,7 +424,8 @@ config/authorities.yaml: ok
 **Synopsis.**
 
 ```text
-press cover [--style <id>] [--subject <text>] [--print] | --list
+press cover [--style <id>] [--subject <text>] [--print]
+press cover --list
 ```
 
 **Description.** Builds a cover prompt from a named style and the book's metadata and sends it to OpenAI's `gpt-image-2`. Press writes the image to *build/cover/cover.png* and prints the `press art accept` line for the next step. Without `OPENAI_API_KEY`, it prints the prompt instead, so that you can give it to an image model elsewhere.
@@ -916,7 +917,7 @@ press pdf
 $ press pdf
 ...
 gen_index: curated terms match nothing in the text: Jabberwock
-  (fix the patterns or remove the terms; silence is not allowed)
+(fix the patterns or remove the terms; silence is not allowed)
 ```
 
 **See also.** Chapter 7, *Building the editions*, and Chapter 10, *Front matter, the index, and the table of authorities*. `press verify`, `press render`.
@@ -1045,8 +1046,8 @@ Table: Table A.18. press selftest options
 ```text
 $ press selftest
 ...
-Selftest passed: 29 checks, arithmetic agrees with the canonical
-  examples, usage and README name every target
+Selftest passed: 29 checks, arithmetic agrees with the
+  canonical examples, usage and README name every target
 ```
 
 **See also.** Chapter 16, *Inside the press*. `press doctor`.
@@ -1332,7 +1333,7 @@ Test the exit status, not the output, in a script. A chain such as `press check 
 Table A.20 lists the environment variables press reads or sets. The first five rows matter to an author. The rest belong to the toolchain image, to CI, and to work on the press itself.
 
 | Variable | Effect |
-|-----------------------|----------------------------------------------------------------|
+|-------------------------------|-----------------------------|
 | `BOOK_ROOT` | This names the book root. The default is the current directory, and press also sets it for the programs a build runs. |
 | `PRESS_RELEASE` | This turns on release mode. A build demands the release witnesses (at least two sentinels and a page floor of at least 24), and the commerce gate fails closed. CI sets it on a tag whose name starts with `v`. |
 | `OPENAI_API_KEY`, `GEMINI_API_KEY` | These are the image-model keys for the art commands. Press reads them when a command needs them and never stores them. |

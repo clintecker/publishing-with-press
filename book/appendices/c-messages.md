@@ -393,8 +393,17 @@ The doctor checks the toolchain on the machine and prints one line per tool. On 
 
     **Remedy.** Report it to the press with the PDF. The press generates the front matter that places the cover, so the fault is in the press.
 
-`... carries no cover image -- the generated front matter dropped it`
-:   **Cause.** Page 1 has ink but no embedded image.
+`... carries no cover image`
+
+:   Press prints:
+
+    ```text
+    assets/cover.jpg exists but page 1 of the reading PDF
+      carries no cover image -- the generated front matter
+      dropped it
+    ```
+
+    **Cause.** Page 1 has ink but no embedded image.
 
     **Remedy.** As for the message before it.
 
@@ -422,8 +431,17 @@ The doctor checks the toolchain on the machine and prints one line per tool. On 
 
     **Remedy.** Find what breaks that line in the edition, often a filter or a stylesheet.
 
-`no manuscript witness derivable; ... (write one honest plain sentence)`
-:   **Cause.** No line in the manuscript runs 40 characters free of markup.
+`no manuscript witness derivable`
+
+:   Press prints:
+
+    ```text
+    <label>: no manuscript witness derivable; the book has no
+      markup-free line of 40+ characters, so content survival
+      cannot be proven (write one honest plain sentence)
+    ```
+
+    **Cause.** No line in the manuscript runs 40 characters free of markup.
 
     **Remedy.** Write one such sentence, as the message says.
 

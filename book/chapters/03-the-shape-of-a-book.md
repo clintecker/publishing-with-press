@@ -175,16 +175,16 @@ site-url: "https://wonderland-press.github.io/alice"
 #       privacy: "We keep no reader data; the provider ...
 ```
 
-Two lines of that commerce comment need a gloss. It says to enable ordering "once the edition is qualified (press qualify)", but at the time of this writing press has no `press qualify` command. You record the qualification by hand in *config/qualification.yaml*. The comment also says that the provider is the seller of record. That is the model press builds on, provider as seller, and the publisher must confirm with the provider who sells to the reader. Chapter 12, *The print pack*, covers direct print ordering.
+Two lines of that commerce comment need a gloss. It says to enable ordering "once the edition is qualified (press qualify)", but at the time of this writing press has no `press qualify` command. You record the qualification by hand in *config/qualification.yaml*. The comment also names the provider as the seller of record. Press builds on that model, and the publisher must confirm with the provider who sells to the reader. Chapter 12, *The print pack*, covers direct print ordering.
 
-Notice what the scaffold could not know. The title is the slug, the subtitle is a placeholder, and the description says what a description should say. A new book builds with all three as they stand, but all three appear on the title page and the landing page.
+Notice what the scaffold could not know. The title is the slug, the subtitle is a placeholder, and the description says what a description should say. A new book builds with them, but they appear on the title page and the landing page.
 
 ### Identity
 
-The first block of the file names the book. Table 3.3 gives each field, its default, and what the press does with it. The model needs three fields: the title, the author, and the slug.
+The first block of the file names the book. Table 3.3 gives each field, its default, and its meaning. The model requires the title, the author, and the slug.
 
 | Field | Default | Meaning |
-|---------------------|------------------|--------------------------------------------|
+|-----------|---------------|---------------------------------|
 | `title` | none, required | It is a string that holds the book's title. |
 | `subtitle` | none | It is a string. If it joins clauses with "or," the title page and the landing page stack them on separate lines. |
 | `author` | none, required | It is the byline, one name per list item. A single string becomes a one-item list. |
@@ -252,7 +252,7 @@ $ press config set verify-min-pages 24
 The rest of the fields gather under four mappings, `print`, `chapter-opening`, `registrations`, and `commerce`. A new book needs none of them. Table 3.5 gives the ones you will reach for first, with their defaults.
 
 | Field | Default | Meaning |
-|------------------------------------|------------------|------------------------------------|
+|--------------------|-----------|-----------------------------|
 | `print.profile` | `house-6x9` | It names the design profile, which sets the trim and the interior geometry. |
 | `print.provider` | `house` | It names the provider spec, which sets the spine and cover geometry. |
 | `print.binding` | `perfect-bound` | It takes `perfect-bound`, `saddle-stitch`, `coil`, `casewrap`, or `dust-jacket`. |

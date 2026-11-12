@@ -16,10 +16,6 @@
 
 Press opens every artifact it makes, renders or unpacks it, and compares it with the manuscript before it calls the build good. This chapter describes the programs that do that work, the checks each one runs, and the exact message each one prints when a check fails. The examples come from the Alice book, the full novel that user `alice` builds on the workstation `hatter` and that CI builds on the host `printshop`. The real runs in Examples 8.1 and 8.2 come from the press's own three-chapter Alice example.
 
-![The witness that could say no, inspecting a finished sheet](assets/woodcuts/the-witness-that-could-say-no.png)
-
-<!-- art: a solemn press reader seated at a high desk inspecting a freshly printed sheet held up to a window, a brass magnifying lens on an articulated arm swung over the page, a tray of rejected sheets at the left with one sheet torn across, a tray of approved sheets at the right under a small brass weight, a rubber stamp and an inkpad on the desk, behind the reader a compact brass apparatus of gears and a lens mounted on a stand, also pointed at the sheet, as if a second inspector; landscape composition; wood engraving with dense hatching and crosshatching, single black ink, no gray washes, no lettering anywhere -->
-
 ## Artifacts as objects
 
 The press works under four laws, which its *docs/ARCHITECTURE.md* states and Chapter 1, *Introduction*, describes. The third law governs this chapter: "Artifacts are verified as objects." The text of the law continues: "A green build means the actual PDF was rendered and inspected, the actual EPUB was validated by the tool retail channels run, the actual site was crawled." Its last sentence reads: "Verifying without rebuilding is forbidden by construction." The press ROADMAP says the same: verifiers prove artifacts as objects "rather than trusting command exit status".
@@ -27,6 +23,10 @@ The press works under four laws, which its *docs/ARCHITECTURE.md* states and Cha
 The press learned this law from the cover that passed at 11.5 percent coverage (Chapter 1), and drew a rule from it: "A producer is only proven by a verifier that rejects a broken artifact." The cover check later in this chapter is that rule at work.
 
 A *verifier* is a `verify_*` module in the press, together with the check it runs on a finished artifact. This chapter follows five verifier runs. `verify_pdf` reads the Print edition (the reading PDF). `verify_formats` reads the Circulating edition (EPUB), the Single-leaf edition (the self-contained HTML), and the Manuscript edition (the stitched Markdown). It also reads the Telegraphic edition (plain text), the Office edition (DOCX), and the Chapter edition (the reader site and its zip). `verify_archives` reads the zip files, among them the Source edition (the source zip), and `verify_pages` crawls the Pages bundle. The fifth run is `verify_pdf` again, with its print profile, on the print interior.
+
+![The witness that could say no, inspecting a finished sheet](assets/woodcuts/the-witness-that-could-say-no.png)
+
+<!-- art: a solemn press reader seated at a high desk inspecting a freshly printed sheet held up to a window, a brass magnifying lens on an articulated arm swung over the page, a tray of rejected sheets at the left with one sheet torn across, a tray of approved sheets at the right under a small brass weight, a rubber stamp and an inkpad on the desk, behind the reader a compact brass apparatus of gears and a lens mounted on a stand, also pointed at the sheet, as if a second inspector; landscape composition; wood engraving with dense hatching and crosshatching, single black ink, no gray washes, no lettering anywhere -->
 
 A sixth verifier, `verify_coverwrap`, reads the cover wrap, and Chapter 12, *The print pack*, covers it. Each verifier ends with a line that begins with `Verified`, or stops the target with a message that names what it found.
 

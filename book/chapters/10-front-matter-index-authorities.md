@@ -258,10 +258,6 @@ The last two name the entry by its position in the list.
 
 @fig:index-entry-path follows one term from the configuration file to the printed index. The path has two exits, and the build stops at one of them.
 
-![The path of an index term from the configuration to the appendix](assets/woodcuts/10-02-index-entry-path.png){#fig:index-entry-path .diagram width=full-measure fig-alt="A top-to-bottom flowchart. A term passes a box that removes code and images, then a matching box, then a question about hits. No leads to a stopped build, and yes leads to an index entry."}
-
-<!-- art: ARCHETYPE flowchart, top to bottom. Top: a dog-eared file icon, "config/index-terms.yaml", with a monospace callout "term: Mock Turtle". Arrow down to a rectangle "strip fenced code, inline code, image lines". Arrow down to a rectangle "match whole words, any case, in every chapter and appendix". Arrow down to a diamond "Any hits?". Arrow "No" (small italic) goes right to a rounded box with a 40% gray drop shadow, "build stops", above small monospace text "gen_index: curated terms match nothing in the text". Arrow labeled "Yes" goes down to a rectangle "entry: term in bold, then locators 1, 3, A". Arrow down to a dog-eared page "Appendix A: Index of subjects". Keep the drawing no taller than the house figure cap. The reader should see first that a term with no hits cannot reach the appendix. -->
-
 Before it matches anything, the press removes fenced code blocks, inline code, and every image line. A term that appears only inside an example, a constant-width span, or a figure line therefore has no hits.
 
 The match itself ignores case. A match must also stand alone: the character on either side of it cannot be a letter, a digit, the `_` character, or a hyphen. The string `tart` therefore misses "tarts", and that is why Example 10.3 lists both forms. The string `turtle` misses "mock-turtle" by the same rule, because the hyphen sits next to the match. The string `mock turtle` misses "mock-turtle" for a plainer reason: the pattern holds a space where the text holds a hyphen.
@@ -269,6 +265,10 @@ The match itself ignores case. A match must also stand alone: the character on e
 ::: {.warning}
 > **Warning:** Do not trust a term that appears only in code or in a figure line. The press strips both before it matches, and a term with no hits in prose stops the build.
 :::
+
+![The path of an index term from the configuration to the appendix](assets/woodcuts/10-02-index-entry-path.png){#fig:index-entry-path .diagram width=full-measure fig-alt="A top-to-bottom flowchart. A term passes a box that removes code and images, then a matching box, then a question about hits. No leads to a stopped build, and yes leads to an index entry."}
+
+<!-- art: ARCHETYPE flowchart, top to bottom. Top: a dog-eared file icon, "config/index-terms.yaml", with a monospace callout "term: Mock Turtle". Arrow down to a rectangle "strip fenced code, inline code, image lines". Arrow down to a rectangle "match whole words, any case, in every chapter and appendix". Arrow down to a diamond "Any hits?". Arrow "No" (small italic) goes right to a rounded box with a 40% gray drop shadow, "build stops", above small monospace text "gen_index: curated terms match nothing in the text". Arrow labeled "Yes" goes down to a rectangle "entry: term in bold, then locators 1, 3, A". Arrow down to a dog-eared page "Appendix A: Index of subjects". Keep the drawing no taller than the house figure cap. The reader should see first that a term with no hits cannot reach the appendix. -->
 
 ### The zero-hit rule
 

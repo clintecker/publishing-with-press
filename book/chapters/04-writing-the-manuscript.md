@@ -19,7 +19,11 @@ A *chapter file*, one Markdown file in *book/chapters/*, is plain Markdown, and 
 
 ## The dialect
 
-Pandoc reads Markdown in many dialects. You build a dialect from a base format and a list of extensions, each switched on with a plus sign. Press fixes the dialect for every build of every book. Every pandoc build in press reads the manuscript as `markdown+smart+yaml_metadata_block+fenced_divs+footnotes`, with `standalone: true` and `number-sections: true`. The same settings appear in all six of the pandoc defaults files that press keeps inside its own package. Your book repository has no copy of them, so pandoc parses a chapter the same way for every edition it builds.
+Pandoc reads Markdown in many dialects. You build a dialect from a base format and a list of extensions, each switched on with a plus sign. Press fixes the dialect for every build of every book. Every pandoc build in press reads the manuscript in the dialect that follows, with `standalone: true` and `number-sections: true`.
+
+```text
+markdown+smart+yaml_metadata_block+fenced_divs+footnotes
+```
 
 Table 4.1 lists the parts of the dialect and what each one gives you.
 
@@ -34,6 +38,8 @@ Table 4.1 lists the parts of the dialect and what each one gives you.
 | `number-sections: true` | Pandoc numbers every chapter and every section heading. |
 
 Table: Table 4.1. The pandoc dialect press reads
+
+The same settings appear in all six of the pandoc defaults files that press keeps inside its own package. Your book repository has no copy of them, so pandoc parses a chapter the same way for every edition it builds.
 
 The `+smart` extension explains most of the character rules later in this chapter. Because pandoc curls quotes for you, you type the straight ones and let pandoc choose the direction. Because pandoc turns hyphens into dashes, a sentence with two hyphens in it comes out with a dash in it, and the house does not set dashes in prose. The `number-sections` setting explains the heading rules. Pandoc numbers your headings itself, so you type no numbers.
 
@@ -165,7 +171,8 @@ Press forbids trailing whitespace everywhere: in prose, in headings, and inside 
 Footnotes use pandoc's standard syntax: you put a label in square brackets with a caret at the point of reference. The note itself goes on a line of its own that starts with the same label and a colon. The PDF sets each note at the foot of its page, and the EPUB and the reader site collect the notes as linked notes. Press has no separate setting for endnotes. Because the PDF prints every note at the foot of its page, a long note pushes text onto the next page. Keep notes for asides and history, and put anything the reader needs to follow the argument into the body.
 
 ```text
-Alice had not a moment to think about stopping herself.[^2-well]
+Alice had not a moment to think about stopping
+herself.[^2-well]
 
 [^2-well]: Either the well was very deep, or she fell slowly.
 ```
@@ -203,7 +210,7 @@ Press uses pandoc's pipe tables. Each row is a line, a vertical bar separates th
 
 ```text
 | Item | What it does |
-|------------|-------------------------------------------------|
+|------------|------------------------------------------------|
 | The bottle | Alice shrinks until she is ten inches high. |
 | The cake | Alice grows until her head strikes the roof. |
 
@@ -244,7 +251,7 @@ $ press check
 Show the prompt, then the command, then the output, and show what the reader will really see. A session that you typed from memory, rather than copied from a terminal, is the first thing a careful reader catches out. Elide long or boring output with a line holding three periods. We use the `$` prompt throughout this book, on the workstation `hatter` and on the CI host `printshop` alike.
 
 ::: {.tip}
-> **Tip:** Keep code lines to 64 characters or fewer. A `text` fence wraps a longer line for you, but at the measure, which is rarely where a reader expects the break.
+> **Tip:** Keep code lines to 63 characters or fewer. A `text` fence wraps a longer line for you, but at the measure, which is rarely where a reader expects the break.
 :::
 
 ## Chapter openings and drop caps
@@ -357,7 +364,7 @@ A cascade suits an address or an inscription. It indents each line by 2.4em time
 
 ### Verse
 
-A verse block suits a poem or a song, and it sets its lines to the house stanza measure. Every line starts 3em in from the left, with no paragraph indent, and the block has 0.7em of space above and below it. A blank line between groups of lines gives a stanza gap. An opening quotation mark at the start of a line hangs into the margin, so the letters of every line align. On the reader site, the block carries the class `.verse`, with a left margin of 2.4em. Example 4.8 shows a verse block holding the start of the crocodile poem from Carroll's second chapter.
+A verse block suits a poem or a song, and it sets its lines to the house stanza measure. A blank line between groups of lines gives a stanza gap. Example 4.8 shows a verse block holding the start of the crocodile poem from Carroll's second chapter.
 
 **Example 4.8. A verse block**
 
@@ -369,6 +376,8 @@ A verse block suits a poem or a song, and it sets its lines to the house stanza 
 | On every golden scale!
 :::
 ```
+
+Every line starts 3em in from the left, with no paragraph indent, and the block has 0.7em of space above and below it. An opening quotation mark at the start of a line hangs into the margin, so the letters of every line align. On the reader site, the block carries the class `.verse`, with a left margin of 2.4em.
 
 ### Tail
 

@@ -1,9 +1,5 @@
 # Introduction
 
-![The shop at morning: a small press at the start of a build](assets/woodcuts/the-shop-at-morning.png){place=frontispiece}
-
-<!-- art: a small nineteenth-century print shop at the start of the working day, seen from the doorway at eye level with correct one-point perspective and a level floor: a row of type cases on the left, a compact brass hand press with a lever and a platen in the centre, a long proofing table on the right under a tall window, morning light in parallel hatched rays, one apprentice in an apron carrying a chase of locked type toward the press, a second figure at the far table reading a sheet, shelves of bound volumes along the back wall; landscape composition; wood engraving with dense hatching and crosshatching, single black ink, no gray washes, no lettering anywhere -->
-
 ::: {.in-this-chapter}
 > **In this chapter:**
 >
@@ -31,7 +27,11 @@ Its next sentence lists what a single command produces:
 
 The program is a Python package, and it installs a command of the same name.[^1-name] You run that command from inside a *book repository*, a directory that holds a *config/metadata.yaml* file and *the manuscript*. The manuscript is the chapter files and appendix files under *book/*. The 6 x 9 in the README is the default trim. It belongs to one of six *design profiles*, each a trim with its own interior geometry, and Chapter 9, *The house design*, compares them.
 
-The package docstring names the work in three verbs: "A small press: the build, check, and verify pipeline for books." The press calls each command that does one of those jobs a *target*. You will meet `press check`, `press pdf`, `press all`, and the other targets one at a time in later chapters.
+The package docstring names the work in three verbs: "A small press: the build, check, and verify pipeline for books." The press calls each command that does one of those jobs a *target*. You will meet `press check`, `press pdf`, `press all`, and the other targets one at a time in later chapters. @fig:pipeline-overview shows the whole path, from the manuscript at the left to the dist directory, *dist/*, at the right.
+
+![From the manuscript to dist/: the path every edition takes](assets/woodcuts/01-01-pipeline-overview.png){#fig:pipeline-overview .diagram width=full-measure fig-alt="Chapter and config files pass through press check and pandoc, fork into a LuaLaTeX branch and a writers branch, and meet at the verifiers before the dist directory."}
+
+<!-- art: ARCHETYPE pipeline, left to right. Far left: two stacked dog-eared file icons, "book/chapters/*.md" and "config/*.yaml". An arrow to a rounded box "press check", then to a rounded box "pandoc" with "+ Lua filters" inside. From pandoc two arrows fork: the upper, labeled "latexmk", runs to a rounded box "LuaLaTeX" and on to a file icon "alice.pdf"; the lower, labeled "pandoc writers", runs to a vertical stack of file icons "alice.epub", "alice.html", "site/", "alice.txt", "alice.docx". A thin bottom arrow labeled "stitch" runs from the manuscript straight to a file icon "alice.md". All file icons feed one drop-shadowed rounded box "verifiers", then a folder icon "dist/" at far right. The reader should see first that every edition starts from the same two inputs and passes the verifiers before it reaches dist/. -->
 
 *The checker* is `press check`. It reads every chapter file before anything builds, and it refuses a manuscript that breaks one of its rules. An em dash, a curly quote, a glyph outside the print-font set, or a paragraph of 190 words or more stops it. Chapter 6, *Checking the manuscript*, lists every rule and its message.
 
@@ -39,11 +39,7 @@ The building falls to pandoc, a program that converts documents from one markup 
 
 The PDF takes two more programs. Pandoc writes the book out as LaTeX, and LuaLaTeX, the TeX engine that sets the type, turns that LaTeX into pages. Then latexmk, a program that reruns LaTeX until the page references and the lists stop changing, drives it through as many passes as the book needs. You never see the LaTeX unless you go looking for it.
 
-Verifying is the part a homemade build script usually leaves out. Each *verifier* opens a finished *artifact*, a file or directory in *dist/* that the press names and tracks, and inspects it as an object. The PDF verifier renders pages and checks the cover on page 1. The EPUB goes through epubcheck, the validator that retail channels run. The press does not call a book built until every verifier passes. @fig:pipeline-overview shows the whole path, from the manuscript at the left to the dist directory, *dist/*, at the right.
-
-![From the manuscript to dist/: the path every edition takes](assets/woodcuts/01-01-pipeline-overview.png){#fig:pipeline-overview .diagram width=full-measure fig-alt="Chapter and config files pass through press check and pandoc, fork into a LuaLaTeX branch and a writers branch, and meet at the verifiers before the dist directory."}
-
-<!-- art: ARCHETYPE pipeline, left to right. Far left: two stacked dog-eared file icons, "book/chapters/*.md" and "config/*.yaml". An arrow to a rounded box "press check", then to a rounded box "pandoc" with "+ Lua filters" inside. From pandoc two arrows fork: the upper, labeled "latexmk", runs to a rounded box "LuaLaTeX" and on to a file icon "alice.pdf"; the lower, labeled "pandoc writers", runs to a vertical stack of file icons "alice.epub", "alice.html", "site/", "alice.txt", "alice.docx". A thin bottom arrow labeled "stitch" runs from the manuscript straight to a file icon "alice.md". All file icons feed one drop-shadowed rounded box "verifiers", then a folder icon "dist/" at far right. The reader should see first that every edition starts from the same two inputs and passes the verifiers before it reaches dist/. -->
+Verifying is the part a homemade build script usually leaves out. Each *verifier* opens a finished *artifact*, a file or directory in *dist/* that the press names and tracks, and inspects it as an object. The PDF verifier renders pages and checks the cover on page 1. The EPUB goes through epubcheck, the validator that retail channels run. The press does not call a book built until every verifier passes.
 
 Under the press sits *the toolchain*, the programs it calls to do the work. They are pandoc, LuaLaTeX, latexmk, the Libertinus fonts,[^1-libertine] epubcheck with a Java to run it, and poppler. Poppler is a set of PDF tools, and its `pdftoppm` renders a page as an image for the verifier. The press itself needs Python 3.10 or later. @fig:the-stack shows how the layers rest on one another, with your book at the top and the operating system at the bottom.
 
@@ -94,11 +90,11 @@ The third law sets the standard for a green build: "A green build means the actu
 ::: {.sidebar}
 > **The cover that passed at 11.5 percent**
 >
-> A title-page generator in the press once went out with a dropped cover and a clipped cover. The generator had tests, and they covered 11.5 percent of its lines. *CONTRIBUTING.md* records the cause: "the lines ran, the artifact was never inspected."
+> A title-page generator in the press once went out with a dropped cover and a clipped cover, behind tests that covered 11.5 percent of its lines. *CONTRIBUTING.md* records the cause: "the lines ran, the artifact was never inspected."
 >
-> Nothing in the suite opened the PDF and looked at page 1. The tests asked whether the code executed, and it did. Nobody asked whether a reader would find a cover at the front of the book.
+> The generator drew the cover only when a book supplied *config/front-matter.yaml*, so a book with a cover image and no front-matter file shipped with none. Where it did draw, a fixed plate of 5.6 by 7.1 inches clipped off a 5 by 8 page and overflowed the text block at 6 by 9. The tests asserted only that the PDF built. Nothing looked at page 1.
 >
-> The fix came in two parts. The first was a rule, which *CONTRIBUTING.md* now states without qualification: "A producer is only proven by a verifier that rejects a broken artifact." A new generator counts as proven only when some verifier fails on its broken artifact. The second part was the verifier itself: the PDF verifier now checks the cover on page 1.
+> Release 2.1.0 fixed it three ways. The plate triggers on the asset and fits any trim. The PDF verifier renders page 1 and refuses a blank page ("the cover plate was clipped off the page") or one with no cover image ("the generated front matter dropped it"). And *CONTRIBUTING.md* gained its rule: "A producer is only proven by a verifier that rejects a broken artifact."
 :::
 
 ### Scars become law
@@ -132,7 +128,8 @@ The quickest way to understand the press is to watch it make a book. The sample 
 ```text
 $ press new alice --owner wonderland-press
 $ cd alice
-$ press config set title "Alice's Adventures in Wonderland" && \
+$ press config set title \
+  "Alice's Adventures in Wonderland" && \
   press config set author '["Lewis Carroll"]' --json && \
   press config set description "A girl falls into Wonderland."
 $ git init && git add -A && git commit -m "First book"
@@ -265,7 +262,7 @@ Table: Table 1.2. The editions of the Alice book
 
 The Pages bundle, *dist/pages/*, gathers the editions for readers. It holds the landing page, a *read/* copy of the reader site, and a *downloads/* directory that links every published download exactly once. When the metadata sets `site-url`, the bundle also gets a *sitemap.xml* and a *robots.txt*.
 
-A book with a *config/authorities.yaml*, its table of authorities, gets one more file. The press generates *alice-sources.md*, *the sources companion*, a document published beside the book. Chapter 10, *Front matter, the index, and the table of authorities*, covers it. The three-chapter example has no authorities file, so its *dist/* has no sources companion.
+A book with a *config/authorities.yaml*, its table of authorities, gets one more file. The press generates *alice-sources.md*, *the sources companion*, a document published beside the book. Chapter 10, *Front matter, the index, and the table of authorities*, covers it. The three-chapter example has no authorities file and so no sources companion.
 
 *The print pack* is the set of artifacts a printer needs. It holds a print-profile interior, a *cover wrap* (the whole cover, back to front, as one PDF) with a computed spine and an EAN-13 barcode, and the retail channel checklists. Its own targets build it. Chapter 12, *The print pack*, covers it in full.
 
@@ -278,10 +275,8 @@ A *sentinel* is a phrase from the manuscript, listed under `verify-sentinels` in
 At the time of this writing, the current release is press 3.0.2, dated 2026-11-11. A *floating tag* such as `v3` moves forward within its major as new releases come out, and an *immutable tag* such as `v3.0.2` names one release forever. Chapter 14 explains the release contract that proves each tag, and Chapter 9 explains why a design change needs a new major.
 
 ::: {.tip}
-> **Tip:** Pin `v3` to receive fixes as they come. When a book must rebuild from the same press and toolchain years from now, pin a three-part tag such as `v3.0.2` and move that pin on purpose. Chapter 14, *Continuous integration and the release contract*, takes the mechanism apart.
+> **Tip:** Pin `v3` to receive fixes as they come. When a book must rebuild from the same press and toolchain years from now, pin a three-part tag such as `v3.0.2` and move that pin on purpose. Chapter 14 takes the mechanism apart.
 :::
-
-## How to read this book
 
 Chapter 2, *Installing press*, puts the toolchain on `hatter`.
 

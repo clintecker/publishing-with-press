@@ -132,7 +132,8 @@ Press keeps two lists of illustrations in the PDF, and both follow the Contents.
 The plate directory and the manuscript must agree. If a plate on disk under *assets/woodcuts/* has no reference in the manuscript, the checker refuses the book and prints the path:
 
 ```text
-plate never referenced by the manuscript: assets/woodcuts/<name>
+plate never referenced by the manuscript:
+  assets/woodcuts/<name>
 ```
 
 The rule catches a plate that lost its image line in an edit, and it catches a plate that someone accepted and nobody placed. In both cases the file sits on disk and never reaches a page.

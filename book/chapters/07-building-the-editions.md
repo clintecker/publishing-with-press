@@ -270,7 +270,7 @@ The press builds three editions for readers who need something other than a type
 
 ### The Manuscript edition
 
-`press markdown` is one of two edition targets that do not call pandoc, and the Source edition is the other. The press writes a short header and then the raw manuscript, with every chapter and appendix stitched together in book order. It removes the attribute blocks from the headings, such as `{.unnumbered}`, and changes nothing else. In the log, the step reports itself with a plus-sign line that is not a command: `+ stitched 4 files -> dist/alice.md`. The result is the manuscript as you wrote it, in one file.
+`press markdown` is one of two edition targets that do not call pandoc, and the Source edition is the other. The press writes a short header and then the raw manuscript, with every chapter and appendix stitched together in book order. It removes the attribute blocks from the headings, such as `{.unnumbered}`, and changes nothing else. In the log, the step reports itself with a plus-sign line that is not a command: `+ stitched 4 files -> dist/alice.md`.
 
 ### The Telegraphic and Office editions
 
@@ -278,7 +278,7 @@ The press builds three editions for readers who need something other than a type
 
 ### The Source edition
 
-`press source` writes *dist/alice-source.zip* through the `package_source` module. The zip holds the files that Git tracks in the book repository, and only those; a book outside any Git repository is archived whole, and one untracked inside a parent repository archives nothing. The step prints the path of the zip and then one line of report. For the three-chapter example, that line reads `archived 12 files; excluded dirs ['.git', '__pycache__', 'build', 'dist']`.
+`press source` writes *dist/alice-source.zip* through the `package_source` module. The zip holds the files that Git tracks in the book repository, and only those. A book outside any Git repository is archived whole, and one untracked inside a parent repository archives nothing. The step prints the path of the zip and then one line of report. For the three-chapter example, that line reads `archived 12 files; excluded dirs ['.git', '__pycache__', 'build', 'dist']`.
 
 ::: {.tip}
 > **Tip:** We suggest that you add each new chapter file to Git before you build the Source edition. A file that Git does not track stays out of the zip.

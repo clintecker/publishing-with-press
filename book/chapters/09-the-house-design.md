@@ -382,13 +382,13 @@ None of those changes corrects broken output. A widow is legal TeX, and a page t
 
 The move itself left one more scar. The `press migrate` command once told an author moving from version 2 to version 3 that the geometry would stay byte for byte the same. That promise held for the move from version 1 to version 2, and it did not hold for this one. Release 3.0.1 corrected the message.[^9-migrate]
 
-[^9-migrate]: The correction was number 262 in the press's tracker. It came in the first patch release after the major.
+[^9-migrate]: The correction was number 262 in the press's tracker. It came in the first patch after the major.
 
 ### The machinery behind the promise
 
-Each profile carries a `design-major`, and the file *profile-seals.yaml* in the press's package data seals each profile with a digest of its contents. A check named `check_profile_seals` turns red when a profile's contents no longer match its seal.
+Each profile carries a `design-major`, and the file *profile-seals.yaml* in the press's package data seals each profile with a digest of its contents. A check named `check_profile_seals` turns red when a profile no longer matches its seal.
 
-The press also keeps visual regression baselines, rendered pages that its tests compare against. The rule for the baselines matches the rule for the design. A maintainer may record new baselines only "with a reason", and only in a new major. A patch that changes a page therefore shows up as a failed comparison in the press's own tests.
+The press also keeps visual regression baselines, rendered pages that its tests compare against. The rule for the baselines matches the rule for the design. A maintainer may record new baselines only "with a reason", and only in a new major. A patch that changes a page therefore fails the press's own tests.
 
 For your own pin, the rule means this: on `v3`, your book keeps the design it has today through every release of version 3. On `v3.0.2`, nothing moves. A new design reaches your book only when you change the major in your pin.
 

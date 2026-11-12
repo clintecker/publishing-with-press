@@ -156,31 +156,31 @@ Every audited file meets the *universal battery*, a set of rules the press appli
 
 ```text
 U+2014
-    contains em dash                em-dash.md
+  contains em dash                em-dash.md
 U+2013
-    contains en dash                en-dash.md
+  contains en dash                en-dash.md
 \bin conclusion\b
-    generic conclusion              in-conclusion.md
+  generic conclusion              in-conclusion.md
 it is important to note
-    throat-clearing phrase          throat-clearing-important.md
+  throat-clearing phrase          throat-clearing-important.md
 it is worth noting
-    throat-clearing phrase          throat-clearing-worth.md
+  throat-clearing phrase          throat-clearing-worth.md
 at its core
-    fake-revelation phrase          at-its-core.md
+  fake-revelation phrase          at-its-core.md
 the real question is
-    fake-revelation phrase          real-question.md
+  fake-revelation phrase          real-question.md
 let's (dive|delve|explore|break this down)
-    chatbot signposting             lets-dive.md
+  chatbot signposting             lets-dive.md
 without further ado
-    chatbot signposting             without-further-ado.md
+  chatbot signposting             without-further-ado.md
 stands as a testament
-    inflated significance           testament.md
+  inflated significance           testament.md
 vibrant tapestry
-    inflated AI phrase              vibrant-tapestry.md
+  inflated AI phrase              vibrant-tapestry.md
 not only ... but also (within 120 characters)
-    formulaic negative parallelism  negative-parallelism.md
+  formulaic negative parallelism  negative-parallelism.md
 (whitespace at the end of a line)
-    trailing whitespace             trailing-whitespace.md
+  trailing whitespace             trailing-whitespace.md
 ```
 
 The negative parallelism rule allows up to 120 characters between its two halves. The dash rules match single characters. Two hyphens typed in prose pass the checker, but pandoc turns them into an en dash in the editions. The house law says to rewrite the sentence instead.
@@ -191,7 +191,7 @@ The universal battery skips fenced code for every rule except trailing whitespac
 
 The manuscript meets three more rules that the audit directories do not. The first refuses curly quotes. Pandoc's smart typography curls your straight quotes in every rendered edition except the Manuscript edition (the stitched Markdown), which keeps your characters as you typed them. A curly quote in a chapter file is usually a paste from a word processor.
 
-The second is the *glyph law*, which limits book prose to ASCII and the accented Latin letters. Its diagnostic is `glyph U+XXXX is outside the print-font set`, with the code point in place of the four letters. Chapter 4, *Writing the manuscript*, gives the permitted ranges and the characters that surprise authors, the copyright sign first among them.
+The second is the *glyph law*, which limits book prose to ASCII and the accented Latin letters. Its diagnostic is `glyph U+XXXX is outside the print-font set`, with the code point in place of XXXX. Chapter 4 gives the permitted ranges and the characters that surprise authors, the copyright sign first among them.
 
 The third rule applies the book's own banned patterns, from *config/house-rules.yaml*. The section "House rules" later in this chapter describes them.
 
@@ -209,7 +209,7 @@ paragraph 40 has 264 words (the law is under 190; split it)
 
 The paragraph number counts from the top of the file. A tip, a warning, or a sidebar is one paragraph to the checker, however many paragraphs it shows on the page. Keep sidebars short for that reason, or the checker will refuse a block that looks innocent in the chapter file.
 
-When the audit finds no error, it prints `Editorial checks passed: N Markdown files`.
+A clean audit prints `Editorial checks passed: N Markdown files`.
 
 [^6-law-date]: According to the press's CHANGELOG, press began to enforce the paragraph law in version 1.7.0.
 
@@ -389,7 +389,7 @@ The value has two defaults, and the difference matters. The book model's default
 
 ### Draft settings and release builds
 
-The scaffold's template calls two settings draft settings: an empty sentinel list and a one-page floor. A draft build accepts them, and a release build refuses them. Press calls the two settings the *release witnesses*. When the environment variable `PRESS_RELEASE` holds 1, press requires at least two sentinels and a page floor of at least 24. It refuses vacuous witnesses with the message in Example 6.11.
+The scaffold's template calls two settings draft settings: an empty sentinel list and a one-page floor. A draft build accepts them, and a release build refuses them. Press calls the two settings the *release witnesses*. When the environment variable `PRESS_RELEASE` holds 1, press requires at least two sentinels and a page floor of at least 24. The reusable workflow sets `PRESS_RELEASE=1` when it builds a tag that begins with `v`. Press refuses vacuous witnesses with the message in Example 6.11.
 
 **Example 6.11. The release refusal**
 
@@ -401,7 +401,7 @@ verify-sentinels has N entries; a release needs at least 2
 verify-min-pages is N; a release needs at least 24
 ```
 
-The reusable workflow sets `PRESS_RELEASE=1` when it builds a tag that begins with `v`. Set both values before your first release tag, and the release build will never print Example 6.11 at you.
+Set both values before your first release tag, and the release build will never print Example 6.11 at you.
 
 ## Reading the output
 
@@ -446,7 +446,7 @@ Editorial checks failed:
     has 212 words (the law is under 190; split it)
 ```
 
-The jargon lint never ran in Example 6.13. The check stopped at the third pass, so a rewrite term in the same chapter would wait for the next run. Fix every diagnostic in a failure before you run the check again, because the pass after it may have more to say.
+The jargon lint never ran in Example 6.13. The check stopped at the third pass, so a rewrite term in the same chapter would wait for the next run. Fix every diagnostic before you run the check again, because the next pass may have more to say.
 
 Table 6.5 collects the diagnostics you are most likely to meet. Appendix C holds the checker's and the verifiers' messages.
 
