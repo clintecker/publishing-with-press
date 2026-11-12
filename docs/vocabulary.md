@@ -59,6 +59,7 @@ defined in the same sentence; afterwards it is roman.
 | alpha master | a plate kept as ink on transparency | transparent PNG, master file |
 | the table of authorities | the ledger `config/authorities.yaml` and the claims it holds | the authorities file, the sources ledger, the citations |
 | the sources companion | the generated `dist/<slug>-sources.md`, the Sources edition's companion document | the authorities document, the sources appendix, the bibliography |
+| the logomark | the imprint device, `assets/press-logo.png` | the logo, the imprint logo, the press mark (the pilcrow is press's own mark, a different thing) |
 | the desk | `press desk` | the TUI, the dashboard, the UI |
 | workflow | a packaged agent procedure | pipeline, automation, playbook |
 | skill | a packaged authoring guide | prompt, guide, doc |
