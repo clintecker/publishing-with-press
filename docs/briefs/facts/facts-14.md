@@ -395,3 +395,21 @@ Design rationales that work as sidebars:
 - **The finisher (supplied-interior PDF).** Planned on the Book breadth milestone, not shipped.
 - **The custom merchant-of-record commerce stack.** Icebox.
 - **Non-Latin and right-to-left scripts.** Icebox, "a major per script family".
+---
+
+# Supplement added by the managing editor (2026-11-11)
+
+## S1. The supported local-image recipe
+
+`docs/INSTALL.md` (quoted in facts-02 S2) gives the one documented way to run press in the toolchain image locally:
+
+```text
+docker run --rm -v "$PWD":/book ghcr.io/clintecker/press-toolchain:latest \
+  bash -c "pip install --break-system-packages 'press @ git+https://github.com/clintecker/press@v3' && cd /book && press all"
+```
+
+The CI-exact variant the chapter may state is: replace `:latest` with the `image:` value of the press's `build.yml` at the three-part tag you pin (the `@sha256:` digest form). Nothing beyond that substitution is documented, so no `git show | sed` extraction or other recipe is presented as tested.
+
+## S2. Facts from other slices the chapter may cite
+
+The release floor (`PRESS_RELEASE=1` refuses fewer than two sentinels or `verify-min-pages` below 24) is in the fact base's 3.3 and 6.6 (release witnesses) and in Chapters 3, 6, and 8; the Pages bundle's contents are the `dist/pages/` tree in 3.5 (facts-01). Both are admissible. General statements about GitHub runners, Docker pull-by-digest semantics, or what a composite action is beyond what `action.yml` shows remain unsupported and are cut or reduced to what the fact base says.
