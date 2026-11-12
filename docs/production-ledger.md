@@ -113,3 +113,4 @@ Managing editor's record. Append only.
 - Ch 16 desks complete -> writer. Appendix B fact-check in (1 contradiction: retail entry), Appendix D fact-check in; facts-D S1 rulings added.
 - Ch 11 COMMITTED. Ch 15 desks complete -> writer. Appendix C fact-check in.
 - Rulings: appendix ## and ### headings carry {-} (press numbers them 16.71...; tool added); long message terms go into text fences; provider id is ingramspark. Appendix B and C desks complete -> writers.
+- Appendix A drafted (5,551). Ruling: a writer's own capture from press 3.0.2 on a scratch book is admissible as fact (the fact base is the same kind of capture); the fact checker verifies it by rerunning where cheap. Desks dispatched for A.
