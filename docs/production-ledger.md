@@ -112,3 +112,4 @@ Managing editor's record. Append only.
 - Figures 7.1-7.4 and 10.1-10.2 committed. Appendix E + colophon writer dispatched; remaining appendix desks dispatched.
 - Ch 16 desks complete -> writer. Appendix B fact-check in (1 contradiction: retail entry), Appendix D fact-check in; facts-D S1 rulings added.
 - Ch 11 COMMITTED. Ch 15 desks complete -> writer. Appendix C fact-check in.
+- Rulings: appendix ## and ### headings carry {-} (press numbers them 16.71...; tool added); long message terms go into text fences; provider id is ingramspark. Appendix B and C desks complete -> writers.

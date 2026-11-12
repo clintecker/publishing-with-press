@@ -36,7 +36,11 @@ against the house rules. ...
   case. Press numbers them (1.1, 1.1.1); do not type numbers.
 - Never a heading that starts with a digit. Never two headings in a row.
 - Appendixes: `# Appendix A: Command reference {.unnumbered}`. The letter is
-  typed by hand and matches the filename letter.
+  typed by hand and matches the filename letter. Every `##` and `###` in an
+  appendix ends with ` {-}` (press otherwise numbers it with the last
+  chapter's counter); `tools/unnumber-appendix-heads.py` applies it.
+- A definition-list term that is a long message clips at the margin:
+  keep the term short and put the full message in a `text` fence under it.
 
 ## Prose
 

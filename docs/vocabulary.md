@@ -43,7 +43,7 @@ defined in the same sentence; afterwards it is roman.
 | ornament | the scene-break glyph (rule, asterism, fairy-dust) | decoration, flourish |
 | decoration | an image marked `decorative=true`: empty alt, never numbered, never listed | ornament, dingbat |
 | profile / design profile | a sealed interior geometry (`house-6x9` and the rest) | trim preset, layout, theme |
-| provider | a print vendor spec (`house`, `lulu`, `kdp`, `ingram`) | printer (reserved for the machine or shop), vendor, service |
+| provider | a print vendor spec (`house`, `lulu`, `kdp`, `ingramspark`) | printer (reserved for the machine or shop), vendor, service |
 | the print pack | print interior, cover wrap, checklists | print mode, print build |
 | cover wrap | the back-spine-front PDF | jacket, full cover, wraparound |
 | the toolchain | pandoc, LuaLaTeX, latexmk, fonts, epubcheck, poppler | the stack, dependencies, prerequisites |
