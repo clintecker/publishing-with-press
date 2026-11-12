@@ -327,3 +327,13 @@ Design rationales that work as sidebars:
 - **The finisher (supplied-interior PDF).** Planned on the Book breadth milestone, not shipped.
 - **The custom merchant-of-record commerce stack.** Icebox.
 - **Non-Latin and right-to-left scripts.** Icebox, "a major per script family".
+---
+
+# Supplement added by the managing editor (2026-11-11)
+
+## S1. Rulings for the fact checker's questions
+
+- A message quoted verbatim in another chapter's slice of the same fact base (facts-C's epubcheck messages) is admissible here.
+- The tag `v3.0.2` exists: the fact base's list of all tags (section 1.2) ends `... v3.0.0 v3.0.1 v3.0.2`, and `press --version` reports 3.0.2. A book may pin `@v3.0.2`.
+- The doctor's behaviour with a broken optional tool is on the fact base's "looks like a bug" list (20.B.14): the appendix states it as current behaviour ("at the time of this writing, a broken optional tool also makes the doctor report not ready"), not as design.
+- "Reusable workflow" and "the `image:` line" are the fact base's own terms (12.3, 12.4), admissible from those slices.
