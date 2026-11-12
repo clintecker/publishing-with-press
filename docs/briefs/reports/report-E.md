@@ -135,3 +135,20 @@ Residual `ste_check` findings, defended:
   coordinator's wording for the plates) are the museum-label register.
 - Glossary `-ing` forms are nouns, adjectives, or proper names; "verify" is
   the verify targets' name.
+
+## Revision 2 (sweep item 11, glossary gaps)
+
+Added 36 entries, each from its defining chapter: Alice book and
+three-chapter example (Preface); data kind, List of Figures, List of Plates
+(5); folio, tokens (9); logomark, cover style, flat-ground test, author
+portrait (11); allowance, trim, bleed, safety, inner offset, module, quiet
+zone, disposition (12); registration (13); upload bundle, hash lock, digest,
+release receipt (14); read model, prose skills, maxim quota, editorial passes
+(one entry for scout, suggest, synthesize, law and the cadence, repetition,
+and arc lenses) (15); integration gate, producer, producer ledger (16);
+writable field, immutable field, file field (3). *structured field* and
+*generatable kind* now cross-refer to the new entries in italic.
+
+Entries: 181. `press wordcount`: 3933 for the glossary, past the brief's
+3,000 at the coordinator's direction. `press check` passes in full.
+`ste_check`: only the defended `-ing` forms and "verify" remain.

@@ -8,6 +8,12 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 **aesthetic**
 : The book's visual identity in *config/aesthetic.yaml*, which press merges over the house aesthetic. It cannot repeal a *craft law* (Chapters 5, 9, and 11).
 
+**Alice book**
+: The book's running sample, *Alice's Adventures in Wonderland* with slug `alice`, kept by the user `alice` on the workstation `hatter`. See also *three-chapter example* (Preface).
+
+**allowance**
+: A fixed amount that two of the *spine shapes* add on top of the thickness of the pages (Chapter 12).
+
 **alpha master**
 : A plate kept as ink on transparency: black color channels, with all the tone in the alpha channel. Press composites it onto the ground of each edition (Chapters 5 and 11).
 
@@ -29,11 +35,17 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 **audit directory**
 : A directory outside the manuscript, named under `audit-dirs`. Its files meet only the *universal battery*. The checker reports heading and paragraph faults there as warnings (Chapter 6).
 
+**author portrait**
+: The engraved portrait of the author, which intake writes to *assets/author.jpg*. An author photograph makes the commission engrave the actual author (Chapter 11).
+
 **authority**
 : The source that warrants a *claim* in the *table of authorities* (Chapter 10).
 
 **banned pattern**
 : A `banned-patterns` entry in the *house rules*, a regular expression mapped to a label. The checker applies it, case-sensitive, to book prose (Chapter 6).
+
+**bleed**
+: The band of art that runs past the *trim*, so that the cut leaves no white sliver at the edge. The press fixes it at 0.125 inch (Chapter 12).
 
 **book model**
 : The press's typed rules for every config field: kind, requirement, and default. Every build and every `press config set` checks against it (Chapters 3 and 16).
@@ -95,11 +107,17 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 **counsel mode**
 : `press improve` without `--apply`. It writes a report and touches nothing. Press compares fingerprints of *book/* and *config/* to prove it (Chapter 15).
 
+**cover style**
+: A named prompt template for a whole genre of cover. The press carries ten, and `press cover --list` prints each with a note (Chapter 11).
+
 **cover wrap**
 : The whole printed cover (back, spine, and front) as one PDF page with bleed, a computed spine, and the *EAN-13* barcode (Chapters 1 and 12).
 
 **craft law**
 : A house law no configuration can change. The four are verbatim text, flat plates, single-ink interiors (`house-6x9-color` excepted), and "the trim is the trim" (Chapters 9 and 11).
+
+**data kind**
+: A figure class, `.chart` or `.diagram`, that press routes away from the image model. `press illustrate` refuses to commission one. See *generatable kind* (Chapter 5).
 
 **decoration**
 : An illustration that holds no information, marked `decorative=true`. Press gives it empty alt text and never numbers or lists it (Chapter 5).
@@ -116,8 +134,14 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 **desk**
 : `press desk`, the press's full-screen console in the terminal. Every action it runs is a target you could type (Chapters 1 and 15).
 
+**digest**
+: `@sha256:` followed by 64 hexadecimal digits. It pins a container image's bytes, which no tag does (Chapter 14).
+
 **directive**
 : The `art:` comment after an image line, written for the illustrator or image model. It is distinct from the *caption* and the *fig-alt* (Chapters 5 and 11).
+
+**disposition**
+: The ledger's rating of a researched print shop for print ordering: `primary`, `secondary`, `hosted-candidate`, `candidate`, or `not-fit` (Chapter 12).
 
 **dist/**
 : The directory of published *artifacts* (Chapters 1 and 3).
@@ -140,6 +164,9 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 **editorial law**
 : The rules `press check` enforces. See *checker* (Chapter 6).
 
+**editorial passes**
+: The `editorial-passes` workflow, which reads the book through the four *prose skills*. Each round runs four phases: scout, suggest, synthesize, and law. Suggest sends one agent to each chapter file and three through the whole book, one per lens (cadence, repetition, and arc), and law runs `press check` until it passes. See also *maxim quota* (Chapter 15).
+
 **evidence state**
 : The desk's glyph for an artifact, derived from content digests and never from a timestamp. The live desk shows `-`, `o`, and `/` (Chapter 15).
 
@@ -161,14 +188,23 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 **figure**
 : A numbered informative illustration that the text cites by number ("Figure 7.3"), listed in the List of Figures. Its class is `.figure`, `.chart`, `.map`, `.photo`, or `.diagram` (Chapter 5).
 
+**file field**
+: A config field that is a whole file, such as *tex/title-page.tex* or the assets. The press tells you where to put it. See *structured field* (Chapter 3).
+
 **finisher**
 : A planned source mode for designed interiors, `interior: path/to/interior.pdf`. At the time of this writing, it is not part of press 3.0.2 (Chapter 1).
+
+**flat-ground test**
+: The test intake applies to an opaque delivery before the *luminance key*. At least 82 percent of a band around the border must have a luminance of 200 or more. The mean luminance of opposite edges may differ by at most 45 (Chapter 11).
 
 **float**
 : LaTeX's word for a block it may move to a better spot on the page (Chapter 8).
 
 **floating tag**
 : A tag such as `v3` that moves to the newest compatible release within its major (Chapters 1 and 14).
+
+**folio**
+: The page number, set in the center of the foot, on plain pages too (Chapter 9).
 
 **front matter**
 : The pages from the cover plate through the acknowledgments, generated from *config/metadata.yaml* and *config/front-matter.yaml* (Chapter 10).
@@ -177,7 +213,7 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 : The *placement* that gives an illustration a cleared leaf (see *leaf*) on an even page, facing the chapter that follows (Chapter 5).
 
 **generatable kind**
-: A class `press illustrate` can commission: `.plate`, `.figure`, `.map`, or `.photo`. `press illustrate` refuses the data kinds `.chart` and `.diagram` (Chapter 5).
+: A class `press illustrate` can commission: `.plate`, `.figure`, `.map`, or `.photo`. `press illustrate` refuses the *data kinds*, `.chart` and `.diagram` (Chapter 5).
 
 **generator**
 : Machinery that makes the right thing. The second law ranks it above a check and a convention (Chapter 1).
@@ -191,6 +227,9 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 **guard**
 : The free lines a page must have before press starts a *wrap*. With fewer, the wrap moves to the next page (Chapter 5).
 
+**hash lock**
+: The file *requirements-lock.txt*, which pins press's runtime dependencies by sha256 hash. The composite action installs from it before press itself (Chapter 14).
+
 **height cap**
 : The tallest an image may be, set per *design profile*: 6.3 inches on the house 6 by 9 (Chapter 5).
 
@@ -203,6 +242,9 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 **illustration**
 : Any picture in a chapter file, sorted into *plate* or *figure* (Chapter 5).
 
+**immutable field**
+: A config field, such as `trim`, that refuses writes and says what to change instead. It has nothing to do with the *immutable tag* (Chapter 3).
+
 **immutable tag**
 : A three-part tag such as `v3.0.2` that names one release forever and pins its own action and toolchain digest (Chapters 1 and 14).
 
@@ -212,8 +254,14 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 **informative figure**
 : See *figure*.
 
+**inner offset**
+: The sum of a binding's own extra widths: hinge, flap, and strip. A paperback has none of the three, so its inner offset is zero (Chapter 12).
+
 **intake**
 : What `press art accept` does: it converts a delivered image to house form and writes it into *assets/* (Chapters 5 and 11).
+
+**integration gate**
+: The CI job that builds the wheel, scaffolds a stranger's book, and runs `press all`. It requires that no original-book identity appear in the scaffold's public artifacts (Chapter 16).
 
 **invariant**
 : A named `INV-` entry in the press's ledger, *.celebrimbor/invariants.yaml*, with its enforcer, proof, and limits (Chapters 7 and 16).
@@ -239,8 +287,17 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 **leaf**
 : One sheet of the book, two pages back to back. A cleared leaf is a fresh page that holds one illustration (Chapters 5 and 10).
 
+**List of Figures**
+: The list, after the Contents, of every numbered *figure* with its number and caption. It appears when the manuscript declares at least one numbered figure (Chapter 5).
+
+**List of Plates**
+: The list, after the Contents, of every *plate* with its caption and no number. It appears when *assets/woodcuts/* holds any image file (Chapter 5).
+
 **locator**
 : Where a reader finds an index term: a chapter number, an appendix letter, or "Preface", never a page (Chapter 10).
+
+**logomark**
+: The printer's mark of the book's imprint, single ink on transparency. Intake writes it to *assets/press-logo.png* (Chapter 11).
 
 **Lua filter**
 : A small program that pandoc runs over the document between reading and writing it (Chapters 1 and 7).
@@ -254,11 +311,17 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 **manuscript witness**
 : The longest markup-free line of 40 or more characters in the manuscript. Every edition but the Print edition must carry it (Chapter 8).
 
+**maxim quota**
+: The number of coined maxims a chapter may keep under the *editorial passes*, two by default (Chapter 15).
+
 **measure**
 : A width stated against the line: `full-measure`, `half-measure`, or `third-measure` (Chapter 5).
 
 **migration**
 : The move of a book to the next major with `press migrate`, which rewrites only the press pins. It first writes an exact backup and afterward a receipt under *.press/*, and it leaves the manuscript, the config, and the art alone (Chapter 14).
+
+**module**
+: The narrowest bar or space of an *EAN-13*, 0.0130 inch wide. The barcode has 95 of them (Chapter 12).
 
 **ONIX 3.0**
 : The book trade's XML format for product records, written by `press onix` (Chapter 13).
@@ -320,6 +383,15 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 **print-safe pass**
 : The pass that flattens each image onto white and caps its resolution for print (Chapters 5 and 12).
 
+**producer**
+: Code that writes an artifact, such as the title-page generator. Only a verifier that rejects a broken artifact proves a producer (Chapter 16).
+
+**producer ledger**
+: The file *.celebrimbor/producers.yaml*, which records the *producers*. Its pending entries carry `review_by` dates (Chapter 16).
+
+**prose skills**
+: The four skills the *editorial passes* require: `humanizer`, `onwritingwell`, `elems_of_style`, and `hemingway` (Chapter 15).
+
 **provider**
 : A print shop's specification, selected with `print.provider`. It decides the spine, the hardcover boards, and the trims and page counts a shop accepts (Chapter 12).
 
@@ -329,17 +401,29 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 **quality gate**
 : The *celebrimbor* gate as the press configures it. It holds the press's domain checks and *ratchets* (Chapter 16).
 
+**quiet zone**
+: The blank space on either side of an *EAN-13* that a scanner needs before it will read the bars (Chapter 12).
+
 **ratchet**
 : A floor that may only rise, such as coverage, mutation score, or Lua coverage. The gate fails below it (Chapter 16).
 
+**read model**
+: The facts the *desk* gathers about the book and the machine, which its home screen draws (Chapter 15).
+
 **recto, verso**
 : The right-hand odd page and the left-hand even page (Chapter 5).
+
+**registration**
+: A number that an outside agency assigns to the book and that the book must then carry. The press never issues a number over the network (Chapter 13).
 
 **registry**
 : The artifact graph in *registry.py*. It names every *artifact* and its dependencies, and the build order comes from those edges (Chapters 1, 7, and 16).
 
 **release contract**
 : The workflow that proves each press tag pins itself and a resolvable `@sha256:` image, with a complete *trust receipt* chain (Chapters 1 and 14).
+
+**release receipt**
+: The last *trust receipt* in the chain. It names the digest of the built wheel and the pinned toolchain *digest* (Chapter 14).
 
 **release witnesses**
 : The release floor under `PRESS_RELEASE=1`: at least two sentinels and a *page floor* of at least 24 (Chapters 3 and 6).
@@ -352,6 +436,9 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 
 **runt**
 : A paragraph's last line of one short word, prevented by a finite `\parfillskip` (Chapter 9).
+
+**safety**
+: A line inside the *trim* that a shop asks you to keep type within. The press does not draw or check it (Chapter 12).
 
 **scar**
 : A production failure turned into a mechanical guard and an entry in the press's *CLAUDE.md* (Chapters 1 and 16).
@@ -393,7 +480,7 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 : An artifact not rebuilt in this run. The registry's edges make every verify target rebuild what it reads. The one exception is `press verify-formats`, which reads an existing PDF into its agreement check without rebuilding it (Chapters 8 and 16).
 
 **structured field**
-: A config field too rich for one command line, such as the index terms. The other kinds are writable, immutable, and file fields (Chapter 3).
+: A config field too rich for one command line, such as the index terms. The other kinds are the *writable field*, the *immutable field*, and the *file field* (Chapter 3).
 
 **style audit**
 : The checker's third pass, also run alone as `press style` (Chapter 6).
@@ -407,11 +494,17 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 **target**
 : A `press` command that builds, checks, or verifies, such as `press pdf` (Chapter 1).
 
+**three-chapter example**
+: The press's own three-chapter Alice example, the opening chapters of the same novel in the press repository. Every real capture in this book comes from it (Preface).
+
 **tie**
 : A non-breaking space between two words that must not part at a line end (Chapter 4).
 
 **title page**
 : The first page that carries type (Chapter 10).
+
+**tokens**
+: The named colors of the reader stylesheet, which CSS calls custom properties (Chapter 9).
 
 **toolchain**
 : The outside programs press runs: pandoc, LuaLaTeX, latexmk, the fonts, epubcheck, and poppler (Chapter 1).
@@ -419,11 +512,17 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 **toolchain image**
 : `ghcr.io/clintecker/press-toolchain`, a public image built on Ubuntu 24.04 and pinned by digest. Every CI build runs in it (Chapters 1, 2, and 14).
 
+**trim**
+: The line where the shop cuts the cover to size. See also *bleed* (Chapter 12).
+
 **trust receipt**
 : The record that one layer of proof ran. There are twelve layers in three tiers. A release must present the complete chain (Chapters 14 and 16).
 
 **universal battery**
 : The rules every audited file meets, such as no em dash and no trailing whitespace (Chapter 6).
+
+**upload bundle**
+: This book's name for what GitHub calls an artifact: a set of files that one CI job hands to another (Chapter 14).
 
 **vacuous witnesses**
 : Press's phrase, in its release refusal, for knobs too weak to prove anything (Chapter 3).
@@ -442,3 +541,6 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 
 **wrap**
 : An illustration with text running around it: `wrap-inner`, `wrap-outer`, or `margin` (Chapter 5).
+
+**writable field**
+: A config field that takes `set` and `unset` in `press config`. See *structured field* (Chapter 3).
