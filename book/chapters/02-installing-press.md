@@ -16,7 +16,7 @@ Press comes in two halves, and you install them separately. The first half is a 
 
 ## What you need
 
-A working press installation needs four things. You need a Python interpreter and the press package itself. You also need the *toolchain*, the outside programs that press runs on your behalf: pandoc, LuaLaTeX, latexmk, the fonts, epubcheck, and the poppler utilities. Finally, you need Git, because press uses it to give a new book its identity and because every book lives in a Git repository. If you would rather not install the toolchain, you can skip it entirely. In its place, a container runtime pulls the *toolchain image*, a container image of the whole toolchain that the press builds and publishes. This chapter describes it later.
+A working press installation needs four things. You need a Python interpreter and the press package itself. You also need the *toolchain*, the outside programs that press runs on your behalf: pandoc, LuaLaTeX, latexmk, the fonts, epubcheck, and the poppler utilities. Finally, you need Git, because press uses it to give a new book its identity and because every book lives in a Git repository. If you would rather not install the toolchain, you can skip it entirely. In its place, a container runtime pulls the *toolchain image*, a container image of the whole toolchain that the press builds and publishes.
 
 Table 2.1 lists the parts and what each one does for you.
 
@@ -135,7 +135,7 @@ A book's CI does not use any of these commands. The *composite action*, the piec
 
 ## The system toolchain
 
-The Python package is the smaller half of an installation. Press does not set type itself, and it does not check an EPUB against the retail rules itself. It prepares the manuscript, decides what to build and in what order, and hands the work to older, specialized programs. A *target* is a press command that builds, checks, or verifies something, and most targets call at least one of these programs.
+The Python package is the smaller half of an installation. Press prepares the manuscript, decides what to build and in what order, and hands the work to older, specialized programs. It sets no type itself, and it checks no EPUB against the retail rules itself. A *target* is a press command that builds, checks, or verifies something, and most targets call at least one of these programs.
 
 @fig:tools-in-the-build shows where each tool sits. Pandoc reads every chapter file and runs the press's Lua filters over it. On the PDF branch, latexmk reruns LuaLaTeX until the cross-references and lists stop changing. On the other branches, pandoc's own writers produce the EPUB and the HTML. The verifiers then use epubcheck and the poppler utilities to inspect the finished artifacts.
 
@@ -288,7 +288,7 @@ The press's verifier draws the same line the doctor draws. It reports a present-
 
 ### Pulling the image
 
-The image is public. In the words of the press's documentation, "a book under any account pulls it with no package grant and no configured secret". On `hatter`, `docker` pulls it anonymously. On `printshop`, the *reusable workflow*, the workflow file a book's CI calls, authenticates the pull with the workflow's own `GITHUB_TOKEN`. That token works for a public image, on fork and Dependabot pull requests as well. Nobody has to grant your book access to anything.
+The image is public. In the words of the press's documentation, "a book under any account pulls it with no package grant and no configured secret". On `hatter`, `docker` pulls it anonymously. On `printshop`, the *reusable workflow*, the workflow file a book's CI calls, authenticates the pull with the workflow's own `GITHUB_TOKEN`. That token works for a public image, on fork and Dependabot pull requests as well.
 
 The press publishes the image for two architectures, amd64 and arm64, and it tests each one before it pushes. Two kinds of tag point at it. The tag `:latest` follows the newest build. A tag of the form `:sha-` followed by a commit hash names the build from one commit of the press.
 

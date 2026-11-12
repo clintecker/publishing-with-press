@@ -37,7 +37,7 @@ The metadata file holds the book's identity, the press facts, the verification k
 : Type `str`, required. The book's title. The generated title page sets it in capitals and adds a period unless the title already ends in a period, an exclamation mark, or a question mark. See Chapter 3.
 
 **`subtitle`**
-: Type `str`, default none. The subtitle. If you write it as clauses joined by "or," (for example `"OR, ...; OR, ..."`), it stacks on the title page, one clause to a line, and on the landing page. The scaffold writes `"A subtitle"`. See Chapters 3 and 10.
+: Type `str`, default none. The subtitle. If you write it as clauses joined by "or," (for example `"OR, ...; OR, ..."`), it stacks on the title page, one clause to a line. It also stacks on the landing page. The scaffold writes `"A subtitle"`. See Chapters 3 and 10.
 
 **`author`**
 : Type `list[str]`, required. The byline, one name per list item. The model also accepts a single string and makes it a list of one. The scaffold writes the name given to `press new --author`, else the name in `git config user.name`, else "The Author". See Chapter 3.
@@ -199,7 +199,7 @@ The commerce keys control direct print ordering: a link on the landing page to a
 
 ## *config/front-matter.yaml* {-}
 
-The presence of this file asks the press to generate the PDF's front matter: the title page, the copyright page (the press calls it the colophon), and the dedication, epigraph, and acknowledgments pages. The identity facts come from *config/metadata.yaml*. An absent key does not print. The scaffold writes the file with every key commented out. If the file is missing, `press config set` creates it. A file at *tex/title-page.tex* overrides all of it. Chapter 10, *Front matter, the index, and the table of authorities*, explains every key.
+The presence of this file asks the press to generate the PDF's front matter: the title page, the copyright page, and the dedication, epigraph, and acknowledgments pages. The press calls the copyright page the colophon. The identity facts come from *config/metadata.yaml*. An absent key does not print. The scaffold writes the file with every key commented out. If the file is missing, `press config set` creates it. A file at *tex/title-page.tex* overrides all of it. Chapter 10, *Front matter, the index, and the table of authorities*, explains every key.
 
 **`edition-note`**
 : Type `str`, default the date's text before its first comma, lowercased. The edition line at the top of the colophon, such as `"first edition, second printing"`. See Chapter 10.
@@ -404,7 +404,7 @@ styles:
 : Type `str`. A one-line description, which `press cover --list` prints beside the id. See Chapter 11.
 
 **`styles.<id>.text`**
-: Type `str`, default `baked`. With `baked`, the image model letters the title. Press appends a guardrail that names the exact title, author, and imprint and forbids other words. Every house style is `baked`. The press documentation describes a `composited` value in which the press sets the type, but no code does so. Any other value only leaves the guardrail off. See Chapter 11.
+: Type `str`, default `baked`. With `baked`, the image model letters the title. Press appends a guard that names the exact title, author, and imprint and forbids other words. Every house style is `baked`. The press documentation describes a `composited` value in which the press sets the type, but no code does so. Any other value only leaves the guard off. See Chapter 11.
 
 **`styles.<id>.prompt`**
 : Type `str`. The prompt template. It can use the fields `{title}`, `{author}` (the first author), `{imprint}` (the publisher), `{initials}` (up to three capitals from the publisher's name), `{accent}`, `{paper}`, and `{subject}`. See Chapter 11.
@@ -425,7 +425,7 @@ The illustration styles are the prompt templates for `press illustrate`. A book'
 : Type `str`, optional. With `required`, the style needs an image to redraw, given with `--from`. The house style `figure-from-photo` is the one that requires it. Without `--from`, the press refuses such a style with `the <style> style needs source material: --from <image>`. See Chapter 11.
 
 **`styles.<id>.prompt`**
-: Type `str`. The prompt template. It can use `{subject}`, `{ink}`, and `{paper}`. The `{ink}` field reads `book-colors.ink`, then `web-palette.ink`, then `#1b1b1b`. The house `book-colors.ink` is `171717` with no `#`, so a house prompt reads "in 171717 ink". The `{paper}` field reads `web-palette.paper`, then `#f4f1e6`. Press always appends its own guardrail: a single ink, and no words, caption, border, watermark, or signature. See Chapter 11.
+: Type `str`. The prompt template. It can use `{subject}`, `{ink}`, and `{paper}`. The `{ink}` field reads `book-colors.ink`, then `web-palette.ink`, then `#1b1b1b`. The house `book-colors.ink` is `171717` with no `#`, so a house prompt reads "in 171717 ink". The `{paper}` field reads `web-palette.paper`, then `#f4f1e6`. Press always appends its own guard: a single ink, and no words, caption, border, watermark, or signature. See Chapter 11.
 
 The seven house styles are `botanical-plate`, `engraved-map`, `figure-from-photo`, `line-diagram`, `ornament`, `technical-cutaway`, and `wood-engraving`. A plate's style comes from `--style`, then the figure's `style=` attribute, then `plates.style` in the aesthetic, then `wood-engraving`.
 

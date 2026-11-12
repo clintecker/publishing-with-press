@@ -221,7 +221,7 @@ The *manuscript witness* is the longest markup-free line of 40 or more character
 * _ ` [ ] ( ) < > " ' & # ! |
 ```
 
-You do not choose the witness. The press finds it, and it changes when you write a longer plain line. An edition that loses it fails with this message, which quotes the first 60 characters of the line:
+You do not choose the witness: the press finds it. The witness changes when you write a longer plain line. An edition that loses it fails with this message, which quotes the first 60 characters of the line:
 
 ```text
 <label> lost the manuscript witness line: <first 60 chars>...
@@ -332,7 +332,7 @@ The reader zip, *dist/alice-site.zip*, is the reader site packed for download. T
 
 ### The source zip
 
-The source zip, *dist/alice-source.zip*, is the book's own source, published so that anyone can rebuild it. The verifier does not trust the zip that the builder wrote. It recomputes the member list from the same policy, `publication_members()`, and compares. It also checks that every member uses DEFLATE compression. The ledger names this invariant `INV-archive-source-policy` and marks it critical. The policy has six rules:
+The source zip, *dist/alice-source.zip*, is the book's own source, published so that anyone can rebuild it. The verifier recomputes the member list from the same policy, `publication_members()`, and compares it with the zip the builder wrote. It also checks that every member uses DEFLATE compression. The ledger names this invariant `INV-archive-source-policy` and marks it critical. The policy has six rules:
 
 - Members are files that Git tracks, and only those; a book outside any Git repository is archived whole, and one untracked inside a parent repository archives nothing. A file that you never added to Git is not a member.
 - Every member sits under an `alice/` prefix, so the zip unpacks into one directory.
@@ -446,7 +446,7 @@ The `press all` target runs the checker first, then builds every edition, the so
 
 A commerce gate follows the verifiers. For a book without print ordering, such as the three-chapter example, the run prints `commerce release gate: print ordering is not enabled; no commerce release gate`. For a book with print ordering enabled, outside a release build, the gate is advisory and says so: `(commerce gate is advisory here; a release build (PRESS_RELEASE=1) enforces it)`. Under `PRESS_RELEASE`, the press enforces it. Example 1.2 in Chapter 1 shows the summary lines of a full run.
 
-The law reaches the generated inputs too. Every pandoc build calls `book_inputs()` first. That function deletes *build/generated/*, regenerates the subject index, and writes *dist/alice-sources.md* from the table of authorities. In the words of *docs/ARCHITECTURE.md*, "the generated appendices are cleaned first so stale copies cannot survive". An index from yesterday's manuscript cannot reach today's PDF.
+The law reaches the generated inputs too. Every pandoc build calls `book_inputs()` first. That function deletes *build/generated/*, regenerates the subject index, and writes *dist/alice-sources.md* from the table of authorities. In the words of *docs/ARCHITECTURE.md*, "the generated appendices are cleaned first so stale copies cannot survive".
 
 The invariant has a stated limit, and the ledger records it: "CLI-path only; importing a verifier module directly skips the rebuild." The edges live in the `press` command. A script that imports `press.verify_pdf` and calls it on *dist/alice.pdf* reads whatever file is there, fresh or not.
 

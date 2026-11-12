@@ -160,7 +160,7 @@ A paragraph is any run of lines with no blank line inside it, as in all Markdown
 
 The law is a typesetting law as much as a prose law. A very long paragraph turns a page into one gray block and gives the eye nowhere to rest. Split the paragraph at the point where its subject turns.
 
-In our experience the split is rarely hard to find. A paragraph that runs long usually holds two topics: a rule and its history, or a command and what to do when it refuses. Give each topic its own paragraph and its own first sentence. If the paragraph is a single list of things, such as the options of a command, it probably wants to be a table. The section "Tables" later in this chapter covers them.
+In our experience the split is rarely hard to find. A paragraph that runs long usually holds two topics: a rule and its history, or a command and what to do when it refuses. Give each topic its own paragraph and its own first sentence. If the paragraph is a single list of things, such as the options of a command, it probably wants to be a table.
 
 Press forbids trailing whitespace everywhere: in prose, in headings, and inside code blocks too. Trailing whitespace is invisible, and a line ending in two spaces is a hard line break in Markdown. A stray pair of spaces can change the page and leave your editor's screen unchanged.
 
@@ -416,7 +416,7 @@ The filter ties in three places, and none of them asks anything of you. After an
 
 Each tie prevents a misreading. A line that ends on "Rev." with the name at the start of the next line reads, for an instant, as the end of a sentence. A page reference split after "p." leaves the number stranded on a line of its own. A name broken between its initials stops looking like a name. None of these is an error a checker could catch in the manuscript, because the line breaks do not exist until the page does.
 
-The press states the principle plainly. The manuscript stays plain prose, the house does the fine work, and the filter leaves ordinary sentences exactly as you typed them, every period included. You never type a tie of your own. You type "Rev. Dodgson" and "p. 42", and the filter keeps each pair on one line in the PDF, the EPUB, and the reader site alike.
+The press states the principle plainly. The manuscript stays plain prose, the house does the fine work, and the filter leaves ordinary sentences exactly as you typed them, every period included. You type "Rev. Dodgson" and "p. 42" with ordinary spaces, and the filter keeps each pair on one line in the PDF, the EPUB, and the reader site alike.
 
 Figures get the same treatment. The *figure-numbering.lua* filter numbers each figure once, by chapter, and turns every `@fig:` citation into "Figure 4.1" with a link, so press needs no pandoc-crossref.
 

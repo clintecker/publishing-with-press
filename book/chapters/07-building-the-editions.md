@@ -186,7 +186,7 @@ The last filter in the chain does the most work that a reader can see. It number
 
 The filter also locks each label together as one unit, so a narrow column beside a wrapped figure can never hyphenate the word into "Fig-ure". The filters have tests of their own in CI.[^7-lua] Chapter 16, *Inside the press*, describes them.
 
-[^7-lua]: At the time of this writing, CI requires those tests to run, starting with version 3.0.2, and holds a coverage floor for each filter.
+[^7-lua]: At the time of this writing, CI requires those tests to run from version 3.0.2 on and holds a coverage floor for each filter.
 
 ## The PDF through latexmk
 
@@ -336,7 +336,7 @@ Table: Table 7.5. Builders, verifiers, and destinations, from docs/REFERENCE.md
 
 ### No stale artifact
 
-The prerequisite edges exist because a verifier that reads *dist/* without rebuilding it can bless an artifact that no longer matches the manuscript. Suppose `alice` fixes a sentence in her second chapter and then runs a verifier over last week's PDF. The verifier finds nothing wrong, because last week's PDF was fine. The fix never reached the file, and a green result now covers a stale book. The press does not allow this through its command line. Every verify target rebuilds the artifacts it verifies before it verifies them. The one exception is `press verify-formats`, which reads an existing *dist/alice.pdf* into its cross-edition agreement check without rebuilding it.
+The prerequisite edges exist because a verifier that reads *dist/* without rebuilding it can bless an artifact that no longer matches the manuscript. Suppose `alice` fixes a sentence in her second chapter and then runs a verifier over last week's PDF. The verifier finds nothing wrong, because last week's PDF was fine. The fix never reached the file, and a green result now covers a stale book. Every verify target rebuilds the artifacts it verifies before it verifies them, and the command line offers no way around that. The one exception is `press verify-formats`, which reads an existing *dist/alice.pdf* into its cross-edition agreement check without rebuilding it.
 
 The press records this as an *invariant*, an entry in its ledger of guarded behavior, under the name `INV-graph-no-stale` at the critical level. The ledger also states its limit: the invariant holds on the command-line path only. Code that imports a verifier module directly skips the rebuild.
 

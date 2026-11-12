@@ -32,7 +32,7 @@ The first pass reads the chapter files and *config/metadata.yaml*. It passes wit
     **Remedy.** Make the first line of the file the chapter title, as in `# Writing the manuscript`.
 
 `unfinished marker '<phrase>': <path>`
-:   **Cause.** The file still holds one of three unfinished markers: two placeholder abbreviations followed by the verb "write", or the Latin dummy copy of the typesetter. Press quotes the marker it found. The check reads fenced code too.
+:   **Cause.** The file still holds one of three unfinished markers. Two are placeholder abbreviations followed by the verb "write", and the third is the Latin dummy copy of the typesetter. Press quotes the marker it found. The check reads fenced code too.
 
     **Remedy.** Replace the marker with the text it held a place for.
 
@@ -396,7 +396,7 @@ The doctor checks the toolchain on the machine and prints one line per tool. On 
     **Remedy.** Check the `title` key and any book stylesheet or template that replaces the house one.
 
 `<label> lost the manuscript witness line: <first 60 chars>...`
-:   **Cause.** The manuscript witness line, the longest markup-free line of 40 or more characters in the manuscript, is absent from the edition.
+:   **Cause.** The edition lacks the manuscript witness line, the longest markup-free line of 40 or more characters in the manuscript.
 
     **Remedy.** Find what breaks that line in the edition, often a filter or a stylesheet.
 

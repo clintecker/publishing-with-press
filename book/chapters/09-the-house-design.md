@@ -143,13 +143,13 @@ $ press config set print.profile novella-5x8
 
 The command checks the value, writes it, and prints a diff of the change, as Chapter 3, *The shape of a book repository*, shows. The trim follows the profile. You never set it directly, and Chapter 3 gives the message press prints if you try.
 
-@fig:profiles-compared sets the six side by side. The intended uses come from the press's own profile descriptions, which Table 12.2 in Chapter 12 also gives. The house text width is stated, and the other four are derived from Table 9.4: the trim width less the inner and outer margins. The figure leaves out the body size, because it is 10 points in every profile.
+@fig:profiles-compared sets the six side by side. The intended uses come from the press's own profile descriptions, which Table 12.2 in Chapter 12 also gives. The figure takes the house text width as stated and derives the other four from Table 9.4: the trim width less the inner and outer margins. The figure leaves out the body size, because it is 10 points in every profile.
 
 ![The six design profiles compared](assets/woodcuts/09-02-profiles-compared.png){#fig:profiles-compared .diagram width=full-measure fig-alt="A grid with six profiles down the side and four columns across: trim, text width, height cap, and intended use. Every cell is filled, and the height cap falls and rises with the trim."}
 
 <!-- art: ARCHETYPE matrix. Six rows, four columns, thin rules, no fills except a 10% gray header row. Column heads in small sans: "trim", "text width", "height cap", "intended use". Row heads in small monospace, top to bottom, with values left to right. house-6x9: "6 x 9", "4.54in", "6.3in", "default". house-6x9-color: "6 x 9", "4.54in", "6.3in", "color interior". novella-5x8: "5 x 8", "3.75in*", "5.6in", "novella". digest-5.5x8.5: "5.5 x 8.5", "4.14in*", "6.0in", "genre trade paperback". large-print-7x10: "7 x 10", "5.35in*", "7.2in", "large print". mass-market-4.25x6.87: "4.25 x 6.87", "3.17in*", "4.8in", "rack-size paperback". Under the grid, small italic: "* derived: trim width less inner and outer margins". The reader sees first the height cap column. -->
 
-Table 9.4 gives the rest of each profile: its margins, its indent and leading, and the width of its *paper column*, the framed column that holds the text on the reader site. The margins run inner, outer, top, and bottom, in inches.
+Table 9.4 gives the rest of each profile: its margins, its indent and leading, and the width of its *paper column*. The paper column is the framed column that holds the text on the reader site. The margins run inner, outer, top, and bottom, in inches.
 
 | Profile | Margins | Indent, leading, and column width |
 |--------------------------|-------------------------|------------------------------------------------|
@@ -274,7 +274,7 @@ Table: Table 9.7. The aesthetic keys that touch the design
 
 The tokens a palette can name are `paper`, `paper-warm`, `ink`, `ink-soft`, `cloth`, `cloth-deep`, `foil`, `foil-bright`, `foil-deep`, `hairline`, `link`, and `ornament`. Press rewrites the light palette into the sheet before the dark-mode seam and the dark palette after it, so the two themes stay separate.
 
-Suppose `alice` wants a red cloth in the manner of a Victorian gift book. She writes the file in Example 9.1. It keeps the house foil, paper, and ink tones, and it changes the two cloth tokens. In the PDF it sets the links to the deep cloth red and restates the accent in the cloth red, though the header uses the accent nowhere, and it asks for the fairy-dust scene break.
+Suppose `alice` wants a red cloth in the manner of a Victorian gift book. She writes the file in Example 9.1. It keeps the house foil, paper, and ink tones, and it changes the two cloth tokens. In the PDF it sets the links to the deep cloth red and restates the accent in the cloth red. The header uses the accent nowhere. It also asks for the fairy-dust scene break.
 
 **Example 9.1. An aesthetic file for the Alice book**
 

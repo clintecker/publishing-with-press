@@ -147,7 +147,7 @@ The house palette defines no `accent`, so every book on the house palette gets `
 
 The subject comes from the first of five sources that has a value. In order, they are the `--subject` option, `cover.subject` in the aesthetic, the `description` in the metadata, `cover.emblem` in the aesthetic, and finally the literal words "the book's subject". The chain dates from press 2.3.1. Before that release, a book that named its subject only in its `description` sent the model the literal words "the book's subject". The model then invented generic motifs to fill the space. Write the subject as you would caption a woodcut: three to eight nouns and a place.
 
-Every one of the ten styles lets the model letter the cover itself, which the style file records as `text: baked`. For such a style the command appends a guardrail to the prompt. The guardrail lists the exact title, author, and imprint to render verbatim, and it ends with this line:
+Every one of the ten styles lets the model letter the cover itself, which the style file records as `text: baked`. For such a style the command appends a guard to the prompt. The guard lists the exact title, author, and imprint to render verbatim, and it ends with this line:
 
 ```text
 Do NOT add: any other text, a price, a barcode, a watermark,
@@ -187,7 +187,7 @@ styles:
       in stacked centered capitals, stamped in gold.
 ```
 
-With the file in place, `press cover --style nursery-gilt` fills the template and appends the text guardrail, because the style keeps `text: baked`. A style with any other `text` value only skips the guardrail. The cover documentation also advises a deep, saturated accent and a style that matches the genre. A field guide suits `penguin-tri-band` or a woodcut, and essays suit `minimalist-literary` or `swiss-international`. A thriller suits `pulp-paperback` or `photographic`, and a gift edition suits `victorian-clothbound`.
+With the file in place, `press cover --style nursery-gilt` fills the template and appends the text guard, because the style keeps `text: baked`. A style with any other `text` value only skips the guard. The cover documentation also advises a deep, saturated accent and a style that matches the genre. A field guide suits `penguin-tri-band` or a woodcut, and essays suit `minimalist-literary` or `swiss-international`. A thriller suits `pulp-paperback` or `photographic`, and a gift edition suits `victorian-clothbound`.
 
 [^11-penguin]: The style file credits the grid to Edward Young and Jan Tschichold and dates it from 1935.
 
@@ -223,7 +223,7 @@ The last refusal carries a reason with an issue number: "A caption is a label, n
 
 The `--from` option sends a source image along with the prompt, through OpenAI's image-edit endpoint. The `figure-from-photo` style requires it. Without a source, that style refuses with "the figure-from-photo style needs source material: --from <image>". Use `--from` with `engraved-map` too, when you have a real map for the engraver to redraw.
 
-The templates take three fields. `{subject}` is the directive or the `--subject` text. `{ink}` comes from `book-colors.ink`, then `web-palette.ink`, then `#1b1b1b`. `{paper}` comes from `web-palette.paper`, then `#f4f1e6`. The house `book-colors.ink` is `171717`, without a hash sign, so a house prompt asks for its plate "in 171717 ink".[^11-ink] The command always appends a guardrail:
+The templates take three fields. `{subject}` is the directive or the `--subject` text. `{ink}` comes from `book-colors.ink`, then `web-palette.ink`, then `#1b1b1b`. `{paper}` comes from `web-palette.paper`, then `#f4f1e6`. The house `book-colors.ink` is `171717`, without a hash sign, so a house prompt asks for its plate "in 171717 ink".[^11-ink] The command always appends a guard:
 
 ```text
 Single ink only, no colour wash. No text, no words, no

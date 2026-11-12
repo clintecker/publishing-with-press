@@ -14,7 +14,7 @@
 > - Order of operations
 :::
 
-A book for sale carries numbers that other people issue. Each edition needs an ISBN. Many books also carry an LCCN from the Library of Congress, and a serial carries an ISSN. The press cannot buy any of these numbers, and it does not try. It checks the numbers you give it, writes them into every artifact that needs them, and assembles the fields that each agency's form asks for. The Alice book has no registrations yet, so user `alice` works through each flow on `hatter` with the press's own examples and the placeholder `pending`.
+A book for sale carries numbers that other people issue. Each edition needs an ISBN. Many books also carry an LCCN from the Library of Congress, and a serial carries an ISSN. The press cannot buy any of these numbers. It checks the numbers you give it, writes them into every artifact that needs them, and assembles the fields that each agency's form asks for. The Alice book has no registrations yet, so user `alice` works through each flow on `hatter` with the press's own examples and the placeholder `pending`.
 
 ## The governing rule
 
@@ -160,9 +160,9 @@ $ press all
 
 ## Preassigned control numbers
 
-The target `press pcn` assembles the field values for the PrePub Book Link form. It reads them from the book's metadata and prints them as a list. It never contacts the Library of Congress. You copy the values into the form yourself, so the submission stays in your hands.
+The target `press pcn` assembles the field values for the PrePub Book Link form. It reads them from the book's metadata and prints them as a list. You copy the values into the form yourself, because the press never contacts the Library of Congress.
 
-Example 13.5 shows the target in a fresh scaffold made with `press new alice --author "Lewis Carroll"`, before the changes of Chapters 3 and 10, and before you set any registration. The values come from the book's metadata, and the labels and the layout are the press's. The author and the publisher are both Lewis Carroll, because the scaffold uses the author as the publisher by default. Example 13.5 breaks two long lines to fit the page and omits the closing advice, which the next paragraph quotes.
+Example 13.5 shows the target in a fresh scaffold made with `press new alice --author "Lewis Carroll"`. The scaffold predates the changes of Chapters 3 and 10, and you have set no registration yet. The values come from the book's metadata, and the labels and the layout are the press's. The author and the publisher are both Lewis Carroll, because the scaffold uses the author as the publisher by default. Example 13.5 breaks two long lines to fit the page and omits the closing advice, which the next paragraph quotes.
 
 **Example 13.5. The PCN field values for a fresh Alice scaffold**
 
@@ -270,7 +270,7 @@ The print ISBN goes to the most places. It prints on the copyright page (the pre
 
 The EPUB ISBN becomes the identifier of the Circulating edition. The press writes it as `urn:isbn:` and the number. It also adds the EPUB product to the ONIX record. The EPUB verifier reads the package file and confirms the identifier, as Chapter 8, *Verifying the artifacts*, describes.
 
-The copyright page carries one line for each ISBN the book declares and one for the LCCN. The ISSN does not print there. Chapter 10, *Front matter, the index, and the table of authorities*, shows those lines. A pending number prints there as `[pending]`. The barcode carries only the print ISBN, and the EPUB identifier carries only the EPUB ISBN. Every route starts at the same block, so the copyright page cannot show a print ISBN that differs from the barcode's, or an EPUB ISBN that differs from the EPUB identifier.
+The copyright page carries one line for each ISBN the book declares and one for the LCCN. The ISSN does not print there. Chapter 10, *Front matter, the index, and the table of authorities*, shows those lines. A pending number prints there as `[pending]`. The barcode carries only the print ISBN, and the EPUB identifier carries only the EPUB ISBN. Every route starts at the same block, so the copyright page cannot show a print ISBN that differs from the barcode's. It cannot show an EPUB ISBN that differs from the EPUB identifier either.
 
 ## Order of operations
 

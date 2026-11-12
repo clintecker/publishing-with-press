@@ -19,7 +19,7 @@ You can drive press in two ways: by hand, one target at a time, or by agent, thr
 
 ## Two ways to drive the press
 
-The first way is by hand. Every action press takes on a book starts as a `press` command, and you can type the command at the shell prompt or pick it from a list on the desk. Both routes reach the same code. The desk builds the argument list you would type and runs `press` as a child process. The press's documentation puts it in one sentence: "Every action it runs is a `press <target>` you can type yourself; the RUN view even prints the exact command it launched." The RUN view is the desk's screen for a target while it runs.
+The first way is by hand. Every action press takes on a book starts as a `press` command. You can type the command at the shell prompt or pick it from a list on the desk. Both routes reach the same code. The desk builds the argument list you would type and runs `press` as a child process. The press's documentation puts it in one sentence: "Every action it runs is a `press <target>` you can type yourself; the RUN view even prints the exact command it launched." The RUN view is the desk's screen for a target while it runs.
 
 The command line suits scripts, CI, and anyone who already knows the target names. The desk suits a working session at the keyboard. It keeps the book's state in view while you work: which artifacts exist, which tools the machine lacks, and what the last run printed. Every action the desk runs is a command you can type yourself. What it adds is the view and the setup wizard.
 

@@ -45,7 +45,7 @@ Verifying is the part a homemade build script usually leaves out. Each *verifier
 
 <!-- art: ARCHETYPE pipeline, left to right. Far left: two stacked dog-eared file icons, "book/chapters/*.md" and "config/*.yaml". An arrow to a rounded box "press check", then to a rounded box "pandoc" with "+ Lua filters" inside. From pandoc two arrows fork: the upper, labeled "latexmk", runs to a rounded box "LuaLaTeX" and on to a file icon "alice.pdf"; the lower, labeled "pandoc writers", runs to a vertical stack of file icons "alice.epub", "alice.html", "site/", "alice.txt", "alice.docx". A thin bottom arrow labeled "stitch" runs from the manuscript straight to a file icon "alice.md". All file icons feed one drop-shadowed rounded box "verifiers", then a folder icon "dist/" at far right. The reader should see first that every edition starts from the same two inputs and passes the verifiers before it reaches dist/. -->
 
-Under the press sits *the toolchain*, the programs it calls to do the work. They are pandoc, LuaLaTeX, latexmk, the Libertinus fonts,[^1-libertine] epubcheck with a Java to run it, and poppler, a set of PDF tools whose `pdftoppm` renders a page as an image for the verifier. The press itself needs Python 3.10 or later. @fig:the-stack shows how the layers rest on one another, with your book at the top and the operating system at the bottom.
+Under the press sits *the toolchain*, the programs it calls to do the work. They are pandoc, LuaLaTeX, latexmk, the Libertinus fonts,[^1-libertine] epubcheck with a Java to run it, and poppler. Poppler is a set of PDF tools, and its `pdftoppm` renders a page as an image for the verifier. The press itself needs Python 3.10 or later. @fig:the-stack shows how the layers rest on one another, with your book at the top and the operating system at the bottom.
 
 ![The layers under a book](assets/woodcuts/01-02-the-stack.png){#fig:the-stack .diagram width=full-measure fig-alt="Six stacked horizontal bands. From the bottom: operating system, Python, pandoc, TeX Live and LuaLaTeX, press, and your book on top, with the pandoc and TeX bands bracketed as the toolchain and its programs listed."}
 
@@ -57,11 +57,11 @@ Above the toolchain, the press carries *the house*, its default design and law. 
 
 ## Where it came from
 
-The maintainer extracted the press from the production of an earlier book, *Mostly Done.*, so that the next book would not repeat the work. The package docstring gives the motive: "Extracted from the production of one book so the next book starts with the scars already paid for." A *scar*, in the press's vocabulary, is a production failure turned into a guard. Several of them appear later in this chapter. The first commit carries the date 2026-07-17.
+The maintainer extracted the press from the production of an earlier book, *Mostly Done.*, so that the next book would not repeat the work. The package docstring gives the motive: "Extracted from the production of one book so the next book starts with the scars already paid for." In the press's vocabulary, a production failure turned into a guard is a *scar*. The first commit carries the date 2026-07-17.
 
 The work moved quickly after that. Version 2.0.0 followed on 2026-07-21 as the "composable press", with design profiles, print providers, and an extension contract. Version 3.0.0 arrived on 2026-11-10. It was a design major, and the section "Versions and the pinned contract" later in this chapter explains why design needs one.
 
-A second book put the docstring's claim to the test. *Make Ready* was "taken end to end through the built-in facilities". It had a commissioned clothbound cover, fourteen engraved plates finished by `press art enhance`, a subject index, registered ISBNs, and a table of authorities. Neither book lives in the press repository. The repository holds the machinery, and each book keeps its own repository.
+A second book put the docstring's claim to the test. *Make Ready* was "taken end to end through the built-in facilities". It had a commissioned clothbound cover, fourteen engraved plates finished by `press art enhance`, a subject index, registered ISBNs, and a table of authorities. The press repository holds only the machinery, and each book keeps its own repository.
 
 One maintainer, Clint Ecker of LGTM Systems, LLC, looks after the press. Books from that shop appear under the LGTM Publishing imprint. The license is MIT, "code and bundled content alike". The README is plain about ownership: "A book you make with the press is yours entirely." The ROADMAP records the repository `clintecker/press` as public since 2026-07-19, and the documentation site is at *https://clintecker.github.io/press/*.
 
@@ -89,7 +89,7 @@ The tallest scar in the press shows the order at work. "A figure taller than the
 
 The third law sets the standard for a green build: "A green build means the actual PDF was rendered and inspected, the actual EPUB was validated by the tool retail channels run, the actual site was crawled." The ROADMAP adds that verifiers prove artifacts as objects "rather than trusting command exit status". An exit status of zero tells you that a program finished. It tells you nothing about whether the PDF has a cover.
 
-*ARCHITECTURE.md* draws the line between the two halves of the work in one sentence: "generation makes a fact true, verification proves it stayed true all the way into the object a reader receives." The law also forbids verifying without rebuilding. A verifier that inspects last week's PDF blesses last week's PDF. The press's own notes say that "the CLI's dependency edges exist so that cannot happen".
+*ARCHITECTURE.md* draws the line between the two halves of the work in one sentence: "generation makes a fact true, verification proves it stayed true all the way into the object a reader receives." The law also forbids verifying without rebuilding. A verifier that inspects last week's PDF accepts last week's PDF. The press's own notes say that "the CLI's dependency edges exist so that cannot happen".
 
 ::: {.sidebar}
 > **The cover that passed at 11.5 percent**
@@ -103,7 +103,7 @@ The third law sets the standard for a green build: "A green build means the actu
 
 ### Scars become law
 
-The fourth law turns history into code: "Every production failure earns a mechanical guard and an entry in CLAUDE.md's scars list. Do not relearn them." The ROADMAP sets the bar higher than a list. It says a scar becomes an executable invariant, a named proof, or an explicit public contract. A warning in prose is not enough by itself.
+The fourth law turns history into code: "Every production failure earns a mechanical guard and an entry in CLAUDE.md's scars list. Do not relearn them." The ROADMAP sets the bar higher than a list. It says a scar becomes an executable invariant, a named proof, or an explicit public contract.
 
 The epubcheck scar shows what that means. Ubuntu's `epubcheck` launcher runs the Java archive through binfmt_misc, a kernel feature that containers do not register. In a container, "the command exists, `which` finds it, and it dies with 'Exec format error' only at execution." The toolchain image now carries a plain `java -jar` wrapper. The verifier also reports a present but unrunnable tool as a toolchain fault, so the EPUB takes no blame for it.
 
@@ -121,7 +121,7 @@ The QUICKSTART draws the boundary from the author's side. The title, the author,
 
 ## A ten-minute tour
 
-The quickest way to understand the press is to watch it make a book. The sample book throughout is Lewis Carroll's *Alice's Adventures in Wonderland*, which the user `alice` builds on a workstation called `hatter`. The tour takes it from an empty directory to a full dist directory, using the commands from the press QUICKSTART with the Alice book's names in place. It assumes that you already installed the press and the toolchain, as Chapter 2, *Installing press*, describes. @fig:ten-minute-tour, at the end of the build, collects three moments from the tour.
+The quickest way to understand the press is to watch it make a book. The sample book throughout is Lewis Carroll's *Alice's Adventures in Wonderland*, which the user `alice` builds on a workstation called `hatter`. The tour takes it from an empty directory to a full dist directory. It uses the commands from the press QUICKSTART, with the Alice book's names in place. It assumes that you already installed the press and the toolchain, as Chapter 2, *Installing press*, describes. @fig:ten-minute-tour, at the end of the build, collects three moments from the tour.
 
 ### Scaffolding the book
 
@@ -280,7 +280,7 @@ A book with a *config/authorities.yaml*, its table of authorities, gets one more
 
 Everything the press makes on the way to *dist/* stays in the build directory, *build/*. That directory holds the rendered pandoc defaults, the generated subject index, the front matter as TeX, the jargon report, and the page images that `press render` draws at 160 dpi. `press clean` deletes both *build/* and *dist/*.
 
-A *sentinel* is a phrase from the manuscript, listed under `verify-sentinels` in *config/metadata.yaml*, that the verifiers must find in the manuscript and in every artifact. If a sentinel leaves the manuscript, the checker refuses with `sentinel not found in the manuscript:`, and if an edition lacks one, the verifier for that edition fails and names it. A second setting, `verify-min-pages`, sets the fewest pages the PDF may have. The scaffold writes 1, which suits a book that is one preface long. If you delete that line, the default of 40 applies, and a short book then fails. A release build refuses both draft values: it needs at least 2 sentinels and a floor of at least 24 pages.
+A *sentinel* is a phrase from the manuscript, listed under `verify-sentinels` in *config/metadata.yaml*, that the verifiers must find in the manuscript and in every artifact. If a sentinel leaves the manuscript, the checker refuses with `sentinel not found in the manuscript:`. If an edition lacks one, the verifier for that edition fails and names it. A second setting, `verify-min-pages`, sets the fewest pages the PDF may have. The scaffold writes 1, which suits a book that is one preface long. If you delete that line, the default of 40 applies, and a short book then fails. A release build refuses both draft values: it needs at least 2 sentinels and a floor of at least 24 pages.
 
 ::: {.warning}
 > **Warning:** If your book uses the drop-cap chapter opening, do not take a sentinel from the first words of a chapter. The drop cap splits the first word and sets the rest of it in small caps, so a sentinel placed there fails the exact match in the PDF. The house default is no drop cap at all.
@@ -308,6 +308,6 @@ Chapter 2, *Installing press*, puts the toolchain on `hatter`.
 
 [^1-name]: The program writes its name in lowercase, like the command, and it uses the pilcrow, the paragraph sign, as its mark.
 
-[^1-libertine]: TeX Live carries Libertinus for the PDF. Ubuntu has no `fonts-libertinus` package, and `--no-install-recommends` drops the Libertine keyboard face, so the toolchain image names `fonts-linuxlibertine` explicitly. That is another scar.
+[^1-libertine]: TeX Live carries Libertinus for the PDF. Ubuntu has no `fonts-libertinus` package, and `--no-install-recommends` drops the Libertine keyboard face, so the toolchain image names `fonts-linuxlibertine` explicitly.
 
 [^1-make]: The press README's own quick start runs `git init` in the same place, with `make all` in place of `press all`. The scaffold's Makefile passes every target to `python3 -m press`.

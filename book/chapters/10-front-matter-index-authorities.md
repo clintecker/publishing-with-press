@@ -228,7 +228,7 @@ If you delete *config/front-matter.yaml* and supply neither the override nor a c
 
 ## The subject index
 
-The subject index is an appendix that the press writes on every build from *config/index-terms.yaml*. With no such file, the book has no index. You never mark up the manuscript for it. You list the terms a reader will look up, and the press finds them in the text.
+The subject index is an appendix that the press writes on every build from *config/index-terms.yaml*. With no such file, the book has no index. You list the terms a reader will look up, and the press finds them in the text without any markup.
 
 The file is a list of entries. Each entry has a `term`, the heading the reader sees in the index, and a `match`, the list of strings the press looks for. Example 10.3 shows three entries for the Alice book.
 

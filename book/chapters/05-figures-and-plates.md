@@ -66,7 +66,7 @@ A comment above the image, or two blank lines below it, belongs to no illustrati
 
 Suppose you run `press illustrate` with the name of a plate and no `--subject`. Press then finds the illustration whose image file stem matches the name, and it sends that illustration's `art:` directive to the image model. For Example 5.1 the name is `white-rabbit`, the stem of *white-rabbit.png*. Press refuses in three cases: no illustration in the manuscript has that stem, the illustration is a data kind, or it has no `art:` directive. The third refusal says "A caption is a label, not art direction (#225)".[^5-silly-plates] Chapter 11, *The art department*, follows the commission from the directive to the finished plate.
 
-Write the directive for an artist who does not know the book. Name the subject, the moment, and what sits around it, then the medium. If the picture must carry no lettering, say "no lettering". `press illustrate` adds a guardrail of its own to every commission, and it always appends this text to the prompt. The prompt receives it as one line, and the breaks here are only for the width of the page.
+Write the directive for an artist who does not know the book. Name the subject, the moment, and what sits around it, then the medium. If the picture must carry no lettering, say "no lettering". `press illustrate` adds a guard of its own to every commission, and it always appends this text to the prompt. The prompt receives it as one line, and the breaks here are only for the width of the page.
 
 ```text
 Single ink only, no colour wash. No text, no words, no

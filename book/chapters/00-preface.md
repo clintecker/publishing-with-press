@@ -113,7 +113,7 @@ Tip
 :   A short paragraph set off from the text that opens with the word Tip gives a suggestion or a shortcut.
 
 Warning
-:   A short paragraph set off from the text that opens with the word Warning marks a step that can cost you work or send a broken artifact to a printer. A warning always comes before the step it protects.
+:   A short paragraph set off from the text and opened by the word Warning marks a step that can cost you work. The same step can send a broken artifact to a printer. A warning always comes before the step it protects.
 
 Sidebar
 :   A longer boxed passage under a bold title tells a piece of history, a production failure, or the reasoning behind a rule. You can skip a sidebar and lose nothing you need to build a book.

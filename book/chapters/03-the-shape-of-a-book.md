@@ -195,7 +195,7 @@ The first block of the file names the book. Table 3.3 gives each field, its defa
 
 Table: Table 3.3. Identity fields in metadata.yaml
 
-The date field explains a small mystery in the EPUB. Pandoc writes an empty date into the EPUB, and epubcheck rejects an empty date. The press therefore pulls the year out of your free-text date and writes it into the EPUB metadata itself.[^3-epubdate] A date such as "First edition, 2026" gives the EPUB the year 2026 and gives the title page its roman numerals. You never type the year twice.
+The date field explains a small mystery in the EPUB. Pandoc writes an empty date into the EPUB, and epubcheck rejects an empty date. The press therefore pulls the year out of your free-text date and writes it into the EPUB metadata itself.[^3-epubdate] A date such as "First edition, 2026" gives the EPUB the year 2026 and gives the title page its roman numerals, so you never type the year twice.
 
 Because the scaffold writes *config/front-matter.yaml*, a new book has front matter switched on from the first build. The scaffold fills `copyright`, `publisher`, and `publisher-place`, which the model needs once front matter is on. If you delete any of the three while the front-matter file exists, the model refuses the metadata.
 
@@ -353,7 +353,7 @@ Table: Table 3.6. Where press config writes each field
 
 Each field has one of four kinds. A *writable* field takes `set` and `unset`. An *immutable* field, such as `trim`, refuses writes and says what to change instead. A *structured* field holds data too rich for one command line: the index terms, the table of authorities, and the qualification records. The press sends you to the file or the workflow that maintains it. A *file* field is a whole file, such as *tex/title-page.tex* or the assets, and the press tells you where to put it.
 
-The `press config list` target prints every field with its type and a one-line description. It is the quickest reference while you work. For a field you cannot set from the shell, it adds a second line, starting with an arrow, that says where to go instead.
+The `press config list` target prints every field with its type and a one-line description. It is the quickest reference while you work. For a field you cannot set from the shell, it adds a second line that begins with an arrow and says where to go instead.
 
 ### Validating after a hand edit
 
@@ -550,7 +550,7 @@ It strips fenced and inline code before it counts. It does not strip HTML commen
 
 ## What Git has to do with it
 
-The scaffold leaves Git to you. The press README gives the sequence as `cd my-book && git init && make all`, and the quick start in the press documentation ends with a first commit and a push. Before the push, create an empty repository named `alice` under the `wonderland-press` account on GitHub. Example 3.11 shows the rest for the Alice book.
+The scaffold leaves Git to you. The press README gives the sequence as `cd my-book && git init && make all`. The quick start in the press documentation ends with a first commit and a push. Before the push, create an empty repository named `alice` under the `wonderland-press` account on GitHub. Example 3.11 shows the rest for the Alice book.
 
 **Example 3.11. Putting the Alice book under Git**
 
@@ -628,7 +628,7 @@ The print pack builds only when you ask for it. Between them, the `press print`,
 > **Warning:** Do not run a verifier over *dist/* and trust the result without a fresh build. Run `press all`, which rebuilds each artifact before it verifies it.
 :::
 
-A verifier run over an old *dist/* proves only that last week's files were good. When it passes them, it blesses artifacts that no longer match the manuscript. The press now wires its targets to their dependencies so that a build target runs before the verifier that inspects its artifact.
+A verifier run over an old *dist/* proves only that last week's files were good. When it passes them, it accepts artifacts that no longer match the manuscript. The press now wires its targets to their dependencies so that a build target runs before the verifier that inspects its artifact.
 
 ### The build directory
 

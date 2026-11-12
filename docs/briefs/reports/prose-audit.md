@@ -429,3 +429,72 @@ What reads as 2026:
 - Not checked: facts (fact checker), typography and figures (typographer),
   continuity (the other editor, who is changing the same files now, so line
   locators may have moved; quotations will find the sentences).
+
+## Fixes applied
+
+Applied 2026-11-11 by the copyeditor to `book/chapters/00` through `16` and `book/appendices/a` through `d`. `e-glossary.md` and `z-colophon.md` were not touched. `press check` passed afterwards, and each of the three sentinel phrases still appears exactly once.
+
+| File | Before | After |
+|---|---|---|
+| a-command-reference.md | `press all` builds neither the print interior nor the cover wrap, which `press print`, `press verify-print`, and `press coverwrap` make, unless print ordering is on, when the commerce gate builds them. | `press all` builds neither the print interior nor the cover wrap. `press print`, `press verify-print`, and `press coverwrap` make them, and the commerce gate builds them when print ordering is on. |
+| b-configuration-reference.md | ), it stacks on the title page, one clause to a line, and on the landing page. | ), it stacks on the title page, one clause to a line. It also stacks on the landing page. |
+| b-configuration-reference.md | front matter: the title page, the copyright page (the press calls it the colophon), and the dedication, epigraph, and acknowledgments pages. | front matter: the title page, the copyright page, and the dedication, epigraph, and acknowledgments pages. The press calls the copyright page the colophon. |
+| c-messages.md | one of three unfinished markers: two placeholder abbreviations followed by the verb "write", or the Latin dummy copy of the typesetter. | one of three unfinished markers. Two are placeholder abbreviations followed by the verb "write", and the third is the Latin dummy copy of the typesetter. |
+| c-messages.md | **Cause.** The manuscript witness line, the longest markup-free line of 40 or more characters in the manuscript, is absent from the edition. | **Cause.** The edition lacks the manuscript witness line, the longest markup-free line of 40 or more characters in the manuscript. |
+| 00-preface.md | A short paragraph set off from the text that opens with the word Warning marks a step that can cost you work or send a broken artifact to a printer. | A short paragraph set off from the text and opened by the word Warning marks a step that can cost you work. The same step can send a broken artifact to a printer. |
+| 01-introduction.md | A *scar*, in the press's vocabulary, is a production failure turned into a guard. Several of them appear later in this chapter. | In the press's vocabulary, a production failure turned into a guard is a *scar*. |
+| 01-introduction.md | Neither book lives in the press repository. The repository holds the machinery, and each book keeps its own repository. | The press repository holds only the machinery, and each book keeps its own repository. |
+| 01-introduction.md | epubcheck with a Java to run it, and poppler, a set of PDF tools whose `pdftoppm` renders a page as an image for the verifier. | epubcheck with a Java to run it, and poppler. Poppler is a set of PDF tools, and its `pdftoppm` renders a page as an image for the verifier. |
+| 01-introduction.md | the checker refuses with `sentinel not found in the manuscript:`, and if an edition lacks one, | the checker refuses with `sentinel not found in the manuscript:`. If an edition lacks one, |
+| 01-introduction.md | A warning in prose is not enough by itself. | (deleted) |
+| 01-introduction.md | That is another scar. | (deleted) |
+| 01-introduction.md | The tour takes it from an empty directory to a full dist directory, using the commands from the press QUICKSTART with the Alice book's names in place. | The tour takes it from an empty directory to a full dist directory. It uses the commands from the press QUICKSTART, with the Alice book's names in place. |
+| 01-introduction.md | last week's PDF blesses last week's PDF. | last week's PDF accepts last week's PDF. |
+| 02-installing-press.md | Nobody has to grant your book access to anything. | (deleted) |
+| 02-installing-press.md | Press does not set type itself, and it does not check an EPUB against the retail rules itself. It prepares the manuscript, decides what to build and in what order, and hands the work to older, specialized programs. | Press prepares the manuscript, decides what to build and in what order, and hands the work to older, specialized programs. It sets no type itself, and it checks no EPUB against the retail rules itself. |
+| 02-installing-press.md | This chapter describes it later. | (deleted) |
+| 03-the-shape-of-a-book.md | `cd my-book && git init && make all`, and the quick start in the press documentation ends | `cd my-book && git init && make all`. The quick start in the press documentation ends |
+| 03-the-shape-of-a-book.md | gives the title page its roman numerals. You never type the year twice. | gives the title page its roman numerals, so you never type the year twice. |
+| 03-the-shape-of-a-book.md | it adds a second line, starting with an arrow, that says where to go instead. | it adds a second line that begins with an arrow and says where to go instead. |
+| 03-the-shape-of-a-book.md | it blesses artifacts that no longer match | it accepts artifacts that no longer match |
+| 04-writing-the-manuscript.md | You never type a tie of your own. You type "Rev. Dodgson" and "p. 42", and the filter | You type "Rev. Dodgson" and "p. 42" with ordinary spaces, and the filter |
+| 04-writing-the-manuscript.md | The section "Tables" later in this chapter covers them. | (deleted) |
+| 06-checking-the-manuscript.md | passes the checker, because the manuscript holds it whole, and then fails in the Print edition. | passes the checker, because the manuscript holds it whole. It then fails in the Print edition. |
+| 06-checking-the-manuscript.md | The jargon lint reads only the manuscript files, and the audit directories are left to the style audit. | The jargon lint reads only the manuscript files. The style audit reads the audit directories. |
+| 07-building-the-editions.md | The press does not allow this through its command line. Every verify target rebuilds the artifacts it verifies before it verifies them. | Every verify target rebuilds the artifacts it verifies before it verifies them, and the command line offers no way around that. |
+| 07-building-the-editions.md | CI requires those tests to run, starting with version 3.0.2, and holds | CI requires those tests to run from version 3.0.2 on and holds |
+| 08-verifying-the-artifacts.md | You do not choose the witness. The press finds it, and it changes when you write a longer plain line. | You do not choose the witness: the press finds it. The witness changes when you write a longer plain line. |
+| 08-verifying-the-artifacts.md | The verifier does not trust the zip that the builder wrote. It recomputes the member list from the same policy, `publication_members()`, and compares. | The verifier recomputes the member list from the same policy, `publication_members()`, and compares it with the zip the builder wrote. |
+| 08-verifying-the-artifacts.md | An index from yesterday's manuscript cannot reach today's PDF. | (deleted) |
+| 09-the-house-design.md | the width of its *paper column*, the framed column that holds the text on the reader site. | the width of its *paper column*. The paper column is the framed column that holds the text on the reader site. |
+| 09-the-house-design.md | restates the accent in the cloth red, though the header uses the accent nowhere, and it asks for the fairy-dust scene break. | restates the accent in the cloth red. The header uses the accent nowhere. It also asks for the fairy-dust scene break. |
+| 09-the-house-design.md | The house text width is stated, and the other four are derived from Table 9.4: the trim width less the inner and outer margins. | The figure takes the house text width as stated and derives the other four from Table 9.4: the trim width less the inner and outer margins. |
+| 10-front-matter-index-authorities.md | You never mark up the manuscript for it. You list the terms a reader will look up, and the press finds them in the text. | You list the terms a reader will look up, and the press finds them in the text without any markup. |
+| 12-the-print-pack.md | each figure and plate at 1900 pixels, which is about 300 PPI at 6.3 inches. | each figure and plate at 1900 pixels. That is about 300 PPI at 6.3 inches. |
+| 12-the-print-pack.md | The commerce gate builds the interior and the wrap itself, computes the *edition manifest*, the JSON file the gate writes with the production facts and their hash, and then looks for a qualification. | The commerce gate builds the interior and the wrap itself and computes the *edition manifest*. The manifest is the JSON file the gate writes with the production facts and their hash. The gate then looks for a qualification. |
+| 12-the-print-pack.md | You do not choose the id. The press computes it, and the commerce gate computes it each time | The press computes the id, and the commerce gate computes it again each time |
+| 12-the-print-pack.md | the first twelve characters of the id: the gate prints | the first twelve characters of the id. The gate prints |
+| 13-registrations.md | `press new alice --author "Lewis Carroll"`, before the changes of Chapters 3 and 10, and before you set any registration. | `press new alice --author "Lewis Carroll"`. The scaffold predates the changes of Chapters 3 and 10, and you have set no registration yet. |
+| 13-registrations.md | a print ISBN that differs from the barcode's, or an EPUB ISBN that differs from the EPUB identifier. | a print ISBN that differs from the barcode's. It cannot show an EPUB ISBN that differs from the EPUB identifier either. |
+| 13-registrations.md | It never contacts the Library of Congress. You copy the values into the form yourself, so the submission stays in your hands. | You copy the values into the form yourself, because the press never contacts the Library of Congress. |
+| 13-registrations.md | The press cannot buy any of these numbers, and it does not try. | The press cannot buy any of these numbers. |
+| 15-the-desk-and-the-machines.md | starts as a `press` command, and you can type the command | starts as a `press` command. You can type the command |
+| 16-inside-the-press.md | declare it in the model with its type and its default and in the CLI registry in *config_schema.py*, and read it from the `Book` everywhere. | declare it in the model, with its type and its default, and in the CLI registry in *config_schema.py*. Then read it from the `Book` everywhere. |
+| 16-inside-the-press.md | turns the contract red, and the floating major | fails the release contract, and the floating major |
+| 05-figures-and-plates.md | "guardrail" (1 uses) | "guard" |
+| 11-the-art-department.md | "guardrail" (5 uses) | "guard" |
+| b-configuration-reference.md | "guardrail" (3 uses) | "guard" |
+
+Declined, with reason:
+
+- 01 #7 (heading "Facts are stated once" repeated as the first sentence), 03 #4, 10 #2, 13 #5 (the first-law formula repeated): the recurring first-law quotation stays by instruction.
+- 01 #8 ("2 sentinels") and 15 #2 ("5 to 15 words"): "may" items, not "should".
+- z-colophon #1 (hidden actor): the colophon is out of scope for this pass (another writer is editing it).
+- Section 2 "may" patterns (the 07 rhythm run, the uniform chapter-ending pointers, the quotation lead-ins): not "should" findings, and the "In the words of X" lead-ins stay by instruction.
+
+Changed from the audit's suggested wording:
+
+- 2026 words: "blesses" became "accepts", "guardrail" became "guard" (all five uses in 11 and both in appendix B as well as the one in 05), and "turns the contract red" became "fails the release contract". The quoted CLAUDE.md "blesses" in 08 and 16 stays.
+- 08 #1 keeps the sentinel "You do not choose the witness" and joins its affirmation with a colon instead of rewriting the sentence.
+- 01 scar duplicate: the chapter keeps its own italic definition (vocabulary rule) but no longer repeats the preface word for word. The audit's suggested replacement held a semicolon.
+- 02 #2 keeps "against the retail rules", 04 #1 keeps "Rev. Dodgson" and "p. 42", 07 footnote keeps "At the time of this writing" and uses no perfect tense, 09 #3 names the figure as the actor because the source does not say the press derives the widths, and B #1 keeps "or," verbatim without claiming one-clause-per-line on the landing page.

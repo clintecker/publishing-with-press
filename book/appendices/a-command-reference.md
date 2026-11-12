@@ -83,7 +83,7 @@ review it: press aesthetic
 press all
 ```
 
-**Description.** Runs the whole build: the checker, every edition, the source archive, the Pages bundle, every verifier, and then the commerce gate. A failure in the checker stops the run before press builds any edition. `press all` builds neither the print interior nor the cover wrap, which `press print`, `press verify-print`, and `press coverwrap` make, unless print ordering is on, when the commerce gate builds them.
+**Description.** Runs the whole build: the checker, every edition, the source archive, the Pages bundle, every verifier, and then the commerce gate. A failure in the checker stops the run before press builds any edition. `press all` builds neither the print interior nor the cover wrap. `press print`, `press verify-print`, and `press coverwrap` make them, and the commerce gate builds them when print ordering is on.
 
 **Options.** None.
 

@@ -224,7 +224,7 @@ python -m press.jargon_lint --fail-on rewrite [--allow T]... \
     <chapter files>
 ```
 
-The jargon lint reads only the manuscript files, and the audit directories are left to the style audit. It skips fenced code, inline code, URLs, and blockquotes, so a term inside a quotation from another writer does not count against you. The `--include-quotes` option makes it read blockquotes as well.
+The jargon lint reads only the manuscript files. The style audit reads the audit directories. It skips fenced code, inline code, URLs, and blockquotes, so a term inside a quotation from another writer does not count against you. The `--include-quotes` option makes it read blockquotes as well.
 
 ### The watchlist
 
@@ -379,7 +379,7 @@ The scaffold's template gives the rule for choosing them: "pick 2-4 phrases from
 > **Warning:** If your book sets a drop cap, do not choose a sentinel from the first words of a chapter. The drop cap splits and small-caps the opening word, and the Print edition's text no longer matches the phrase exactly. Choose a clause from the middle of a chapter.
 :::
 
-The house profile sets no drop cap, so the warning applies only once a book chooses one. In a book with a drop cap, a sentinel at the head of a chapter passes the checker, because the manuscript holds it whole, and then fails in the Print edition.
+The house profile sets no drop cap, so the warning applies only once a book chooses one. In a book with a drop cap, a sentinel at the head of a chapter passes the checker, because the manuscript holds it whole. It then fails in the Print edition.
 
 ### The page floor
 
