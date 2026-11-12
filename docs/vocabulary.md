@@ -25,7 +25,7 @@ defined in the same sentence; afterwards it is roman.
 | the watchlist | the jargon term list | banned words, the blocklist |
 | known-bad fixture | a file that must be rejected | negative test, bad example |
 | sentinel | a `verify-sentinels` phrase | marker, canary, probe |
-| witness | a text the verifiers require every edition to carry: a sentinel, the title, the manuscript witness line, a chapter witness line | fingerprint, signature, marker |
+| witness | any evidence a verifier requires of an edition: a sentinel, the title, the manuscript witness line, a chapter witness line, the page floor (Chapter 8, Table 8.6) | fingerprint, signature, marker |
 | the Alice book | the book's sample: user alice's full novel, slug `alice` | the Alice example, the sample book (after first use), Alice's book |
 | the press's own three-chapter Alice example | press's gallery example `examples/alice-in-wonderland`, chapters 1 to 3 plus one appendix, 23 pages; the source of every real capture; after first mention in a chapter, "the three-chapter example" | the Alice example, the gallery Alice, the demo |
 | the Pages bundle | the directory `dist/pages/` | the pages directory, the site bundle |
