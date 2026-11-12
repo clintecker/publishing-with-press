@@ -196,5 +196,3 @@ The press states what it tests, and the earlier sections of this appendix cover 
 Table: Table D.2. What the press does not test
 
 When a build on your workstation disagrees with a build in CI, trust CI. Then run the same target in the toolchain image, pinned by the same digest, to see the reference result on your own machine.
-
-<!-- index: toolchain; toolchain image; press doctor; pandoc; LuaLaTeX; latexmk; poppler; pdfimages; epubcheck; binfmt_misc; fonts-linuxlibertine; Libertinus; Homebrew; MacTeX; Apple Silicon; arm64; virtual environment; python3-venv; floating tag; immutable tag; reusable workflow; PRESS_TOOLCHAIN; digest; Windows; font scan; dev-render.sh -->

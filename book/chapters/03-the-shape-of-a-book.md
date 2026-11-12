@@ -10,7 +10,7 @@
 > - Chapters, appendixes, and how they sort
 > - Adding a chapter
 > - The Makefile and local builds
-> - What git has to do with it
+> - What Git has to do with it
 > - Where things go: build and dist
 :::
 
@@ -67,7 +67,7 @@ The directory name becomes the book's *slug*, the basename of every artifact the
 > **Tip:** Choose the slug as if it were permanent. It names every file a reader downloads, and the scaffold writes it into the repository and Pages addresses as well.
 :::
 
-One step that press does not take is `git init`. The new directory is a plain directory, with no Git repository inside it yet. The section "What git has to do with it" later in this chapter explains what the Source edition (the source zip) needs from Git.
+One step that press does not take is `git init`. The new directory is a plain directory, with no Git repository inside it yet. The section "What Git has to do with it" later in this chapter explains what the Source edition (the source zip) needs from Git.
 
 ## The tree, file by file
 
@@ -276,7 +276,7 @@ You can edit the metadata file in any text editor, and many authors do. The pres
 press config get|set|unset|list|validate
 ```
 
-The reason to prefer it is validation. Before `press config set` touches a byte on disk, it runs the new value through the book model, the same rules a build checks. A value the model refuses never reaches the file. For the metadata file, the check includes the commerce and registration rules. For the house rules, it compiles each regular expression. The one exception is *config/aesthetic.yaml*, which has no validator.
+The reason to prefer it is validation. Before `press config set` touches a byte on disk, it runs the new value through the book model, the same rules a build checks. A value the model refuses never reaches the file. For the metadata file, the check includes the commerce and registration rules. For the house rules, it compiles each regular expression. The one exception is *config/aesthetic.yaml*, which has no typed model of its own.
 
 Example 3.4 is a captured session on a fresh scaffold. It reads two fields, changes the subtitle, tries a change with `--dry-run`, and removes the subtitle again. We cut the end of one long context line and the last three lines of the dry-run diff.
 
@@ -548,7 +548,7 @@ $ press wordcount
 
 It strips fenced and inline code before it counts. It does not strip HTML comments, so the art directions you write as comments count as words.[^3-wordcount]
 
-## What git has to do with it
+## What Git has to do with it
 
 The scaffold leaves Git to you. The press README gives the sequence as `cd my-book && git init && make all`, and the quick start in the press documentation ends with a first commit and a push. Before the push, create an empty repository named `alice` under the `wonderland-press` account on GitHub. Example 3.11 shows the rest for the Alice book.
 

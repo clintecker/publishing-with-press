@@ -25,7 +25,7 @@ Table 2.1 lists the parts and what each one does for you.
 | Python 3.10 or later | The package declares `requires-python = ">=3.10"`. The press tests 3.10 through 3.14. |
 | The press package | It gives you the `press` command, and pip installs its three Python dependencies with it. |
 | The toolchain | Pandoc, LuaLaTeX, latexmk, fonts, epubcheck, and poppler do the conversion, typesetting, and inspection. |
-| Git | Press reads your identity from it when it creates a book, and your book lives in a Git repository. |
+| Git | Press reads your identity from it when it creates a book, and a book normally lives in a Git repository. |
 | A container runtime (optional) | It lets you run the toolchain image instead of installing the toolchain on your own machine. |
 
 Table: Table 2.1. What a press installation needs

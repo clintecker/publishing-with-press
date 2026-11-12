@@ -143,7 +143,7 @@ $ press config set print.profile novella-5x8
 
 The command checks the value, writes it, and prints a diff of the change, as Chapter 3, *The shape of a book repository*, shows. The trim follows the profile. You never set it directly, and Chapter 3 gives the message press prints if you try.
 
-@fig:profiles-compared sets the six side by side. The intended uses come from the profile descriptions in the press's fact base, which Table 12.2 in Chapter 12 also gives. The house text width is stated, and the other four are derived from Table 9.4: the trim width less the inner and outer margins. The figure leaves out the body size, because it is 10 points in every profile.
+@fig:profiles-compared sets the six side by side. The intended uses come from the press's own profile descriptions, which Table 12.2 in Chapter 12 also gives. The house text width is stated, and the other four are derived from Table 9.4: the trim width less the inner and outer margins. The figure leaves out the body size, because it is 10 points in every profile.
 
 ![The six design profiles compared](assets/woodcuts/09-02-profiles-compared.png){#fig:profiles-compared .diagram width=full-measure fig-alt="A grid with six profiles down the side and four columns across: trim, text width, height cap, and intended use. Every cell is filled, and the height cap falls and rises with the trim."}
 

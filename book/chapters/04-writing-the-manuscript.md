@@ -49,7 +49,7 @@ One edition stands apart from all of this. The Manuscript edition (the stitched 
 
 A `#` heading is a chapter. Press sets pandoc's `top-level-division: chapter` for the PDF and the EPUB, and in every rendered edition one `#` at the start of a line starts a new chapter. A `##` heading is a section, and a `###` heading is a subsection. Pandoc numbers all three.
 
-Press finds chapters by their filenames. A chapter file's name starts with a digit and ends in `.md`. An *appendix file* is a file in *book/appendices/* whose name is a single lowercase letter, a hyphen, and the rest of the name. Press sorts each group by filename and merges the chapters first, then the appendixes, then the generated subject index. The sort is lexical, so a file named *10-the-lobster-quadrille.md* sorts before *4-the-rabbit-sends-in-a-little-bill.md*. Press pads the numbers it hands out to at least two digits for that reason.
+Press finds chapters by their filenames. A chapter file's name starts with a digit and ends in `.md`. An *appendix file* is a file in *book/appendices/* whose name is a single lowercase letter, a hyphen, and the rest of the name. Press sorts each group by filename and merges the chapters first, then the appendixes in letter order, with the generated subject index among them by its own letter. The sort is lexical, so a file named *10-the-lobster-quadrille.md* sorts before *4-the-rabbit-sends-in-a-little-bill.md*. Press pads the numbers it hands out to at least two digits for that reason.
 
 ::: {.warning}
 > **Warning:** Start every chapter file's name with a digit. Press silently ignores any other `.md` file in *book/chapters/* or *book/appendices/*. A file named *notes.md* or *chapter-four.md* never reaches the book, and no target tells you so.

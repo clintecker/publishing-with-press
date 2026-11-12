@@ -287,7 +287,7 @@ Table 15.5 lists the eleven skills in the order `press skills` prints them.
 | `humanizer` | It drafts, revises, and audits prose so that it reads as one writer's deliberate choices, with a list of diagnostic patterns and a scoring rubric. |
 | `onwritingwell` | It applies Zinsser's *On Writing Well* to nonfiction, with a section on the failures peculiar to language models. |
 | `plates-and-woodcuts` | It briefs a plate as a period engraver would: one idea per plate, the joke in the subject, and the style "dead serious". |
-| `press-logomark` | It designs the logomark, the printer's mark, which must survive at half an inch in one ink. |
+| `press-logomark` | It designs the logomark, the imprint device, which must survive at half an inch in one ink. |
 | `profile-lifecycle` | It guides a maintainer through scaffolding, proving, and sealing a print profile. |
 | `registrations` | It covers ISBN, LCCN, ISSN, and ONIX paperwork end to end. "The press never issues a number over the network." |
 | `overused-jargon` | It is the watchlist skill, with modes to draft, revise, audit, discover, and maintain. |

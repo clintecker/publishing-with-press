@@ -284,7 +284,7 @@ Write the prose so that it holds in every rendered edition. A sentence such as "
 
 ## The height cap
 
-Press scales every image to fit two limits. The height must fit the *height cap*, a maximum height set in the house TeX header. The width must fit the line. Press only ever scales down, so a small image prints at its own size and never grows to fill the line. The house header applies the two limits to every image that pandoc writes, whatever its kind or placement.
+Press scales every image to fit two limits. The height must fit the *height cap*, a maximum height that each design profile sets in its `figure-cap` key, 6.3 inches on the house profile. The width must fit the line. Press only ever scales down, so a small image prints at its own size and never grows to fill the line. The house header applies the two limits to every image that pandoc writes, whatever its kind or placement.
 
 The two limits act together, and the limit that binds first sets the size. A wide, shallow image meets the line before it meets the cap, so it prints at the full width of the line and well under the cap. A tall, narrow image meets the cap first and prints narrower than the line. On most pages a square plate meets the line first. The same file can therefore print at different sizes in different profiles, and you change nothing in the manuscript to make that happen.
 

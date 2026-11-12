@@ -441,5 +441,3 @@ The seven house styles are `botanical-plate`, `engraved-map`, `figure-from-photo
 
 **`assets`**
 : File. The cover (*assets/cover.jpg*), the logomark (*assets/press-logo.png*), the plates (*assets/woodcuts/*), the author photograph, and the Web stylesheets (*assets/web/reader.css* and *assets/web/extra.css*), with the art records under *art/*. Each one is optional, and every consumer works without it, except `press coverwrap`, which needs *assets/cover.jpg*. See Chapters 9 and 11.
-
-<!-- index: configuration; config/metadata.yaml; press config; press config list; press config validate; verify-min-pages; verify-sentinels; slug; print.profile; print.provider; print.paper; chapter opening; registrations; ISBN; commerce; print ordering; front matter; house rules; banned patterns; aesthetic; design profile; sources companion; index terms; table of authorities; cover styles; illustration styles; qualification -->

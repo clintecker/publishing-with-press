@@ -79,7 +79,7 @@ The third law governs the bottom of the figure: "Verifying without rebuilding is
 
 On `printshop`, CI keeps the artifacts as the upload bundle when the build finishes. A push of a tag also creates a GitHub Release, with notes taken from the CHANGELOG. A push to `main` deploys the Pages site from the Pages bundle. Chapter 14, *Continuous integration and the release contract*, covers that half of the path.
 
-The print pack takes a side branch that the figure leaves out. `print_safe` prepares the images, the build writes the print interior, and `verify_pdf --profile print` inspects it. Then `gen_coverwrap` draws the cover wrap in TikZ through latexmk, and `verify_coverwrap` inspects the wrap. The `publish` checklist, the edition manifest, qualification, and the commerce gate follow.
+The print pack takes a side branch that the figure leaves out. `print_safe` prepares the images, the build writes the print interior, and `verify_pdf --profile print` inspects it. Then `gen_coverwrap` draws the cover wrap in TikZ through latexmk, and `verify_coverwrap` inspects the wrap. The `publish` checklist, the edition manifest, and qualification follow. The commerce gate at the end of `press all` builds this branch only for a book that enables print ordering.
 
 Two fixed dates keep the artifacts reproducible. Unless you set `SOURCE_DATE_EPOCH` yourself, the press sets it to `1784160000`. The source zip stamps every member with one fixed timestamp.[^16-epoch]
 
@@ -121,7 +121,7 @@ Writes go through the same model. `press config set` runs the new value through 
 
 *src/press/adapters/* is, in its own words, "the one approved home for direct `subprocess`/`os.environ`/`urllib` calls". Every external program that the press runs starts there: pandoc, latexmk, epubcheck, and the poppler tools. Environment reads and network requests belong there too.
 
-The package holds a small set of tools. Its HTTP client gives every request a 30-second timeout and a cap on the bytes it will read. The client also retries failed requests. The package also holds an import guard and support for streaming. Because every outside effect belongs in one package, a reviewer who wants to know what the press does to the machine reads one directory.
+The package holds a small set of tools. Its HTTP client gives every request a 30-second timeout by default and a cap on the bytes it will read. The client also retries failed requests. The package also holds an import guard and support for streaming. Because every outside effect belongs in one package, a reviewer who wants to know what the press does to the machine reads one directory.
 
 The press checks the process side of the boundary mechanically. A gate searches the modules outside *adapters/* for direct process calls. The gate once had a blind spot, which the sidebar describes.
 

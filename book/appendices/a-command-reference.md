@@ -1347,5 +1347,3 @@ Table A.20 lists the environment variables press reads or sets. The first five r
 | `SECURITY_AUDIT_TOKEN` | This is a secret in the press repository's CI, for the check that the security controls still match their record. |
 
 Table: Table A.20. Environment variables
-
-<!-- index: command reference; synopsis; exit status; environment variables; PRESS_RELEASE; BOOK_ROOT; SOURCE_DATE_EPOCH; OPENAI_API_KEY; GEMINI_API_KEY; press config; press add; press new; press doctor; press desk; press migrate; press isbn; press lookup; press publish; press selftest; verify-pages -->

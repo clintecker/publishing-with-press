@@ -248,7 +248,7 @@ The press then draws the bars from the fixed 95-module pattern that the EAN-13 s
 
 ### The placeholder that says pending
 
-A book with no ISBN yet still gets a wrap. In place of the bars, the press draws a white box 2in wide and 1.2in tall that reads `[ISBN pending]`. It holds the space that the barcode will need, and nobody can mistake it for a real number.
+A book with no ISBN yet, and not declared for retail, still gets a wrap. In place of the bars, the press draws a white box 2in wide and 1.2in tall that reads `[ISBN pending]`. It holds the space that the barcode will need, and nobody can mistake it for a real number.
 
 ::: {.sidebar}
 > **The barcode that crowded its quiet zone**

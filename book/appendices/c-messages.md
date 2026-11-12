@@ -591,5 +591,3 @@ The print pack's interior goes through the PDF verifier with the print profile, 
     **Remedy.** None if the book needs no wrap yet. To build and verify the wrap, supply *assets/cover.jpg* and run `press verify-print` again.
 
 [^c-ellipsis]: Here `...` stands for the diagnostics that press prints after the colon.
-
-<!-- index: messages; refusal; exit status; press check; source checks; orphan plate; checker self-test; style audit; jargon lint; known-bad fixture; glyph law; curly quotes; press doctor; PDF verifier; formats verifier; epubcheck; sentinel; manuscript witness; release witnesses; trim; pdfimages; Pages bundle; print profile -->
