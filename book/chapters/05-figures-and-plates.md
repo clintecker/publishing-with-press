@@ -375,7 +375,7 @@ The next chapter, *Checking the manuscript*, describes the checker, which applie
 
 [^5-silly-plates]: The rule has a history. Commissions once drew their subject from the caption, and a caption written for a reader made a poor brief for an artist. The results were what the press documentation calls "literal, silly plates". Since press issue #225, a commission with no `--subject` takes its subject from the `art:` directive alone.
 
-[^5-tocdepth]: For the Chapter 16 reader: the pandoc setting `toc-depth: 1` sets the LaTeX counter `tocdepth` to 0, which empties the List of Plates. The house header raises the depth inside the list file itself.
+[^5-tocdepth]: For the reader who wants the mechanism: the pandoc setting `toc-depth: 1` sets the LaTeX counter `tocdepth` to 0, which empties the List of Plates. The house header raises the depth inside the list file itself.
 
 [^5-hypcap]: The anchor comes from the caption package's `hypcap=true` option. An earlier house header loaded the separate hypcap package for the same purpose.
 
