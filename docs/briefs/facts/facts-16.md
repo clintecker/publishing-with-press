@@ -424,3 +424,117 @@ Design rationales that work as sidebars:
 - **The finisher (supplied-interior PDF).** Planned on the Book breadth milestone, not shipped.
 - **The custom merchant-of-record commerce stack.** Icebox.
 - **Non-Latin and right-to-left scripts.** Icebox, "a major per script family".
+---
+
+# Supplement added by the managing editor (2026-11-11): contributing, from the press checkout
+
+## S1. `CONTRIBUTING.md`, opening and the verify ladder (verbatim)
+
+```text
+# Contributing
+
+The press accepts contributions that follow its laws (see
+[the architecture guide](https://github.com/clintecker/press/blob/main/docs/ARCHITECTURE.md):
+facts once, generators over checkers over conventions, artifacts verified
+as objects, scars become law).
+
+- Run `press doctor`, then `press selftest`, before and after your
+  change; both must be green.
+- Install the local gates once: `pip install -e '.[dev]'` then
+  `pre-commit install`. Every commit then lints every checked-in
+  format: ruff (with a cyclomatic-complexity ceiling of 15 for new
+  code), mypy, shellcheck, yamllint, pymarkdown, TOML/JSON validity,
+  and the selftest. CI runs the identical battery via
+  `pre-commit run --all-files`, so the hook only saves you the round
+  trip. The complexity ceiling is enforced with no current exceptions;
+  do not introduce a `# noqa: C901`, decompose instead.
+- Prove changes against a real book: scaffold one (`press new`) or use
+  your own, and run `press all`. A green `pip install` is not a
+  working pipeline.
+- New CLI targets, artifacts, or config keys must land with their
+  documentation in the same commit; the selftest enforces the parts it
+  can reach mechanically.
+- Design changes to rendered output of valid books are breaking
+  changes and wait for a new major; say so in your PR.
+- CI runs the selftest and the integration gate (wheel build, clean
+  scaffold, full gauntlet, tamper test) on every PR. Toolchain PRs
+  additionally build and smoke the image without publishing.
+
+## One command to verify
+
+From a clean checkout with `pip install -e '.[dev]'`, run the whole local
+proof, fast layers first:
+
+```sh
+scripts/verify.sh          # lint + type + selftest + pytest, then the
+                           # coverage and mutation ratchets and the site build
+scripts/verify.sh --quick  # stop after the fast lint/type/test layer
+scripts/verify.sh --full   # also run CI's container gauntlet locally (Docker)
+```
+
+CI calls these same tools. `--full` additionally runs the integration gauntlet
+in the pinned toolchain image (`scripts/gauntlet.sh`) — build the wheel,
+scaffold a stranger's book, run the whole `press all`, and prove tampering
+turns the verifier red — so the container tier where rendered-artifact bugs
+surface is proven before you push, not on the CI round-trip. It runs natively
+on Apple Silicon since the toolchain image went multi-arch (needs Docker).
+Only the live second-party proofs (a fork-PR from another account, a private
+book in another org) stay CI/human-only. Do not run
+`scripts/coverage_ratchet.py --update`: it re-measures on your machine and
+can push the committed baselines above the floor CI enforces.
+
+The Lua filters have their own floor, `.celebrimbor/baselines/lua-coverage.yaml`.
+`scripts/verify.sh` checks it when pandoc is installed (a new filter with no
+floor fails the check until `update` gives it one); to see the numbers and
+the uncovered lines, run the Lua tests with `PRESS_LUA_COV_DIR` set to an empty
+directory, then `python3 scripts/lua_coverage_ratchet.py report --cov-dir` that
+directory. Never `update` it from a macOS measurement either; feed it CI's report
+with `update --from-report`.
+
+```
+
+## S2. `CONTRIBUTING.md`, "Filing and proposing" (verbatim)
+
+```text
+## Filing and proposing
+
+Open issues through the [issue forms](https://github.com/clintecker/press/issues/new/choose)
+(defect, proposal, documentation); a defect asks for `press doctor`,
+`press selftest`, the version, and a minimal reproduction. Report security
+vulnerabilities privately per
+[the security policy](https://github.com/clintecker/press/blob/main/SECURITY.md),
+never as a public issue. Pull requests follow the template: a test that
+fails before and passes after, regenerated projections, and the
+compatibility impact.
+
+This project has one maintainer; how decisions, releases, and conduct are
+handled is in
+[the governance doc](https://github.com/clintecker/press/blob/main/GOVERNANCE.md),
+and participation is under the
+```
+
+## S3. Where the Lua tests live
+
+Under `tests/` in the press checkout: `tests/lua/` holds `test_press_util.lua` and `coverage-hook.lua`; `tests/lua_coverage.py` is the harness; `tests/test_lua_compiles.py`, `tests/test_lua_coverage_harness.py`, `tests/test_lua_coverage_ratchet.py`, and `tests/test_press_util_lua.py` are the pytest entry points. They run inside `python3 -m pytest`; `PRESS_REQUIRE_LUA=1` makes a missing pandoc a failure instead of a skip (CI sets it); `PRESS_LUA_COV_DIR` collects line coverage for `scripts/lua_coverage_ratchet.py report --cov-dir <dir>`.
+
+## S4. `CLAUDE.md`, "Verifying changes here" (verbatim)
+
+```text
+## Verifying changes here
+
+The press has no book of its own, so prove changes against a real one:
+clone a consuming book, `pip install -e` this checkout into it, run
+`press all`, and confirm every verifier passes before tagging. A green
+`pip install` is not a working pipeline.
+
+To look at output while tuning a template, filter, or aesthetic,
+`scripts/dev-render.sh` builds one book in the pinned toolchain image and
+drops the artifacts (and, with `--preview`, JPEG page previews) on the host:
+it mounts this checkout read-only and runs `python -m press` from `src/`, so
+edits take effect with no reinstall, and it reads the toolchain image from
+`build.yml` so it cannot drift from CI. Defaults to the Alice example; pass
+`--book DIR` for another. It is the edit–render–look loop, not the proof —
+`scripts/verify.sh --full` is still the gate before tagging.
+```
+
+Ruling: an outside contributor submits a pull request through the template S2 names (a test that fails before and passes after, regenerated projections, the compatibility impact); "main takes direct pushes" describes the maintainer, and the chapter says both.
