@@ -37,8 +37,11 @@ site-url: "https://clintecker.github.io/publishing-with-press"
 # clause, not a common word). Empty sentinels and a one-page floor are
 # DRAFT settings; a release build (CI on a tag) refuses them until at
 # least 2 sentinels and verify-min-pages >= 24 are set.
-verify-sentinels: []
-verify-min-pages: 1
+verify-sentinels:
+  - You do not choose the witness
+  - On a fresh scaffold it succeeds
+  - the selftest skips the checks
+verify-min-pages: 300
 trim: {width: 6, height: 9}
 
 # The print pack reads these when building the interior and cover wrap.
