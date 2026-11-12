@@ -111,3 +111,4 @@ Managing editor's record. Append only.
 - Ch 12 Revision 2 DONE -> continuity. facts-14 S1/S2 added for the ch 14 revision.
 - Figures 7.1-7.4 and 10.1-10.2 committed. Appendix E + colophon writer dispatched; remaining appendix desks dispatched.
 - Ch 16 desks complete -> writer. Appendix B fact-check in (1 contradiction: retail entry), Appendix D fact-check in; facts-D S1 rulings added.
+- Ch 11 COMMITTED. Ch 15 desks complete -> writer. Appendix C fact-check in.
