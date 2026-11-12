@@ -122,3 +122,5 @@ Managing editor's record. Append only.
 - Appendixes C and D COMMITTED.
 - Ch 14 revised (5,633) -> re-review. Ch 15 re-review APPROVED (3 shoulds -> writer). Appendix A typesetter in.
 - Ruling: 'Press' capitalised only at a sentence start (ordinary English); otherwise lowercase; the command always constant width. Appendix A copy in; fact pending.
+- Ch 16 re-review APPROVED (2 shoulds -> writer). Ch 14 re-review REVISE (1 block: CHANGELOG section must follow the v1.0.1 retag; 1 should -> writer). Preface fact and copy in; typesetter pending. Figures 9.1-9.2 in (09-03 is the screenshot desk's).
+- Rulings (preface): the "Using code examples" section restates the rights notice in config/front-matter.yaml and grants nothing beyond it; commas stay outside closing quotes book-wide (literal strings must survive quoting; Chapter 1 set the pattern); dates stay ISO (2026-07-17) book-wide.
