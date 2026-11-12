@@ -819,6 +819,8 @@ So: `press config get` prints the value (a JSON list for a list field, the bare 
 
 ## S5. `press all` in a directory that is not a git repository (tested 2026-11-11, exit 0)
 
+**Correction (managing editor, retested 2026-11-12):** the probe below ran untracked inside a parent Git repository, which is why it archived 0 files. A book outside any Git repository is archived whole: `press source` printed `archived 14 files; excluded dirs ['.git', '__pycache__', 'build', 'dist']`. A book untracked inside another repository archives nothing until Git tracks its files. Chapter 3 and Appendix A state both cases.
+
 A fresh scaffold with no `.git` directory builds and verifies completely with `press all`. The Source edition is still produced (`Verified archives: alice-site.zip, alice-source.zip`); it simply archives no tracked files (the probe saw `archived 0 files`). So `git init` is not required before the first build; it is required before the Source edition means anything, and before the source zip can carry the manuscript. The closing lines were:
 
 ```text

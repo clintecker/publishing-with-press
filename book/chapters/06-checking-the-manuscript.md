@@ -59,7 +59,7 @@ The rest of the first pass covers the book's other configuration. Table 6.2 list
 
 | Check | Meaning |
 |------------------|------------------------------------------------------------|
-| Registrations and commerce | Press validates any ISBN, LCCN, or ISSN the book declares, and it refuses a retail book with a missing or pending number. Chapter 13, *Registrations*, describes the numbers. |
+| Registrations and commerce | Press validates any ISBN, LCCN, or ISSN the book declares, and it refuses a retail book whose ISBNs are missing or pending. Chapter 13, *Registrations*, describes the numbers. |
 | Sentinels | Press confirms that each phrase in `verify-sentinels` appears in the manuscript. The section "Sentinels and the page floor" later in this chapter describes them. |
 | Orphan plates | Press refuses a plate image that no chapter references. Chapter 5, *Figures, plates, and illustrations*, describes plates. |
 | Figure placement | Press refuses a figure whose placement is not valid. Chapter 5 describes the placements. |

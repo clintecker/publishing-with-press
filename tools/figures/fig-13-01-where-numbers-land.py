@@ -19,7 +19,7 @@ mid = EY0 + EH / 2
 names = [("copyright page", None), ("EPUB metadata", "content.opf"),
          ("wrap barcode", None), ("ONIX file", "dist/alice.onix.xml"),
          ("PCN listing", "dist/alice-pcn.txt")]
-labels = ["isbn.print, isbn.epub,\nlccn, issn",
+labels = ["isbn.print, isbn.epub,\nlccn",
           "isbn.epub as\nurn:isbn:",
           "isbn.print as\nEAN-13",
           "isbn.print, isbn.epub\nas ProductIDType 15",

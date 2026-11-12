@@ -262,7 +262,7 @@ The rest of the fields gather under four mappings, `print`, `chapter-opening`, `
 | `chapter-opening.style` | the profile's | It takes `none`, `drop-cap`, `raised-cap`, or `ornate`. The house profile uses `none`. |
 | `chapter-opening.lines` | 3 | It gives the number of text lines the large first letter spans. |
 | `registrations.isbn.print` | none | It holds the print ISBN, as 13 digits or the word `pending`. The EPUB ISBN goes in `registrations.isbn.epub`. |
-| `registrations.retail` | false | When it is true, `press check` refuses any missing or pending registration. |
+| `registrations.retail` | false | When it is true, `press check` refuses a missing or pending ISBN and any declared LCCN or ISSN still pending. |
 
 Table: Table 3.5. The first print and registration fields
 
@@ -563,7 +563,7 @@ $ git init && git add -A && git commit -m "First book" && \
 
 ### What Git gives the press
 
-The reason to do this early is the Source edition. The artifact *alice-source.zip* contains the files Git tracks and nothing else. A file you created but never added is missing from the zip, even though every other edition includes it. Before `git init`, `press all` still builds and verifies *alice-source.zip*, but the zip archives no files at all until Git tracks them. The `.gitignore` the scaffold writes keeps *build/* and *dist/* out of Git. A Source edition therefore cannot contain old artifacts.
+The reason to do this early is the Source edition. The artifact *alice-source.zip* contains the files Git tracks and nothing else. A file you created but never added is missing from the zip, even though every other edition includes it. Before `git init`, `press all` still builds and verifies *alice-source.zip*. A book outside any repository is archived whole, less *build/*, *dist/*, and caches, but a book that sits untracked inside another repository archives nothing until Git tracks its files. The `.gitignore` the scaffold writes keeps *build/* and *dist/* out of Git. A Source edition therefore cannot contain old artifacts.
 
 ### The CI file
 
