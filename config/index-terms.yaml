@@ -1,0 +1,871 @@
+# Subject index terms for Publishing with Press. Flat terms; every term
+# must match prose somewhere (code spans and blocks do not count).
+- term: acknowledgments
+  match:
+  - acknowledgments
+  - acknowledgements
+- term: action.yml
+  match:
+  - action.yml
+- term: adapters boundary
+  match:
+  - adapters boundary
+- term: aesthetic
+  match:
+  - aesthetic
+  - aesthetics
+- term: aesthetic.yaml
+  match:
+  - aesthetic.yaml
+- term: aesthetic-brief
+  match:
+  - aesthetic-brief
+- term: alpha master
+  match:
+  - alpha master
+  - alpha masters
+- term: alt text
+  match:
+  - alt text
+  - fig-alt
+- term: Apple Silicon
+  match:
+  - Apple Silicon
+  - arm64
+- term: appendices
+  match:
+  - appendix file
+  - appendix files
+- term: art department
+  match:
+  - art department
+- term: art directive
+  match:
+  - art directive
+  - art directives
+- term: art-direction workflow
+  match:
+  - art-direction
+- term: audit directories
+  match:
+  - audit directories
+  - audit-dirs
+- term: author portrait
+  match:
+  - author portrait
+  - portrait
+- term: authorities-research
+  match:
+  - authorities-research
+- term: authorities.yaml
+  match:
+  - authorities.yaml
+- term: banned patterns
+  match:
+  - banned patterns
+  - banned-patterns
+- term: binfmt_misc
+  match:
+  - binfmt_misc
+- term: bleed
+  match:
+  - bleed
+- term: blank-page detector
+  match:
+  - blank-page detector
+  - blank pages
+- term: blockquote
+  match:
+  - blockquote
+  - blockquotes
+- term: book model
+  match:
+  - book model
+  - bookmodel.py
+- term: book root
+  match:
+  - book root
+  - BOOK_ROOT
+- term: book.yml
+  match:
+  - book.yml
+- term: build directory
+  match:
+  - build directory
+  - build/
+- term: build.yml
+  match:
+  - build.yml
+- term: caliper
+  match:
+  - caliper
+- term: celebrimbor
+  match:
+  - celebrimbor
+- term: chapter edition
+  match:
+  - Chapter edition
+- term: chapter witness
+  match:
+  - chapter witness
+  - chapter witnesses
+- term: chapter-opening paragraph
+  match:
+  - chapter-opening
+  - chapter opening
+- term: check digit
+  match:
+  - check digit
+  - check digits
+- term: checker self-test
+  match:
+  - checker self-test
+  - self-test
+  - self-tests
+- term: CIP
+  match:
+  - CIP
+  - Cataloging in Publication
+- term: Circulating edition
+  match:
+  - Circulating edition
+- term: colophon
+  match:
+  - colophon
+  - colophons
+- term: commerce gate
+  match:
+  - commerce gate
+- term: commissions.md
+  match:
+  - commissions.md
+- term: composite action
+  match:
+  - composite action
+- term: copyright page
+  match:
+  - copyright page
+- term: counsel mode
+  match:
+  - counsel mode
+- term: cover style
+  match:
+  - cover style
+  - cover styles
+- term: cover wrap
+  match:
+  - cover wrap
+  - wrap cover
+  - coverwrap
+- term: craft laws
+  match:
+  - craft law
+  - craft laws
+- term: cross-edition agreement
+  match:
+  - cross-edition agreement
+- term: cross-references
+  match:
+  - cross-reference
+  - cross-references
+- term: dash law
+  match:
+  - dash law
+  - en dash
+  - em dash
+- term: dc:date
+  match:
+  - dc:date
+- term: decorations
+  match:
+  - decoration
+  - decorations
+- term: dedication
+  match:
+  - dedication
+- term: defaults file
+  match:
+  - defaults file
+  - defaults files
+- term: design profile
+  match:
+  - design profile
+  - design profiles
+- term: dev-render.sh
+  match:
+  - dev-render.sh
+- term: digest
+  match:
+  - digest
+  - digests
+  - sha256
+- term: doctor
+  match:
+  - press doctor
+  - doctor table
+- term: drop cap
+  match:
+  - drop cap
+  - drop caps
+- term: dry run
+  match:
+  - dry run
+  - dry-run
+- term: EAN-13
+  match:
+  - EAN-13
+  - EAN13
+- term: editable install
+  match:
+  - editable install
+- term: editorial-passes
+  match:
+  - editorial-passes
+- term: em dash
+  match:
+  - em dash
+  - em dashes
+- term: epigraph
+  match:
+  - epigraph
+  - epigraphs
+- term: epubcheck
+  match:
+  - epubcheck
+- term: erratum
+  match:
+  - erratum
+- term: exit status
+  match:
+  - exit status
+  - exit code
+  - exit codes
+- term: expect comment
+  match:
+  - expect comment
+  - expect comments
+- term: extension contract
+  match:
+  - extension contract
+- term: extra.css
+  match:
+  - extra.css
+- term: extras
+  match:
+  - extras
+  - tui extra
+- term: fairy-dust
+  match:
+  - fairy-dust
+- term: filter chain
+  match:
+  - filter chain
+  - Lua filter
+  - Lua filters
+- term: flat-ground test
+  match:
+  - flat-ground test
+- term: floating tag
+  match:
+  - floating tag
+  - floating tags
+  - floating major
+- term: folio
+  match:
+  - folio
+  - folios
+- term: font scan
+  match:
+  - font scan
+- term: fonts-linuxlibertine
+  match:
+  - fonts-linuxlibertine
+  - Libertine
+- term: footnotes
+  match:
+  - footnote
+  - footnotes
+- term: four laws
+  match:
+  - four laws
+- term: frontispiece
+  match:
+  - frontispiece
+- term: front matter
+  match:
+  - front matter
+  - front-matter
+- term: front-matter.yaml
+  match:
+  - front-matter.yaml
+- term: full-bleed
+  match:
+  - full-bleed
+  - full bleed
+- term: generators
+  match:
+  - generator
+  - generators
+- term: GitHub Pages
+  match:
+  - GitHub Pages
+- term: glyph law
+  match:
+  - glyph law
+  - curly quotes
+- term: golden copy
+  match:
+  - golden copy
+- term: hash lock
+  match:
+  - hash lock
+  - requirements-lock.txt
+  - lock-deps.sh
+  - pip-compile
+- term: height cap
+  match:
+  - height cap
+- term: Homebrew
+  match:
+  - Homebrew
+- term: house design
+  match:
+  - house design
+- term: house rules
+  match:
+  - house rules
+  - house-rules.yaml
+- term: IngramSpark
+  match:
+  - IngramSpark
+- term: index-terms.yaml
+  match:
+  - index-terms.yaml
+- term: inline code
+  match:
+  - inline code
+- term: intake
+  match:
+  - intake
+- term: integration gate
+  match:
+  - integration gate
+- term: invariant
+  match:
+  - invariant
+  - invariants
+- term: invariant ledger
+  match:
+  - invariant ledger
+- term: ISBN
+  match:
+  - ISBN
+  - ISBNs
+- term: ISSN
+  match:
+  - ISSN
+- term: issue tracker
+  match:
+  - issue tracker
+- term: jargon lint
+  match:
+  - jargon lint
+  - jargon linter
+  - jargon-allow
+  - overused-jargon
+- term: KDP
+  match:
+  - KDP
+  - Kindle Direct Publishing
+- term: known-bad fixture
+  match:
+  - known-bad fixture
+  - known-bad fixtures
+  - known-bad
+- term: known-good fixture
+  match:
+  - known-good fixture
+  - known-good fixtures
+  - known-good
+- term: landing page
+  match:
+  - landing page
+  - landing pages
+- term: language tag
+  match:
+  - language tag
+  - language tags
+- term: latexmk
+  match:
+  - latexmk
+- term: LCCN
+  match:
+  - LCCN
+  - Library of Congress Control Number
+- term: Libertinus
+  match:
+  - Libertinus
+- term: Library of Congress
+  match:
+  - Library of Congress
+- term: List of Figures
+  match:
+  - List of Figures
+- term: List of Plates
+  match:
+  - List of Plates
+- term: locator
+  match:
+  - locator
+  - locators
+- term: logomark
+  match:
+  - logomark
+  - logomarks
+- term: Lua
+  match:
+  - Lua
+- term: luminance key
+  match:
+  - luminance key
+- term: Lulu
+  match:
+  - Lulu
+- term: Makefile
+  match:
+  - Makefile
+- term: manuscript edition
+  match:
+  - Manuscript edition
+- term: manuscript witness
+  match:
+  - manuscript witness
+- term: margins
+  match:
+  - margin
+  - margins
+  - mirrored margins
+- term: maxim quota
+  match:
+  - maxim quota
+- term: metadata.yaml
+  match:
+  - metadata.yaml
+- term: migration-backup.json
+  match:
+  - migration-backup.json
+- term: named diseases
+  match:
+  - named diseases
+  - named disease
+- term: Office edition
+  match:
+  - Office edition
+- term: ONIX
+  match:
+  - ONIX
+- term: OPENAI_API_KEY
+  match:
+  - OPENAI_API_KEY
+  - OpenAI
+- term: GEMINI_API_KEY
+  match:
+  - GEMINI_API_KEY
+  - Gemini
+- term: outset
+  match:
+  - outset
+- term: page floor
+  match:
+  - page floor
+  - verify-min-pages
+- term: paragraph law
+  match:
+  - paragraph law
+- term: PCN
+  match:
+  - PCN
+  - Preassigned Control Number
+- term: pdftoppm
+  match:
+  - pdftoppm
+- term: Pillow
+  match:
+  - Pillow
+- term: pip
+  match:
+  - pip
+- term: poppler
+  match:
+  - poppler
+- term: PPI
+  match:
+  - PPI
+  - pixels per inch
+- term: preflight
+  match:
+  - preflight
+  - preflight check
+- term: PrePub Book Link
+  match:
+  - PrePub Book Link
+- term: press check
+  match:
+  - press check
+- term: press desk
+  match:
+  - press desk
+- term: press doctor
+  match:
+  - press doctor
+- term: press isbn
+  match:
+  - press isbn
+- term: press lookup
+  match:
+  - press lookup
+- term: press migrate
+  match:
+  - press migrate
+- term: press new
+  match:
+  - press new
+- term: press onix
+  match:
+  - press onix
+- term: press pcn
+  match:
+  - press pcn
+- term: press all
+  match:
+  - press all
+- term: press config
+  match:
+  - press config
+- term: print edition
+  match:
+  - Print edition
+- term: print interior
+  match:
+  - print interior
+- term: print-safe pass
+  match:
+  - print-safe pass
+- term: print.profile
+  match:
+  - print.profile
+- term: producer ledger
+  match:
+  - producer ledger
+- term: provider
+  match:
+  - provider
+  - providers
+- term: pull request
+  match:
+  - pull request
+  - pull requests
+- term: quality gate
+  match:
+  - quality gate
+- term: quiet zone
+  match:
+  - quiet zone
+- term: ratchet
+  match:
+  - ratchet
+- term: read model
+  match:
+  - read model
+- term: reader site
+  match:
+  - reader site
+- term: reader zip
+  match:
+  - reader zip
+- term: reader.css
+  match:
+  - reader.css
+- term: Real-ESRGAN
+  match:
+  - Real-ESRGAN
+- term: registrations
+  match:
+  - registrations
+- term: registry (the artifact graph)
+  match:
+  - the registry
+  - artifact graph
+- term: rejection ledger
+  match:
+  - rejection ledger
+- term: release contract
+  match:
+  - release contract
+- term: release receipt
+  match:
+  - release receipt
+  - trust receipt
+- term: release witnesses
+  match:
+  - release witnesses
+  - PRESS_RELEASE
+  - vacuous witnesses
+- term: release.sh
+  match:
+  - release.sh
+- term: requirements.txt
+  match:
+  - requirements.txt
+- term: reusable workflow
+  match:
+  - reusable workflow
+- term: runaround
+  match:
+  - runaround
+- term: running head
+  match:
+  - running head
+  - running heads
+- term: runt
+  match:
+  - runt
+- term: scar
+  match:
+  - scar
+  - scars
+- term: scene break
+  match:
+  - scene break
+  - scene breaks
+- term: sealed capability
+  match:
+  - sealed capability
+- term: self-checkout install
+  match:
+  - self-checkout install
+- term: sentinel
+  match:
+  - sentinel
+  - sentinels
+  - verify-sentinels
+- term: set piece
+  match:
+  - set piece
+- term: setup wizard
+  match:
+  - setup wizard
+- term: Single-leaf edition
+  match:
+  - Single-leaf edition
+- term: site-url
+  match:
+  - site-url
+- term: skills
+  match:
+  - skill
+  - skills
+  - press skills
+- term: slug
+  match:
+  - slug
+- term: source checks
+  match:
+  - source checks
+  - source check
+- term: Source edition
+  match:
+  - Source edition
+- term: source zip
+  match:
+  - source zip
+- term: sources companion
+  match:
+  - sources companion
+  - sources-and-authorities
+- term: spine
+  match:
+  - spine
+  - spine width
+  - spine shape
+  - spine arithmetic
+- term: stacked subtitle
+  match:
+  - stacked subtitle
+- term: style audit
+  match:
+  - style audit
+- term: subject index
+  match:
+  - subject index
+- term: table of authorities
+  match:
+  - table of authorities
+- term: tag grammar
+  match:
+  - tag grammar
+- term: Telegraphic edition
+  match:
+  - Telegraphic edition
+- term: tex/title-page.tex
+  match:
+  - tex/title-page.tex
+- term: text block
+  match:
+  - text block
+- term: title page
+  match:
+  - title page
+- term: toolchain image
+  match:
+  - toolchain image
+- term: trailing whitespace
+  match:
+  - trailing whitespace
+- term: universal battery
+  match:
+  - universal battery
+- term: unnumbered headings
+  match:
+  - unnumbered heading
+  - unnumbered chapter
+- term: User-Agent
+  match:
+  - User-Agent
+- term: verify_archives
+  match:
+  - verify_archives
+- term: verify_coverwrap
+  match:
+  - verify_coverwrap
+- term: verify_formats
+  match:
+  - verify_formats
+- term: verify_pages
+  match:
+  - verify_pages
+- term: verify_pdf
+  match:
+  - verify_pdf
+- term: verse
+  match:
+  - verse
+- term: virtual environment
+  match:
+  - virtual environment
+  - venv
+- term: watchlist
+  match:
+  - watchlist
+- term: whole-cloth override
+  match:
+  - whole-cloth override
+- term: workflows
+  match:
+  - workflow
+  - workflows
+  - Workflow tool
+- term: zero-hit rule
+  match:
+  - zero-hit
+  - zero hit
+  - zero-hit rule
+- term: zero padding
+  match:
+  - zero padding
+  - zero-padded
+- term: cascade
+  match:
+  - a cascade
+  - cascades
+- term: tail (set piece)
+  match:
+  - the tail is
+  - and the tail
+- term: desk, the
+  match:
+  - the desk
+  - press desk
+- term: trim size
+  match:
+  - trim size
+  - trim sizes
+- term: major versions, design
+  match:
+  - design major
+  - design majors
+- term: widows and runts
+  match:
+  - widow
+  - widows
+  - runt
+  - runts
+- term: figures, numbering of
+  match:
+  - figure numbering
+  - figure-numbering.lua
+  - numbered figures
+- term: figures, placement of
+  match:
+  - placement
+  - placements
+- term: EPUB, identifier of
+  match:
+  - EPUB identifier
+- term: Tenniel
+  match:
+  - Tenniel
+- term: woodcut
+  match:
+  - woodcut
+  - woodcuts
+- term: Ubuntu
+  match:
+  - Ubuntu
+- term: macOS
+  match:
+  - macOS
+- term: pypdf
+  match:
+  - pypdf
+- term: PyPI
+  match:
+  - PyPI
+- term: Dependabot
+  match:
+  - Dependabot
+- term: Carroll, Lewis
+  match:
+  - Carroll
+- term: barcode
+  match:
+  - barcode
+  - barcodes
+- term: hyphenation
+  match:
+  - hyphenation
+- term: small caps
+  match:
+  - small caps
+- term: page count
+  match:
+  - page count
+- term: grayscale
+  match:
+  - grayscale
+- term: color interior
+  match:
+  - color interior
+- term: table of contents
+  match:
+  - table of contents
+- term: environment variables
+  match:
+  - environment variable
+  - environment variables
+- term: TikZ
+  match:
+  - TikZ
+- term: KOMA-Script
+  match:
+  - KOMA

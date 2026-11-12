@@ -516,5 +516,3 @@ The next chapter, *The house design*, describes the typography and layout that t
 [^8-ci-false]: In most shells and most CI systems, an environment variable holds a string, and a check for its presence treats the string `false` as present.
 
 [^8-window]: Because the windows overlap by four words, one break in the line, such as a running head, spoils at most two of them.
-
-<!-- index: verifier; verify_pdf; verify_formats; verify_archives; verify_pages; verify_coverwrap; press verify; press verify-formats; press verify-print; press pages; press all; sentinel; page floor; manuscript witness; chapter witness; cross-edition agreement; epubcheck; PRESS_TOOLCHAIN; PRESS_RELEASE; blank-page detector; mirrored margins; source zip; reader zip; invariant; press doctor -->

@@ -165,5 +165,3 @@ The machines did much of the rest. Language models drafted the text from a fact 
 Lewis Carroll supplied the sample text. His book is long out of copyright. We thank him for a manuscript that never once missed a deadline.
 
 Finally, we thank in advance the reader who files the first erratum. We checked every chapter, and we expect that you will find something anyway.
-
-<!-- index: press; scar; edition; Print edition; Circulating edition; Single-leaf edition; Chapter edition; Manuscript edition; Telegraphic edition; Office edition; Source edition; conventions; syntax line; prompt; Alice book; erratum; issue tracker; MIT license -->

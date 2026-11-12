@@ -319,5 +319,3 @@ A publisher with CIP data from the Library prints it as a block on the copyright
 [^13-earth]: The scaffold's default for the place is accurate, as far as it goes.
 
 [^13-agent]: The string is `press-registrations-lookup (+https://github.com/clintecker/press)`.
-
-<!-- index: registrations; ISBN; ISBN block; press isbn; check digit; ISSN; LCCN; PCN; PrePub Book Link; CIP; pending; registrations.retail; press pcn; ONIX; press onix; press lookup; User-Agent; copyright page; EAN-13; EPUB identifier; Library of Congress -->

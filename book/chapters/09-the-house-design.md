@@ -401,5 +401,3 @@ For your own pin, the rule means this: on `v3`, your book keeps the design it ha
 :::
 
 Chapter 10, *Front matter, the index, and the table of authorities*, turns from the design of the page to the pages that press generates from configuration.
-
-<!-- index: house design; design profile; house-6x9; print.profile; text block; height cap; scrbook; print interior; running head; folio; Libertinus; microtype; selnolig; widow; runt; craft law; book-colors; reader site; reader.css; extra.css; landing page; aesthetic; press aesthetic; site-url; design major -->

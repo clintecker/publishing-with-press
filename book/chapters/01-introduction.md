@@ -311,5 +311,3 @@ Chapter 2, *Installing press*, puts the toolchain on `hatter`.
 [^1-libertine]: TeX Live carries Libertinus for the PDF. Ubuntu has no `fonts-libertinus` package, and `--no-install-recommends` drops the Libertine keyboard face, so the toolchain image names `fonts-linuxlibertine` explicitly. That is another scar.
 
 [^1-make]: The press README's own quick start runs `git init` in the same place, with `make all` in place of `press all`. The scaffold's Makefile passes every target to `python3 -m press`.
-
-<!-- index: press; book repository; manuscript; target; press check; checker; verifier; registry; four laws; scar; generator; Lua filter; toolchain; toolchain image; design profile; edition; artifact; dist directory; build directory; known-bad fixture; sentinel; verify-min-pages; print pack; floating tag; immutable tag; release contract -->

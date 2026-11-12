@@ -382,5 +382,3 @@ The next chapter, *Checking the manuscript*, describes the checker, which applie
 [^5-square]: The square shape comes from the request press makes to the image model, which asks for 1024 by 1024 pixels at high quality for every illustration.
 
 [^5-lulu]: The arithmetic is simple division: 1024 pixels over 1.7 inches is 602 pixels per inch.
-
-<!-- index: plate; figure; decoration; List of Figures; List of Plates; press figures; press illustrate; art directive; fig-alt; decorative; cross-reference; figure-numbering.lua; placement; wrap-inner; wrap-outer; frontispiece; full-bleed; measure; outset; runaround; height cap; alpha master; press art enhance; print-safe pass; PPI -->

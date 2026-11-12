@@ -499,5 +499,3 @@ The chain works only if the checker's own status reaches the `&&`. When a shell 
 :::
 
 Chapter 7, *Building the editions*, takes the manuscript that the checker passed and builds each edition from it.
-
-<!-- index: press check; press style; source checks; checker self-test; known-bad fixture; known-good fixture; expect comment; style audit; universal battery; audit directories; glyph law; paragraph law; trailing whitespace; jargon lint; watchlist; jargon-allow; house rules; banned patterns; sentinel; verify-sentinels; page floor; verify-min-pages; release witnesses; PRESS_RELEASE; exit status -->

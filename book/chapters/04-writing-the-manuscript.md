@@ -437,5 +437,3 @@ The next chapter, *Figures, plates, and illustrations*, takes up the plates, the
 [^4-hung-quote]: Press calls this Bringhurst's rule. The capital aligns with the text, and the quotation mark sits outside the measure.
 
 [^4-ties]: Pandoc ties Mr. on its own. For that reason, the press's test for the tie once passed with no filter in place at all. The Lua coverage work for press 3.0.2 found the empty test. The Lua tests, it turned out, also skipped silently in CI until CI set `PRESS_REQUIRE_LUA=1`.
-
-<!-- index: glyph law; dash law; em dash; ellipsis; title-case heading; press add chapter; unnumbered chapter; paragraph law; trailing whitespace; footnote; blockquote; epigraph; pipe table; table caption; language tag; inline code; chapter-opening; drop cap; dialogue opener; scene break; fairy-dust; set piece; cascade; verse; tail -->

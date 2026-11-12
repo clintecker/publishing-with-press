@@ -511,5 +511,3 @@ The count strips fenced code blocks and inline code before it counts. It does no
 ### Cleaning up
 
 `press clean` deletes *build/* and *dist/*, and nothing else. Your manuscript, your configuration, and your assets stay where they are. Because every target rebuilds what it needs, the next build after a clean starts from nothing and writes everything again. The next chapter, Chapter 8, *Verifying the artifacts*, opens those artifacts and inspects each one.
-
-<!-- index: press all; press pdf; press clean; press render; press wordcount; registry; defaults file; render_defaults; Lua filter; filter chain; latexmk; LuaLaTeX; SOURCE_DATE_EPOCH; epubcheck; dc:date; chunked HTML; reader site; Source edition; sources companion; INV-graph-no-stale; commerce gate; PRESS_RELEASE; font scan; pdftoppm; build directory -->

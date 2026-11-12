@@ -387,5 +387,3 @@ If the only complaint concerns epubcheck, you have two choices. Install it with 
 :::
 
 The next chapter, *The shape of a book repository*, creates the `alice` book with `press new` and describes every file it makes.
-
-<!-- index: press doctor; toolchain; toolchain image; pip; virtual environment; editable install; floating tag; immutable tag; extras; tui extra; pandoc; LuaLaTeX; latexmk; epubcheck; binfmt_misc; poppler; fonts-linuxlibertine; Libertinus; Homebrew; Apple Silicon; arm64; PRESS_TOOLCHAIN; dev-render.sh; font scan; exit status -->

@@ -435,5 +435,3 @@ Each major changes something different, and the plan says what. From `v1` to `v2
 Until you run `apply`, the book stays on its major. At the time of this writing, a book on `v3` resolves to `v3.0.2` and its image digest. When `v3` moves to a newer release, the book follows it, and only a pin of `v3.0.2` itself holds the book in place.
 
 [^14-migrate]: The fix is in 3.0.1, under issue #262. The press's CHANGELOG records that the old message promised byte-for-byte geometry for a step that changes the design.
-
-<!-- index: book.yml; build.yml; reusable workflow; composite action; action.yml; self-checkout install; hash lock; requirements-lock.txt; lock-deps.sh; toolchain image; digest; sha256; sha- tag; trust receipt; release receipt; floating tag; immutable tag; tag grammar; release contract; release.sh; PRESS_RELEASE; release witnesses; vacuous witnesses; GitHub Pages; press migrate; migration-backup.json -->

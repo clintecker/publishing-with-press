@@ -400,5 +400,3 @@ The diseases name that pattern, so every agent in the round looks for the same f
 [^15-popen]: The launcher has a history. The press keeps subprocess calls behind the adapters gate around `press.adapters`. That gate once missed `from subprocess import Popen`, and the desk's launcher used exactly that form. The gate now resolves aliases, and the launcher moved into `press.adapters`.
 
 [^15-counsel]: The word is the press's own. A counsel gives advice and does not sign the papers.
-
-<!-- index: press desk; desk; read model; evidence state; doctor table; target picker; RUN view; setup wizard; workflow; Workflow tool; Claude Code; press workflows; editorial-passes; named diseases; maxim quota; rejection ledger; authorities-research; aesthetic-brief; art-direction; skill; press skills; prose skills; overused-jargon; operator; press improve; counsel mode -->

@@ -378,5 +378,3 @@ The template asks for three things: "a test that fails before and passes after, 
 The press has one maintainer, and the maintainer pushes to `main` directly by design.[^16-main] The checks stop a change at the release boundary instead. The release script pushes the immutable tag, and then the release contract waits for the `quality`, `consumer`, and `desk` checks on that commit. A change that broke any of them turns the contract red, and the floating major does not move.
 
 [^16-main]: The press's *SECURITY.md* records the decision under issue 153. The press enforces trust at the tag, so `main` stays open and every immutable tag stays fixed.
-
-<!-- index: module map; catalog; registry; book model; bookmodel.py; yamlio.py; press config; adapters boundary; exit status; invariant; invariant ledger; does not cover; INV-graph-no-stale; press selftest; quality gate; integration gate; celebrimbor; ratchet; producer ledger; PRESS_REQUIRE_LUA; trust receipt; release receipt; extension contract; sealed capability; scar; pull request -->

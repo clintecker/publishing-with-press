@@ -645,5 +645,3 @@ Chapter 4, *Writing the manuscript*, opens the chapter files themselves.
 [^3-printf]: The source of `press add` states the purpose plainly. It exists so that authors never `printf > file`.
 
 [^3-wordcount]: The counter matches words with the pattern `\b[\w'-]+\b`, so a hyphenated compound or a contraction counts as one word.
-
-<!-- index: press new; slug; book repository; book root; BOOK_ROOT; metadata.yaml; book model; press config; sentinel; verify-sentinels; verify-min-pages; release witnesses; PRESS_RELEASE; chapter file; appendix file; zero padding; press add; unnumbered heading; Makefile; requirements.txt; press all; Source edition; book.yml; dist; press clean -->

@@ -420,5 +420,3 @@ The next chapter turns from words to pictures and the art department that commis
 [^10-colophon]: The word first named a note at the end of a book, where the printer recorded the type, the date, and the place. Modern books moved those facts to the back of the title leaf, and the press keeps the old name for them.
 
 [^10-silence]: The press's message ends "silence is not allowed". An index that drops a term without a word would be the silence it means.
-
-<!-- index: front matter; front-matter.yaml; title page; stacked subtitle; colophon; copyright page; dedication; epigraph; acknowledgments; tex/title-page.tex; whole-cloth override; subject index; index-terms.yaml; locator; zero-hit rule; table of authorities; authorities.yaml; claim; sources companion; verify_archives; registrations -->

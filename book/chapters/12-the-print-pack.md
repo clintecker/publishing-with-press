@@ -496,5 +496,3 @@ The press stops at the link. It does not "process or store payment, calculate ta
 [^12-ingram]: The ledger notes that "Ingram is the one vendor whose casewrap and jacket TOTAL formulas are officially published".
 [^12-kdpdate]: At the time of this writing, the ledger records the KDP spec as verified on 2026-07-21. Provider specifications change, and the ledger date tells you how old the numbers are.
 [^12-adapter]: The press repository does contain a provider-neutral order contract and an adapter for Lulu's Print API, under *src/press/providers/*. The adapter defaults to Lulu's sandbox, and at the time of this writing only the tests reach it. No command uses it.
-
-<!-- index: print pack; print interior; cover wrap; design profile; provider; spine shape; caliper; allowance; bleed; trim; safety; print.provider; print.paper; press print; press verify-print; press coverwrap; verify_coverwrap; EAN-13; check digit; quiet zone; print-safe pass; preflight; golden copy; edition_id; commerce gate -->
