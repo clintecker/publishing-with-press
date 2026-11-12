@@ -119,3 +119,4 @@ Managing editor's record. Append only.
 - Figures 11.1-11.3 committed (alt text aligned). Appendix B COMMITTED. Ch 15 revised (5,146) -> re-review.
 - Figure 13.1 committed. Ch 16 revised (5,679) -> re-review.
 - Ch 12 COMMITTED (figure files renamed by the writer: 12-01 spine math, 12-02 wrap, 12-03 graph; the illustrator's output will be renamed to match). Preface (2,401) and Appendix E (2,931) + colophon (374) drafted; desks dispatched.
+- Appendixes C and D COMMITTED.
