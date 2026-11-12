@@ -108,3 +108,4 @@ Managing editor's record. Append only.
 - Ch 10 COMMITTED. Ch 3 errata (sources companion) applied to prose and Figure 3.3. Figures 5.1-5.3 drawn, awaiting ch 5's final commit.
 - Ch 5 COMMITTED with figures.
 - Figures 8.1-8.3 committed. Appendix B and C+D drafted; desks dispatching (fact-b, fact-c running).
+- Ch 12 Revision 2 DONE -> continuity. facts-14 S1/S2 added for the ch 14 revision.
