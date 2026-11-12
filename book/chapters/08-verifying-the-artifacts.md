@@ -334,7 +334,7 @@ The reader zip, *dist/alice-site.zip*, is the reader site packed for download. T
 
 The source zip, *dist/alice-source.zip*, is the book's own source, published so that anyone can rebuild it. The verifier recomputes the member list from the same policy, `publication_members()`, and compares it with the zip the builder wrote. It also checks that every member uses DEFLATE compression. The ledger names this invariant `INV-archive-source-policy` and marks it critical. The policy has six rules:
 
-- Members are files that Git tracks, and only those; a book outside any Git repository is archived whole, and one untracked inside a parent repository archives nothing. A file that you never added to Git is not a member.
+- Members are files that Git tracks, and only those. A book outside any Git repository is archived whole, and one untracked inside a parent repository archives nothing. A file that you never added to Git is not a member.
 - Every member sits under an `alice/` prefix, so the zip unpacks into one directory.
 - Every member carries the fixed timestamp 2026-07-16 12:00, a mode of 0o755 or 0o644, and DEFLATE level 9.
 - The press excludes the directories `build`, `dist`, `.git`, and `__pycache__`.
