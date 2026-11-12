@@ -45,7 +45,7 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 : The directory a *target* works in: `BOOK_ROOT` if set, otherwise the current directory. Press does not search upward (Chapter 3).
 
 **build/**
-: The directory of intermediate files, none of them published (Chapter 1).
+: The directory of intermediate files, none of them published (Chapters 1, 3, and 7).
 
 **caliper**
 : The thickness of one page of a paper stock, in inches (Chapter 12).
@@ -83,14 +83,14 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 **colophon**
 : The press's name for the copyright page, not this book's closing Colophon (Chapter 10).
 
-**commerce**
+**commerce gate**
 : The gate that guards *print ordering*. It computes the *edition manifest* and looks for a *qualification* (Chapters 7, 8, and 12).
 
 **commission**
 : A prompt for an image model, kept in *art/commissions.md* (Chapter 11).
 
 **composite action**
-: The file *action.yml*, which installs press in CI from the action's own checkout, never with pip from Git (Chapter 2).
+: The file *action.yml*, which installs press in CI from the action's own checkout, never with pip from Git (Chapters 2 and 14).
 
 **counsel mode**
 : `press improve` without `--apply`. It writes a report and touches nothing. Press compares fingerprints of *book/* and *config/* to prove it (Chapter 15).
@@ -276,7 +276,10 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 : The value of `verify-min-pages`, the fewest pages the PDF verifier accepts (Chapters 6 and 8).
 
 **Pages bundle**
-: The directory *dist/pages/*, which GitHub Pages serves (Chapters 1 and 7).
+: The directory *dist/pages/*, which `press pages` assembles and from which GitHub Pages serves the *Pages site* (Chapters 1 and 7).
+
+**Pages site**
+: What GitHub Pages serves from the *Pages bundle*: the book's public Web site (Preface, Chapters 7 and 14).
 
 **paper column**
 : The reader site's framed column that holds the text, styled as a sheet (Chapter 9).
@@ -309,7 +312,7 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 : The PDF that goes inside the covers, built by `press print` (Chapters 5 and 12).
 
 **print ordering**
-: The optional ordering of printed copies from the book's Web site (Chapters 8 and 12).
+: The optional ordering of printed copies from the book's *Pages site* (Chapters 8 and 12).
 
 **print pack**
 : The *print interior*, the *cover wrap*, and the retail channel checklists (Chapters 1 and 12).
@@ -342,7 +345,7 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 : The release floor under `PRESS_RELEASE=1`: at least two sentinels and a *page floor* of at least 24 (Chapters 3 and 6).
 
 **reusable workflow**
-: The file *build.yml* that a book's CI calls. It pins the *composite action* and the *toolchain image* (Chapter 2).
+: The file *build.yml* that a book's CI calls. It pins the *composite action* and the *toolchain image* (Chapters 2 and 14).
 
 **runaround**
 : The trade's name for a *wrap* (Chapter 5).
@@ -414,7 +417,7 @@ Each entry gives the meaning a term has in this book and the chapter that treats
 : The outside programs press runs: pandoc, LuaLaTeX, latexmk, the fonts, epubcheck, and poppler (Chapter 1).
 
 **toolchain image**
-: `ghcr.io/clintecker/press-toolchain`, a public image built on Ubuntu 24.04 and pinned by digest. Every CI build runs in it (Chapters 1 and 2).
+: `ghcr.io/clintecker/press-toolchain`, a public image built on Ubuntu 24.04 and pinned by digest. Every CI build runs in it (Chapters 1, 2, and 14).
 
 **trust receipt**
 : The record that one layer of proof ran. There are twelve layers in three tiers. A release must present the complete chain (Chapters 14 and 16).

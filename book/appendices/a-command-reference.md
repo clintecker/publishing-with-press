@@ -748,7 +748,7 @@ $ press lookup lccn
 press markdown
 ```
 
-**Description.** Stitches the Manuscript edition, *dist/alice.md*, from the chapter files and appendix files without pandoc. The file is a header followed by the manuscript as you wrote it. Press removes only the attribute blocks from the headings.
+**Description.** Stitches the Manuscript edition (the stitched Markdown), *dist/alice.md*, from the chapter files and appendix files without pandoc. The file is a header followed by the manuscript as you wrote it. Press removes only the attribute blocks from the headings.
 
 **Options.** None.
 
@@ -1103,7 +1103,7 @@ cover-design     .../press/data/skills/cover-design.md
 press source
 ```
 
-**Description.** Packages the Source edition, *dist/alice-source.zip*. A book outside any Git repository gets an archive of the whole directory. A book that sits untracked inside another repository gets an empty archive (press prints `archived 0 files`) until Git tracks its files.
+**Description.** Packages the Source edition (the source zip), *dist/alice-source.zip*. A book outside any Git repository gets an archive of the whole directory. A book that sits untracked inside another repository gets an empty archive (press prints `archived 0 files`) until Git tracks its files.
 
 **Options.** None.
 

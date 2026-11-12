@@ -18,7 +18,7 @@ Every book that press builds wears the same design unless its author asks for an
 
 ## The page in numbers
 
-Open the reading PDF of the Alice book, the Print edition, and you see a page 6 inches wide and 9 inches tall. The text block inside it is about 4.54 by 7.5 inches. That page belongs to the default profile, `house-6x9`, and the numbers in this section are its numbers. The section "Six profiles" later in this chapter gives the other five.
+Open the Print edition (PDF) of the Alice book, and you see a page 6 inches wide and 9 inches tall. The text block inside it is about 4.54 by 7.5 inches. That page belongs to the default profile, `house-6x9`, and the numbers in this section are its numbers. The section "Six profiles" later in this chapter gives the other five.
 
 @fig:page-geometry draws the house page to scale, with a dimension line for each measurement in Table 9.1.
 
@@ -225,9 +225,9 @@ All of this depends on the field `site-url`. The rule is short: "when there is n
 
 ### The other sheets
 
-The Single-leaf edition, the self-contained HTML, uses *book.css*. That sheet takes the same ink, muted, and accent values as the PDF, and it sets the text on a near-white paper. Its face is Charter, then Bitstream Charter, then Georgia, at 19 pixels on a 1.58 line, in a column at most 42 rem wide. It has no dark theme.
+The Single-leaf edition (the self-contained HTML) uses *book.css*. That sheet takes the same ink, muted, and accent values as the PDF, and it sets the text on a near-white paper. Its face is Charter, then Bitstream Charter, then Georgia, at 19 pixels on a 1.58 line, in a column at most 42 rem wide. It has no dark theme.
 
-The Circulating edition, the EPUB, uses *epub.css*. That sheet sets a serif face on a 1.45 line, a drop cap at 3 em, and a rule that keeps a figure inside the screen. It sets no colors at all, and the press gives the reason in five words: "the reader owns the theme."
+The Circulating edition (EPUB) uses *epub.css*. That sheet sets a serif face on a 1.45 line, a drop cap at 3 em, and a rule that keeps a figure inside the screen. It sets no colors at all, and the press gives the reason in five words: "the reader owns the theme."
 
 ## The landing page
 

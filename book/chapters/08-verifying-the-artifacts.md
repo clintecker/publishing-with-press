@@ -7,7 +7,7 @@
 > - What the PDF verifier checks
 > - What the formats verifier checks
 > - epubcheck
-> - Archives and the source edition
+> - Archives and the Source edition
 > - The pages verifier
 > - Witnesses and cross-edition agreement
 > - The no-stale law
@@ -41,7 +41,7 @@ Table 8.1 lists each artifact of the Alice book with the verifier that reads it.
 | `html`, `markdown`, `txt`, `docx` | `verify_formats` | The verifier reads the Single-leaf, Manuscript, Telegraphic, and Office editions for the title, the sentinels, and a plain line that press picks from the manuscript. |
 | `site` | `verify_formats` and `verify_archives` | The first verifier reads the reader site, and the second compares *dist/alice-site.zip* with it. |
 | `source` | `verify_archives` | The verifier recomputes *dist/alice-source.zip* from its policy. |
-| `sources` | `verify_archives` | The verifier reads *dist/alice-sources.md* when the book has an authorities ledger. |
+| `sources` | `verify_archives` | The verifier reads *dist/alice-sources.md* when the book has a table of authorities. |
 | `pages` | `verify_pages` | The verifier crawls *dist/pages*, the Pages bundle that the deploy publishes as the Pages site. |
 | `print` | `verify_pdf` (print profile) | The verifier reads *dist/alice-interior.pdf* with the stricter print checks. |
 | `coverwrap` | `verify_coverwrap` | The verifier reads *dist/alice-coverwrap.pdf*, the whole printed cover on one page. |
@@ -125,7 +125,7 @@ The PDF carries two lists of illustrations, the List of Plates and the List of F
 <label> present but contains no links
 ```
 
-The first means that a link points at nothing. The second means that the links point at pages, but the pages hold no image, so the reader arrives on the wrong leaf. The third means that the list printed, but LuaLaTeX made no links in it. If the pypdf library will not import, the verifier prints `pypdf unavailable; illustration-list destinations not verified` and goes on. It does not fail the build for a missing library, and it does not pretend it checked the links either.
+The first means that a link points at nothing. The second means that the links point at pages, but the pages hold no image, so the reader arrives on the wrong page. The third means that the list printed, but LuaLaTeX made no links in it. If the pypdf library will not import, the verifier prints `pypdf unavailable; illustration-list destinations not verified` and goes on. It does not fail the build for a missing library, and it does not pretend it checked the links either.
 
 ::: {.sidebar}
 > **Links that overshoot**
@@ -191,9 +191,9 @@ If page 1 has ink but no image, the message ends `carries no cover image -- the 
 > **Tip:** Install `pdfimages` on your workstation and confirm it runs. Without it, two checks soften to notes, `press doctor` does not warn you, and a note is easy to miss in a long run.
 :::
 
-When every check passes, the verifier prints one line. Example 8.1 shows a real run from the press's own three-chapter Alice example, which renders 23 pages. The slug reads `alice`, and the page breaks the line in three. The tail of the line depends on the profile. The print profile ends `, mirrored margins, black ink only` in place of `, cover on page 1`.
+When every check passes, the verifier prints one line. Example 8.1 shows a real run from the three-chapter example, which renders 23 pages. The slug reads `alice`, and the page breaks the line in three. The tail of the line depends on the profile. The print profile ends `, mirrored margins, black ink only` in place of `, cover on page 1`.
 
-**Example 8.1. A press verify run on the three-chapter Alice example**
+**Example 8.1. A press verify run on the three-chapter example**
 
 ```text
 $ press verify
@@ -207,7 +207,7 @@ That example sets its page floor at 1, which suits a gallery excerpt, and a rele
 
 ## What the formats verifier checks
 
-The `press verify-formats` target builds the Circulating, Single-leaf, Manuscript, Chapter, Telegraphic, and Office editions, and the Source edition. It then runs `verify_formats`, and after it `verify_archives`, which the section "Archives and the source edition" later in this chapter covers. `verify_formats` checks every edition except the Print edition. Its last check confirms that all the editions, the Print edition included, agree with the manuscript.
+The `press verify-formats` target builds the Circulating, Single-leaf, Manuscript, Chapter, Telegraphic, and Office editions, and the Source edition. It then runs `verify_formats`, and after it `verify_archives`, which the section "Archives and the Source edition" later in this chapter covers. `verify_formats` checks every edition except the Print edition. Its last check confirms that all the editions, the Print edition included, agree with the manuscript.
 
 The first check is a size floor. The HTML and the EPUB must each be at least 1000 bytes. A smaller file is almost certainly a stub or an error page, and the verifier fails it with `missing or suspicious artifact:` and the path.
 
@@ -271,9 +271,9 @@ site has N chapter pages; expected at least M
 
 The verifier then checks each chapter by its chapter witness. A *chapter witness* follows the same rule as the manuscript witness, applied to one chapter file: it is the longest markup-free line of 40 or more characters in that file. Each chapter's witness must appear on exactly one page of the site. A chapter missing from every page fails with `reader site is missing <chapter>:` and the details. A chapter on two pages fails with `reader site duplicates <chapter>:` and the details. The last message, `site carries N plates; expected M`, counts the plates.
 
-When every edition passes, the verifier checks agreement across editions, as the section "Witnesses and cross-edition agreement" later in this chapter describes. It then prints one line. Example 8.2 shows a real run on the three-chapter Alice example, with the slug changed to `alice` and the long lines broken to fit the page. The run also shows the source zip's report and the `verify_archives` line.
+When every edition passes, the verifier checks agreement across editions, as the section "Witnesses and cross-edition agreement" later in this chapter describes. It then prints one line. Example 8.2 shows a real run on the three-chapter example, with the slug changed to `alice` and the long lines broken to fit the page. The run also shows the source zip's report and the `verify_archives` line.
 
-**Example 8.2. A press verify-formats run on the three-chapter Alice example**
+**Example 8.2. A press verify-formats run on the three-chapter example**
 
 ```text
 $ press verify-formats
@@ -322,7 +322,7 @@ The press decides which case applies by looking at `PRESS_TOOLCHAIN`. It does no
 
 The third outcome, the tool that is present but cannot run, comes from one of the press's scars. Ubuntu's `epubcheck` launcher runs the jar through binfmt_misc, which containers do not register. In the press's CLAUDE.md, the scar reads: "the command exists, `which` finds it, and it dies with 'Exec format error' only at execution." Without a separate message, that fault would read as a bad EPUB. The toolchain image now carries a plain `java -jar` wrapper, and the verifier reports the case as `epubcheck is present but cannot run (<exc>); the toolchain image is broken`.
 
-## Archives and the source edition
+## Archives and the Source edition
 
 The `verify_archives` verifier runs after `verify_formats` in `press verify-formats`. It covers three files: the reader zip, the source zip, and the sources companion when the book has one.
 
@@ -334,7 +334,7 @@ The reader zip, *dist/alice-site.zip*, is the reader site packed for download. T
 
 The source zip, *dist/alice-source.zip*, is the book's own source, published so that anyone can rebuild it. The verifier does not trust the zip that the builder wrote. It recomputes the member list from the same policy, `publication_members()`, and compares. It also checks that every member uses DEFLATE compression. The ledger names this invariant `INV-archive-source-policy` and marks it critical. The policy has six rules:
 
-- Members are files that Git tracks, and only those. A file that you never committed to Git is not a member.
+- Members are files that Git tracks, and only those; a book outside any Git repository is archived whole, and one untracked inside a parent repository archives nothing. A file that you never added to Git is not a member.
 - Every member sits under an `alice/` prefix, so the zip unpacks into one directory.
 - Every member carries the fixed timestamp 2026-07-16 12:00, a mode of 0o755 or 0o644, and DEFLATE level 9.
 - The press excludes the directories `build`, `dist`, `.git`, and `__pycache__`.
@@ -356,11 +356,11 @@ The builder reports its work as it goes. In Example 8.2 it printed `archived 12 
 
 When *config/authorities.yaml* exists, the press writes a sources companion, *dist/alice-sources.md*, beside the book. The verifier checks three things about it. It must name the book, it must run to at least 200 characters, and it must contain at least one entry marker. A companion that fails the last test produces `sources companion looks empty of entries`. Chapter 10, *Front matter, the index, and the table of authorities*, describes the ledger that feeds it.
 
-When all three files pass, the verifier prints its line. Example 8.2 shows it for the three-chapter Alice example, which has no authorities ledger: `Verified archives: alice-site.zip, alice-source.zip`.
+When all three files pass, the verifier prints its line. Example 8.2 shows it for the three-chapter example, which has no table of authorities: `Verified archives: alice-site.zip, alice-source.zip`.
 
 ## The pages verifier
 
-The `press pages` target builds the Pages bundle, the public Web site of the book, in *dist/pages*. The registry lists nine prerequisites for it. The target builds all of them: the PDF, the EPUB, the HTML, the Markdown, the text, the DOCX, the reader site, and the source zip. The ninth, the sources companion, joins them only when the book has a ledger in *config/authorities.yaml*. It then runs `verify_pages`. The README and the reference also list `press verify-pages`, which runs the same target.
+The `press pages` target builds the Pages bundle in *dist/pages*, the directory from which GitHub Pages serves the Pages site. The registry lists nine prerequisites for it. The target builds all of them: the PDF, the EPUB, the HTML, the Markdown, the text, the DOCX, the reader site, and the source zip. The ninth, the sources companion, joins them only when the book has a ledger in *config/authorities.yaml*. It then runs `verify_pages`. The README and the reference also list `press verify-pages`, which runs the same target.
 
 The verifier crawls the site the way a browser would. It reads every page and follows every `href` and `src` attribute, every CSS `url()`, and every `.css` file it finds. Each reference must resolve inside *dist/pages*. Table 8.5 lists the four ways a reference can fail.
 
@@ -401,7 +401,7 @@ The earlier sections named several kinds of evidence. The press calls them all w
 
 | Witness | Where the press checks it | Meaning |
 |-------------------|----------------------------|-------------------------------------------------|
-| Sentinels | The manuscript, the PDF, every edition, and the public site | You choose these phrases, so they prove that the parts you care about survived. |
+| Sentinels | The manuscript, the PDF, every edition, and the Pages bundle | You choose these phrases, so they prove that the parts you care about survived. |
 | Title | The PDF and every edition | The title proves that the file is this book and not another. |
 | Manuscript witness | Every edition except the PDF | The press chooses this line, so it proves survival of text that you did not think to protect. |
 | Chapter witnesses | The reader site and the agreement check | Each chapter's own line proves that the chapter arrived whole and only once. |
@@ -424,7 +424,7 @@ When an edition fails, the message names the edition and counts the missing chap
 from N chapter(s) (...)...
 ```
 
-In Example 8.2, the agreement reads `7 editions agree on all 4 chapter witnesses`. The three-chapter Alice example stitches four files, its three chapters and an appendix, so it has four chapter witnesses. On a machine without `pdftotext`, the PDF drops out and the count of editions falls by one.
+In Example 8.2, the agreement reads `7 editions agree on all 4 chapter witnesses`. The three-chapter example stitches four files, its three chapters and an appendix, so it has four chapter witnesses. On a machine without `pdftotext`, the PDF drops out and the count of editions falls by one.
 
 ## The no-stale law
 
@@ -444,9 +444,9 @@ The edges in @fig:rebuild-edges come straight from the press, and the earlier se
 
 The `press all` target runs the checker first, then builds every edition, the source zip, and the Pages bundle. Last, it runs the verifiers in this order: `verify_pages`, `verify_pdf`, `verify_formats`, and `verify_archives`.
 
-A commerce gate follows the verifiers. For a book without print ordering, such as the three-chapter Alice example, the run prints `commerce release gate: print ordering is not enabled; no commerce release gate`. For a book with print ordering enabled, outside a release build, the gate is advisory and says so: `(commerce gate is advisory here; a release build (PRESS_RELEASE=1) enforces it)`. Under `PRESS_RELEASE`, the press enforces it. Example 1.2 in Chapter 1 shows the summary lines of a full run.
+A commerce gate follows the verifiers. For a book without print ordering, such as the three-chapter example, the run prints `commerce release gate: print ordering is not enabled; no commerce release gate`. For a book with print ordering enabled, outside a release build, the gate is advisory and says so: `(commerce gate is advisory here; a release build (PRESS_RELEASE=1) enforces it)`. Under `PRESS_RELEASE`, the press enforces it. Example 1.2 in Chapter 1 shows the summary lines of a full run.
 
-The law reaches the generated inputs too. Every pandoc build calls `book_inputs()` first. That function deletes *build/generated/*, regenerates the subject index, and writes *dist/alice-sources.md* from the authorities ledger. In the words of *docs/ARCHITECTURE.md*, "the generated appendices are cleaned first so stale copies cannot survive". An index from yesterday's manuscript cannot reach today's PDF.
+The law reaches the generated inputs too. Every pandoc build calls `book_inputs()` first. That function deletes *build/generated/*, regenerates the subject index, and writes *dist/alice-sources.md* from the table of authorities. In the words of *docs/ARCHITECTURE.md*, "the generated appendices are cleaned first so stale copies cannot survive". An index from yesterday's manuscript cannot reach today's PDF.
 
 The invariant has a stated limit, and the ledger records it: "CLI-path only; importing a verifier module directly skips the rebuild." The edges live in the `press` command. A script that imports `press.verify_pdf` and calls it on *dist/alice.pdf* reads whatever file is there, fresh or not.
 

@@ -59,7 +59,7 @@ The rest of the first pass covers the book's other configuration. Table 6.2 list
 
 | Check | Meaning |
 |------------------|------------------------------------------------------------|
-| Registrations and commerce | Press validates any ISBN, LCCN, or ISSN the book declares, and it refuses a retail book whose ISBNs are missing or pending. Chapter 13, *Registrations*, describes the numbers. |
+| Registrations and commerce | Press validates any ISBN, LCCN, or ISSN the book declares, and it refuses a retail book whose ISBN is missing or pending, or whose declared LCCN or ISSN is still pending. Chapter 13, *Registrations*, describes the numbers. |
 | Sentinels | Press confirms that each phrase in `verify-sentinels` appears in the manuscript. The section "Sentinels and the page floor" later in this chapter describes them. |
 | Orphan plates | Press refuses a plate image that no chapter references. Chapter 5, *Figures, plates, and illustrations*, describes plates. |
 | Figure placement | Press refuses a figure whose placement is not valid. Chapter 5 describes the placements. |
@@ -358,7 +358,7 @@ Two settings in *config/metadata.yaml* tell the verifiers what a finished book m
 
 ### Sentinels
 
-A *sentinel* is a phrase in `verify-sentinels`, a fragment of your own prose that press looks for in the manuscript and in the editions it builds. Press checks each sentinel in four places: in the manuscript, in the Print edition's text, in each edition, and on the public reading site. The first of those four belongs to the checker. If a sentinel does not appear in the manuscript, the source checks refuse the book with `sentinel not found in the manuscript:` and the phrase.
+A *sentinel* is a phrase in `verify-sentinels`, a fragment of your own prose that press looks for in the manuscript and in the editions it builds. Press checks each sentinel in four places: in the manuscript, in the Print edition's text, in each edition, and in the Pages bundle. The first of those four belongs to the checker. If a sentinel does not appear in the manuscript, the source checks refuse the book with `sentinel not found in the manuscript:` and the phrase.
 
 The checker's part is the cheap one: it catches a sentinel that a revision removed, before you spend a build on it. The other three places are the verifiers' work. They catch the harder fault, a phrase that the manuscript holds and an edition lost on the way to the reader.
 
@@ -407,7 +407,7 @@ The reusable workflow sets `PRESS_RELEASE=1` when it builds a tag that begins wi
 
 A passing check prints a line for each pass. Example 6.12 shows a run on the press's own three-chapter Alice example, a sample book that holds Carroll's first three chapters and one appendix. It has no fixtures of its own, so its checker self-test counts 19. The example folds long lines to fit the page and shortens the paths in the notes.
 
-**Example 6.12. A passing check on the press's own three-chapter Alice example**
+**Example 6.12. A passing check on the three-chapter example**
 
 ```text
 $ press check
@@ -428,7 +428,7 @@ The two note lines belong to the checker self-test, although they print before i
 
 @fig:check-output shows the same run as it appears in a terminal on `hatter`, with the long lines wrapped at the window's edge.
 
-![A passing check on the press's own three-chapter Alice example](assets/woodcuts/06-03-check-output.png){#fig:check-output .diagram width=full-measure fig-alt="A terminal window titled alice at hatter. It shows press check printing four summary lines, one per pass, with two indented note lines after the first."}
+![A passing check on the three-chapter example](assets/woodcuts/06-03-check-output.png){#fig:check-output .diagram width=full-measure fig-alt="A terminal window titled alice at hatter. It shows press check printing four summary lines, one per pass, with two indented note lines after the first."}
 
 <!-- art: ARCHETYPE terminal. One boxed terminal window, black monospace on white, 72 columns wide, with a plain title bar reading "alice@hatter". Inside, each line exactly, long lines wrapped at 72 columns: "$ press check", then "Source checks passed: 4 ordered Markdown files", then "  note: em-dash.md also drew: - .../known-bad/em-dash.md:4: glyph U+2014 is outside the print-font set", then "  note: en-dash.md also drew: - .../known-bad/en-dash.md:4: glyph U+2013 is outside the print-font set", then "Checker self-test passed: 19 known-bad fixtures each tripped their declared rule, known-good fixture accepted, 2 extra diagnostics noted", then "Editorial checks passed: 4 Markdown files", then "Jargon check passed: no rewrite-status terms (full audit in build/jargon-report.txt)", then a bare "$". The reader should see first the four lines that begin with a pass name. -->
 

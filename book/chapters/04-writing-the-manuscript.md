@@ -15,7 +15,7 @@
 > - The fine work press does for you
 :::
 
-A *chapter file*, one Markdown file in *book/chapters/*, is plain Markdown, and most of what you type in one is Markdown you already know. Press reads every chapter in one fixed dialect, holds it to a short list of laws, and does a good deal of typesetting on your behalf. This chapter describes the dialect, the laws, and the few constructs that belong to press alone. The examples come from the press's own Alice example, the gallery book that holds the first three chapters of Carroll's novel. The sample book `alice` keeps on the workstation `hatter` is the whole novel, and it sets these constructs the same way.
+A *chapter file*, one Markdown file in *book/chapters/*, is plain Markdown, and most of what you type in one is Markdown you already know. Press reads every chapter in one fixed dialect, holds it to a short list of laws, and does a good deal of typesetting on your behalf. This chapter describes the dialect, the laws, and the few constructs that belong to press alone. The examples come from the press's own three-chapter Alice example, the gallery book that holds the opening of Carroll's novel. The Alice book, which `alice` keeps on the workstation `hatter`, is the whole novel, and it sets these constructs the same way.
 
 ## The dialect
 
@@ -41,9 +41,9 @@ One edition stands apart from all of this. The Manuscript edition (the stitched 
 
 ## Headings and chapters
 
-@fig:page-anatomy shows where the parts of a chapter end up on a printed page, here the opening page of the first chapter of the Alice example. The first callouts are (1) the folio, (2) the chapter title, and (3) the drop cap. Then come (4) the body text, (5) a section heading, and (6) a blockquote in its box. The last three are (7) a scene break, (8) a numbered figure with its caption, and (9) a footnote. An opening page carries no running head, and every later page of the chapter does. The house sets the running head and the folio with no markup from you (Chapter 9, *The house design*, describes both), and the drop cap comes from configuration. You type the rest, and Chapter 5 covers the figure.
+@fig:page-anatomy shows where the parts of a chapter end up on a printed page, here the opening page of the first chapter of the three-chapter example. The first callouts are (1) the folio, (2) the chapter title, and (3) the drop cap. Then come (4) the body text, (5) a section heading, and (6) a blockquote in its box. The last three are (7) a scene break, (8) a numbered figure with its caption, and (9) a footnote. An opening page carries no running head, and every later page of the chapter does. The house sets the running head and the folio with no markup from you (Chapter 9, *The house design*, describes both), and the drop cap comes from configuration. You type the rest, and Chapter 5 covers the figure.
 
-![The parts of a printed page in the Alice example](assets/woodcuts/04-01-page-anatomy.png){#fig:page-anatomy .diagram place=plate fig-alt="A miniature book page in outline with nine numbered callouts pointing to its folio, chapter title, drop cap, body text, section heading, blockquote, scene break, figure, and footnote."}
+![The parts of a printed page in the three-chapter example](assets/woodcuts/04-01-page-anatomy.png){#fig:page-anatomy .diagram place=plate fig-alt="A miniature book page in outline with nine numbered callouts pointing to its folio, chapter title, drop cap, body text, section heading, blockquote, scene break, figure, and footnote."}
 
 <!-- art: ARCHETYPE page anatomy, portrait. One 6 by 9 chapter opening page in thin outline, with no running head. Top to bottom: a large flush-left chapter title, "Down the rabbit-hole"; a first paragraph opening with a three-line drop cap "A"; gray text lines; a bold section heading; a gray hairline box of italic lines; a staggered field of asterisks; a framed shape captioned "Figure 1.1"; a short rule over two small lines; a small page number centered at the foot. Thin callouts lead to numbered margin circles: 1 folio, 2 chapter title, 3 drop cap, 4 body text, 5 section heading, 6 blockquote box, 7 scene break, 8 numbered figure and caption, 9 footnote. The reader sees the whole page first. -->
 
@@ -55,7 +55,7 @@ Press finds chapters by their filenames. A chapter file's name starts with a dig
 > **Warning:** Start every chapter file's name with a digit. Press silently ignores any other `.md` file in *book/chapters/* or *book/appendices/*. A file named *notes.md* or *chapter-four.md* never reaches the book, and no target tells you so.
 :::
 
-The simplest way to start a chapter is to let press create the file. The Alice example holds the first three chapters of Carroll's book. If its highest chapter file starts with `03-`, the next `press add chapter` creates a file starting with `04-`:
+The simplest way to start a chapter is to let press create the file. The three-chapter example ends with Carroll's third chapter. If its highest chapter file starts with `03-`, the next `press add chapter` creates a file starting with `04-`:
 
 ```text
 $ press add chapter "The rabbit sends in a little Bill"
@@ -205,7 +205,7 @@ Three kinds of configuration point into your prose, and each one constrains how 
 
 ## Tables
 
-Press uses pandoc's pipe tables. Each row is a line, a vertical bar separates the cells, and a row of hyphens under the first row marks it as the header. A line that starts with `Table:` after the table gives it a caption. Example 4.4 shows a small table drawn from the first two chapters of the Alice example.
+Press uses pandoc's pipe tables. Each row is a line, a vertical bar separates the cells, and a row of hyphens under the first row marks it as the header. A line that starts with `Table:` after the table gives it a caption. Example 4.4 shows a small table drawn from the first two chapters of the three-chapter example.
 
 **Example 4.4. A pipe table with a header row and a caption**
 
@@ -257,7 +257,7 @@ Show the prompt, then the command, then the output, and show what the reader wil
 
 ## Chapter openings and drop caps
 
-A *chapter opening* is the treatment of the first letter of each chapter. The book sets it with `chapter-opening` in *config/metadata.yaml*, and press merges that setting over the design profile's default. Every profile that comes with press defaults to `none`, so a new book opens its chapters with a plain paragraph. The Alice example sets a three-line drop cap with small caps for the rest of the first word.
+A *chapter opening* is the treatment of the first letter of each chapter. The book sets it with `chapter-opening` in *config/metadata.yaml*, and press merges that setting over the design profile's default. Every profile that comes with press defaults to `none`, so a new book opens its chapters with a plain paragraph. The three-chapter example sets a three-line drop cap with small caps for the rest of the first word.
 
 Table 4.3 lists the three settings.
 
@@ -277,7 +277,7 @@ $ press config set chapter-opening.style drop-cap
 
 In *config/metadata.yaml* the same settings form one block, as Example 4.5 shows.
 
-**Example 4.5. The Alice example's chapter opening**
+**Example 4.5. The three-chapter example's chapter opening**
 
 ```text
 chapter-opening:
@@ -294,7 +294,7 @@ In the PDF, press keeps a drop cap from starting at the foot of a page that has 
 
 ### Dialogue openers
 
-The second chapter of the Alice example opens with speech:
+The second chapter of the three-chapter example opens with speech:
 
 ```text
 "Curiouser and curiouser!" cried Alice (she was so much
@@ -326,13 +326,13 @@ Table 4.4 lists the three values.
 
 Table: Table 4.4. The scene-break ornaments
 
-@fig:scene-break-ornaments shows each ornament as it appears in the PDF and on the reader site. The Alice example uses `fairy-dust`, as Example 4.6 shows.
+@fig:scene-break-ornaments shows each ornament as it appears in the PDF and on the reader site. The three-chapter example uses `fairy-dust`, as Example 4.6 shows.
 
 ![The three scene-break ornaments in the PDF and on the reader site](assets/woodcuts/04-02-scene-break-ornaments.png){#fig:scene-break-ornaments .diagram width=full-measure fig-alt="A grid of three rows and two columns. A plain rule, three spaced asterisks, and a staggered field of eleven asterisks each appear once as printed in the PDF and once as shown on the reader site, where the rule becomes a diamond between fading hairlines."}
 
 <!-- art: ARCHETYPE matrix. A grid of three rows by two columns, thin rules between cells. Column heads in small sans: "PDF" left, "Reader" right. Row labels down the left in small monospace: "rule", "asterism", "fairy-dust". Each cell shows the ornament in black between gray text lines. Rule, PDF: a plain thin horizontal rule. Rule, Reader: a small solid diamond centered between two hairlines that taper away at their outer ends. Asterism, both cells: three centered asterisks with wide even spaces. Fairy-dust, both cells: eleven small asterisks in three centered staggered rows of four, three, and four. The reader sees the three ornaments down the rows first, then that only the rule differs between the columns. -->
 
-**Example 4.6. The Alice example's scene break**
+**Example 4.6. The three-chapter example's scene break**
 
 ```text
 scene-break: fairy-dust
@@ -354,9 +354,9 @@ Some passages need a shape of their own: an address that steps down the page, a 
 
 ### Cascade
 
-A cascade suits an address or an inscription. It indents each line by 2.4em times one less than its line number. The first line sits at the left edge, the second at 2.4em, the third at 4.8em, and so on down. The Alice example uses a cascade for the address in Carroll's second chapter, as Example 4.7 shows.
+A cascade suits an address or an inscription. It indents each line by 2.4em times one less than its line number. The first line sits at the left edge, the second at 2.4em, the third at 4.8em, and so on down. The three-chapter example uses a cascade for the address in Carroll's second chapter, as Example 4.7 shows.
 
-**Example 4.7. A cascade in the Alice example**
+**Example 4.7. A cascade in the three-chapter example**
 
 ```text
 ::: cascade

@@ -167,7 +167,7 @@ $ press wordcount
 
 ### Building everything
 
-With the check passing, run `press all`. It runs the checker again, builds every edition, packs the source archive, and assembles the Pages bundle. Then it runs the verifiers, and it finishes with an advisory commerce gate that applies only when a book enables print ordering. Example 1.2 shows the summary lines from a run on the press's own Alice example, which has three chapters and an appendix, and elides the rest.
+With the check passing, run `press all`. It runs the checker again, builds every edition, packs the source archive, and assembles the Pages bundle. Then it runs the verifiers, and it finishes with an advisory commerce gate that applies only when a book enables print ordering. Example 1.2 shows the summary lines from a run on the press's own three-chapter Alice example, which also has an appendix, and elides the rest.
 
 ::: {.warning}
 > **Warning:** Leave the first LuaLaTeX run on a fresh machine alone. Its font scan takes several minutes and looks like a hang. It is not a hang, although it gives a very convincing imitation of one.
@@ -197,7 +197,7 @@ Table 1.1 explains each line that Example 1.2 shows, by the words that identify 
 |---------------------------------|----------------------------------------------------|
 | `check` | All four passes of the checker succeeded, the same passes that `press check` runs. |
 | `stitched 4 files` | The press joined the chapter and appendix files into *alice.md*, the Manuscript edition, without pandoc. |
-| `assembled pages site` | The press built the GitHub Pages bundle in *dist/pages/*. |
+| `assembled pages site` | The press built the Pages bundle in *dist/pages/*. |
 | `typeset` | The PDF, the EPUB, the Single-leaf edition (one HTML file), the Chapter edition (the reader site), the text, and the DOCX all built. |
 | `Verified archives` | The verifier checked both zip archives. |
 | `verify` | Seven editions agree with the manuscript. |
@@ -205,7 +205,7 @@ Table 1.1 explains each line that Example 1.2 shows, by the words that identify 
 
 Table: Table 1.1. The summary lines of a press all run
 
-The elided verifier lines carry the detail. For the Alice example, the PDF line reports "23 pages, 6 x 9 trim, embedded fonts" and goes on to "every rendered page contains ink, no edge clipping, cover on page 1". That last check is the one the sidebar earlier in this chapter explains. On a machine without epubcheck, the run warns that it validated the EPUB "structurally only", and it notes that the toolchain image runs the full check in CI.
+The elided verifier lines carry the detail. For the three-chapter example, the PDF line reports "23 pages, 6 x 9 trim, embedded fonts" and goes on to "every rendered page contains ink, no edge clipping, cover on page 1". That last check is the one the sidebar earlier in this chapter explains. On a machine without epubcheck, the run warns that it validated the EPUB "structurally only", and it notes that the toolchain image runs the full check in CI.
 
 When the run finishes, *dist/* holds the artifacts in Example 1.3.
 
@@ -247,7 +247,7 @@ When the tour goes wrong, the QUICKSTART lists five usual causes:
 
 1. `pandoc is required`. The toolchain is missing, or pandoc is not on your path.
 2. A style or jargon failure. The checker refused something in the manuscript.
-3. `sentinel ... not found`. The checker could not find a sentinel phrase in the manuscript, which the section "The editions" explains.
+3. `sentinel not found in the manuscript:`. The checker could not find a sentinel phrase in the manuscript, which the section "The editions" explains.
 4. A font scan that looks like a hang. The warning earlier in this section covers it.
 5. A CI build that dies at "Initialize containers". Run the build again. The image is public, so no permission is missing.
 
@@ -272,11 +272,11 @@ Every edition is an artifact, and a few artifacts hold editions instead of being
 
 Table: Table 1.2. The editions of the Alice book
 
-The GitHub Pages bundle, *dist/pages/*, gathers the editions for readers. It holds the landing page, a *read/* copy of the reader site, and a *downloads/* directory that links every published download exactly once. When the metadata sets `site-url`, the bundle also gets a *sitemap.xml* and a *robots.txt*.
+The Pages bundle, *dist/pages/*, gathers the editions for readers. It holds the landing page, a *read/* copy of the reader site, and a *downloads/* directory that links every published download exactly once. When the metadata sets `site-url`, the bundle also gets a *sitemap.xml* and a *robots.txt*.
 
-A book with a *config/authorities.yaml*, its table of authorities, gets one more file. The press generates *alice-sources.md*, *the sources companion*, a document published beside the book. Chapter 10, *Front matter, the index, and the table of authorities*, covers it. The Alice example has no authorities file, so its *dist/* has no sources companion.
+A book with a *config/authorities.yaml*, its table of authorities, gets one more file. The press generates *alice-sources.md*, *the sources companion*, a document published beside the book. Chapter 10, *Front matter, the index, and the table of authorities*, covers it. The three-chapter example has no authorities file, so its *dist/* has no sources companion.
 
-*The print pack* is the set of artifacts a printer needs. It holds a print-profile interior, a *cover wrap* (the whole cover, back to front, as one PDF) with a computed spine and an EAN-13 barcode, and the retail channel checklists. `press all` does not build the print pack. Its own targets do: `press print`, `press verify-print`, and `press coverwrap`, which add *alice-interior.pdf* and *alice-coverwrap.pdf* to *dist/*. Chapter 12, *The print pack*, covers it in full.
+*The print pack* is the set of artifacts a printer needs. It holds a print-profile interior, a *cover wrap* (the whole cover, back to front, as one PDF) with a computed spine and an EAN-13 barcode, and the retail channel checklists. `press all` does not build the print pack, except through the commerce gate in a book that enables print ordering. Its own targets do: `press print`, `press verify-print`, and `press coverwrap`, which add *alice-interior.pdf* and *alice-coverwrap.pdf* to *dist/*. Chapter 12, *The print pack*, covers it in full.
 
 Everything the press makes on the way to *dist/* stays in the build directory, *build/*. That directory holds the rendered pandoc defaults, the generated subject index, the front matter as TeX, the jargon report, and the page images that `press render` draws at 160 dpi. `press clean` deletes both *build/* and *dist/*.
 

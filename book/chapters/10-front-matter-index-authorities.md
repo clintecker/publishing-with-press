@@ -17,7 +17,7 @@ A book has pages before its first chapter, and most of them restate facts the bo
 
 ## What press generates and what it does not
 
-The first law of the press reads "Facts are stated once." The title, the author, the copyright line, and the imprint already live in *config/metadata.yaml*. The press projects them onto the front pages and never asks you to type them again. The pages that hold new facts, such as a dedication or an epigraph, get their own small file, *config/front-matter.yaml*. Between them, the two files give the press everything it needs to set the opening pages of the Print edition, the PDF.
+The first law of the press reads "Facts are stated once." The title, the author, the copyright line, and the imprint already live in *config/metadata.yaml*. The press projects them onto the front pages and never asks you to type them again. The pages that hold new facts, such as a dedication or an epigraph, get their own small file, *config/front-matter.yaml*. Between them, the two files give the press everything it needs to set the opening pages of the Print edition (PDF).
 
 The press generates two parts inside the book and one document beside it. The first part is the *front matter*, the run of pages from the cover plate through the acknowledgments. The second is the *subject index*, an appendix built from *config/index-terms.yaml*. The document beside the book is the *table of authorities*, a ledger of claims and sources in *config/authorities.yaml*. The press checks the ledger against the manuscript and publishes it as a companion file, never as a page of the book.
 
@@ -173,15 +173,15 @@ The press calls the page after the title page the *colophon*, although most read
 | Contact | The `contact` address appears here. |
 | Colophon note | The press sets the `colophon-note` in italic. |
 | Motto | The press sets the `motto` in italic. |
-| Logo | The press sets its logo from *assets/press-logo.png*, at 1.7 inches. |
+| Logomark | The press sets the logomark from *assets/press-logo.png*, at 1.7 inches. |
 
 Table: Table 10.4. The lines of the copyright page, in order
 
-The Alice settings from Example 10.2 produce a short page. The edition line reads "First edition", because the `edition-note` overrides the line from the date. Without that note, the date "First edition, 2026" would give "first edition" in lowercase. The copyright line, "Published by Wonderland Press", and "Oxford" follow. The Alice book declares no rights notice, manufacture line, registrations, contact, or colophon note, so none of those lines appears. It has no logo file either, so "Made slowly." is the last line on the page.
+The Alice settings from Example 10.2 produce a short page. The edition line reads "First edition", because the `edition-note` overrides the line from the date. Without that note, the date "First edition, 2026" would give "first edition" in lowercase. The copyright line, "Published by Wonderland Press", and "Oxford" follow. The Alice book declares no rights notice, manufacture line, registrations, contact, or colophon note, so none of those lines appears. It has no logomark either, so "Made slowly." is the last line on the page.
 
-The registration lines come from the `registrations` block in *config/metadata.yaml*. A number you do not hold yet can stand as `pending`, and the press prints it as "[pending]" on the page. The same numbers flow into the EPUB identifier and the barcode on the cover wrap. The copyright page therefore cannot show an ISBN that the EPUB does not carry. Chapter 13, *Registrations*, covers the numbers themselves and the `retail` switch that refuses a pending number in a book for sale.
+The registration lines come from the `registrations` block in *config/metadata.yaml*. A number you do not hold yet can stand as `pending`, and the press prints it as "[pending]" on the page. The same numbers flow into the EPUB identifier and the barcode on the cover wrap. The copyright page therefore cannot show an ISBN that the EPUB does not carry. Chapter 13, *Registrations*, covers the numbers themselves and the `retail` switch, under which a missing or pending ISBN, or a declared LCCN or ISSN still pending, fails the build.
 
-The print interior gets a flattened copy of every image, the logo included, as Chapter 12, *The print pack*, describes.
+The print interior gets a flattened copy of every image, the logomark included, as Chapter 12, *The print pack*, describes.
 
 ### The pages after the copyright page
 
@@ -211,7 +211,7 @@ The file *tex/title-page.tex* is what the press calls "the whole-cloth override"
 A figure taller than the text block once made LuaLaTeX ship empty pages forever, as Chapter 5, *Figures, plates, and illustrations*, tells. The house design caps every image at a height per profile, 6.3 inches on the house 6 by 9 profile. Keep any image in your override, the cover plate above all, well inside the text block.
 
 ::: {.warning}
-> **Warning:** Do not stack a third `titlepage` environment, the LaTeX block that sets a page of its own, in *tex/title-page.tex*. The house rule against it comes from the same scar as the image cap, a build that never finishes. The generated front matter keeps the rule by setting all its pages in one block.
+> **Warning:** Do not stack a third `titlepage` environment, the LaTeX block that sets a page of its own, in *tex/title-page.tex*. The house rule against it comes from the same scar as the height cap, a build that never finishes. The generated front matter keeps the rule by setting all its pages in one block.
 :::
 
 ### The print interior
@@ -298,7 +298,7 @@ The press states its reason in its own code: "Numbers are chapters and letters a
 ::: {.sidebar}
 > **Why the index has no page numbers**
 >
-> A press book appears in eight editions at once, and only the Print edition has fixed pages. The Circulating edition, the EPUB, reflows its text to each reader's screen and type size. The Single-leaf edition is one long HTML page, and the Telegraphic edition, the plain text, has no pages at all. An index that printed page numbers would be right in the PDF and wrong in every other edition. Chapter numbers and appendix letters belong to the manuscript, so they read the same in every edition that carries the index. The cost is precision: a reader who looks up the Cheshire Cat learns the chapter and must find the page, a short search in a book of a dozen chapters.
+> A press book appears in eight editions at once, and only the Print edition has fixed pages. The Circulating edition (EPUB) reflows its text to each reader's screen and type size. The Single-leaf edition is one long HTML page, and the Telegraphic edition (plain text) has no pages at all. An index that printed page numbers would be right in the PDF and wrong in every other edition. Chapter numbers and appendix letters belong to the manuscript, so they read the same in every edition that carries the index. The cost is precision: a reader who looks up the Cheshire Cat learns the chapter and must find the page, a short search in a book of a dozen chapters.
 :::
 
 ## The table of authorities

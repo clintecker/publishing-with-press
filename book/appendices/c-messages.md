@@ -44,7 +44,7 @@ The first pass reads the chapter files and *config/metadata.yaml*. It passes wit
 `sentinel not found in the manuscript: <sentinel>`
 :   **Cause.** A phrase under `verify-sentinels` no longer appears in any chapter file. A revision usually removed it.
 
-    **Remedy.** Restore the phrase, or choose another phrase from the middle of a chapter. The setting is a list, so set it with `press config set verify-sentinels '[...]' --json`. Avoid the first words of a chapter, because a drop cap splits the first word in the PDF.
+    **Remedy.** Restore the phrase, or choose another phrase from the middle of a chapter. The setting is a list, so set it with `press config set verify-sentinels '[...]' --json`. Avoid the first words of a chapter, because a chapter opening splits the first word in the PDF.
 
 `plate never referenced by the manuscript: assets/woodcuts/<name>`
 :   **Cause.** A file under *assets/woodcuts/* has no image line in any chapter file.
@@ -300,7 +300,7 @@ The doctor checks the toolchain on the machine and prints one line per tool. On 
 `missing text sentinel in PDF: <s>`
 :   **Cause.** A sentinel is absent from the PDF's text. The match is case-sensitive, and straight and curly quotes count as equal.
 
-    **Remedy.** Check that the phrase does not open a chapter, where a drop cap splits it. Then check that no word in it breaks with a hyphen at the end of a line.
+    **Remedy.** Check that the phrase does not open a chapter, where a chapter opening splits it. Then check that no word in it breaks with a hyphen at the end of a line.
 
 `missing title in PDF text: <title>`
 :   **Cause.** The book's title does not appear anywhere in the PDF's text, even with case ignored.

@@ -71,7 +71,7 @@ Two generators run at this point. `gen_index` writes the subject index into *bui
 
 Next, `render_defaults` turns each defaults template in the package into a concrete file, such as *build/defaults/pdf.yaml*. The templates name their paths with the prefixes `@press/` and `@book/` and the suffix `?optional`, as Chapter 7, *Building the editions*, describes. `render_defaults` resolves each prefix against the installed press or the book repository. It drops an optional file that the book does not have.
 
-Pandoc reads each rendered file, runs its Lua filters over the manuscript, and hands the result to a writer. For the Print edition (the PDF) and the print interior, pandoc writes LaTeX and latexmk runs LuaLaTeX with `-lualatex`. The EPUB writer makes the Circulating edition, and the HTML writer makes the Single-leaf edition. The chunked HTML writer makes the Chapter edition. The plain and DOCX writers make the Telegraphic and Office editions. The Manuscript edition (the stitched Markdown) and the Source edition (the source zip) go to *dist/* without pandoc.
+Pandoc reads each rendered file, runs its Lua filters over the manuscript, and hands the result to a writer. For the Print edition (the PDF) and the print interior, pandoc writes LaTeX and latexmk runs LuaLaTeX with `-lualatex`. The EPUB writer makes the Circulating edition (EPUB), and the HTML writer makes the Single-leaf edition (the self-contained HTML). The chunked HTML writer makes the Chapter edition (the reader site and its zip). The plain and DOCX writers make the Telegraphic edition (plain text) and the Office edition (DOCX). The Manuscript edition (the stitched Markdown) and the Source edition (the source zip) go to *dist/* without pandoc.
 
 The press writes every edition into *dist/* under the slug, as *alice.pdf*, *alice.epub*, and the rest. Three verifiers then open them. `verify_pdf` inspects the PDF, and `verify_formats` inspects the other editions and runs epubcheck on the EPUB. `verify_archives` opens the two zips and, when *config/authorities.yaml* exists, the sources companion. Then `verify_pages` crawls the assembled *dist/pages/*.
 
@@ -263,7 +263,7 @@ The module defines 12 layers. From the bottom, they are collection, unit, proper
 
 The receipts module accepts only a complete chain, with "every layer present, contiguous, and linked to its predecessor". A partial chain cannot stand in for the layers it lacks, so a green release tier cannot hide a missing unit layer. The ledger names this `INV-release-receipt-chain`, and the selftest's `receipt_chain` check exercises it.
 
-The receipts travel through CI. The `quality` job in *selftest.yml* ends with a receipt. When an immutable tag such as `v3.0.2` arrives, the release contract builds the wheel and downloads the `receipt-quality` and `receipt-integration` artifacts. It runs `python3 -m press.receipts assemble` over them and uploads the result as `release-receipt`.
+The receipts travel through CI. The `quality` job in *selftest.yml* ends with a receipt. When an immutable tag such as `v3.0.2` arrives, the release contract builds the wheel and downloads the `receipt-quality` and `receipt-integration` upload bundles. It runs `python3 -m press.receipts assemble` over them and uploads the result as `release-receipt`.
 
 The final release receipt names two digests: the digest of the built wheel and the digest of the pinned toolchain image. To learn which toolchain bytes stood behind a release, read its release receipt.
 

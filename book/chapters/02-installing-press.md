@@ -324,7 +324,7 @@ The example uses `:latest`, which suits an experiment on your own machine. When 
 
 People who work on the press itself have one more way to use the image. The press checkout carries *scripts/dev-render.sh*, which builds a book on the exact bytes CI builds on. It runs press against a book inside the pinned toolchain image. It reads the toolchain image from the press's *build.yml*, so it always runs the same image the release contract pins.
 
-The script mounts the press checkout read-only and runs `python -m press` straight from its *src/* directory. An edit to the press's source therefore takes effect on the next run with no reinstall. With no arguments, it builds the PDF of the press's own Alice example. You can name other targets, such as `pdf epub web all`, and choose a book with `--book DIR`. The option `--out DIR` names the host directory for the artifacts, and the default is *build/dev-render*. After a PDF build, `--preview` rasterizes the pages to JPEG previews, and `--shell` opens a shell in the container instead of building.
+The script mounts the press checkout read-only and runs `python -m press` straight from its *src/* directory. An edit to the press's source therefore takes effect on the next run with no reinstall. With no arguments, it builds the PDF of the press's own three-chapter Alice example. You can name other targets, such as `pdf epub web all`, and choose a book with `--book DIR`. The option `--out DIR` names the host directory for the artifacts, and the default is *build/dev-render*. After a PDF build, `--preview` rasterizes the pages to JPEG previews, and `--shell` opens a shell in the container instead of building.
 
 The script lives in the press checkout, not in a book, and a book author never needs it. The press's own notes call it "the edit-render-look loop, not the proof", and `scripts/verify.sh --full` remains the gate before a press tag.
 
@@ -386,4 +386,4 @@ If the only complaint concerns epubcheck, you have two choices. Install it with 
 > **Tip:** Run `press doctor` again after every change to the toolchain, including a Homebrew upgrade. It is the quickest way to learn that an upgrade broke a tool.
 :::
 
-The next chapter, *The shape of a book repository*, creates the `alice` book with `press new` and describes every file it makes.
+The next chapter, *The shape of a book repository*, creates the Alice book with `press new` and describes every file it makes.

@@ -50,7 +50,7 @@ Explains how each verifier inspects a finished artifact, how witnesses tie the e
 Gives the house page in numbers, the six design profiles, and the reader site, and explains why a design change needs a new major version.
 
 **Chapter 10, *Front matter, the index, and the table of authorities***\
-Covers the front-matter file key by key, the title and copyright pages, the subject index, and the sources companion.
+Covers the front-matter file key by key, the title and copyright pages, the subject index, the table of authorities, and the sources companion.
 
 **Chapter 11, *The art department***\
 Describes how the press commissions covers and plates, what intake does to a delivered image, and which commands spend money.

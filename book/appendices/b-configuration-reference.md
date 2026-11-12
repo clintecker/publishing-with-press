@@ -80,7 +80,7 @@ The metadata file holds the book's identity, the press facts, the verification k
 ### Verification knobs {-}
 
 **`verify-sentinels`**
-: Type `list[str]`, default `[]`. The sentinels: phrases that must appear in the manuscript and in every edition. Case must match, and curly and straight quotes count as equal. Pick two to four distinctive phrases from the middle of a chapter. A drop cap (any `chapter-opening.style` other than `none`) splits a chapter's first word and sets it in small caps, which breaks an exact match in the Print edition (the PDF). A phrase missing from the manuscript stops `press check` with `sentinel not found in the manuscript: <s>`. A release needs at least two. See Chapters 3, 6, and 8.
+: Type `list[str]`, default `[]`. The sentinels: phrases that must appear in the manuscript and in every edition. Case must match, and curly and straight quotes count as equal. Pick two to four distinctive phrases from the middle of a chapter. A chapter opening (any `chapter-opening.style` other than `none`) splits a chapter's first word and sets it in small caps, which breaks an exact match in the Print edition (the PDF). A phrase missing from the manuscript stops `press check` with `sentinel not found in the manuscript: <s>`. A release needs at least two. See Chapters 3, 6, and 8.
 
 **`verify-min-pages`**
 : Type `int`, default `40`. The page floor: the smallest page count the PDF verifier accepts. The press documentation also gives 40. The scaffold writes `1`, so a new book's floor is 1 until you raise it. A release needs at least 24. See Chapters 3, 6, and 8.
@@ -364,7 +364,7 @@ This file is the table of authorities: a list of claims of fact in the manuscrip
 : Type `str`, required. The source that warrants the claim. See Chapter 10.
 
 **`file`**
-: Type `str`, preferred. The chapter file that holds the claim, such as *book/chapters/03-price.md*. With a declared file, the claim must appear exactly once in that file. The press allows copies elsewhere. Without one, the claim must appear exactly once in the whole book. See Chapter 10.
+: Type `str`, preferred. The chapter file that holds the claim, such as *book/chapters/00-preface.md*. With a declared file, the claim must appear exactly once in that file. The press allows copies elsewhere. Without one, the claim must appear exactly once in the whole book. See Chapter 10.
 
 **`url`**
 : Type `str`, optional. A URL for the source. See Chapter 10.

@@ -117,7 +117,7 @@ Every press target starts by finding the *book root*. The press takes the direct
 
 The scaffold writes only the files that every book needs. A book grows other files as its author asks more of the press, and each of them is optional. Three more config files hold the subject index terms, the table of authorities, and the book's visual identity: *config/index-terms.yaml*, *config/authorities.yaml*, and *config/aesthetic.yaml*. Chapter 10, *Front matter, the index, and the table of authorities*, and Chapter 9, *The house design*, cover them.
 
-A hand-written *tex/title-page.tex* replaces the generated front matter, which Chapter 10 also covers. The directory *assets/* takes the cover, the press logo, the plates, and any Web stylesheet you add. The directory *art/* holds the commissions and the candidate images of Chapter 11, *The art department*. The directory *tests/known-bad/* holds the book's own known-bad fixtures, which Chapter 6, *Checking the manuscript*, describes.
+A hand-written *tex/title-page.tex* replaces the generated front matter, which Chapter 10 also covers. The directory *assets/* takes the cover, the logomark, the plates, and any Web stylesheet you add. The directory *art/* holds the commissions and the candidate images of Chapter 11, *The art department*. The directory *tests/known-bad/* holds the book's own known-bad fixtures, which Chapter 6, *Checking the manuscript*, describes.
 
 ## The metadata file
 
@@ -499,7 +499,7 @@ The last line installs press from its repository at the floating tag `v3`. The c
 
 A full build needs the toolchain from Chapter 2: pandoc, LuaLaTeX, latexmk, and the rest. With the toolchain in place, `alice` runs `press all` and then lists *dist/*. The build does not need Git, so it can run before `git init`. Example 3.10 shows the same run on the press's own three-chapter Alice example, which also has one appendix, with its slug changed to `alice`. We cut it to the lines that mark each stage and cut the ends of long lines.
 
-**Example 3.10. press all on the press's own Alice example, in part**
+**Example 3.10. press all on the three-chapter example, in part**
 
 ```text
 $ press all
@@ -618,7 +618,7 @@ The two zip files box the rest. The file *alice-site.zip* is the Chapter edition
 
 The two directories are for the Web. The directory *site/* holds the per-chapter reader: an index page, the reader stylesheet, one page per chapter, and its assets.
 
-The directory *pages/* is the bundle that GitHub Pages serves. It holds the landing page, a copy of the reader under *read/*, and every download under *downloads/*. The landing page links each download exactly once. The bundle also includes the cover, the logo, and the plates when the book has them. A book with `site-url` gets *sitemap.xml* and *robots.txt*. A book with print ordering turned on and no policy URLs of its own gets generated support, privacy, and refund pages.
+The directory *pages/* is the Pages bundle, which GitHub Pages serves. It holds the landing page, a copy of the reader under *read/*, and every download under *downloads/*. The landing page links each download exactly once. The bundle also includes the cover, the logomark, and the plates when the book has them. A book with `site-url` gets *sitemap.xml* and *robots.txt*. A book with print ordering turned on and no policy URLs of its own gets generated support, privacy, and refund pages.
 
 ### Files `press all` does not make
 

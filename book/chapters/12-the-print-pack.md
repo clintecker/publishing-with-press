@@ -156,7 +156,7 @@ The `print.yaml` defaults carry one scar of their own. A two-sided KOMA document
 
 `press verify-print` is the target you upload from. It builds the interior, runs the print verifier on it, and then builds and verifies the cover wrap, because the Alice book has *assets/cover.jpg*. Without a cover, the target prints `no assets/cover.jpg; interior verified, wrap not built` and stops there. Chapter 8, *Verifying the artifacts*, gives the checks of the print verifier in full.
 
-`press all` builds neither the print interior nor the cover wrap. It builds and verifies every edition a reader downloads. The print pack has its own targets. The one exception is the *commerce gate*, the last step of `press all`, which guards print ordering. In a book that enables print ordering, that gate builds the interior and the wrap, as the section "Ordering a copy" later in this chapter explains.
+`press all` builds neither the print interior nor the cover wrap. It builds and verifies every edition a reader downloads, and the Pages bundle that serves them. The print pack has its own targets. The one exception is the *commerce gate*, the last step of `press all`, which guards print ordering. In a book that enables print ordering, that gate builds the interior and the wrap, as the section "Ordering a copy" later in this chapter explains.
 
 ::: {.tip}
 > **Tip:** Run `press verify-print` before every upload to a print shop.

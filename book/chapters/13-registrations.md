@@ -76,7 +76,7 @@ The checker refuses a malformed block. The press does not validate an incomplete
 
 ### Status and assignment
 
-The target `press isbn status` reports on the block. In a fresh scaffold of the Alice book, with no block yet, it says so and tells you what to set. Example 13.3 shows that run, with the output broken into three lines to fit the page.
+The target `press isbn status` reports on the block. In a fresh scaffold, with no block yet, it says so and tells you what to set. Example 13.3 shows that run, with the output broken into three lines to fit the page.
 
 **Example 13.3. The status of a fresh scaffold with no ISBN block**
 

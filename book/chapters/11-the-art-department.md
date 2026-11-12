@@ -269,7 +269,7 @@ Table: Table 11.5. The art targets
 
 The only geometry check at intake is the cover's aspect ratio. The ratio of height to width must fall within 3 percent of the trim's ratio. Intake refuses a cover outside that tolerance with "crop the source, do not stretch it".
 
-Intake reads the trim from `trim` in *config/metadata.yaml* and takes it as 6 by 9 when the key is absent. It does not read the design profile. A book made by a current press has no `trim` key, because the press refuses a direct write to it (Chapter 3, *The shape of a book repository*). A 5 by 8 book therefore has its cover checked against 6 by 9. A hand-written `trim` mapping that agrees with the profile corrects the check. Intake checks no minimum pixel count and no DPI. The TeX header enforces the figure height cap when LuaLaTeX sets the book, and intake leaves that work to it.
+Intake reads the trim from `trim` in *config/metadata.yaml* and takes it as 6 by 9 when the key is absent. It does not read the design profile. A book made by a current press has no `trim` key, because the press refuses a direct write to it (Chapter 3, *The shape of a book repository*). A 5 by 8 book therefore has its cover checked against 6 by 9. A hand-written `trim` mapping that agrees with the profile corrects the check. Intake checks no minimum pixel count and no DPI. The TeX header enforces the height cap when LuaLaTeX sets the book, and intake leaves that work to it.
 
 ::: {.warning}
 > **Warning:** Do not stretch a cover to make it pass the aspect check. Crop the source to the trim's proportions, as the refusal says, or commission it again in the right shape.

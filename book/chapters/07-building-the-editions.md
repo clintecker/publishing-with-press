@@ -19,7 +19,7 @@ A checked manuscript is still only a directory of Markdown files. This chapter f
 
 ## Targets
 
-A *target* is a `press` command that builds, checks, or verifies something. Chapter 6, *Checking the manuscript*, covered the targets that read the manuscript. The targets in this chapter write files. Each one has a fixed name, a fixed mechanism, and a fixed place for its result, and none of the three is yours to configure. You decide the title, the author, the words, and the aesthetic. The press decides the build order, the verification pipeline, the filenames, and the editions.
+A *target* is a `press` command that builds, checks, or verifies something. Chapter 6, *Checking the manuscript*, covered the targets that read the manuscript. The targets in this chapter write files. Each one has a fixed name, a fixed mechanism, and a fixed place for its result, and none of the three is yours to configure. You decide the title, the author, the words, and the aesthetic. The press decides the build order, the verifiers, the filenames, and the editions.
 
 Table 7.1 lists the build targets in the order the press lists them. The slug is the `slug` field from *config/metadata.yaml*, so for the Alice book every `<slug>` below reads `alice`.
 
@@ -32,7 +32,7 @@ Table 7.1 lists the build targets in the order the press lists them. The slug is
 | `press site` | *dist/site/* and *dist/alice-site.zip* | Pandoc writes chunked HTML with the `chunked.yaml` defaults. Press then adds the reader CSS, the assets, and the reader metadata, and zips the result. |
 | `press txt` | *dist/alice.txt* | Pandoc writes plain text at 80 columns with the `portable.yaml` defaults. |
 | `press docx` | *dist/alice.docx* | Pandoc writes a Word file with the `portable.yaml` defaults. |
-| `press source` | *dist/alice-source.zip* | Press packs the files that Git tracks, and nothing else, into a zip. Pandoc takes no part. |
+| `press source` | *dist/alice-source.zip* | Press packs the files that Git tracks into a zip, or the whole book when it sits outside any Git repository. Pandoc takes no part. |
 | `press pages` | *dist/pages/* | Press assembles the landing page, the reader, the downloads, and the sitemap, and then verifies the result. |
 | `press print` | *dist/alice-interior.pdf* | Pandoc and latexmk build the two-sided print interior with the `print.yaml` defaults and print-safe images. |
 | `press coverwrap` | *dist/alice-coverwrap.pdf* | Press builds the print interior, generates the cover wrap, runs latexmk on it, and verifies it. |
@@ -158,7 +158,7 @@ Of the three, `SOURCE_DATE_EPOCH` is the one you can set. If you export your own
 
 The four values in the `metadata:` block of Example 7.3 are `chapter-opening-style`, `chapter-opening-lines`, `chapter-opening-smallcaps`, and `scene-break-ornament`. They carry the book's choices for the chapter opening and the scene break from its configuration into the filters. In the three-chapter example, the chapter opening is a three-line drop cap in small capitals, and the scene break is the fairy-dust ornament. Chapter 4, *Writing the manuscript*, describes what the two features look like on the page.
 
-[^7-epoch]: The value falls on July 16, 2026.
+[^7-epoch]: The value falls on 2026-07-16.
 
 ## The filter chain
 
@@ -272,7 +272,7 @@ The reader site is also the `read/` directory of the Pages bundle. `press pages`
 
 ## The portable editions
 
-The press builds three editions for readers who need something other than a typeset book: the Manuscript edition (the stitched Markdown), the Telegraphic edition (plain text), and the Office edition (DOCX). It also packs the book repository itself into the *Source edition*, a zip of the files that Git tracks. Each of the four carries less of the house design than the PDF, the EPUB, or the HTML.
+The press builds three editions for readers who need something other than a typeset book: the Manuscript edition (the stitched Markdown), the Telegraphic edition (plain text), and the Office edition (DOCX). It also packs the book repository itself into the Source edition, a zip of the files that Git tracks. Each of the four carries less of the house design than the PDF, the EPUB, or the HTML.
 
 ### The Manuscript edition
 
@@ -284,7 +284,7 @@ The press builds three editions for readers who need something other than a type
 
 ### The Source edition
 
-`press source` writes *dist/alice-source.zip* through the `package_source` module. The zip holds the files that Git tracks in the book repository, and only those. The step prints the path of the zip and then one line of report. For the three-chapter example, that line reads `archived 12 files; excluded dirs ['.git', '__pycache__', 'build', 'dist']`.
+`press source` writes *dist/alice-source.zip* through the `package_source` module. The zip holds the files that Git tracks in the book repository, and only those; a book outside any Git repository is archived whole, and one untracked inside a parent repository archives nothing. The step prints the path of the zip and then one line of report. For the three-chapter example, that line reads `archived 12 files; excluded dirs ['.git', '__pycache__', 'build', 'dist']`.
 
 ::: {.tip}
 > **Tip:** We suggest that you add each new chapter file to Git before you build the Source edition. A file that Git does not track stays out of the zip.
@@ -451,7 +451,7 @@ An ordinary `press all` does not build the print interior, and it does not build
 
 The press marks its own lines in the log with a few fixed forms, and Example 7.4 shows each of them. A line that starts with a plus sign and a space marks a step that the press runs. For pandoc, the line is the full command. For a step that does not call pandoc, the line is a short report, such as `+ stitched 4 files -> dist/alice.md` or `+ assembled pages site -> dist/pages`. Only the pandoc lines are commands that you can copy and run.
 
-A time line, indented two spaces, follows any pandoc run of one second or more, as `pandoc took 26.7s` does in Example 7.4. When a target times more than one step, the registry also prints a summary line that starts with `press timings:`. The Alice run timed only the PDF, so it printed no summary.
+A time line, indented two spaces, follows any pandoc run of one second or more, as `pandoc took 26.7s` does in Example 7.4. When a target times more than one step, the registry also prints a summary line that starts with `press timings:`. The run on the three-chapter example timed only the PDF, so it printed no summary.
 
 The three phase lines start with a pilcrow, the paragraph sign, followed by the phase name: check, typeset, or verify. They appear in every run in your own terminal. The desk reads the same stream, and it uses the phase lines, the plus-sign lines, and the time lines to show its progress. Chapter 15, *The operator's desk and the editorial machines*, describes how the desk shows them. The run's last line begins `press. your book is ready`.
 
@@ -481,7 +481,7 @@ dist/
         ...
 ```
 
-A book with *config/authorities.yaml* also gets *alice-sources.md* at the top of *dist/*. The Pages bundle takes the cover, the press logo, and the plates when the book has them, and a *sitemap.xml* and *robots.txt* when the book sets `site-url`. The print pack adds *dist/alice-interior.pdf* and *dist/alice-coverwrap.pdf* when you build it. The registration targets add files of their own, which Chapter 13 describes.
+A book with *config/authorities.yaml* also gets *alice-sources.md* at the top of *dist/*. The Pages bundle takes the cover, the logomark, and the plates when the book has them, and a *sitemap.xml* and *robots.txt* when the book sets `site-url`. The print pack adds *dist/alice-interior.pdf* and *dist/alice-coverwrap.pdf* when you build it. The registration targets add files of their own, which Chapter 13 describes.
 
 The *build/* directory holds the intermediate files that the targets write on the way to *dist/*. Most of them appear earlier in this chapter: the rendered defaults, the generated index in *build/generated/*, and the TeX files from the PDF build. It also holds *build/print-assets/*, *build/epub-metadata.xml*, *build/cover-fragment.html*, and the two report files. Nothing in *build/* is a source file, and `press clean` deletes all of it.
 
@@ -495,7 +495,7 @@ Three targets produce no edition. `press render` shows you the pages, `press wor
 
 ### Counting the words
 
-`press wordcount` counts the words in the manuscript, file by file, and ends with a total. On the press's own three-chapter Alice example, it prints one line per file:
+`press wordcount` counts the words in the manuscript, file by file, and ends with a total. On the three-chapter example, it prints one line per file:
 
 ```text
 $ press wordcount
