@@ -1,0 +1,9 @@
+{
+  "from_major": 3,
+  "to_major": 4,
+  "press_version": "3.1.2",
+  "sites": [
+    ".github/workflows/book.yml",
+    "requirements.txt"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "from_major": 3,
+  "to_major": 4,
+  "files": {
+    ".github/workflows/book.yml": "name: Build book\n\non:\n  push:\n    branches: [\"**\"]\n    tags: [\"v*\"]\n  pull_request:\n  workflow_dispatch:\n\npermissions:\n  contents: write\n  packages: read\n  pages: write\n  id-token: write\n\njobs:\n  book:\n    uses: clintecker/press/.github/workflows/build.yml@v3\n  prose-ratchet:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - name: Structural prose gate (tools/ste-ratchet.py)\n        run: python3 tools/ste-ratchet.py\n",
+    "requirements.txt": "# Local builds. CI does not read this file; the press action installs itself\n# from its own checkout. For day-to-day work prefer an editable install of\n# your press clone: pip install -e ~/path/to/press\npress @ git+https://github.com/clintecker/press@v3\n"
+  }
+}
